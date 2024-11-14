@@ -3,14 +3,12 @@ package co.id.ogya.lokakarya.dto.devplan;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
-import java.time.LocalDateTime;
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @Builder
 @ToString
-public class DevPlanDtoGet {
+public class DevPlanGetDto {
     @JsonProperty("id")
     private String id;
 

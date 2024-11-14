@@ -8,7 +8,7 @@ import lombok.*;
 @Data
 @Builder
 @ToString
-public class AccessDivisonGetDto {
+public class AccessDivisionGetDto {
     @JsonProperty("id")
     private String id;
 
