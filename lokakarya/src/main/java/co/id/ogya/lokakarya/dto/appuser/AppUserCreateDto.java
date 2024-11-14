@@ -3,16 +3,19 @@ package co.id.ogya.lokakarya.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
-import java.sql.Date;
+import java.util.Date;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @Builder
 @ToString
-public class AppUserGetDto {
+public class AppUserCreateDto {
     @JsonProperty("id")
     private String id;
+
+    @JsonProperty("username")
+    private String username;
 
     @JsonProperty("full_name")
     private String fullName;
@@ -29,9 +32,21 @@ public class AppUserGetDto {
     @JsonProperty("join_date")
     private Date joinDate;
 
-    @JsonProperty("rolename")
-    private String rolename;
+    @JsonProperty("enabled")
+    private byte enabled;
 
-    @JsonProperty("division_name")
-    private String divisionName;
+    @JsonProperty("password")
+    private String password;
+
+    @JsonProperty("role_id")
+    private String roleId;
+
+    @JsonProperty("division_id")
+    private String divisionId;
+
+    @JsonProperty("created_at")
+    private Date createdAt;
+
+    @JsonProperty("created_by")
+    private String createdBy;
 }

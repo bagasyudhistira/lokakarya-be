@@ -3,14 +3,14 @@ package co.id.ogya.lokakarya.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
-import java.sql.Date;
+import java.util.Date;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
-@Builder
 @ToString
-public class AppUserCreateDto {
+@Builder
+@Data
+public class AppUserUpdateDto {
     @JsonProperty("id")
     private String id;
 
@@ -44,9 +44,9 @@ public class AppUserCreateDto {
     @JsonProperty("division_id")
     private String divisionId;
 
-    @JsonProperty("created_at")
-    private Date createdAt;
+    @JsonProperty("updated_at")
+    private Date updatedAt;
 
-    @JsonProperty("created_by")
-    private String createdBy;
+    @JsonProperty("updated_by")
+    private String updatedBy;
 }
