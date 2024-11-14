@@ -1,14 +1,18 @@
 package co.id.ogya.lokakarya.services.impl;
 
-import co.id.ogya.lokakarya.dto.empdevplan.*;
+import co.id.ogya.lokakarya.dto.empdevplan.EmpDevPlanCreateDto;
+import co.id.ogya.lokakarya.dto.empdevplan.EmpDevPlanDto;
+import co.id.ogya.lokakarya.dto.empdevplan.EmpDevPlanUpdateDto;
 import co.id.ogya.lokakarya.services.EmpDevPlanServ;
 import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Service
 @Transactional(rollbackOn = Exception.class)
 public class EmpDevPlanServImpl implements EmpDevPlanServ {
@@ -17,42 +21,84 @@ public class EmpDevPlanServImpl implements EmpDevPlanServ {
 
     @Override
     public List<EmpDevPlanDto> getAllEmpDevPlan() {
-        List<EmpDevPlan> listData = empDevPlanRepo.getEmpDevPlans();
+        log.info("Attempting to fetch all EmpDevPlans");
         List<EmpDevPlanDto> listResult = new ArrayList<>();
-        for(EmpDevPlan data : listData){
-            EmpDevPlanDto result = convertToDto(data);
-            listResult.add(result);
+        try {
+            List<EmpDevPlan> listData = empDevPlanRepo.getEmpDevPlans();
+            log.debug("Fetched {} EmpDevPlans from repository", listData.size());
+            for (EmpDevPlan data : listData) {
+                EmpDevPlanDto result = convertToDto(data);
+                listResult.add(result);
+            }
+        } catch (Exception e) {
+            log.error("Error occurred while fetching all EmpDevPlans: {}", e.getMessage(), e);
         }
         return listResult;
     }
 
     @Override
     public EmpDevPlanDto getEmpDevPlanById(String id) {
-        EmpDevPlan data = empDevPlanRepo.getEmpDevPlanById(id);
-        EmpDevPlanDto result = convertToDto(data);
+        log.info("Attempting to fetch EmpDevPlan by ID: {}", id);
+        EmpDevPlanDto result = null;
+        try {
+            EmpDevPlan data = empDevPlanRepo.getEmpDevPlanById(id);
+            result = convertToDto(data);
+            log.debug("Fetched EmpDevPlan: {}", result);
+        } catch (Exception e) {
+            log.error("Error occurred while fetching EmpDevPlan by ID {}: {}", id, e.getMessage(), e);
+        }
         return result;
     }
 
     @Override
     public EmpDevPlanDto createEmpDevPlan(EmpDevPlanCreateDto empDevPlanCreateDto) {
-        EmpDevPlan data = convertToEntityCreate(empDevPlanCreateDto);
-        EmpDevPlan result = empDevPlanRepo.saveEmpDevPlan(data);
-        return convertToDto(result);
+        log.info("Attempting to create a new EmpDevPlan with data: {}", empDevPlanCreateDto);
+        EmpDevPlanDto result = null;
+        try {
+            EmpDevPlan data = convertToEntityCreate(empDevPlanCreateDto);
+            EmpDevPlan savedData = empDevPlanRepo.saveEmpDevPlan(data);
+            result = convertToDto(savedData);
+            log.info("Successfully created EmpDevPlan: {}", result);
+        } catch (Exception e) {
+            log.error("Error occurred while creating EmpDevPlan: {}", e.getMessage(), e);
+        }
+        return result;
     }
 
     @Override
     public EmpDevPlanDto updateEmpDevPlan(EmpDevPlanUpdateDto empDevPlanUpdateDto) {
-        EmpDevPlan data = convertToEntityUpdate(empDevPlanUpdateDto);
-        EmpDevPlan result = empDevPlanRepo.updateEmpDevPlan(data);
-        return convertToDto(result);
+        log.info("Attempting to update EmpDevPlan with data: {}", empDevPlanUpdateDto);
+        EmpDevPlanDto result = null;
+        try {
+            EmpDevPlan data = convertToEntityUpdate(empDevPlanUpdateDto);
+            EmpDevPlan updatedData = empDevPlanRepo.updateEmpDevPlan(data);
+            result = convertToDto(updatedData);
+            log.info("Successfully updated EmpDevPlan: {}", result);
+        } catch (Exception e) {
+            log.error("Error occurred while updating EmpDevPlan: {}", e.getMessage(), e);
+        }
+        return result;
     }
 
     @Override
     public boolean deleteEmpDevPlan(String id) {
-        return empDevPlanRepo.deleteEmpDevPlan(id);
+        log.info("Attempting to delete EmpDevPlan with ID: {}", id);
+        boolean isDeleted = false;
+        try {
+            isDeleted = empDevPlanRepo.deleteEmpDevPlan(id);
+            if (isDeleted) {
+                log.info("Successfully deleted EmpDevPlan with ID: {}", id);
+            } else {
+                log.warn("Failed to delete EmpDevPlan with ID: {}. It might not exist.", id);
+            }
+        } catch (Exception e) {
+            log.error("Error occurred while deleting EmpDevPlan with ID {}: {}", id, e.getMessage(), e);
+        }
+        return isDeleted;
     }
 
     private EmpDevPlan convertToEntity(EmpDevPlanDto convertObject) {
+        log.debug("Converting EmpDevPlanDto to entity: {}", convertObject);
         EmpDevPlan result = EmpDevPlan.builder()
                 .id(convertObject.getId())
                 .userId(convertObject.getUserId())
@@ -67,6 +113,7 @@ public class EmpDevPlanServImpl implements EmpDevPlanServ {
     }
 
     private EmpDevPlan convertToEntityCreate(EmpDevPlanCreateDto convertObject) {
+        log.debug("Converting EmpDevPlanCreateDto to entity: {}", convertObject);
         EmpDevPlan result = EmpDevPlan.builder()
                 .id(convertObject.getId())
                 .userId(convertObject.getUserId())
@@ -78,6 +125,7 @@ public class EmpDevPlanServImpl implements EmpDevPlanServ {
     }
 
     private EmpDevPlan convertToEntityUpdate(EmpDevPlanUpdateDto convertObject) {
+        log.debug("Converting EmpDevPlanUpdateDto to entity: {}", convertObject);
         EmpDevPlan result = EmpDevPlan.builder()
                 .id(convertObject.getId())
                 .userId(convertObject.getUserId())
@@ -90,6 +138,7 @@ public class EmpDevPlanServImpl implements EmpDevPlanServ {
     }
 
     private EmpDevPlanDto convertToDto(EmpDevPlan convertObject) {
+        log.debug("Converting EmpDevPlan entity to DTO: {}", convertObject);
         EmpDevPlanDto result = EmpDevPlanDto.builder()
                 .id(convertObject.getId())
                 .userId(convertObject.getUserId())

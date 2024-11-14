@@ -1,14 +1,18 @@
 package co.id.ogya.lokakarya.services.impl;
 
-import co.id.ogya.lokakarya.dto.appuser.*;
+import co.id.ogya.lokakarya.dto.appuser.AppUserCreateDto;
+import co.id.ogya.lokakarya.dto.appuser.AppUserDto;
+import co.id.ogya.lokakarya.dto.appuser.AppUserUpdateDto;
 import co.id.ogya.lokakarya.services.AppUserServ;
 import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Service
 @Transactional(rollbackOn = Exception.class)
 public class AppUserServImpl implements AppUserServ {
@@ -17,42 +21,84 @@ public class AppUserServImpl implements AppUserServ {
 
     @Override
     public List<AppUserDto> getAllAppUser() {
-        List<AppUser> listData = appUserRepo.getAppUsers();
+        log.info("Attempting to fetch all AppUsers");
         List<AppUserDto> listResult = new ArrayList<>();
-        for(AppUser data : listData){
-            AppUserDto result = convertToDto(data);
-            listResult.add(result);
+        try {
+            List<AppUser> listData = appUserRepo.getAppUsers();
+            log.debug("Fetched {} AppUsers from repository", listData.size());
+            for (AppUser data : listData) {
+                AppUserDto result = convertToDto(data);
+                listResult.add(result);
+            }
+        } catch (Exception e) {
+            log.error("Error occurred while fetching all AppUsers: {}", e.getMessage(), e);
         }
         return listResult;
     }
 
     @Override
     public AppUserDto getAppUserById(String id) {
-        AppUser data = appUserRepo.getAppUserById(id);
-        AppUserDto result = convertToDto(data);
+        log.info("Attempting to fetch AppUser by ID: {}", id);
+        AppUserDto result = null;
+        try {
+            AppUser data = appUserRepo.getAppUserById(id);
+            result = convertToDto(data);
+            log.debug("Fetched AppUser: {}", result);
+        } catch (Exception e) {
+            log.error("Error occurred while fetching AppUser by ID {}: {}", id, e.getMessage(), e);
+        }
         return result;
     }
 
     @Override
     public AppUserDto createAppUser(AppUserCreateDto appUserCreateDto) {
-        AppUser data = convertToEntityCreate(appUserCreateDto);
-        AppUser result = appUserRepo.saveAppUser(data);
-        return convertToDto(result);
+        log.info("Attempting to create a new AppUser with data: {}", appUserCreateDto);
+        AppUserDto result = null;
+        try {
+            AppUser data = convertToEntityCreate(appUserCreateDto);
+            AppUser savedData = appUserRepo.saveAppUser(data);
+            result = convertToDto(savedData);
+            log.info("Successfully created AppUser: {}", result);
+        } catch (Exception e) {
+            log.error("Error occurred while creating AppUser: {}", e.getMessage(), e);
+        }
+        return result;
     }
 
     @Override
     public AppUserDto updateAppUser(AppUserUpdateDto appUserUpdateDto) {
-        AppUser data = convertToEntityUpdate(appUserUpdateDto);
-        AppUser result = appUserRepo.updateAppUser(data);
-        return convertToDto(result);
+        log.info("Attempting to update AppUser with data: {}", appUserUpdateDto);
+        AppUserDto result = null;
+        try {
+            AppUser data = convertToEntityUpdate(appUserUpdateDto);
+            AppUser updatedData = appUserRepo.updateAppUser(data);
+            result = convertToDto(updatedData);
+            log.info("Successfully updated AppUser: {}", result);
+        } catch (Exception e) {
+            log.error("Error occurred while updating AppUser: {}", e.getMessage(), e);
+        }
+        return result;
     }
 
     @Override
     public boolean deleteAppUser(String id) {
-        return appUserRepo.deleteAppUser(id);
+        log.info("Attempting to delete AppUser with ID: {}", id);
+        boolean isDeleted = false;
+        try {
+            isDeleted = appUserRepo.deleteAppUser(id);
+            if (isDeleted) {
+                log.info("Successfully deleted AppUser with ID: {}", id);
+            } else {
+                log.warn("Failed to delete AppUser with ID: {}. It might not exist.", id);
+            }
+        } catch (Exception e) {
+            log.error("Error occurred while deleting AppUser with ID {}: {}", id, e.getMessage(), e);
+        }
+        return isDeleted;
     }
 
     private AppUser convertToEntity(AppUserDto convertObject) {
+        log.debug("Converting AppUserDto to entity: {}", convertObject);
         AppUser result = AppUser.builder()
                 .id(convertObject.getId())
                 .username(convertObject.getUsername())
@@ -74,6 +120,7 @@ public class AppUserServImpl implements AppUserServ {
     }
 
     private AppUser convertToEntityCreate(AppUserCreateDto convertObject) {
+        log.debug("Converting AppUserCreateDto to entity: {}", convertObject);
         AppUser result = AppUser.builder()
                 .id(convertObject.getId())
                 .username(convertObject.getUsername())
@@ -92,6 +139,7 @@ public class AppUserServImpl implements AppUserServ {
     }
 
     private AppUser convertToEntityUpdate(AppUserUpdateDto convertObject) {
+        log.debug("Converting AppUserUpdateDto to entity: {}", convertObject);
         AppUser result = AppUser.builder()
                 .id(convertObject.getId())
                 .username(convertObject.getUsername())
@@ -111,6 +159,7 @@ public class AppUserServImpl implements AppUserServ {
     }
 
     private AppUserDto convertToDto(AppUser convertObject) {
+        log.debug("Converting AppUser entity to DTO: {}", convertObject);
         AppUserDto result = AppUserDto.builder()
                 .id(convertObject.getId())
                 .username(convertObject.getUsername())

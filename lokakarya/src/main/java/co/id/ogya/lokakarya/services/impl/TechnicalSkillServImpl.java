@@ -1,14 +1,18 @@
 package co.id.ogya.lokakarya.services.impl;
 
-import co.id.ogya.lokakarya.dto.technicalskill.*;
+import co.id.ogya.lokakarya.dto.technicalskill.TechnicalSkillCreateDto;
+import co.id.ogya.lokakarya.dto.technicalskill.TechnicalSkillDto;
+import co.id.ogya.lokakarya.dto.technicalskill.TechnicalSkillUpdateDto;
 import co.id.ogya.lokakarya.services.TechnicalSkillServ;
 import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Service
 @Transactional(rollbackOn = Exception.class)
 public class TechnicalSkillServImpl implements TechnicalSkillServ {
@@ -17,43 +21,85 @@ public class TechnicalSkillServImpl implements TechnicalSkillServ {
 
     @Override
     public List<TechnicalSkillDto> getAllTechnicalSkill() {
-        List<TechnicalSkill> listData = technicalSkillRepo.getTechnicalSkills();
+        log.info("Attempting to fetch all TechnicalSkills");
         List<TechnicalSkillDto> listResult = new ArrayList<>();
-        for(TechnicalSkill data : listData){
-            TechnicalSkillDto result = convertToDto(data);
-            listResult.add(result);
+        try {
+            List<TechnicalSkill> listData = technicalSkillRepo.getTechnicalSkills();
+            log.debug("Fetched {} TechnicalSkills from repository", listData.size());
+            for (TechnicalSkill data : listData) {
+                TechnicalSkillDto result = convertToDto(data);
+                listResult.add(result);
+            }
+        } catch (Exception e) {
+            log.error("Error occurred while fetching all TechnicalSkills: {}", e.getMessage(), e);
         }
         return listResult;
     }
 
     @Override
     public TechnicalSkillDto getTechnicalSkillById(String id) {
-        TechnicalSkill data = technicalSkillRepo.getTechnicalSkillById(id);
-        TechnicalSkillDto result = convertToDto(data);
+        log.info("Attempting to fetch TechnicalSkill by ID: {}", id);
+        TechnicalSkillDto result = null;
+        try {
+            TechnicalSkill data = technicalSkillRepo.getTechnicalSkillById(id);
+            result = convertToDto(data);
+            log.debug("Fetched TechnicalSkill: {}", result);
+        } catch (Exception e) {
+            log.error("Error occurred while fetching TechnicalSkill by ID {}: {}", id, e.getMessage(), e);
+        }
         return result;
     }
 
     @Override
     public TechnicalSkillDto createTechnicalSkill(TechnicalSkillCreateDto technicalSkillCreateDto) {
-        TechnicalSkill data = convertToEntityCreate(technicalSkillCreateDto);
-        TechnicalSkill result = technicalSkillRepo.saveTechnicalSkill(data);
-        return convertToDto(result);
+        log.info("Attempting to create a new TechnicalSkill with data: {}", technicalSkillCreateDto);
+        TechnicalSkillDto result = null;
+        try {
+            TechnicalSkill data = convertToEntityCreate(technicalSkillCreateDto);
+            TechnicalSkill savedData = technicalSkillRepo.saveTechnicalSkill(data);
+            result = convertToDto(savedData);
+            log.info("Successfully created TechnicalSkill: {}", result);
+        } catch (Exception e) {
+            log.error("Error occurred while creating TechnicalSkill: {}", e.getMessage(), e);
+        }
+        return result;
     }
 
     @Override
     public TechnicalSkillDto updateTechnicalSkill(TechnicalSkillUpdateDto technicalSkillUpdateDto) {
-        TechnicalSkill data = convertToEntityUpdate(technicalSkillUpdateDto);
-        TechnicalSkill result = technicalSkillRepo.updateTechnicalSkill(data);
-        return convertToDto(result);
+        log.info("Attempting to update TechnicalSkill with data: {}", technicalSkillUpdateDto);
+        TechnicalSkillDto result = null;
+        try {
+            TechnicalSkill data = convertToEntityUpdate(technicalSkillUpdateDto);
+            TechnicalSkill updatedData = technicalSkillRepo.updateTechnicalSkill(data);
+            result = convertToDto(updatedData);
+            log.info("Successfully updated TechnicalSkill: {}", result);
+        } catch (Exception e) {
+            log.error("Error occurred while updating TechnicalSkill: {}", e.getMessage(), e);
+        }
+        return result;
     }
 
     @Override
     public boolean deleteTechnicalSkill(String id) {
-        return technicalSkillRepo.deleteTechnicalSkill(id);
+        log.info("Attempting to delete TechnicalSkill with ID: {}", id);
+        boolean isDeleted = false;
+        try {
+            isDeleted = technicalSkillRepo.deleteTechnicalSkill(id);
+            if (isDeleted) {
+                log.info("Successfully deleted TechnicalSkill with ID: {}", id);
+            } else {
+                log.warn("Failed to delete TechnicalSkill with ID: {}. It might not exist.", id);
+            }
+        } catch (Exception e) {
+            log.error("Error occurred while deleting TechnicalSkill with ID {}: {}", id, e.getMessage(), e);
+        }
+        return isDeleted;
     }
 
     private TechnicalSkill convertToEntity(TechnicalSkillDto convertObject) {
-        TechnicalSkill result = TechnicalSkill.builder()
+        log.debug("Converting TechnicalSkillDto to entity: {}", convertObject);
+        return TechnicalSkill.builder()
                 .id(convertObject.getId())
                 .technicalSkill(convertObject.getTechnicalSkill())
                 .enabled(convertObject.isEnabled())
@@ -62,32 +108,32 @@ public class TechnicalSkillServImpl implements TechnicalSkillServ {
                 .updatedAt(convertObject.getUpdatedAt())
                 .updatedBy(convertObject.getUpdatedBy())
                 .build();
-        return result;
     }
 
     private TechnicalSkill convertToEntityCreate(TechnicalSkillCreateDto convertObject) {
-        TechnicalSkill result = TechnicalSkill.builder()
+        log.debug("Converting TechnicalSkillCreateDto to entity: {}", convertObject);
+        return TechnicalSkill.builder()
                 .id(convertObject.getId())
                 .technicalSkill(convertObject.getTechnicalSkill())
                 .enabled(convertObject.isEnabled())
                 .createdBy(convertObject.getCreatedBy())
                 .build();
-        return result;
     }
 
     private TechnicalSkill convertToEntityUpdate(TechnicalSkillUpdateDto convertObject) {
-        TechnicalSkill result = TechnicalSkill.builder()
+        log.debug("Converting TechnicalSkillUpdateDto to entity: {}", convertObject);
+        return TechnicalSkill.builder()
                 .id(convertObject.getId())
                 .technicalSkill(convertObject.getTechnicalSkill())
                 .enabled(convertObject.isEnabled())
                 .updatedAt(convertObject.getUpdatedAt())
                 .updatedBy(convertObject.getUpdatedBy())
                 .build();
-        return result;
     }
 
     private TechnicalSkillDto convertToDto(TechnicalSkill convertObject) {
-        TechnicalSkillDto result = TechnicalSkillDto.builder()
+        log.debug("Converting TechnicalSkill entity to DTO: {}", convertObject);
+        return TechnicalSkillDto.builder()
                 .id(convertObject.getId())
                 .technicalSkill(convertObject.getTechnicalSkill())
                 .enabled(convertObject.isEnabled())
@@ -96,6 +142,5 @@ public class TechnicalSkillServImpl implements TechnicalSkillServ {
                 .updatedAt(convertObject.getUpdatedAt())
                 .updatedBy(convertObject.getUpdatedBy())
                 .build();
-        return result;
     }
 }

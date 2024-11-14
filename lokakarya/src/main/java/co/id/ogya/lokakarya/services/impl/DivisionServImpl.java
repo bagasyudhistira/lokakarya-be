@@ -1,14 +1,18 @@
 package co.id.ogya.lokakarya.services.impl;
 
-import co.id.ogya.lokakarya.dto.division.*;
+import co.id.ogya.lokakarya.dto.division.DivisionCreateDto;
+import co.id.ogya.lokakarya.dto.division.DivisionDto;
+import co.id.ogya.lokakarya.dto.division.DivisionUpdateDto;
 import co.id.ogya.lokakarya.services.DivisionServ;
 import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Service
 @Transactional(rollbackOn = Exception.class)
 public class DivisionServImpl implements DivisionServ {
@@ -17,42 +21,84 @@ public class DivisionServImpl implements DivisionServ {
 
     @Override
     public List<DivisionDto> getAllDivision() {
-        List<Division> listData = divisionRepo.getDivisions();
+        log.info("Attempting to fetch all Divisions");
         List<DivisionDto> listResult = new ArrayList<>();
-        for(Division data : listData){
-            DivisionDto result = convertToDto(data);
-            listResult.add(result);
+        try {
+            List<Division> listData = divisionRepo.getDivisions();
+            log.debug("Fetched {} Divisions from repository", listData.size());
+            for (Division data : listData) {
+                DivisionDto result = convertToDto(data);
+                listResult.add(result);
+            }
+        } catch (Exception e) {
+            log.error("Error occurred while fetching all Divisions: {}", e.getMessage(), e);
         }
         return listResult;
     }
 
     @Override
     public DivisionDto getDivisionById(String id) {
-        Division data = divisionRepo.getDivisionById(id);
-        DivisionDto result = convertToDto(data);
+        log.info("Attempting to fetch Division by ID: {}", id);
+        DivisionDto result = null;
+        try {
+            Division data = divisionRepo.getDivisionById(id);
+            result = convertToDto(data);
+            log.debug("Fetched Division: {}", result);
+        } catch (Exception e) {
+            log.error("Error occurred while fetching Division by ID {}: {}", id, e.getMessage(), e);
+        }
         return result;
     }
 
     @Override
     public DivisionDto createDivision(DivisionCreateDto divisionCreateDto) {
-        Division data = convertToEntityCreate(divisionCreateDto);
-        Division result = divisionRepo.saveDivision(data);
-        return convertToDto(result);
+        log.info("Attempting to create a new Division with data: {}", divisionCreateDto);
+        DivisionDto result = null;
+        try {
+            Division data = convertToEntityCreate(divisionCreateDto);
+            Division savedData = divisionRepo.saveDivision(data);
+            result = convertToDto(savedData);
+            log.info("Successfully created Division: {}", result);
+        } catch (Exception e) {
+            log.error("Error occurred while creating Division: {}", e.getMessage(), e);
+        }
+        return result;
     }
 
     @Override
     public DivisionDto updateDivision(DivisionUpdateDto divisionUpdateDto) {
-        Division data = convertToEntityUpdate(divisionUpdateDto);
-        Division result = divisionRepo.updateDivision(data);
-        return convertToDto(result);
+        log.info("Attempting to update Division with data: {}", divisionUpdateDto);
+        DivisionDto result = null;
+        try {
+            Division data = convertToEntityUpdate(divisionUpdateDto);
+            Division updatedData = divisionRepo.updateDivision(data);
+            result = convertToDto(updatedData);
+            log.info("Successfully updated Division: {}", result);
+        } catch (Exception e) {
+            log.error("Error occurred while updating Division: {}", e.getMessage(), e);
+        }
+        return result;
     }
 
     @Override
     public boolean deleteDivision(String id) {
-        return divisionRepo.deleteDivision(id);
+        log.info("Attempting to delete Division with ID: {}", id);
+        boolean isDeleted = false;
+        try {
+            isDeleted = divisionRepo.deleteDivision(id);
+            if (isDeleted) {
+                log.info("Successfully deleted Division with ID: {}", id);
+            } else {
+                log.warn("Failed to delete Division with ID: {}. It might not exist.", id);
+            }
+        } catch (Exception e) {
+            log.error("Error occurred while deleting Division with ID {}: {}", id, e.getMessage(), e);
+        }
+        return isDeleted;
     }
 
     private Division convertToEntity(DivisionDto convertObject) {
+        log.debug("Converting DivisionDto to entity: {}", convertObject);
         Division result = Division.builder()
                 .id(convertObject.getId())
                 .divisionName(convertObject.getDivisionName())
@@ -65,6 +111,7 @@ public class DivisionServImpl implements DivisionServ {
     }
 
     private Division convertToEntityCreate(DivisionCreateDto convertObject) {
+        log.debug("Converting DivisionCreateDto to entity: {}", convertObject);
         Division result = Division.builder()
                 .id(convertObject.getId())
                 .divisionName(convertObject.getDivisionName())
@@ -74,6 +121,7 @@ public class DivisionServImpl implements DivisionServ {
     }
 
     private Division convertToEntityUpdate(DivisionUpdateDto convertObject) {
+        log.debug("Converting DivisionUpdateDto to entity: {}", convertObject);
         Division result = Division.builder()
                 .id(convertObject.getId())
                 .divisionName(convertObject.getDivisionName())
@@ -84,6 +132,7 @@ public class DivisionServImpl implements DivisionServ {
     }
 
     private DivisionDto convertToDto(Division convertObject) {
+        log.debug("Converting Division entity to DTO: {}", convertObject);
         DivisionDto result = DivisionDto.builder()
                 .id(convertObject.getId())
                 .divisionName(convertObject.getDivisionName())
