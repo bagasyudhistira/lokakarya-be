@@ -18,6 +18,9 @@ public class AppRole {
     @Column(name = "ID")
     private String id;
 
+    @Column(name="ROLENAME")
+    private String rolename;
+
     @Column(name = "CREATED_AT")
     private LocalDateTime createdAt;
 
