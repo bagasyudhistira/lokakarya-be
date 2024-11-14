@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Data
 @Builder
 @ToString
-public class EmpDevPlanDto {
+public class EmpDevPlanUpdateDto {
     @JsonProperty("id")
     private String id;
 
@@ -22,12 +22,6 @@ public class EmpDevPlanDto {
 
     @JsonProperty("assessment_year")
     private int assessmentYear;
-
-    @JsonProperty("created_at")
-    private LocalDateTime createdAt;
-
-    @JsonProperty("created_by")
-    private String createdBy;
 
     @JsonProperty("updated_at")
     private LocalDateTime updatedAt;

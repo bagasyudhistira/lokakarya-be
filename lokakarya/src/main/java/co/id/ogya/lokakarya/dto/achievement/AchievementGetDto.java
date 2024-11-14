@@ -10,28 +10,16 @@ import java.time.LocalDateTime;
 @Data
 @Builder
 @ToString
-public class AchievementDto {
+public class AchievementGetDto {
     @JsonProperty("id")
     private String id;
 
     @JsonProperty("achievement")
     private String achievement;
 
-    @JsonProperty("group_id")
-    private String groupId;
+    @JsonProperty("group_name")
+    private String groupName;
 
     @JsonProperty("enabled")
-    private byte enabled;
-
-    @JsonProperty("created_at")
-    private LocalDateTime createdAt;
-
-    @JsonProperty("created_by")
-    private String createdBy;
-
-    @JsonProperty("updated_at")
-    private LocalDateTime updatedAt;
-
-    @JsonProperty("updated_by")
-    private String updatedBy;
+    private boolean enabled;
 }

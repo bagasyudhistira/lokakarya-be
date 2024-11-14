@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Data
 @Builder
 @ToString
-public class GroupAchievementDto {
+public class GroupAchievementGetDto {
     @JsonProperty("id")
     private String id;
 
@@ -21,17 +21,5 @@ public class GroupAchievementDto {
     private double percentage;
 
     @JsonProperty("enabled")
-    private byte enabled;
-
-    @JsonProperty("created_at")
-    private LocalDateTime createdAt;
-
-    @JsonProperty("created_by")
-    private String createdBy;
-
-    @JsonProperty("updated_at")
-    private LocalDateTime updatedAt;
-
-    @JsonProperty("updated_by")
-    private String updatedBy;
+    private boolean enabled;
 }

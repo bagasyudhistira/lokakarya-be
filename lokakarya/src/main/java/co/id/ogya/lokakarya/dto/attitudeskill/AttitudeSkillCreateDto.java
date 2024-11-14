@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Data
 @Builder
 @ToString
-public class AttitudeSkillDto {
+public class AttitudeSkillCreateDto {
     @JsonProperty("id")
     private String id;
 
@@ -21,17 +21,8 @@ public class AttitudeSkillDto {
     private String groupId;
 
     @JsonProperty("enabled")
-    private byte enabled;
-
-    @JsonProperty("created_at")
-    private LocalDateTime createdAt;
+    private boolean enabled;
 
     @JsonProperty("created_by")
     private String createdBy;
-
-    @JsonProperty("updated_at")
-    private LocalDateTime updatedAt;
-
-    @JsonProperty("updated_by")
-    private String updatedBy;
 }

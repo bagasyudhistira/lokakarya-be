@@ -1,4 +1,4 @@
-package co.id.ogya.lokakarya.dto;
+package co.id.ogya.lokakarya.dto.accessdivision;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;

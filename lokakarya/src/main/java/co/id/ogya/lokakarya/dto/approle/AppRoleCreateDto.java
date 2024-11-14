@@ -10,22 +10,13 @@ import java.time.LocalDateTime;
 @Data
 @Builder
 @ToString
-public class AppRoleDto {
+public class AppRoleCreateDto {
     @JsonProperty("id")
     private String id;
 
     @JsonProperty("rolename")
     private String rolename;
 
-    @JsonProperty("created_at")
-    private LocalDateTime createdAt;
-
     @JsonProperty("created_by")
     private String createdBy;
-
-    @JsonProperty("updated_at")
-    private LocalDateTime updatedAt;
-
-    @JsonProperty("updated_by")
-    private String updatedBy;
 }

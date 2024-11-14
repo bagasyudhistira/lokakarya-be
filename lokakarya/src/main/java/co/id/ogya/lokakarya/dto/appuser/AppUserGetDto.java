@@ -1,4 +1,4 @@
-package co.id.ogya.lokakarya.dto;
+package co.id.ogya.lokakarya.dto.appuser;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
@@ -28,6 +28,9 @@ public class AppUserGetDto {
 
     @JsonProperty("join_date")
     private Date joinDate;
+
+    @JsonProperty("enabled")
+    private boolean enabled;
 
     @JsonProperty("rolename")
     private String rolename;

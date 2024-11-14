@@ -10,22 +10,13 @@ import java.time.LocalDateTime;
 @Data
 @Builder
 @ToString
-public class AppMenuDto {
+public class AppMenuCreateDto {
     @JsonProperty("id")
     private String id;
 
     @JsonProperty("menu_name")
     private String menuName;
 
-    @JsonProperty("created_at")
-    private LocalDateTime createdAt;
-
     @JsonProperty("created_by")
     private String createdBy;
-
-    @JsonProperty("updated_at")
-    private LocalDateTime updatedAt;
-
-    @JsonProperty("updated_by")
-    private String updatedBy;
 }

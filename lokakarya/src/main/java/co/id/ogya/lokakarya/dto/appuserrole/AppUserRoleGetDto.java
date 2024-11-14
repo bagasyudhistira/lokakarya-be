@@ -8,13 +8,13 @@ import lombok.*;
 @Data
 @Builder
 @ToString
-public class AppUserRoleDto {
+public class AppUserRoleGetDto {
     @JsonProperty("id")
     private String id;
 
-    @JsonProperty("role_id")
-    private String roleId;
+    @JsonProperty("rolename")
+    private String rolename;
 
-    @JsonProperty("user_id")
-    private String userId;
+    @JsonProperty("full_name")
+    private String fullName;
 }

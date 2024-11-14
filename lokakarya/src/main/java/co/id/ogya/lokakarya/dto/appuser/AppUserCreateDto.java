@@ -1,8 +1,9 @@
-package co.id.ogya.lokakarya.dto;
+package co.id.ogya.lokakarya.dto.appuser;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @AllArgsConstructor
@@ -33,7 +34,7 @@ public class AppUserCreateDto {
     private Date joinDate;
 
     @JsonProperty("enabled")
-    private byte enabled;
+    private boolean enabled;
 
     @JsonProperty("password")
     private String password;
@@ -43,9 +44,6 @@ public class AppUserCreateDto {
 
     @JsonProperty("division_id")
     private String divisionId;
-
-    @JsonProperty("created_at")
-    private Date createdAt;
 
     @JsonProperty("created_by")
     private String createdBy;

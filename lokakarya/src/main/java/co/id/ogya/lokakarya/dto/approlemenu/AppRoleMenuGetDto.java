@@ -8,7 +8,7 @@ import lombok.*;
 @Data
 @Builder
 @ToString
-public class AppRoleGetDto {
+public class AppRoleMenuGetDto {
     @JsonProperty("id")
     private String id;
 
