@@ -119,7 +119,6 @@ public class EmpAchievementSkillServImpl implements EmpAchievementSkillServ {
     private EmpAchievementSkill convertToEntityCreate(EmpAchievementSkillCreateDto convertObject) {
         log.debug("Converting EmpAchievementSkillCreateDto to entity: {}", convertObject);
         EmpAchievementSkill result = EmpAchievementSkill.builder()
-                .id(convertObject.getId())
                 .userId(convertObject.getUserId())
                 .notes(convertObject.getNotes())
                 .achievementId(convertObject.getAchievementId())

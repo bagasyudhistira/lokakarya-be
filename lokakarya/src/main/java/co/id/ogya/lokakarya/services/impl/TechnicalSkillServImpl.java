@@ -115,7 +115,6 @@ public class TechnicalSkillServImpl implements TechnicalSkillServ {
     private TechnicalSkill convertToEntityCreate(TechnicalSkillCreateDto convertObject) {
         log.debug("Converting TechnicalSkillCreateDto to entity: {}", convertObject);
         return TechnicalSkill.builder()
-                .id(convertObject.getId())
                 .technicalSkill(convertObject.getTechnicalSkill())
                 .enabled(convertObject.isEnabled())
                 .createdBy(convertObject.getCreatedBy())

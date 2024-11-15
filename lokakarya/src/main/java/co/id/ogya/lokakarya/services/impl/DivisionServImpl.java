@@ -115,7 +115,6 @@ public class DivisionServImpl implements DivisionServ {
     private Division convertToEntityCreate(DivisionCreateDto convertObject) {
         log.debug("Converting DivisionCreateDto to entity: {}", convertObject);
         Division result = Division.builder()
-                .id(convertObject.getId())
                 .divisionName(convertObject.getDivisionName())
                 .createdBy(convertObject.getCreatedBy())
                 .build();

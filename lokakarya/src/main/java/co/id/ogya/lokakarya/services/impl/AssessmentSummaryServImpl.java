@@ -118,7 +118,6 @@ public class AssessmentSummaryServImpl implements AssessmentSummaryServ {
     private AssessmentSummary convertToEntityCreate(AssessmentSummaryCreateDto convertObject) {
         log.debug("Converting AssessmentSummaryCreateDto to entity: {}", convertObject);
         AssessmentSummary result = AssessmentSummary.builder()
-                .id(convertObject.getId())
                 .userId(convertObject.getUserId())
                 .year(convertObject.getYear())
                 .score(convertObject.getScore())

@@ -116,7 +116,6 @@ public class DevPlanServImpl implements DevPlanServ {
     private DevPlan convertToEntityCreate(DevPlanCreateDto convertObject) {
         log.debug("Converting DevPlanCreateDto to entity: {}", convertObject);
         DevPlan result = DevPlan.builder()
-                .id(convertObject.getId())
                 .plan(convertObject.getPlan())
                 .enabled(convertObject.isEnabled())
                 .createdBy(convertObject.getCreatedBy())

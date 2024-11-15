@@ -117,7 +117,6 @@ public class GroupAchievementServImpl implements GroupAchievementServ {
     private GroupAchievement convertToEntityCreate(GroupAchievementCreateDto convertObject) {
         log.debug("Converting GroupAchievementCreateDto to entity: {}", convertObject);
         GroupAchievement result = GroupAchievement.builder()
-                .id(convertObject.getId())
                 .groupName(convertObject.getGroupName())
                 .percentage(convertObject.getPercentage())
                 .enabled(convertObject.isEnabled())

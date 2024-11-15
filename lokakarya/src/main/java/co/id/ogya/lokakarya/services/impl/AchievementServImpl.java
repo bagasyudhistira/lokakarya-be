@@ -115,7 +115,6 @@ public class AchievementServImpl implements AchievementServ {
     private Achievement convertToEntityCreate(AchievementCreateDto convertObject) {
         log.debug("Converting AchievementCreateDto to entity: {}", convertObject);
         Achievement result = Achievement.builder()
-                .id(convertObject.getId())
                 .achievement(convertObject.getAchievement())
                 .groupId(convertObject.getGroupId())
                 .enabled(convertObject.isEnabled())

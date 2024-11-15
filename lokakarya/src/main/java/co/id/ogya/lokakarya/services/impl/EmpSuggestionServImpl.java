@@ -117,7 +117,6 @@ public class EmpSuggestionServImpl implements EmpSuggestionServ {
     private EmpSuggestion convertToEntityCreate(EmpSuggestionCreateDto convertObject) {
         log.debug("Converting EmpSuggestionCreateDto to entity: {}", convertObject);
         EmpSuggestion result = EmpSuggestion.builder()
-                .id(convertObject.getId())
                 .userId(convertObject.getUserId())
                 .suggestion(convertObject.getSuggestion())
                 .assessmentYear(convertObject.getAssessmentYear())

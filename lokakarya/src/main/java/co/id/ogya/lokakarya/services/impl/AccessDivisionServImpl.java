@@ -116,7 +116,6 @@ public class AccessDivisionServImpl implements AccessDivisionServ {
     private AccessDivision convertToEntityCreate(AccessDivisionCreateDto convertObject) {
         log.debug("Converting AccessDivisionCreateDto to entity: {}", convertObject);
         AccessDivision result = AccessDivision.builder()
-                .id(convertObject.getId())
                 .userId(convertObject.getUserId())
                 .divisionId(convertObject.getDivisionId())
                 .build();

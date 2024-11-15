@@ -115,7 +115,6 @@ public class AppMenuServImpl implements AppMenuServ {
     private AppMenu convertToEntityCreate(AppMenuCreateDto convertObject) {
         log.debug("Converting AppMenuCreateDto to entity: {}", convertObject);
         AppMenu result = AppMenu.builder()
-                .id(convertObject.getId())
                 .menuName(convertObject.getMenuName())
                 .createdBy(convertObject.getCreatedBy())
                 .build();

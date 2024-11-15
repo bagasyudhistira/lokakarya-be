@@ -112,7 +112,6 @@ public class AppUserRoleServImpl implements AppUserRoleServ {
     private AppUserRole convertToEntityCreate(AppUserRoleCreateDto convertObject) {
         log.debug("Converting AppUserRoleCreateDto to entity: {}", convertObject);
         AppUserRole result = AppUserRole.builder()
-                .id(convertObject.getId())
                 .roleId(convertObject.getRoleId())
                 .userId(convertObject.getUserId())
                 .build();

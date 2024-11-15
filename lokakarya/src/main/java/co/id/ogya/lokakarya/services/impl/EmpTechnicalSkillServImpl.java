@@ -118,7 +118,6 @@ public class EmpTechnicalSkillServImpl implements EmpTechnicalSkillServ {
     private EmpTechnicalSkill convertToEntityCreate(EmpTechnicalSkillCreateDto convertObject) {
         log.debug("Converting EmpTechnicalSkillCreateDto to entity: {}", convertObject);
         EmpTechnicalSkill result = EmpTechnicalSkill.builder()
-                .id(convertObject.getId())
                 .userId(convertObject.getUserId())
                 .technicalSkillId(convertObject.getTechnicalSkillId())
                 .score(convertObject.getScore())

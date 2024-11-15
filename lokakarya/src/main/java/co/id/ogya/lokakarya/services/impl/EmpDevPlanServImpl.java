@@ -117,7 +117,6 @@ public class EmpDevPlanServImpl implements EmpDevPlanServ {
     private EmpDevPlan convertToEntityCreate(EmpDevPlanCreateDto convertObject) {
         log.debug("Converting EmpDevPlanCreateDto to entity: {}", convertObject);
         EmpDevPlan result = EmpDevPlan.builder()
-                .id(convertObject.getId())
                 .userId(convertObject.getUserId())
                 .devPlanId(convertObject.getDevPlanId())
                 .assessmentYear(convertObject.getAssessmentYear())

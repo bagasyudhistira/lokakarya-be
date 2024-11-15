@@ -118,7 +118,6 @@ public class EmpAttitudeSkillServImpl implements EmpAttitudeSkillServ {
     private EmpAttitudeSkill convertToEntityCreate(EmpAttitudeSkillCreateDto convertObject) {
         log.debug("Converting EmpAttitudeSkillCreateDto to entity: {}", convertObject);
         EmpAttitudeSkill result = EmpAttitudeSkill.builder()
-                .id(convertObject.getId())
                 .userId(convertObject.getUserId())
                 .attitudeSkillId(convertObject.getAttitudeSkillId())
                 .score(convertObject.getScore())

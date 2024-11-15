@@ -117,7 +117,6 @@ public class GroupAttitudeSkillServImpl implements GroupAttitudeSkillServ {
     private GroupAttitudeSkill convertToEntityCreate(GroupAttitudeSkillCreateDto convertObject) {
         log.debug("Converting GroupAttitudeSkillCreateDto to entity: {}", convertObject);
         GroupAttitudeSkill result = GroupAttitudeSkill.builder()
-                .id(convertObject.getId())
                 .groupName(convertObject.getGroupName())
                 .percentage(convertObject.getPercentage())
                 .enabled(convertObject.isEnabled())
