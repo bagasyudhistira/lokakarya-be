@@ -4,6 +4,7 @@ import co.id.ogya.lokakarya.dto.ManagerDto;
 import co.id.ogya.lokakarya.dto.division.DivisionCreateDto;
 import co.id.ogya.lokakarya.dto.division.DivisionDto;
 import co.id.ogya.lokakarya.dto.division.DivisionUpdateDto;
+import co.id.ogya.lokakarya.entities.Division;
 import co.id.ogya.lokakarya.services.DivisionServ;
 import co.id.ogya.lokakarya.util.ServerResponseList;
 import lombok.extern.slf4j.Slf4j;
@@ -75,8 +76,8 @@ public class DivisionController extends ServerResponseList {
         long startTime = System.currentTimeMillis();
 
         try {
-            Division result = divisionServ.createDivision(divisionCreateDto);
-            ManagerDto<Division> response = new ManagerDto<>();
+            DivisionDto result = divisionServ.createDivision(divisionCreateDto);
+            ManagerDto<DivisionDto> response = new ManagerDto<>();
             response.setContent(result);
             response.setTotalRows(1);
 
@@ -97,8 +98,8 @@ public class DivisionController extends ServerResponseList {
         long startTime = System.currentTimeMillis();
 
         try {
-            Division result = divisionServ.updateDivision(divisionUpdateDto);
-            ManagerDto<Division> response = new ManagerDto<>();
+            DivisionDto result = divisionServ.updateDivision(divisionUpdateDto);
+            ManagerDto<DivisionDto> response = new ManagerDto<>();
             response.setContent(result);
             response.setTotalRows(1);
 

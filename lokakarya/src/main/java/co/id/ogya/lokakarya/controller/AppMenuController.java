@@ -4,6 +4,7 @@ import co.id.ogya.lokakarya.dto.ManagerDto;
 import co.id.ogya.lokakarya.dto.appmenu.AppMenuCreateDto;
 import co.id.ogya.lokakarya.dto.appmenu.AppMenuDto;
 import co.id.ogya.lokakarya.dto.appmenu.AppMenuUpdateDto;
+import co.id.ogya.lokakarya.entities.AppMenu;
 import co.id.ogya.lokakarya.services.AppMenuServ;
 import co.id.ogya.lokakarya.util.ServerResponseList;
 import lombok.extern.slf4j.Slf4j;
@@ -74,8 +75,8 @@ public class AppMenuController extends ServerResponseList {
         long startTime = System.currentTimeMillis();
 
         try {
-            AppMenu result = appMenuServ.createAppMenu(appMenuCreateDto);
-            ManagerDto<AppMenu> response = new ManagerDto<>();
+            AppMenuDto result = appMenuServ.createAppMenu(appMenuCreateDto);
+            ManagerDto<AppMenuDto> response = new ManagerDto<>();
             response.setContent(result);
             response.setTotalRows(1);
 
@@ -96,8 +97,8 @@ public class AppMenuController extends ServerResponseList {
         long startTime = System.currentTimeMillis();
 
         try {
-            AppMenu result = appMenuServ.updateAppMenu(appMenuUpdateDto);
-            ManagerDto<AppMenu> response = new ManagerDto<>();
+            AppMenuDto result = appMenuServ.updateAppMenu(appMenuUpdateDto);
+            ManagerDto<AppMenuDto> response = new ManagerDto<>();
             response.setContent(result);
             response.setTotalRows(1);
 

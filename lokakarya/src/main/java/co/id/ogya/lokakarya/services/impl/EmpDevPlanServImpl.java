@@ -3,6 +3,8 @@ package co.id.ogya.lokakarya.services.impl;
 import co.id.ogya.lokakarya.dto.empdevplan.EmpDevPlanCreateDto;
 import co.id.ogya.lokakarya.dto.empdevplan.EmpDevPlanDto;
 import co.id.ogya.lokakarya.dto.empdevplan.EmpDevPlanUpdateDto;
+import co.id.ogya.lokakarya.entities.EmpDevPlan;
+import co.id.ogya.lokakarya.repositories.EmpDevPlanRepo;
 import co.id.ogya.lokakarya.services.EmpDevPlanServ;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;

@@ -4,6 +4,7 @@ import co.id.ogya.lokakarya.dto.ManagerDto;
 import co.id.ogya.lokakarya.dto.approle.AppRoleCreateDto;
 import co.id.ogya.lokakarya.dto.approle.AppRoleDto;
 import co.id.ogya.lokakarya.dto.approle.AppRoleUpdateDto;
+import co.id.ogya.lokakarya.entities.AppRole;
 import co.id.ogya.lokakarya.services.AppRoleServ;
 import co.id.ogya.lokakarya.util.ServerResponseList;
 import lombok.extern.slf4j.Slf4j;
@@ -74,8 +75,8 @@ public class AppRoleController extends ServerResponseList {
         long startTime = System.currentTimeMillis();
 
         try {
-            AppRole result = appRoleServ.createAppRole(appRoleCreateDto);
-            ManagerDto<AppRole> response = new ManagerDto<>();
+            AppRoleDto result = appRoleServ.createAppRole(appRoleCreateDto);
+            ManagerDto<AppRoleDto> response = new ManagerDto<>();
             response.setContent(result);
             response.setTotalRows(1);
 
@@ -96,8 +97,8 @@ public class AppRoleController extends ServerResponseList {
         long startTime = System.currentTimeMillis();
 
         try {
-            AppRole result = appRoleServ.updateAppRole(appRoleUpdateDto);
-            ManagerDto<AppRole> response = new ManagerDto<>();
+            AppRoleDto result = appRoleServ.updateAppRole(appRoleUpdateDto);
+            ManagerDto<AppRoleDto> response = new ManagerDto<>();
             response.setContent(result);
             response.setTotalRows(1);
 

@@ -4,6 +4,7 @@ import co.id.ogya.lokakarya.dto.ManagerDto;
 import co.id.ogya.lokakarya.dto.assessmentsummary.AssessmentSummaryCreateDto;
 import co.id.ogya.lokakarya.dto.assessmentsummary.AssessmentSummaryDto;
 import co.id.ogya.lokakarya.dto.assessmentsummary.AssessmentSummaryUpdateDto;
+import co.id.ogya.lokakarya.entities.AssessmentSummary;
 import co.id.ogya.lokakarya.services.AssessmentSummaryServ;
 import co.id.ogya.lokakarya.util.ServerResponseList;
 import lombok.extern.slf4j.Slf4j;
@@ -74,8 +75,8 @@ public class AssessmentSummaryController extends ServerResponseList {
         long startTime = System.currentTimeMillis();
 
         try {
-            AssessmentSummary result = assessmentSummaryServ.createAssessmentSummary(assessmentSummaryCreateDto);
-            ManagerDto<AssessmentSummary> response = new ManagerDto<>();
+            AssessmentSummaryDto result = assessmentSummaryServ.createAssessmentSummary(assessmentSummaryCreateDto);
+            ManagerDto<AssessmentSummaryDto> response = new ManagerDto<>();
             response.setContent(result);
             response.setTotalRows(1);
 
@@ -96,8 +97,8 @@ public class AssessmentSummaryController extends ServerResponseList {
         long startTime = System.currentTimeMillis();
 
         try {
-            AssessmentSummary result = assessmentSummaryServ.updateAssessmentSummary(assessmentSummaryUpdateDto);
-            ManagerDto<AssessmentSummary> response = new ManagerDto<>();
+            AssessmentSummaryDto result = assessmentSummaryServ.updateAssessmentSummary(assessmentSummaryUpdateDto);
+            ManagerDto<AssessmentSummaryDto> response = new ManagerDto<>();
             response.setContent(result);
             response.setTotalRows(1);
 

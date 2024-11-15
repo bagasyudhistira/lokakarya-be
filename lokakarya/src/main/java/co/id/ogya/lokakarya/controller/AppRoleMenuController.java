@@ -4,6 +4,7 @@ import co.id.ogya.lokakarya.dto.ManagerDto;
 import co.id.ogya.lokakarya.dto.approlemenu.AppRoleMenuCreateDto;
 import co.id.ogya.lokakarya.dto.approlemenu.AppRoleMenuDto;
 import co.id.ogya.lokakarya.dto.approlemenu.AppRoleMenuUpdateDto;
+import co.id.ogya.lokakarya.entities.AppRoleMenu;
 import co.id.ogya.lokakarya.services.AppRoleMenuServ;
 import co.id.ogya.lokakarya.util.ServerResponseList;
 import lombok.extern.slf4j.Slf4j;
@@ -74,8 +75,8 @@ public class AppRoleMenuController extends ServerResponseList {
         long startTime = System.currentTimeMillis();
 
         try {
-            AppRoleMenu result = appRoleMenuServ.createAppRoleMenu(appRoleMenuCreateDto);
-            ManagerDto<AppRoleMenu> response = new ManagerDto<>();
+            AppRoleMenuDto result = appRoleMenuServ.createAppRoleMenu(appRoleMenuCreateDto);
+            ManagerDto<AppRoleMenuDto> response = new ManagerDto<>();
             response.setContent(result);
             response.setTotalRows(1);
 
@@ -96,8 +97,8 @@ public class AppRoleMenuController extends ServerResponseList {
         long startTime = System.currentTimeMillis();
 
         try {
-            AppRoleMenu result = appRoleMenuServ.updateAppRoleMenu(appRoleMenuUpdateDto);
-            ManagerDto<AppRoleMenu> response = new ManagerDto<>();
+            AppRoleMenuDto result = appRoleMenuServ.updateAppRoleMenu(appRoleMenuUpdateDto);
+            ManagerDto<AppRoleMenuDto> response = new ManagerDto<>();
             response.setContent(result);
             response.setTotalRows(1);
 

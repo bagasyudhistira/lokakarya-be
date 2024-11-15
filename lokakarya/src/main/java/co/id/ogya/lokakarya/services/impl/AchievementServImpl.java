@@ -1,6 +1,8 @@
 package co.id.ogya.lokakarya.services.impl;
 
 import co.id.ogya.lokakarya.dto.achievement.*;
+import co.id.ogya.lokakarya.entities.Achievement;
+import co.id.ogya.lokakarya.repositories.AchievementRepo;
 import co.id.ogya.lokakarya.services.AchievementServ;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;

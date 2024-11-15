@@ -2,6 +2,7 @@ package co.id.ogya.lokakarya.controller;
 
 import co.id.ogya.lokakarya.dto.ManagerDto;
 import co.id.ogya.lokakarya.dto.empattitudeskill.*;
+import co.id.ogya.lokakarya.entities.EmpAttitudeSkill;
 import co.id.ogya.lokakarya.services.EmpAttitudeSkillServ;
 import co.id.ogya.lokakarya.util.ServerResponseList;
 import lombok.extern.slf4j.Slf4j;
@@ -19,94 +20,117 @@ import java.util.List;
 @RestController
 @RequestMapping("/empattitudeskill")
 public class EmpAttitudeSkillController extends ServerResponseList {
+
     @Autowired
     EmpAttitudeSkillServ empAttitudeSkillServ;
 
     @GetMapping("/all")
     public ResponseEntity<?> getAllEmpAttitudeSkills() {
+        log.info("Fetching all EmpAttitudeSkills");
         long startTime = System.currentTimeMillis();
 
-        List<EmpAttitudeSkillDto> result = empAttitudeSkillServ.getAllEmpAttitudeSkill();
+        try {
+            List<EmpAttitudeSkillDto> result = empAttitudeSkillServ.getAllEmpAttitudeSkill();
+            ManagerDto<List<EmpAttitudeSkillDto>> response = new ManagerDto<>();
+            response.setContent(result);
+            response.setTotalRows(result.size());
 
-        ManagerDto<List<EmpAttitudeSkillDto>> response = new ManagerDto<>();
-        response.setContent(result);
-        response.setTotalRows(result.size());
+            long endTime = System.currentTimeMillis();
+            response.setInfo(getInfoOk("Time", endTime - startTime));
+            log.info("Fetched all EmpAttitudeSkills in {} ms", endTime - startTime);
 
-        long endTime = System.currentTimeMillis();
-        long totalTime = endTime - startTime;
-        response.setInfo(getInfoOk("Time", totalTime));
-
-        return new ResponseEntity<>(response, HttpStatus.OK);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error fetching all EmpAttitudeSkills: {}", e.getMessage(), e);
+            return new ResponseEntity<>("Failed to fetch EmpAttitudeSkills", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getEmpAttitudeSkillById(@PathVariable String id) {
+        log.info("Fetching EmpAttitudeSkill by ID: {}", id);
         long startTime = System.currentTimeMillis();
 
-        EmpAttitudeSkillDto result = empAttitudeSkillServ.getEmpAttitudeSkillById(id);
+        try {
+            EmpAttitudeSkillDto result = empAttitudeSkillServ.getEmpAttitudeSkillById(id);
+            ManagerDto<EmpAttitudeSkillDto> response = new ManagerDto<>();
+            response.setContent(result);
+            response.setTotalRows(1);
 
-        ManagerDto<EmpAttitudeSkillDto> response = new ManagerDto<>();
-        response.setContent(result);
-        response.setTotalRows(1);
+            long endTime = System.currentTimeMillis();
+            response.setInfo(getInfoOk("Time", endTime - startTime));
+            log.info("Fetched EmpAttitudeSkill with ID: {} in {} ms", id, endTime - startTime);
 
-        long endTime = System.currentTimeMillis();
-        long totalTime = endTime - startTime;
-        response.setInfo(getInfoOk("Time", totalTime));
-
-        return new ResponseEntity<>(response, HttpStatus.OK);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error fetching EmpAttitudeSkill by ID {}: {}", id, e.getMessage(), e);
+            return new ResponseEntity<>("Failed to fetch EmpAttitudeSkill with ID: " + id, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @PostMapping("/create")
     public ResponseEntity<?> createEmpAttitudeSkill(@RequestBody EmpAttitudeSkillCreateDto empAttitudeSkillCreateDto) {
+        log.info("Creating EmpAttitudeSkill with data: {}", empAttitudeSkillCreateDto);
         long startTime = System.currentTimeMillis();
 
-        EmpAttitudeSkill result = empAttitudeSkillServ.createEmpAttitudeSkill(empAttitudeSkillCreateDto);
+        try {
+            EmpAttitudeSkillDto result = empAttitudeSkillServ.createEmpAttitudeSkill(empAttitudeSkillCreateDto);
+            ManagerDto<EmpAttitudeSkillDto> response = new ManagerDto<>();
+            response.setContent(result);
+            response.setTotalRows(1);
 
-        ManagerDto<EmpAttitudeSkill> response = new ManagerDto<>();
-        response.setContent(result);
-        response.setTotalRows(1);
+            long endTime = System.currentTimeMillis();
+            response.setInfo(getInfoOk("Time", endTime - startTime));
+            log.info("Created EmpAttitudeSkill in {} ms", endTime - startTime);
 
-        long endTime = System.currentTimeMillis();
-        long totalTime = endTime - startTime;
-        response.setInfo(getInfoOk("Time", totalTime));
-
-        return new ResponseEntity<>(response, HttpStatus.OK);
+            return new ResponseEntity<>(response, HttpStatus.CREATED);
+        } catch (Exception e) {
+            log.error("Error creating EmpAttitudeSkill: {}", e.getMessage(), e);
+            return new ResponseEntity<>("Failed to create EmpAttitudeSkill", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @PutMapping("/update")
     public ResponseEntity<?> updateEmpAttitudeSkill(@RequestBody EmpAttitudeSkillUpdateDto empAttitudeSkillUpdateDto) {
+        log.info("Updating EmpAttitudeSkill with data: {}", empAttitudeSkillUpdateDto);
         long startTime = System.currentTimeMillis();
 
-        EmpAttitudeSkill result = empAttitudeSkillServ.updateEmpAttitudeSkill(empAttitudeSkillUpdateDto);
+        try {
+            EmpAttitudeSkillDto result = empAttitudeSkillServ.updateEmpAttitudeSkill(empAttitudeSkillUpdateDto);
+            ManagerDto<EmpAttitudeSkillDto> response = new ManagerDto<>();
+            response.setContent(result);
+            response.setTotalRows(1);
 
-        ManagerDto<EmpAttitudeSkill> response = new ManagerDto<>();
-        response.setContent(result);
-        response.setTotalRows(1);
+            long endTime = System.currentTimeMillis();
+            response.setInfo(getInfoOk("Time", endTime - startTime));
+            log.info("Updated EmpAttitudeSkill in {} ms", endTime - startTime);
 
-        long endTime = System.currentTimeMillis();
-        long totalTime = endTime - startTime;
-        response.setInfo(getInfoOk("Time", totalTime));
-
-        return new ResponseEntity<>(response, HttpStatus.OK);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error updating EmpAttitudeSkill: {}", e.getMessage(), e);
+            return new ResponseEntity<>("Failed to update EmpAttitudeSkill", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteEmpAttitudeSkill(@PathVariable String id) {
+        log.info("Deleting EmpAttitudeSkill with ID: {}", id);
         long startTime = System.currentTimeMillis();
 
-        boolean result = empAttitudeSkillServ.deleteEmpAttitudeSkill(id);
+        try {
+            boolean result = empAttitudeSkillServ.deleteEmpAttitudeSkill(id);
+            ManagerDto<String> response = new ManagerDto<>();
+            response.setContent(id + " deleted: " + result);
+            response.setTotalRows(1);
 
-        ManagerDto<String> response = new ManagerDto<>();
-        response.setContent(id + " deleted: " + result);
-        response.setTotalRows(1);
+            long endTime = System.currentTimeMillis();
+            response.setInfo(getInfoOk("Time", endTime - startTime));
+            log.info("Deleted EmpAttitudeSkill with ID: {} in {} ms", id, endTime - startTime);
 
-        long endTime = System.currentTimeMillis();
-        long totalTime = endTime - startTime;
-        response.setInfo(getInfoOk("Time", totalTime));
-
-        return new ResponseEntity<>(response, HttpStatus.OK);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error deleting EmpAttitudeSkill with ID {}: {}", id, e.getMessage(), e);
+            return new ResponseEntity<>("Failed to delete EmpAttitudeSkill with ID: " + id, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
-
-
-
 }

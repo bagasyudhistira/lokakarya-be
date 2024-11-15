@@ -3,6 +3,8 @@ package co.id.ogya.lokakarya.services.impl;
 import co.id.ogya.lokakarya.dto.technicalskill.TechnicalSkillCreateDto;
 import co.id.ogya.lokakarya.dto.technicalskill.TechnicalSkillDto;
 import co.id.ogya.lokakarya.dto.technicalskill.TechnicalSkillUpdateDto;
+import co.id.ogya.lokakarya.entities.TechnicalSkill;
+import co.id.ogya.lokakarya.repositories.TechnicalSkillRepo;
 import co.id.ogya.lokakarya.services.TechnicalSkillServ;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;

@@ -4,6 +4,7 @@ import co.id.ogya.lokakarya.dto.ManagerDto;
 import co.id.ogya.lokakarya.dto.devplan.DevPlanCreateDto;
 import co.id.ogya.lokakarya.dto.devplan.DevPlanDto;
 import co.id.ogya.lokakarya.dto.devplan.DevPlanUpdateDto;
+import co.id.ogya.lokakarya.entities.DevPlan;
 import co.id.ogya.lokakarya.services.DevPlanServ;
 import co.id.ogya.lokakarya.util.ServerResponseList;
 import lombok.extern.slf4j.Slf4j;
@@ -75,8 +76,8 @@ public class DevPlanController extends ServerResponseList {
         long startTime = System.currentTimeMillis();
 
         try {
-            DevPlan result = devPlanServ.createDevPlan(devPlanCreateDto);
-            ManagerDto<DevPlan> response = new ManagerDto<>();
+            DevPlanDto result = devPlanServ.createDevPlan(devPlanCreateDto);
+            ManagerDto<DevPlanDto> response = new ManagerDto<>();
             response.setContent(result);
             response.setTotalRows(1);
 
@@ -97,8 +98,8 @@ public class DevPlanController extends ServerResponseList {
         long startTime = System.currentTimeMillis();
 
         try {
-            DevPlan result = devPlanServ.updateDevPlan(devPlanUpdateDto);
-            ManagerDto<DevPlan> response = new ManagerDto<>();
+            DevPlanDto result = devPlanServ.updateDevPlan(devPlanUpdateDto);
+            ManagerDto<DevPlanDto> response = new ManagerDto<>();
             response.setContent(result);
             response.setTotalRows(1);
 

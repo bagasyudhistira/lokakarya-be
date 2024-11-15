@@ -3,6 +3,8 @@ package co.id.ogya.lokakarya.services.impl;
 import co.id.ogya.lokakarya.dto.approle.AppRoleCreateDto;
 import co.id.ogya.lokakarya.dto.approle.AppRoleDto;
 import co.id.ogya.lokakarya.dto.approle.AppRoleUpdateDto;
+import co.id.ogya.lokakarya.entities.AppRole;
+import co.id.ogya.lokakarya.repositories.AppRoleRepo;
 import co.id.ogya.lokakarya.services.AppRoleServ;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;

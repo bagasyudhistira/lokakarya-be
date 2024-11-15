@@ -19,94 +19,117 @@ import java.util.List;
 @RestController
 @RequestMapping("/empdevplan")
 public class EmpDevPlanController extends ServerResponseList {
+
     @Autowired
-    EmpDevPlanServ empDevPlanServ;
+    private EmpDevPlanServ empDevPlanServ;
 
     @GetMapping("/all")
     public ResponseEntity<?> getAllEmpDevPlans() {
+        log.info("Fetching all EmpDevPlans");
         long startTime = System.currentTimeMillis();
 
-        List<EmpDevPlanDto> result = empDevPlanServ.getAllEmpDevPlan();
+        try {
+            List<EmpDevPlanDto> result = empDevPlanServ.getAllEmpDevPlan();
+            ManagerDto<List<EmpDevPlanDto>> response = new ManagerDto<>();
+            response.setContent(result);
+            response.setTotalRows(result.size());
 
-        ManagerDto<List<EmpDevPlanDto>> response = new ManagerDto<>();
-        response.setContent(result);
-        response.setTotalRows(result.size());
+            long endTime = System.currentTimeMillis();
+            response.setInfo(getInfoOk("Time", endTime - startTime));
+            log.info("Fetched all EmpDevPlans in {} ms", endTime - startTime);
 
-        long endTime = System.currentTimeMillis();
-        long totalTime = endTime - startTime;
-        response.setInfo(getInfoOk("Time", totalTime));
-
-        return new ResponseEntity<>(response, HttpStatus.OK);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error fetching all EmpDevPlans: {}", e.getMessage(), e);
+            return new ResponseEntity<>("Failed to fetch EmpDevPlans", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getEmpDevPlanById(@PathVariable String id) {
+        log.info("Fetching EmpDevPlan by ID: {}", id);
         long startTime = System.currentTimeMillis();
 
-        EmpDevPlanDto result = empDevPlanServ.getEmpDevPlanById(id);
+        try {
+            EmpDevPlanDto result = empDevPlanServ.getEmpDevPlanById(id);
+            ManagerDto<EmpDevPlanDto> response = new ManagerDto<>();
+            response.setContent(result);
+            response.setTotalRows(1);
 
-        ManagerDto<EmpDevPlanDto> response = new ManagerDto<>();
-        response.setContent(result);
-        response.setTotalRows(1);
+            long endTime = System.currentTimeMillis();
+            response.setInfo(getInfoOk("Time", endTime - startTime));
+            log.info("Fetched EmpDevPlan with ID: {} in {} ms", id, endTime - startTime);
 
-        long endTime = System.currentTimeMillis();
-        long totalTime = endTime - startTime;
-        response.setInfo(getInfoOk("Time", totalTime));
-
-        return new ResponseEntity<>(response, HttpStatus.OK);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error fetching EmpDevPlan by ID {}: {}", id, e.getMessage(), e);
+            return new ResponseEntity<>("Failed to fetch EmpDevPlan with ID: " + id, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @PostMapping("/create")
     public ResponseEntity<?> createEmpDevPlan(@RequestBody EmpDevPlanCreateDto empDevPlanCreateDto) {
+        log.info("Creating EmpDevPlan with data: {}", empDevPlanCreateDto);
         long startTime = System.currentTimeMillis();
 
-        EmpDevPlan result = empDevPlanServ.createEmpDevPlan(empDevPlanCreateDto);
+        try {
+            EmpDevPlanDto result = empDevPlanServ.createEmpDevPlan(empDevPlanCreateDto);
+            ManagerDto<EmpDevPlanDto> response = new ManagerDto<>();
+            response.setContent(result);
+            response.setTotalRows(1);
 
-        ManagerDto<EmpDevPlan> response = new ManagerDto<>();
-        response.setContent(result);
-        response.setTotalRows(1);
+            long endTime = System.currentTimeMillis();
+            response.setInfo(getInfoOk("Time", endTime - startTime));
+            log.info("Created EmpDevPlan in {} ms", endTime - startTime);
 
-        long endTime = System.currentTimeMillis();
-        long totalTime = endTime - startTime;
-        response.setInfo(getInfoOk("Time", totalTime));
-
-        return new ResponseEntity<>(response, HttpStatus.OK);
+            return new ResponseEntity<>(response, HttpStatus.CREATED);
+        } catch (Exception e) {
+            log.error("Error creating EmpDevPlan: {}", e.getMessage(), e);
+            return new ResponseEntity<>("Failed to create EmpDevPlan", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @PutMapping("/update")
     public ResponseEntity<?> updateEmpDevPlan(@RequestBody EmpDevPlanUpdateDto empDevPlanUpdateDto) {
+        log.info("Updating EmpDevPlan with data: {}", empDevPlanUpdateDto);
         long startTime = System.currentTimeMillis();
 
-        EmpDevPlan result = empDevPlanServ.updateEmpDevPlan(empDevPlanUpdateDto);
+        try {
+            EmpDevPlanDto result = empDevPlanServ.updateEmpDevPlan(empDevPlanUpdateDto);
+            ManagerDto<EmpDevPlanDto> response = new ManagerDto<>();
+            response.setContent(result);
+            response.setTotalRows(1);
 
-        ManagerDto<EmpDevPlan> response = new ManagerDto<>();
-        response.setContent(result);
-        response.setTotalRows(1);
+            long endTime = System.currentTimeMillis();
+            response.setInfo(getInfoOk("Time", endTime - startTime));
+            log.info("Updated EmpDevPlan in {} ms", endTime - startTime);
 
-        long endTime = System.currentTimeMillis();
-        long totalTime = endTime - startTime;
-        response.setInfo(getInfoOk("Time", totalTime));
-
-        return new ResponseEntity<>(response, HttpStatus.OK);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error updating EmpDevPlan: {}", e.getMessage(), e);
+            return new ResponseEntity<>("Failed to update EmpDevPlan", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteEmpDevPlan(@PathVariable String id) {
+        log.info("Deleting EmpDevPlan with ID: {}", id);
         long startTime = System.currentTimeMillis();
 
-        boolean result = empDevPlanServ.deleteEmpDevPlan(id);
+        try {
+            boolean result = empDevPlanServ.deleteEmpDevPlan(id);
+            ManagerDto<String> response = new ManagerDto<>();
+            response.setContent(id + " deleted: " + result);
+            response.setTotalRows(1);
 
-        ManagerDto<String> response = new ManagerDto<>();
-        response.setContent(id + " deleted: " + result);
-        response.setTotalRows(1);
+            long endTime = System.currentTimeMillis();
+            response.setInfo(getInfoOk("Time", endTime - startTime));
+            log.info("Deleted EmpDevPlan with ID: {} in {} ms", id, endTime - startTime);
 
-        long endTime = System.currentTimeMillis();
-        long totalTime = endTime - startTime;
-        response.setInfo(getInfoOk("Time", totalTime));
-
-        return new ResponseEntity<>(response, HttpStatus.OK);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error deleting EmpDevPlan with ID {}: {}", id, e.getMessage(), e);
+            return new ResponseEntity<>("Failed to delete EmpDevPlan with ID: " + id, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
-
-
-
 }

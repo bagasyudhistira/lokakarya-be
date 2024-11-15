@@ -3,6 +3,8 @@ package co.id.ogya.lokakarya.services.impl;
 import co.id.ogya.lokakarya.dto.empattitudeskill.EmpAttitudeSkillCreateDto;
 import co.id.ogya.lokakarya.dto.empattitudeskill.EmpAttitudeSkillDto;
 import co.id.ogya.lokakarya.dto.empattitudeskill.EmpAttitudeSkillUpdateDto;
+import co.id.ogya.lokakarya.entities.EmpAttitudeSkill;
+import co.id.ogya.lokakarya.repositories.EmpAttitudeSkillRepo;
 import co.id.ogya.lokakarya.services.EmpAttitudeSkillServ;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
