@@ -29,6 +29,7 @@ public class AppRoleServImpl implements AppRoleServ {
             List<AppRole> listData = appRoleRepo.getAppRoles();
             log.debug("Fetched {} AppRoles from repository", listData.size());
             for (AppRole data : listData) {
+                log.info(data.toString());
                 AppRoleDto result = convertToDto(data);
                 listResult.add(result);
             }
@@ -115,7 +116,6 @@ public class AppRoleServImpl implements AppRoleServ {
     private AppRole convertToEntityCreate(AppRoleCreateDto convertObject) {
         log.debug("Converting AppRoleCreateDto to entity: {}", convertObject);
         AppRole result = AppRole.builder()
-                .id(convertObject.getId())
                 .rolename(convertObject.getRolename())
                 .createdBy(convertObject.getCreatedBy())
                 .build();

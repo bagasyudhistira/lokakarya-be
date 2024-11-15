@@ -11,8 +11,8 @@ import java.time.LocalDateTime;
 @Builder
 @ToString
 public class AppRoleCreateDto {
-    @JsonProperty("id")
-    private String id;
+//    @JsonProperty("id")
+//    private String id;
 
     @JsonProperty("rolename")
     private String rolename;

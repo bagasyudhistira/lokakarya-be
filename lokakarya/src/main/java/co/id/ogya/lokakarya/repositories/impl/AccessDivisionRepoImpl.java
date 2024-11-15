@@ -50,7 +50,8 @@ public class AccessDivisionRepoImpl implements AccessDivisionRepo {
 
     @Override
     public AccessDivision saveAccessDivision(AccessDivision accessDivision) {
-        String sql = "INSERT INTO TBL_ACCESS_DIVISION (ID, USER_ID, DIVISION_ID) VALUES (?,?,?)";
+        accessDivision.prePersist();
+String sql = "INSERT INTO TBL_ACCESS_DIVISION (ID, USER_ID, DIVISION_ID) VALUES (?,?,?)";
         try {
             log.info("Saving AccessDivision record: {}", accessDivision);
             int rowsAffected = jdbcTemplate.update(sql, accessDivision.getId(), accessDivision.getUserId(), accessDivision.getDivisionId());
