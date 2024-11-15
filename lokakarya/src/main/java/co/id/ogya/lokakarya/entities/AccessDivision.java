@@ -23,8 +23,7 @@ public class AccessDivision {
     @Column(name = "DIVISION_ID")
     private String divisionId;
 
-    @PrePersist
-    private void prePersist() {
+    public void prePersist() {
         if (this.id == null) {
             this.id = UUID.randomUUID().toString();
         }

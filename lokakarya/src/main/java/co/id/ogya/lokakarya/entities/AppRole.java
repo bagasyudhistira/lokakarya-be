@@ -33,7 +33,6 @@ public class AppRole {
     @Column(name = "UPDATED_BY")
     private String updatedBy;
 
-
     public void prePersist() {
         if (this.id == null) {
             this.id = UUID.randomUUID().toString();

@@ -23,8 +23,7 @@ public class AppRoleMenu {
     @Column(name = "MENU_ID")
     private String menuId;
 
-    @PrePersist
-    private void prePersist() {
+    public void prePersist() {
         if (this.id == null) {
             this.id = UUID.randomUUID().toString();
         }

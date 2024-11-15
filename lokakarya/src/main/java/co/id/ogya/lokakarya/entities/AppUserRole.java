@@ -23,8 +23,7 @@ public class AppUserRole {
     @Column(name = "ROLE_ID")
     private String roleId;
 
-    @PrePersist
-    private void prePersist() {
+    public void prePersist() {
         if (this.id == null) {
             this.id = UUID.randomUUID().toString();
         }

@@ -33,8 +33,7 @@ public class AppMenu {
     @Column(name = "UPDATED_BY")
     private String updatedBy;
 
-    @PrePersist
-    private void prePersist() {
+    public void prePersist() {
         if (this.id == null) {
             this.id = UUID.randomUUID().toString();
         }
