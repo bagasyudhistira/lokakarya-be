@@ -1,9 +1,10 @@
-package co.id.ogya.lokakarya.dto;
+package co.id.ogya.lokakarya.dto.appuser;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
-import java.sql.Date;
+import java.time.LocalDateTime;
+import java.util.Date;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -33,7 +34,7 @@ public class AppUserUpdateDto {
     private Date joinDate;
 
     @JsonProperty("enabled")
-    private byte enabled;
+    private boolean enabled;
 
     @JsonProperty("password")
     private String password;
@@ -45,7 +46,7 @@ public class AppUserUpdateDto {
     private String divisionId;
 
     @JsonProperty("updated_at")
-    private Date updatedAt;
+    private LocalDateTime updatedAt;
 
     @JsonProperty("updated_by")
     private String updatedBy;
