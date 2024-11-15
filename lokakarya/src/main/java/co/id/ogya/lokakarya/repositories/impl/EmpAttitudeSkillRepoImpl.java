@@ -2,6 +2,7 @@ package co.id.ogya.lokakarya.repositories.impl;
 
 import co.id.ogya.lokakarya.entities.EmpAttitudeSkill;
 import co.id.ogya.lokakarya.repositories.EmpAttitudeSkillRepo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -10,34 +11,59 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Slf4j
 @Repository
 public class EmpAttitudeSkillRepoImpl implements EmpAttitudeSkillRepo {
 
-    private RowMapper<EmpAttitudeSkill> rowMapper = new BeanPropertyRowMapper<>(EmpAttitudeSkill.class);
+    private final RowMapper<EmpAttitudeSkill> rowMapper = new BeanPropertyRowMapper<>(EmpAttitudeSkill.class);
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-
     @Override
     public List<EmpAttitudeSkill> getEmpAttitudeSkills() {
         String sql = "SELECT * FROM TBL_EMP_ATTITUDE_SKILL";
-        return jdbcTemplate.query(sql, rowMapper);
+        log.info("Fetching all EmpAttitudeSkills with query: {}", sql);
+        try {
+            List<EmpAttitudeSkill> result = jdbcTemplate.query(sql, rowMapper);
+            log.info("Successfully fetched {} EmpAttitudeSkills", result.size());
+            return result;
+        } catch (Exception e) {
+            log.error("Error fetching EmpAttitudeSkills. Error: {}", e.getMessage());
+            throw e;
+        }
     }
 
     @Override
     public EmpAttitudeSkill getEmpAttitudeSkillById(String id) {
         String sql = "SELECT * FROM TBL_EMP_ATTITUDE_SKILL WHERE ID = ?";
-        return jdbcTemplate.queryForObject(sql, rowMapper, id);
+        log.info("Fetching EmpAttitudeSkill by ID: {} with query: {}", id, sql);
+        try {
+            EmpAttitudeSkill result = jdbcTemplate.queryForObject(sql, rowMapper, id);
+            log.info("Successfully fetched EmpAttitudeSkill: {}", result);
+            return result;
+        } catch (Exception e) {
+            log.error("Error fetching EmpAttitudeSkill by ID: {}. Error: {}", id, e.getMessage());
+            return null;
+        }
     }
 
     @Override
     public EmpAttitudeSkill saveEmpAttitudeSkill(EmpAttitudeSkill empAttitudeSkill) {
         String sql = "INSERT INTO TBL_EMP_ATTITUDE_SKILL (ID, USER_ID, ATTITUDE_SKILL_ID, SCORE, ASSESSMENT_YEAR, CREATED_BY) VALUES (?, ?, ?, ?, ?, ?)";
-        int rowsAffected = jdbcTemplate.update(sql, empAttitudeSkill.getId(), empAttitudeSkill.getUserId(), empAttitudeSkill.getAttitudeSkillId(), empAttitudeSkill.getScore(), empAttitudeSkill.getAssessmentYear(), empAttitudeSkill.getCreatedBy());
-        if (rowsAffected > 0) {
-            return empAttitudeSkill;
-        } else {
+        log.info("Saving EmpAttitudeSkill: {} with query: {}", empAttitudeSkill, sql);
+        try {
+            int rowsAffected = jdbcTemplate.update(sql, empAttitudeSkill.getId(), empAttitudeSkill.getUserId(),
+                    empAttitudeSkill.getAttitudeSkillId(), empAttitudeSkill.getScore(), empAttitudeSkill.getAssessmentYear(), empAttitudeSkill.getCreatedBy());
+            if (rowsAffected > 0) {
+                log.info("Successfully saved EmpAttitudeSkill: {}", empAttitudeSkill);
+                return empAttitudeSkill;
+            } else {
+                log.warn("No rows affected while saving EmpAttitudeSkill: {}", empAttitudeSkill);
+                return null;
+            }
+        } catch (Exception e) {
+            log.error("Error saving EmpAttitudeSkill: {}. Error: {}", empAttitudeSkill, e.getMessage());
             return null;
         }
     }
@@ -45,10 +71,19 @@ public class EmpAttitudeSkillRepoImpl implements EmpAttitudeSkillRepo {
     @Override
     public EmpAttitudeSkill updateEmpAttitudeSkill(EmpAttitudeSkill empAttitudeSkill) {
         String sql = "UPDATE TBL_EMP_ATTITUDE_SKILL SET USER_ID = ?, ATTITUDE_SKILL_ID = ?, SCORE = ?, ASSESSMENT_YEAR = ?, UPDATED_AT = SYSDATE(), UPDATED_BY = ? WHERE ID = ?";
-        int rowsAffected = jdbcTemplate.update(sql,empAttitudeSkill.getUserId(), empAttitudeSkill.getAttitudeSkillId(), empAttitudeSkill.getScore(), empAttitudeSkill.getAssessmentYear(), empAttitudeSkill.getId());
-        if (rowsAffected > 0) {
-            return empAttitudeSkill;
-        } else {
+        log.info("Updating EmpAttitudeSkill with ID: {} using query: {}", empAttitudeSkill.getId(), sql);
+        try {
+            int rowsAffected = jdbcTemplate.update(sql, empAttitudeSkill.getUserId(), empAttitudeSkill.getAttitudeSkillId(),
+                    empAttitudeSkill.getScore(), empAttitudeSkill.getAssessmentYear(), empAttitudeSkill.getUpdatedBy(), empAttitudeSkill.getId());
+            if (rowsAffected > 0) {
+                log.info("Successfully updated EmpAttitudeSkill: {}", empAttitudeSkill);
+                return empAttitudeSkill;
+            } else {
+                log.warn("No rows affected while updating EmpAttitudeSkill with ID: {}", empAttitudeSkill.getId());
+                return null;
+            }
+        } catch (Exception e) {
+            log.error("Error updating EmpAttitudeSkill with ID: {}. Error: {}", empAttitudeSkill.getId(), e.getMessage());
             return null;
         }
     }
@@ -56,7 +91,19 @@ public class EmpAttitudeSkillRepoImpl implements EmpAttitudeSkillRepo {
     @Override
     public Boolean deleteEmpAttitudeSkill(String id) {
         String sql = "DELETE FROM TBL_EMP_ATTITUDE_SKILL WHERE ID = ?";
-        int rowsAffected = jdbcTemplate.update(sql, id);
-        return rowsAffected > 0;
+        log.info("Deleting EmpAttitudeSkill with ID: {} using query: {}", id, sql);
+        try {
+            int rowsAffected = jdbcTemplate.update(sql, id);
+            if (rowsAffected > 0) {
+                log.info("Successfully deleted EmpAttitudeSkill with ID: {}", id);
+                return true;
+            } else {
+                log.warn("No rows affected while deleting EmpAttitudeSkill with ID: {}", id);
+                return false;
+            }
+        } catch (Exception e) {
+            log.error("Error deleting EmpAttitudeSkill with ID: {}. Error: {}", id, e.getMessage());
+            return false;
+        }
     }
 }

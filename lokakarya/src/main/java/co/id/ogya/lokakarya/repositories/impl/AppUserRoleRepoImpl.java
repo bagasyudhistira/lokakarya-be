@@ -1,8 +1,8 @@
 package co.id.ogya.lokakarya.repositories.impl;
 
-import co.id.ogya.lokakarya.entities.AppRoleMenu;
 import co.id.ogya.lokakarya.entities.AppUserRole;
 import co.id.ogya.lokakarya.repositories.AppUserRoleRepo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -11,10 +11,11 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Slf4j
 @Repository
 public class AppUserRoleRepoImpl implements AppUserRoleRepo {
 
-    RowMapper<AppUserRole> rowMapper = new BeanPropertyRowMapper<>(AppUserRole.class);
+    private final RowMapper<AppUserRole> rowMapper = new BeanPropertyRowMapper<>(AppUserRole.class);
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -22,22 +23,41 @@ public class AppUserRoleRepoImpl implements AppUserRoleRepo {
     @Override
     public List<AppUserRole> getAppUserRoles() {
         String sql = "SELECT * FROM TBL_APP_USER_ROLE";
-        return jdbcTemplate.query(sql, rowMapper);
+        log.info("Executing query to fetch all AppUserRoles: {}", sql);
+        List<AppUserRole> appUserRoles = jdbcTemplate.query(sql, rowMapper);
+        log.info("Successfully fetched {} AppUserRoles", appUserRoles.size());
+        return appUserRoles;
     }
 
     @Override
     public AppUserRole getAppUserRoleById(String id) {
         String sql = "SELECT * FROM TBL_APP_USER_ROLE WHERE ID = ?";
-        return jdbcTemplate.queryForObject(sql, rowMapper, id);
+        log.info("Executing query to fetch AppUserRole by ID: {} using query: {}", id, sql);
+        try {
+            AppUserRole appUserRole = jdbcTemplate.queryForObject(sql, rowMapper, id);
+            log.info("Successfully fetched AppUserRole: {}", appUserRole);
+            return appUserRole;
+        } catch (Exception e) {
+            log.error("Error fetching AppUserRole by ID: {}. Error: {}", id, e.getMessage());
+            return null;
+        }
     }
 
     @Override
     public AppUserRole saveAppUserRole(AppUserRole appUserRole) {
         String sql = "INSERT INTO TBL_APP_USER_ROLE (ID, ROLE_ID, USER_ID) VALUES (?,?,?)";
-        int rowsAffected = jdbcTemplate.update(sql, appUserRole.getId(), appUserRole.getRoleId(), appUserRole.getUserId());
-        if (rowsAffected > 0) {
-            return appUserRole;
-        } else {
+        log.info("Executing query to save AppUserRole: {} using query: {}", appUserRole, sql);
+        try {
+            int rowsAffected = jdbcTemplate.update(sql, appUserRole.getId(), appUserRole.getRoleId(), appUserRole.getUserId());
+            if (rowsAffected > 0) {
+                log.info("Successfully saved AppUserRole: {}", appUserRole);
+                return appUserRole;
+            } else {
+                log.warn("Failed to save AppUserRole: {}", appUserRole);
+                return null;
+            }
+        } catch (Exception e) {
+            log.error("Error saving AppUserRole: {}. Error: {}", appUserRole, e.getMessage());
             return null;
         }
     }
@@ -45,10 +65,18 @@ public class AppUserRoleRepoImpl implements AppUserRoleRepo {
     @Override
     public AppUserRole updateAppUserRole(AppUserRole appUserRole) {
         String sql = "UPDATE TBL_APP_USER_ROLE SET ROLE_ID = ?, USER_ID = ? WHERE ID = ?";
-        int rowsAffected = jdbcTemplate.update(sql, appUserRole.getRoleId(), appUserRole.getUserId(), appUserRole.getId());
-        if (rowsAffected > 0) {
-            return appUserRole;
-        } else {
+        log.info("Executing query to update AppUserRole with ID: {} using query: {}", appUserRole.getId(), sql);
+        try {
+            int rowsAffected = jdbcTemplate.update(sql, appUserRole.getRoleId(), appUserRole.getUserId(), appUserRole.getId());
+            if (rowsAffected > 0) {
+                log.info("Successfully updated AppUserRole: {}", appUserRole);
+                return appUserRole;
+            } else {
+                log.warn("Failed to update AppUserRole with ID: {}", appUserRole.getId());
+                return null;
+            }
+        } catch (Exception e) {
+            log.error("Error updating AppUserRole with ID: {}. Error: {}", appUserRole.getId(), e.getMessage());
             return null;
         }
     }
@@ -56,7 +84,19 @@ public class AppUserRoleRepoImpl implements AppUserRoleRepo {
     @Override
     public Boolean deleteAppUserRole(String id) {
         String sql = "DELETE FROM TBL_APP_USER_ROLE WHERE ID = ?";
-        int rowsAffected = jdbcTemplate.update(sql, id);
-        return rowsAffected > 0;
+        log.info("Executing query to delete AppUserRole with ID: {} using query: {}", id, sql);
+        try {
+            int rowsAffected = jdbcTemplate.update(sql, id);
+            if (rowsAffected > 0) {
+                log.info("Successfully deleted AppUserRole with ID: {}", id);
+                return true;
+            } else {
+                log.warn("Failed to delete AppUserRole with ID: {}", id);
+                return false;
+            }
+        } catch (Exception e) {
+            log.error("Error deleting AppUserRole with ID: {}. Error: {}", id, e.getMessage());
+            return false;
+        }
     }
 }
