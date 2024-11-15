@@ -50,6 +50,7 @@ public class EmpTechnicalSkillRepoImpl implements EmpTechnicalSkillRepo {
 
     @Override
     public EmpTechnicalSkill saveEmpTechnicalSkill(EmpTechnicalSkill empTechnicalSkill) {
+        empTechnicalSkill.prePersist();
         String sql = "INSERT INTO TBL_EMP_TECHNICAL_SKILL (ID, USER_ID, TECHNICAL_SKILL_ID, SCORE, ASSESSMENT_YEAR, CREATED_BY) VALUES (?, ?, ?, ?, ?, ?)";
         log.info("Executing query to save EmpTechnicalSkill: {}. Query: {}", empTechnicalSkill, sql);
         try {

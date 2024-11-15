@@ -50,6 +50,7 @@ public class GroupAchievementRepoImpl implements GroupAchievementRepo {
 
     @Override
     public GroupAchievement saveGroupAchievement(GroupAchievement groupAchievement) {
+        groupAchievement.prePersist();
         String sql = "INSERT INTO tbl_group_achievement(id, group_name, percentage, enabled, created_by) VALUES(?,?,?,?,?)";
         log.info("Executing query to save GroupAchievement: {}. Query: {}", groupAchievement, sql);
         try {

@@ -11,8 +11,6 @@ import java.time.LocalDateTime;
 @Builder
 @ToString
 public class EmpAchievementSkillCreateDto {
-    @JsonProperty("id")
-    private String id;
 
     @JsonProperty("user_id")
     private String userId;

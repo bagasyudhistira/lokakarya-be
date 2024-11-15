@@ -50,6 +50,7 @@ public class GroupAttitudeSkillRepoImpl implements GroupAttitudeSkillRepo {
 
     @Override
     public GroupAttitudeSkill saveGroupAttitudeSkill(GroupAttitudeSkill groupAttitudeSkill) {
+        groupAttitudeSkill.prePersist();
         String sql = "INSERT INTO TBL_GROUP_ATTITUDE_SKILL (ID, GROUP_NAME, PERCENTAGE, ENABLED, CREATED_BY) VALUES (?, ?, ?, ?, ?)";
         log.info("Executing query to save GroupAttitudeSkill: {}. Query: {}", groupAttitudeSkill, sql);
         try {

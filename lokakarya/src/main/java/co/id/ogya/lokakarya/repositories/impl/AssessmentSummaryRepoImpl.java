@@ -50,6 +50,7 @@ public class AssessmentSummaryRepoImpl implements AssessmentSummaryRepo {
 
     @Override
     public AssessmentSummary saveAssessmentSummary(AssessmentSummary assessmentSummary) {
+        assessmentSummary.prePersist();
         String sql = "INSERT INTO TBL_ASSESSMENT_SUMMARY (ID, USER_ID, YEAR, SCORE, STATUS, CREATED_BY) VALUES (?, ?, ?, ?, ?, ?)";
         log.info("Executing query to save AssessmentSummary: {} using query: {}", assessmentSummary, sql);
         try {

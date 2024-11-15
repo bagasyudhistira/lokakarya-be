@@ -45,6 +45,7 @@ public class AppUserRoleRepoImpl implements AppUserRoleRepo {
 
     @Override
     public AppUserRole saveAppUserRole(AppUserRole appUserRole) {
+        appUserRole.prePersist();
         String sql = "INSERT INTO TBL_APP_USER_ROLE (ID, ROLE_ID, USER_ID) VALUES (?,?,?)";
         log.info("Executing query to save AppUserRole: {} using query: {}", appUserRole, sql);
         try {

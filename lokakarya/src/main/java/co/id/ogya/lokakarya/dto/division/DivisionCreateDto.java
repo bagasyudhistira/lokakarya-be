@@ -11,8 +11,6 @@ import java.time.LocalDateTime;
 @Builder
 @ToString
 public class DivisionCreateDto {
-    @JsonProperty("id")
-    private String id;
 
     @JsonProperty("division_name")
     private String divisionName;

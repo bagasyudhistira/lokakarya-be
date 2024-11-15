@@ -11,8 +11,6 @@ import java.time.LocalDateTime;
 @Builder
 @ToString
 public class TechnicalSkillCreateDto {
-    @JsonProperty("id")
-    private String id;
 
     @JsonProperty("technical_skill")
     private String technicalSkill;

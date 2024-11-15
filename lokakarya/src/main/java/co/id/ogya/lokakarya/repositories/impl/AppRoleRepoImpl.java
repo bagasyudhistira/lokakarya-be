@@ -46,8 +46,7 @@ public class AppRoleRepoImpl implements AppRoleRepo {
     @Override
     public AppRole saveAppRole(AppRole appRole) {
         appRole.prePersist();
-        appRole.prePersist();
-String sql = "INSERT INTO TBL_APP_ROLE (ID, ROLENAME, CREATED_BY) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO TBL_APP_ROLE (ID, ROLENAME, CREATED_BY) VALUES (?, ?, ?)";
         log.info("Executing query to save AppRole: {} using query: {}", appRole, sql);
         try {
             int rowsAffected = jdbcTemplate.update(sql, appRole.getId(), appRole.getRolename(), appRole.getCreatedBy());

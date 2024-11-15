@@ -11,8 +11,6 @@ import java.time.LocalDateTime;
 @Builder
 @ToString
 public class AttitudeSkillCreateDto {
-    @JsonProperty("id")
-    private String id;
 
     @JsonProperty("attitude_skill")
     private String attitudeSkill;

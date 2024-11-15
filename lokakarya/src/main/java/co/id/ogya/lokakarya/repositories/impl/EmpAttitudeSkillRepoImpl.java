@@ -50,6 +50,7 @@ public class EmpAttitudeSkillRepoImpl implements EmpAttitudeSkillRepo {
 
     @Override
     public EmpAttitudeSkill saveEmpAttitudeSkill(EmpAttitudeSkill empAttitudeSkill) {
+        empAttitudeSkill.prePersist();
         String sql = "INSERT INTO TBL_EMP_ATTITUDE_SKILL (ID, USER_ID, ATTITUDE_SKILL_ID, SCORE, ASSESSMENT_YEAR, CREATED_BY) VALUES (?, ?, ?, ?, ?, ?)";
         log.info("Saving EmpAttitudeSkill: {} with query: {}", empAttitudeSkill, sql);
         try {
