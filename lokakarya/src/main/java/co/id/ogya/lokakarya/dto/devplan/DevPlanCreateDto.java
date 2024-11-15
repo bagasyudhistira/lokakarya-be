@@ -11,8 +11,6 @@ import java.time.LocalDateTime;
 @Builder
 @ToString
 public class DevPlanCreateDto {
-    @JsonProperty("id")
-    private String id;
 
     @JsonProperty("plan")
     private String plan;

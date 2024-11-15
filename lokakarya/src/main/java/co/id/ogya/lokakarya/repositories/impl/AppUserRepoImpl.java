@@ -45,6 +45,7 @@ public class AppUserRepoImpl implements AppUserRepo {
 
     @Override
     public AppUser saveAppUser(AppUser appUser) {
+        appUser.prePersist();
         String sql = "INSERT INTO TBL_APP_USER (ID, USERNAME, FULL_NAME, POSITION, EMAIL_ADDRESS, EMPLOYEE_STATUS, JOIN_DATE, ENABLED, PASSWORD, ROLE_ID, DIVISION_ID, CREATED_BY) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         log.info("Executing query to save AppUser: {} using query: {}", appUser, sql);
         try {

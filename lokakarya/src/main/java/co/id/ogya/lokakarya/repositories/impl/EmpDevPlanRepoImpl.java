@@ -50,6 +50,7 @@ public class EmpDevPlanRepoImpl implements EmpDevPlanRepo {
 
     @Override
     public EmpDevPlan saveEmpDevPlan(EmpDevPlan empDevPlan) {
+        empDevPlan.prePersist();
         String sql = "INSERT INTO TBL_EMP_DEV_PLAN (ID, USER_ID, DEV_PLAN_ID, ASSESSMENT_YEAR, CREATED_BY) VALUES (?, ?, ?, ?, ?)";
         log.info("Executing query to save EmpDevPlan: {}. Query: {}", empDevPlan, sql);
         try {

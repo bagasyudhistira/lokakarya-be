@@ -50,6 +50,7 @@ public class EmpSuggestionRepoImpl implements EmpSuggestionRepo {
 
     @Override
     public EmpSuggestion saveEmpSuggestion(EmpSuggestion empSuggestion) {
+        empSuggestion.prePersist();
         String sql = "INSERT INTO TBL_EMP_SUGGESTION (ID, USER_ID, SUGGESTION, ASSESSMENT_YEAR, CREATED_BY) VALUES (?,?,?,?,?)";
         log.info("Executing query to save EmpSuggestion: {}. Query: {}", empSuggestion, sql);
         try {

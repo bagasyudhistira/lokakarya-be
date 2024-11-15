@@ -9,8 +9,6 @@ import lombok.*;
 @Builder
 @ToString
 public class AccessDivisionCreateDto {
-    @JsonProperty("id")
-    private String id;
 
     @JsonProperty("user_id")
     private String userId;

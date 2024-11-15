@@ -50,6 +50,7 @@ public class DivisionRepoImpl implements DivisionRepo {
 
     @Override
     public Division saveDivision(Division division) {
+        division.prePersist();
         String sql = "INSERT INTO TBL_DIVISION (ID, DIVISION_NAME, CREATED_BY) VALUES (?, ?, ?)";
         log.info("Executing query to save division: {} using query: {}", division, sql);
         try {

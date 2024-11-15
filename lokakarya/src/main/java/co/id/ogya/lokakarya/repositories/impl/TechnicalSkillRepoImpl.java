@@ -50,6 +50,7 @@ public class TechnicalSkillRepoImpl implements TechnicalSkillRepo {
 
     @Override
     public TechnicalSkill saveTechnicalSkill(TechnicalSkill technicalSkill) {
+        technicalSkill.prePersist();
         String sql = "INSERT INTO TBL_TECHNICAL_SKILL (ID, TECHNICAL_SKILL, ENABLED, CREATED_BY) VALUES (?, ?, ?, ?)";
         log.info("Executing query to save TechnicalSkill: {}. Query: {}", technicalSkill, sql);
         try {

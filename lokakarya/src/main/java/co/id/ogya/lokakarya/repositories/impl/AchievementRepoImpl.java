@@ -40,6 +40,7 @@ public class AchievementRepoImpl implements AchievementRepo {
 
     @Override
     public Achievement saveAchievement(Achievement achievement) {
+        achievement.prePersist();
         String sql = "INSERT INTO TBL_ACHIEVEMENT (ID, ACHIEVEMENT, GROUP_ID, ENABLED, CREATED_BY) VALUES (?, ?, ?, ?, ?)";
         log.info("Executing query to save new achievement: {} using query: {}", achievement, sql);
         int rowsAffected = jdbcTemplate.update(sql, achievement.getId(), achievement.getAchievement(), achievement.getGroupId(), achievement.isEnabled(), achievement.getCreatedBy());

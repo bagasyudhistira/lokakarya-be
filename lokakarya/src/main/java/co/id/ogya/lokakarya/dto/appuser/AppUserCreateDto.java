@@ -12,8 +12,6 @@ import java.util.Date;
 @Builder
 @ToString
 public class AppUserCreateDto {
-    @JsonProperty("id")
-    private String id;
 
     @JsonProperty("username")
     private String username;

@@ -45,6 +45,7 @@ public class AppRoleMenuRepoImpl implements AppRoleMenuRepo {
 
     @Override
     public AppRoleMenu saveAppRoleMenu(AppRoleMenu appRoleMenu) {
+        appRoleMenu.prePersist();
         String sql = "INSERT INTO TBL_APP_ROLE_MENU (ID, ROLE_ID, MENU_ID) VALUES (?, ?, ?)";
         log.info("Executing query to save AppRoleMenu: {} using query: {}", appRoleMenu, sql);
         try {

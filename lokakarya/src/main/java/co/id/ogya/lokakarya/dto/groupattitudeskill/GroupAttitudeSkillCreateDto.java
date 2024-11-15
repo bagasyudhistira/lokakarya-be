@@ -11,8 +11,6 @@ import java.time.LocalDateTime;
 @Builder
 @ToString
 public class GroupAttitudeSkillCreateDto {
-    @JsonProperty("id")
-    private String id;
 
     @JsonProperty("group_name")
     private String groupName;

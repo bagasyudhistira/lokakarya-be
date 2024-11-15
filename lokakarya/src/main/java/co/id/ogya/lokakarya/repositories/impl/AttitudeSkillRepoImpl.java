@@ -50,6 +50,7 @@ public class AttitudeSkillRepoImpl implements AttitudeSkillRepo {
 
     @Override
     public AttitudeSkill saveAttitudeSkill(AttitudeSkill attitudeSkill) {
+        attitudeSkill.prePersist();
         String sql = "INSERT INTO TBL_ATTITUDE_SKILL (ID, ATTITUDE_SKILL, GROUP_ID, ENABLED, CREATED_BY) VALUES (?, ?, ?, ?, ?)";
         log.info("Executing query to save AttitudeSkill: {} using query: {}", attitudeSkill, sql);
         try {

@@ -50,6 +50,7 @@ public class EmpAchievementSkillRepoImpl implements EmpAchievementSkillRepo {
 
     @Override
     public EmpAchievementSkill saveEmpAchievementSkill(EmpAchievementSkill empAchievementSkill) {
+        empAchievementSkill.prePersist();
         String sql = "INSERT INTO TBL_EMP_ACHIEVEMENT_SKILL (ID, USER_ID, NOTES, ACHIEVEMENT_ID, SCORE, ASSESSMENT_YEAR, CREATED_BY) VALUES (?, ?, ?, ?, ?, ?, ?)";
         log.info("Executing query to save employee achievement skill: {} using query: {}", empAchievementSkill, sql);
         try {

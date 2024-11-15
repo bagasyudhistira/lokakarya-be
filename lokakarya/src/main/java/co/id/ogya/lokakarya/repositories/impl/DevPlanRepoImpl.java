@@ -50,6 +50,7 @@ public class DevPlanRepoImpl implements DevPlanRepo {
 
     @Override
     public DevPlan saveDevPlan(DevPlan devPlan) {
+        devPlan.prePersist();
         String sql = "INSERT INTO TBL_DEV_PLAN(ID, PLAN, ENABLED, CREATED_BY) VALUES(?,?,?,?)";
         log.info("Executing query to save DevPlan: {} using query: {}", devPlan, sql);
         try {
