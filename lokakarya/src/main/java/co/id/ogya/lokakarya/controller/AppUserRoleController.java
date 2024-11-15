@@ -4,6 +4,7 @@ import co.id.ogya.lokakarya.dto.ManagerDto;
 import co.id.ogya.lokakarya.dto.appuserrole.AppUserRoleCreateDto;
 import co.id.ogya.lokakarya.dto.appuserrole.AppUserRoleDto;
 import co.id.ogya.lokakarya.dto.appuserrole.AppUserRoleUpdateDto;
+import co.id.ogya.lokakarya.entities.AppUserRole;
 import co.id.ogya.lokakarya.services.AppUserRoleServ;
 import co.id.ogya.lokakarya.util.ServerResponseList;
 import lombok.extern.slf4j.Slf4j;
@@ -74,8 +75,8 @@ public class AppUserRoleController extends ServerResponseList {
         long startTime = System.currentTimeMillis();
 
         try {
-            AppUserRole result = appUserRoleServ.createAppUserRole(appUserRoleCreateDto);
-            ManagerDto<AppUserRole> response = new ManagerDto<>();
+            AppUserRoleDto result = appUserRoleServ.createAppUserRole(appUserRoleCreateDto);
+            ManagerDto<AppUserRoleDto> response = new ManagerDto<>();
             response.setContent(result);
             response.setTotalRows(1);
 
@@ -96,8 +97,8 @@ public class AppUserRoleController extends ServerResponseList {
         long startTime = System.currentTimeMillis();
 
         try {
-            AppUserRole result = appUserRoleServ.updateAppUserRole(appUserRoleUpdateDto);
-            ManagerDto<AppUserRole> response = new ManagerDto<>();
+            AppUserRoleDto result = appUserRoleServ.updateAppUserRole(appUserRoleUpdateDto);
+            ManagerDto<AppUserRoleDto> response = new ManagerDto<>();
             response.setContent(result);
             response.setTotalRows(1);
 

@@ -3,6 +3,8 @@ package co.id.ogya.lokakarya.services.impl;
 import co.id.ogya.lokakarya.dto.appmenu.AppMenuCreateDto;
 import co.id.ogya.lokakarya.dto.appmenu.AppMenuDto;
 import co.id.ogya.lokakarya.dto.appmenu.AppMenuUpdateDto;
+import co.id.ogya.lokakarya.entities.AppMenu;
+import co.id.ogya.lokakarya.repositories.AppMenuRepo;
 import co.id.ogya.lokakarya.services.AppMenuServ;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;

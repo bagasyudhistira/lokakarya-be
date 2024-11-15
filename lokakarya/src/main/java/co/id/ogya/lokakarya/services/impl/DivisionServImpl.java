@@ -3,6 +3,8 @@ package co.id.ogya.lokakarya.services.impl;
 import co.id.ogya.lokakarya.dto.division.DivisionCreateDto;
 import co.id.ogya.lokakarya.dto.division.DivisionDto;
 import co.id.ogya.lokakarya.dto.division.DivisionUpdateDto;
+import co.id.ogya.lokakarya.entities.Division;
+import co.id.ogya.lokakarya.repositories.DivisionRepo;
 import co.id.ogya.lokakarya.services.DivisionServ;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;

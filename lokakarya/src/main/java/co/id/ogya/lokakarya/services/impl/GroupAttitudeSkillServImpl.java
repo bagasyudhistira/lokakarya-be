@@ -3,6 +3,8 @@ package co.id.ogya.lokakarya.services.impl;
 import co.id.ogya.lokakarya.dto.groupattitudeskill.GroupAttitudeSkillCreateDto;
 import co.id.ogya.lokakarya.dto.groupattitudeskill.GroupAttitudeSkillDto;
 import co.id.ogya.lokakarya.dto.groupattitudeskill.GroupAttitudeSkillUpdateDto;
+import co.id.ogya.lokakarya.entities.GroupAttitudeSkill;
+import co.id.ogya.lokakarya.repositories.GroupAttitudeSkillRepo;
 import co.id.ogya.lokakarya.services.GroupAttitudeSkillServ;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;

@@ -4,6 +4,7 @@ import co.id.ogya.lokakarya.dto.ManagerDto;
 import co.id.ogya.lokakarya.dto.achievement.AchievementCreateDto;
 import co.id.ogya.lokakarya.dto.achievement.AchievementDto;
 import co.id.ogya.lokakarya.dto.achievement.AchievementUpdateDto;
+import co.id.ogya.lokakarya.entities.Achievement;
 import co.id.ogya.lokakarya.services.AchievementServ;
 import co.id.ogya.lokakarya.util.ServerResponseList;
 import lombok.extern.slf4j.Slf4j;
@@ -74,8 +75,8 @@ public class AchievementController extends ServerResponseList {
         long startTime = System.currentTimeMillis();
 
         try {
-            Achievement result = achievementServ.createAchievement(achievementCreateDto);
-            ManagerDto<Achievement> response = new ManagerDto<>();
+            AchievementDto result = achievementServ.createAchievement(achievementCreateDto);
+            ManagerDto<AchievementDto> response = new ManagerDto<>();
             response.setContent(result);
             response.setTotalRows(1);
 
@@ -96,8 +97,8 @@ public class AchievementController extends ServerResponseList {
         long startTime = System.currentTimeMillis();
 
         try {
-            Achievement result = achievementServ.updateAchievement(achievementUpdateDto);
-            ManagerDto<Achievement> response = new ManagerDto<>();
+            AchievementDto result = achievementServ.updateAchievement(achievementUpdateDto);
+            ManagerDto<AchievementDto> response = new ManagerDto<>();
             response.setContent(result);
             response.setTotalRows(1);
 

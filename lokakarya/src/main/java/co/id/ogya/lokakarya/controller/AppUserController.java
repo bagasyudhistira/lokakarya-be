@@ -4,6 +4,7 @@ import co.id.ogya.lokakarya.dto.ManagerDto;
 import co.id.ogya.lokakarya.dto.appuser.AppUserCreateDto;
 import co.id.ogya.lokakarya.dto.appuser.AppUserDto;
 import co.id.ogya.lokakarya.dto.appuser.AppUserUpdateDto;
+import co.id.ogya.lokakarya.entities.AppUser;
 import co.id.ogya.lokakarya.services.AppUserServ;
 import co.id.ogya.lokakarya.util.ServerResponseList;
 import lombok.extern.slf4j.Slf4j;
@@ -74,8 +75,8 @@ public class AppUserController extends ServerResponseList {
         long startTime = System.currentTimeMillis();
 
         try {
-            AppUser result = appUserServ.createAppUser(appUserCreateDto);
-            ManagerDto<AppUser> response = new ManagerDto<>();
+            AppUserDto result = appUserServ.createAppUser(appUserCreateDto);
+            ManagerDto<AppUserDto> response = new ManagerDto<>();
             response.setContent(result);
             response.setTotalRows(1);
 
@@ -96,8 +97,8 @@ public class AppUserController extends ServerResponseList {
         long startTime = System.currentTimeMillis();
 
         try {
-            AppUser result = appUserServ.updateAppUser(appUserUpdateDto);
-            ManagerDto<AppUser> response = new ManagerDto<>();
+            AppUserDto result = appUserServ.updateAppUser(appUserUpdateDto);
+            ManagerDto<AppUserDto> response = new ManagerDto<>();
             response.setContent(result);
             response.setTotalRows(1);
 

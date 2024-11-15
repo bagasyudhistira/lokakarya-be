@@ -3,6 +3,8 @@ package co.id.ogya.lokakarya.services.impl;
 import co.id.ogya.lokakarya.dto.empachievementskill.EmpAchievementSkillCreateDto;
 import co.id.ogya.lokakarya.dto.empachievementskill.EmpAchievementSkillDto;
 import co.id.ogya.lokakarya.dto.empachievementskill.EmpAchievementSkillUpdateDto;
+import co.id.ogya.lokakarya.entities.EmpAchievementSkill;
+import co.id.ogya.lokakarya.repositories.EmpAchievementSkillRepo;
 import co.id.ogya.lokakarya.services.EmpAchievementSkillServ;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;

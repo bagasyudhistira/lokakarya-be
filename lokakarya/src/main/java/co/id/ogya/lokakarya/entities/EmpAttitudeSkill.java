@@ -26,7 +26,7 @@ public class EmpAttitudeSkill {
     private String attitudeSkillId;
 
     @Column(name = "SCORE")
-    private int score;
+    private double score;
 
     @Column(name = "ASSESSMENT_YEAR")
     private int assessmentYear;

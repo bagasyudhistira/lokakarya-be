@@ -2,6 +2,7 @@ package co.id.ogya.lokakarya.controller;
 
 import co.id.ogya.lokakarya.dto.ManagerDto;
 import co.id.ogya.lokakarya.dto.empachievementskill.*;
+import co.id.ogya.lokakarya.entities.EmpAchievementSkill;
 import co.id.ogya.lokakarya.services.EmpAchievementSkillServ;
 import co.id.ogya.lokakarya.util.ServerResponseList;
 import lombok.extern.slf4j.Slf4j;
@@ -73,8 +74,8 @@ public class EmpAchievementSkillController extends ServerResponseList {
         long startTime = System.currentTimeMillis();
 
         try {
-            EmpAchievementSkill result = empAchievementSkillServ.createEmpAchievementSkill(empAchievementSkillCreateDto);
-            ManagerDto<EmpAchievementSkill> response = new ManagerDto<>();
+            EmpAchievementSkillDto result = empAchievementSkillServ.createEmpAchievementSkill(empAchievementSkillCreateDto);
+            ManagerDto<EmpAchievementSkillDto> response = new ManagerDto<>();
             response.setContent(result);
             response.setTotalRows(1);
 
@@ -95,8 +96,8 @@ public class EmpAchievementSkillController extends ServerResponseList {
         long startTime = System.currentTimeMillis();
 
         try {
-            EmpAchievementSkill result = empAchievementSkillServ.updateEmpAchievementSkill(empAchievementSkillUpdateDto);
-            ManagerDto<EmpAchievementSkill> response = new ManagerDto<>();
+            EmpAchievementSkillDto result = empAchievementSkillServ.updateEmpAchievementSkill(empAchievementSkillUpdateDto);
+            ManagerDto<EmpAchievementSkillDto> response = new ManagerDto<>();
             response.setContent(result);
             response.setTotalRows(1);
 

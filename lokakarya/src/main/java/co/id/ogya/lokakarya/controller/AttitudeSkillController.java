@@ -4,6 +4,7 @@ import co.id.ogya.lokakarya.dto.ManagerDto;
 import co.id.ogya.lokakarya.dto.attitudeskill.AttitudeSkillCreateDto;
 import co.id.ogya.lokakarya.dto.attitudeskill.AttitudeSkillDto;
 import co.id.ogya.lokakarya.dto.attitudeskill.AttitudeSkillUpdateDto;
+import co.id.ogya.lokakarya.entities.AttitudeSkill;
 import co.id.ogya.lokakarya.services.AttitudeSkillServ;
 import co.id.ogya.lokakarya.util.ServerResponseList;
 import lombok.extern.slf4j.Slf4j;
@@ -75,8 +76,8 @@ public class AttitudeSkillController extends ServerResponseList {
         long startTime = System.currentTimeMillis();
 
         try {
-            AttitudeSkill result = attitudeSkillServ.createAttitudeSkill(attitudeSkillCreateDto);
-            ManagerDto<AttitudeSkill> response = new ManagerDto<>();
+            AttitudeSkillDto result = attitudeSkillServ.createAttitudeSkill(attitudeSkillCreateDto);
+            ManagerDto<AttitudeSkillDto> response = new ManagerDto<>();
             response.setContent(result);
             response.setTotalRows(1);
 
@@ -97,8 +98,8 @@ public class AttitudeSkillController extends ServerResponseList {
         long startTime = System.currentTimeMillis();
 
         try {
-            AttitudeSkill result = attitudeSkillServ.updateAttitudeSkill(attitudeSkillUpdateDto);
-            ManagerDto<AttitudeSkill> response = new ManagerDto<>();
+            AttitudeSkillDto result = attitudeSkillServ.updateAttitudeSkill(attitudeSkillUpdateDto);
+            ManagerDto<AttitudeSkillDto> response = new ManagerDto<>();
             response.setContent(result);
             response.setTotalRows(1);
 

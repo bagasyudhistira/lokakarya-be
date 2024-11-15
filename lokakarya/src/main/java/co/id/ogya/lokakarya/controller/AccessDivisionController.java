@@ -2,6 +2,7 @@ package co.id.ogya.lokakarya.controller;
 
 import co.id.ogya.lokakarya.dto.ManagerDto;
 import co.id.ogya.lokakarya.dto.accessdivision.*;
+import co.id.ogya.lokakarya.entities.AccessDivision;
 import co.id.ogya.lokakarya.services.AccessDivisionServ;
 import co.id.ogya.lokakarya.util.ServerResponseList;
 import lombok.extern.slf4j.Slf4j;
@@ -74,8 +75,8 @@ public class AccessDivisionController extends ServerResponseList {
         long startTime = System.currentTimeMillis();
 
         try {
-            AccessDivision result = accessDivisionServ.createAccessDivision(accessDivisionCreateDto);
-            ManagerDto<AccessDivision> response = new ManagerDto<>();
+            AccessDivisionDto result = accessDivisionServ.createAccessDivision(accessDivisionCreateDto);
+            ManagerDto<AccessDivisionDto> response = new ManagerDto<>();
             response.setContent(result);
             response.setTotalRows(1);
 
@@ -97,8 +98,8 @@ public class AccessDivisionController extends ServerResponseList {
         long startTime = System.currentTimeMillis();
 
         try {
-            AccessDivision result = accessDivisionServ.updateAccessDivision(accessDivisionUpdateDto);
-            ManagerDto<AccessDivision> response = new ManagerDto<>();
+            AccessDivisionDto result = accessDivisionServ.updateAccessDivision(accessDivisionUpdateDto);
+            ManagerDto<AccessDivisionDto> response = new ManagerDto<>();
             response.setContent(result);
             response.setTotalRows(1);
 

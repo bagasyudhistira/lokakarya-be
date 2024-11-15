@@ -3,6 +3,8 @@ package co.id.ogya.lokakarya.services.impl;
 import co.id.ogya.lokakarya.dto.empsuggestion.EmpSuggestionCreateDto;
 import co.id.ogya.lokakarya.dto.empsuggestion.EmpSuggestionDto;
 import co.id.ogya.lokakarya.dto.empsuggestion.EmpSuggestionUpdateDto;
+import co.id.ogya.lokakarya.entities.EmpSuggestion;
+import co.id.ogya.lokakarya.repositories.EmpSuggestionRepo;
 import co.id.ogya.lokakarya.services.EmpSuggestionServ;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;

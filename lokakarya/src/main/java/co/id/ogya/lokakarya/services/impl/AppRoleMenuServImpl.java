@@ -3,6 +3,8 @@ package co.id.ogya.lokakarya.services.impl;
 import co.id.ogya.lokakarya.dto.approlemenu.AppRoleMenuCreateDto;
 import co.id.ogya.lokakarya.dto.approlemenu.AppRoleMenuDto;
 import co.id.ogya.lokakarya.dto.approlemenu.AppRoleMenuUpdateDto;
+import co.id.ogya.lokakarya.entities.AppRoleMenu;
+import co.id.ogya.lokakarya.repositories.AppRoleMenuRepo;
 import co.id.ogya.lokakarya.services.AppRoleMenuServ;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
@@ -101,8 +103,8 @@ public class AppRoleMenuServImpl implements AppRoleMenuServ {
         log.debug("Converting AppRoleMenuDto to entity: {}", convertObject);
         AppRoleMenu result = AppRoleMenu.builder()
                 .id(convertObject.getId())
-                .appRoleMenu(convertObject.getRoleId())
-                .groupId(convertObject.getMenuId())
+                .roleId(convertObject.getRoleId())
+                .menuId(convertObject.getMenuId())
                 .build();
         return result;
     }
@@ -111,8 +113,8 @@ public class AppRoleMenuServImpl implements AppRoleMenuServ {
         log.debug("Converting AppRoleMenuCreateDto to entity: {}", convertObject);
         AppRoleMenu result = AppRoleMenu.builder()
                 .id(convertObject.getId())
-                .appRoleMenu(convertObject.getRoleId())
-                .groupId(convertObject.getMenuId())
+                .roleId(convertObject.getRoleId())
+                .menuId(convertObject.getMenuId())
                 .build();
         return result;
     }
@@ -121,8 +123,8 @@ public class AppRoleMenuServImpl implements AppRoleMenuServ {
         log.debug("Converting AppRoleMenuUpdateDto to entity: {}", convertObject);
         AppRoleMenu result = AppRoleMenu.builder()
                 .id(convertObject.getId())
-                .appRoleMenu(convertObject.getRoleId())
-                .groupId(convertObject.getMenuId())
+                .roleId(convertObject.getRoleId())
+                .menuId(convertObject.getMenuId())
                 .build();
         return result;
     }
@@ -131,8 +133,8 @@ public class AppRoleMenuServImpl implements AppRoleMenuServ {
         log.debug("Converting AppRoleMenu entity to DTO: {}", convertObject);
         AppRoleMenuDto result = AppRoleMenuDto.builder()
                 .id(convertObject.getId())
-                .appRoleMenu(convertObject.getRoleId())
-                .groupId(convertObject.getMenuId())
+                .roleId(convertObject.getRoleId())
+                .menuId(convertObject.getMenuId())
                 .build();
         return result;
     }

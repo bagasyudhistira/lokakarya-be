@@ -3,6 +3,8 @@ package co.id.ogya.lokakarya.services.impl;
 import co.id.ogya.lokakarya.dto.groupachievement.GroupAchievementCreateDto;
 import co.id.ogya.lokakarya.dto.groupachievement.GroupAchievementDto;
 import co.id.ogya.lokakarya.dto.groupachievement.GroupAchievementUpdateDto;
+import co.id.ogya.lokakarya.entities.GroupAchievement;
+import co.id.ogya.lokakarya.repositories.GroupAchievementRepo;
 import co.id.ogya.lokakarya.services.GroupAchievementServ;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
