@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Repository
@@ -99,5 +100,17 @@ public class AppMenuRepoImpl implements AppMenuRepo {
             log.error("Error deleting AppMenu with ID: {}. Error: {}", id, e.getMessage());
             return false;
         }
+    }
+
+    @Override
+    public List<Map<String, Object>> getAppMenuGets() {
+        String sql = "SELECT AM.ID, AM.MENU_NAME, AM.CREATED_AT, AU1.FULL_NAME, AM.UPDATED_AT, AU2.FULL_NAME FROM TBL_APP_USER_MENU AU JOIN TBL_APP_USER AU1 ON AM.CREATED_BY = AU1.ID JOIN TBL_APP_USER ON AM.UPDATED_BY = AU2.ID";
+        return jdbcTemplate.queryForList(sql);
+    }
+
+    @Override
+    public Map<String, Object> getAllAppMenuGetById(String id) {
+        String sql = "SELECT AM.ID, AM.MENU_NAME, AM.CREATED_AT, AU1.FULL_NAME, AM.UPDATED_AT, AU2.FULL_NAME FROM TBL_APP_USER_MENU AU JOIN TBL_APP_USER AU1 ON AM.CREATED_BY = AU1.ID JOIN TBL_APP_USER ON AM.UPDATED_BY = AU2.ID WHERE AM.ID = ?";
+        return jdbcTemplate.queryForMap(sql,id);
     }
 }

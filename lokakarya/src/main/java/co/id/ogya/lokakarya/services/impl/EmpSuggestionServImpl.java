@@ -2,6 +2,7 @@ package co.id.ogya.lokakarya.services.impl;
 
 import co.id.ogya.lokakarya.dto.empsuggestion.EmpSuggestionCreateDto;
 import co.id.ogya.lokakarya.dto.empsuggestion.EmpSuggestionDto;
+import co.id.ogya.lokakarya.dto.empsuggestion.EmpSuggestionGetDto;
 import co.id.ogya.lokakarya.dto.empsuggestion.EmpSuggestionUpdateDto;
 import co.id.ogya.lokakarya.entities.EmpSuggestion;
 import co.id.ogya.lokakarya.repositories.EmpSuggestionRepo;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -97,6 +99,32 @@ public class EmpSuggestionServImpl implements EmpSuggestionServ {
             log.error("Error occurred while deleting EmpSuggestion with ID {}: {}", id, e.getMessage(), e);
         }
         return isDeleted;
+    }
+
+    @Override
+    public List<EmpSuggestionGetDto> getAllEmpSuggestionGets() {
+        List<Map<String, Object>> empSuggestionRepoList = empSuggestionRepo.getEmpSuggestionGets();
+
+        List<EmpSuggestionGetDto> resultList = new ArrayList<>();
+
+        for (Map<String, Object> map : empSuggestionRepoList) {
+            resultList.add(EmpSuggestionGetDto.mapToDto(map));
+        }
+
+        return resultList;
+    }
+
+    @Override
+    public List<EmpSuggestionGetDto> getEmpSuggestionGetByUserId(String userId) {
+        List<Map<String, Object>> empSuggestionRepoList = empSuggestionRepo.getEmpSuggestionGetByUserId(userId);
+
+        List<EmpSuggestionGetDto> resultList = new ArrayList<>();
+
+        for (Map<String, Object> map : empSuggestionRepoList) {
+            resultList.add(EmpSuggestionGetDto.mapToDto(map));
+        }
+
+        return resultList;
     }
 
     private EmpSuggestion convertToEntity(EmpSuggestionDto convertObject) {

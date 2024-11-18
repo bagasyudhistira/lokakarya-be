@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Repository
@@ -104,5 +105,17 @@ public class EmpDevPlanRepoImpl implements EmpDevPlanRepo {
             log.error("Error while deleting EmpDevPlan with ID: {}. Error: {}", id, e.getMessage());
             return false;
         }
+    }
+
+    @Override
+    public List<Map<String, Object>> getEmpDevPlanGets() {
+        String sql = "SELECT EDP.ID, AU.FULL_NAME, DP.PLAN, EDP.ASSESSMENT_YEAR FROM TBL_EMP_DEV_PLAN EDP JOIN TBL_APP_USER AU ON EDP.USER_ID = AU.ID JOIN TBL_DEV_PLAN DP ON EDP.DEV_PLAN_ID = DP.ID";
+        return jdbcTemplate.queryForList(sql);
+    }
+
+    @Override
+    public List<Map<String, Object>> getEmpDevPlanGetByUserId(String userId) {
+        String sql = "SELECT EDP.ID, AU.FULL_NAME, DP.PLAN, EDP.ASSESSMENT_YEAR FROM TBL_EMP_DEV_PLAN EDP JOIN TBL_APP_USER AU ON EDP.USER_ID = AU.ID JOIN TBL_DEV_PLAN DP ON EDP.DEV_PLAN_ID = DP.ID WHERE EDP.USER_ID = ?";
+        return jdbcTemplate.queryForList(sql, userId);
     }
 }

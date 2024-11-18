@@ -2,6 +2,7 @@ package co.id.ogya.lokakarya.services.impl;
 
 import co.id.ogya.lokakarya.dto.empdevplan.EmpDevPlanCreateDto;
 import co.id.ogya.lokakarya.dto.empdevplan.EmpDevPlanDto;
+import co.id.ogya.lokakarya.dto.empdevplan.EmpDevPlanGetDto;
 import co.id.ogya.lokakarya.dto.empdevplan.EmpDevPlanUpdateDto;
 import co.id.ogya.lokakarya.entities.EmpDevPlan;
 import co.id.ogya.lokakarya.repositories.EmpDevPlanRepo;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -97,6 +99,32 @@ public class EmpDevPlanServImpl implements EmpDevPlanServ {
             log.error("Error occurred while deleting EmpDevPlan with ID {}: {}", id, e.getMessage(), e);
         }
         return isDeleted;
+    }
+
+    @Override
+    public List<EmpDevPlanGetDto> getAllEmpDevPlanGets() {
+        List<Map<String, Object>> empDevPlanList = empDevPlanRepo.getEmpDevPlanGets();
+
+        List<EmpDevPlanGetDto> resultList = new ArrayList<>();
+
+        for (Map<String, Object> map : empDevPlanList) {
+            resultList.add(EmpDevPlanGetDto.mapToDto(map));
+        }
+
+        return resultList;
+    }
+
+    @Override
+    public List<EmpDevPlanGetDto> getEmpDevPlanGetByUserId(String userId) {
+        List<Map<String, Object>> empDevPlanList = empDevPlanRepo.getEmpDevPlanGetByUserId(userId);
+
+        List<EmpDevPlanGetDto> resultList = new ArrayList<>();
+
+        for (Map<String, Object> map : empDevPlanList) {
+            resultList.add(EmpDevPlanGetDto.mapToDto(map));
+        }
+
+        return resultList;
     }
 
     private EmpDevPlan convertToEntity(EmpDevPlanDto convertObject) {

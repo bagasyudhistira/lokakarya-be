@@ -3,6 +3,7 @@ package co.id.ogya.lokakarya.repositories;
 import co.id.ogya.lokakarya.entities.EmpDevPlan;
 
 import java.util.List;
+import java.util.Map;
 
 public interface EmpDevPlanRepo {
     List<EmpDevPlan> getEmpDevPlans();
@@ -10,4 +11,6 @@ public interface EmpDevPlanRepo {
     EmpDevPlan saveEmpDevPlan(EmpDevPlan empDevPlan);
     EmpDevPlan updateEmpDevPlan(EmpDevPlan empDevPlan);
     Boolean deleteEmpDevPlan(String id);
+    List<Map<String, Object>> getEmpDevPlanGets();
+    List<Map<String, Object>> getEmpDevPlanGetByUserId(String userId);
 }

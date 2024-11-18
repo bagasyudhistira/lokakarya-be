@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Repository
@@ -104,5 +105,17 @@ public class EmpTechnicalSkillRepoImpl implements EmpTechnicalSkillRepo {
             log.error("Error while deleting EmpTechnicalSkill with ID: {}. Error: {}", id, e.getMessage());
             return false;
         }
+    }
+
+    @Override
+    public List<Map<String, Object>> getEmpTechnicalSkillGets() {
+        String sql = "SELECT ETS.ID, AU.FULL_NAME, TS.TECHNICAL_SKILL, ETS.SCORE, ETS.ASSESSMENT_YEAR FROM TBL_EMP_TECHNICAL_SKILL ETS JOIN TBL_APP_USER AU ON ETS.USER_ID = AU.ID JOIN TBL_TECHNICAL_SKILL TS ON ETS.TECHNICAL_SKILL_ID = TS.ID";
+        return jdbcTemplate.queryForList(sql);
+    }
+
+    @Override
+    public List<Map<String, Object>> getEmpTechnicalSkillGetByUserId(String userId) {
+        String sql = "SELECT ETS.ID, AU.FULL_NAME, TS.TECHNICAL_SKILL, ETS.SCORE, ETS.ASSESSMENT_YEAR FROM TBL_EMP_TECHNICAL_SKILL ETS JOIN TBL_APP_USER AU ON ETS.USER_ID = AU.ID JOIN TBL_TECHNICAL_SKILL TS ON ETS.TECHNICAL_SKILL_ID = TS.ID";
+        return jdbcTemplate.queryForList(sql, userId);
     }
 }

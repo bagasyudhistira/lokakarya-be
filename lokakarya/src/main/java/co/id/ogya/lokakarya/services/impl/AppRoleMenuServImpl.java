@@ -2,6 +2,7 @@ package co.id.ogya.lokakarya.services.impl;
 
 import co.id.ogya.lokakarya.dto.approlemenu.AppRoleMenuCreateDto;
 import co.id.ogya.lokakarya.dto.approlemenu.AppRoleMenuDto;
+import co.id.ogya.lokakarya.dto.approlemenu.AppRoleMenuGetDto;
 import co.id.ogya.lokakarya.dto.approlemenu.AppRoleMenuUpdateDto;
 import co.id.ogya.lokakarya.entities.AppRoleMenu;
 import co.id.ogya.lokakarya.repositories.AppRoleMenuRepo;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -98,6 +100,46 @@ public class AppRoleMenuServImpl implements AppRoleMenuServ {
         }
         return isDeleted;
     }
+
+    @Override
+    public List<AppRoleMenuGetDto> getAllAppRoleMenuGet() {
+        List<Map<String,Object>> allAppRoleMenuGet = appRoleMenuRepo.getAppRoleMenuGets();
+
+        List<AppRoleMenuGetDto> resultList = new ArrayList<>();
+
+        for (Map<String, Object> map : allAppRoleMenuGet) {
+            resultList.add(AppRoleMenuGetDto.mapToDto(map));
+        }
+
+        return resultList;
+    }
+
+    @Override
+    public List<AppRoleMenuGetDto> getAppRoleMenuGetByRoleId(String id) {
+        List<Map<String,Object>> allAppRoleMenuGet = appRoleMenuRepo.getAppRoleMenuGetByRoleId(id);
+
+        List<AppRoleMenuGetDto> resultList = new ArrayList<>();
+
+        for (Map<String, Object> map : allAppRoleMenuGet) {
+            resultList.add(AppRoleMenuGetDto.mapToDto(map));
+        }
+
+        return resultList;
+    }
+
+    @Override
+    public List<AppRoleMenuGetDto> getAppRoleMenuGetByMenuId(String id) {
+        List<Map<String,Object>> allAppRoleMenuGet = appRoleMenuRepo.getAppRoleMenuGetByMenuId(id);
+
+        List<AppRoleMenuGetDto> resultList = new ArrayList<>();
+
+        for (Map<String, Object> map : allAppRoleMenuGet) {
+            resultList.add(AppRoleMenuGetDto.mapToDto(map));
+        }
+
+        return resultList;
+    }
+
 
     private AppRoleMenu convertToEntity(AppRoleMenuDto convertObject) {
         log.debug("Converting AppRoleMenuDto to entity: {}", convertObject);

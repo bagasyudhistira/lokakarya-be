@@ -2,6 +2,7 @@ package co.id.ogya.lokakarya.services.impl;
 
 import co.id.ogya.lokakarya.dto.emptechnicalskill.EmpTechnicalSkillCreateDto;
 import co.id.ogya.lokakarya.dto.emptechnicalskill.EmpTechnicalSkillDto;
+import co.id.ogya.lokakarya.dto.emptechnicalskill.EmpTechnicalSkillGetDto;
 import co.id.ogya.lokakarya.dto.emptechnicalskill.EmpTechnicalSkillUpdateDto;
 import co.id.ogya.lokakarya.entities.EmpTechnicalSkill;
 import co.id.ogya.lokakarya.repositories.EmpTechnicalSkillRepo;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -97,6 +99,32 @@ public class EmpTechnicalSkillServImpl implements EmpTechnicalSkillServ {
             log.error("Error occurred while deleting EmpTechnicalSkill with ID {}: {}", id, e.getMessage(), e);
         }
         return isDeleted;
+    }
+
+    @Override
+    public List<EmpTechnicalSkillGetDto> getAllEmpTechnicalSkillGets() {
+        List<Map<String, Object>> empTechnicalSkillList = empTechnicalSkillRepo.getEmpTechnicalSkillGets();
+
+        List<EmpTechnicalSkillGetDto> resultList = new ArrayList<>();
+
+        for (Map<String, Object> map : empTechnicalSkillList) {
+            resultList.add(EmpTechnicalSkillGetDto.mapToDto(map));
+        }
+
+        return resultList;
+    }
+
+    @Override
+    public List<EmpTechnicalSkillGetDto> getEmpTechnicalSkillGetByUserId(String userId) {
+        List<Map<String, Object>> empTechnicalSkillList = empTechnicalSkillRepo.getEmpTechnicalSkillGetByUserId(userId);
+
+        List<EmpTechnicalSkillGetDto> resultList = new ArrayList<>();
+
+        for (Map<String, Object> map : empTechnicalSkillList) {
+            resultList.add(EmpTechnicalSkillGetDto.mapToDto(map));
+        }
+
+        return resultList;
     }
 
     private EmpTechnicalSkill convertToEntity(EmpTechnicalSkillDto convertObject) {

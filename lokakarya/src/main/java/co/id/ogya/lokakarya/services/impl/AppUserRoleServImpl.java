@@ -2,6 +2,7 @@ package co.id.ogya.lokakarya.services.impl;
 
 import co.id.ogya.lokakarya.dto.appuserrole.AppUserRoleCreateDto;
 import co.id.ogya.lokakarya.dto.appuserrole.AppUserRoleDto;
+import co.id.ogya.lokakarya.dto.appuserrole.AppUserRoleGetDto;
 import co.id.ogya.lokakarya.dto.appuserrole.AppUserRoleUpdateDto;
 import co.id.ogya.lokakarya.entities.AppUserRole;
 import co.id.ogya.lokakarya.repositories.AppUserRoleRepo;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -97,6 +99,19 @@ public class AppUserRoleServImpl implements AppUserRoleServ {
             log.error("Error occurred while deleting AppUserRole with ID {}: {}", id, e.getMessage(), e);
         }
         return isDeleted;
+    }
+
+    @Override
+    public List<AppUserRoleGetDto> getAppUserRoleGetById(String userId) {
+        List<Map<String,Object>> appUserRoleGetById = appUserRoleRepo.getAppUserRoleGetById(userId);
+
+        List<AppUserRoleGetDto> resultList = new ArrayList<>();
+
+        for (Map<String, Object> map : appUserRoleGetById) {
+            resultList.add(AppUserRoleGetDto.mapToDto(map));
+        }
+
+        return resultList;
     }
 
     private AppUserRole convertToEntity(AppUserRoleDto convertObject) {

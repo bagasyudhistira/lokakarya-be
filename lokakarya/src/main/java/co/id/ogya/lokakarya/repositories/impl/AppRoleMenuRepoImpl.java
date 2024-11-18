@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Repository
@@ -100,4 +101,23 @@ public class AppRoleMenuRepoImpl implements AppRoleMenuRepo {
             return false;
         }
     }
+
+    @Override
+    public List<Map<String, Object>> getAppRoleMenuGets() {
+        String sql = "SELECT ARM.ID, AR.ROLENAME, AM.MENU_NAME FROM TBL_APP_ROLE_MENU ARM JOIN TBL_APP_ROLE AR ON ARM.ROLE_ID = AR.ID JOIN TBL_APP_MENU AM ON ARM.MENU_ID = AM.ID";
+        return jdbcTemplate.queryForList(sql);
+    }
+
+    @Override
+    public List<Map<String, Object>> getAppRoleMenuGetByRoleId(String roleId) {
+        String sql = "SELECT ARM.ID, AR.ROLENAME, AM.MENU_NAME FROM TBL_APP_ROLE_MENU ARM JOIN TBL_APP_ROLE AR ON ARM.ROLE_ID = AR.ID JOIN TBL_APP_MENU AM ON ARM.MENU_ID = AM.ID WHERE ARM.ROLE_ID = ?";
+        return jdbcTemplate.queryForList(sql, roleId);
+    }
+
+    @Override
+    public List<Map<String, Object>> getAppRoleMenuGetByMenuId(String menuId) {
+        String sql = "SELECT ARM.ID, AR.ROLENAME, AM.MENU_NAME FROM TBL_APP_ROLE_MENU ARM JOIN TBL_APP_ROLE AR ON ARM.ROLE_ID = AR.ID JOIN TBL_APP_MENU AM ON ARM.MENU_ID = AM.ID WHERE ARM.MENU_ID = ?";
+        return jdbcTemplate.queryForList(sql, menuId);
+    }
+
 }

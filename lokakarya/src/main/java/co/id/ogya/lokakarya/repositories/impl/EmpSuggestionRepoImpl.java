@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Repository
@@ -104,5 +105,17 @@ public class EmpSuggestionRepoImpl implements EmpSuggestionRepo {
             log.error("Error while deleting EmpSuggestion with ID: {}. Error: {}", id, e.getMessage());
             return false;
         }
+    }
+
+    @Override
+    public List<Map<String, Object>> getEmpSuggestionGets() {
+        String sql = "SELECT ES.ID, AU.FULL_NAME, ES.SUGGESTION, ES.ASSESSMENT_YEAR FROM TBL_EMP_SUGGESTION ES JOIN TBL_APP_USER AU ON ES.USER_ID = AU.ID";
+        return jdbcTemplate.queryForList(sql);
+    }
+
+    @Override
+    public List<Map<String, Object>> getEmpSuggestionGetByUserId(String userId) {
+        String sql = "SELECT ES.ID, AU.FULL_NAME, ES.SUGGESTION, ES.ASSESSMENT_YEAR FROM TBL_EMP_SUGGESTION ES JOIN TBL_APP_USER AU ON ES.USER_ID = AU.ID WHERE ES.USER_ID = ?";
+        return jdbcTemplate.queryForList(sql, userId);
     }
 }

@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Repository
@@ -99,5 +100,11 @@ public class AppUserRoleRepoImpl implements AppUserRoleRepo {
             log.error("Error deleting AppUserRole with ID: {}. Error: {}", id, e.getMessage());
             return false;
         }
+    }
+
+    @Override
+    public List<Map<String, Object>> getAppUserRoleGetById(String userId) {
+        String sql = "SELECT AUR.ID, AUR.USER_ID, AR.ROLENAME FROM TBL_APP_USER_ROLE AUR JOIN TBL_APP_ROLE AR ON AUR.ROLE_ID = AR.ID WHERE AUR.USER_ID = ?";
+        return jdbcTemplate.queryForList(sql, userId);
     }
 }
