@@ -2,6 +2,7 @@ package co.id.ogya.lokakarya.services.impl;
 
 import co.id.ogya.lokakarya.dto.attitudeskill.AttitudeSkillCreateDto;
 import co.id.ogya.lokakarya.dto.attitudeskill.AttitudeSkillDto;
+import co.id.ogya.lokakarya.dto.attitudeskill.AttitudeSkillGetDto;
 import co.id.ogya.lokakarya.dto.attitudeskill.AttitudeSkillUpdateDto;
 import co.id.ogya.lokakarya.entities.AttitudeSkill;
 import co.id.ogya.lokakarya.repositories.AttitudeSkillRepo;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -45,6 +47,37 @@ public class AttitudeSkillServImpl implements AttitudeSkillServ {
         try {
             AttitudeSkill data = attitudeSkillRepo.getAttitudeSkillById(id);
             result = convertToDto(data);
+            log.debug("Fetched AttitudeSkill: {}", result);
+        } catch (Exception e) {
+            log.error("Error occurred while fetching AttitudeSkill by ID {}: {}", id, e.getMessage(), e);
+        }
+        return result;
+    }
+
+    @Override
+    public List<AttitudeSkillGetDto> getAllAttitudeSkillGet() {
+        log.info("Attempting to fetch all AttitudeSkills");
+        List<AttitudeSkillGetDto> listResult = new ArrayList<>();
+        try {
+            List<Map<String,Object>> listData = attitudeSkillRepo.getAttitudeSkillGets();
+            log.debug("Fetched {} AttitudeSkills from repository", listData.size());
+            for (Map<String,Object> data : listData) {
+                AttitudeSkillGetDto result = new AttitudeSkillGetDto().mapToDto(data);
+                listResult.add(result);
+            }
+        } catch (Exception e) {
+            log.error("Error occurred while fetching all AttitudeSkills: {}", e.getMessage(), e);
+        }
+        return listResult;
+    }
+
+    @Override
+    public AttitudeSkillGetDto getAttitudeSkillGetById(String id) {
+        log.info("Attempting to fetch AttitudeSkill by ID: {}", id);
+        AttitudeSkillGetDto result = null;
+        try {
+            Map<String,Object> data = attitudeSkillRepo.getAttitudeSkillGetById(id);
+            result = new AttitudeSkillGetDto().mapToDto(data);
             log.debug("Fetched AttitudeSkill: {}", result);
         } catch (Exception e) {
             log.error("Error occurred while fetching AttitudeSkill by ID {}: {}", id, e.getMessage(), e);

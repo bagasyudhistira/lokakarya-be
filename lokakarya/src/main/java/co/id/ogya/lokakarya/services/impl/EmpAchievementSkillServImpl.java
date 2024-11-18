@@ -2,6 +2,7 @@ package co.id.ogya.lokakarya.services.impl;
 
 import co.id.ogya.lokakarya.dto.empachievementskill.EmpAchievementSkillCreateDto;
 import co.id.ogya.lokakarya.dto.empachievementskill.EmpAchievementSkillDto;
+import co.id.ogya.lokakarya.dto.empachievementskill.EmpAchievementSkillGetDto;
 import co.id.ogya.lokakarya.dto.empachievementskill.EmpAchievementSkillUpdateDto;
 import co.id.ogya.lokakarya.entities.EmpAchievementSkill;
 import co.id.ogya.lokakarya.repositories.EmpAchievementSkillRepo;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -45,6 +47,37 @@ public class EmpAchievementSkillServImpl implements EmpAchievementSkillServ {
         try {
             EmpAchievementSkill data = empAchievementSkillRepo.getEmpAchievementSkillById(id);
             result = convertToDto(data);
+            log.debug("Fetched EmpAchievementSkill: {}", result);
+        } catch (Exception e) {
+            log.error("Error occurred while fetching EmpAchievementSkill by ID {}: {}", id, e.getMessage(), e);
+        }
+        return result;
+    }
+
+    @Override
+    public List<EmpAchievementSkillGetDto> getAllEmpAchievementSkillGet() {
+        log.info("Attempting to fetch all EmpAchievementSkills");
+        List<EmpAchievementSkillGetDto> listResult = new ArrayList<>();
+        try {
+            List<Map<String,Object>> listData = empAchievementSkillRepo.getEmpAchievementSkillGets();
+            log.debug("Fetched {} EmpAchievementSkills from repository", listData.size());
+            for (Map<String,Object> data : listData) {
+                EmpAchievementSkillGetDto result = new EmpAchievementSkillGetDto().mapToDto(data);
+                listResult.add(result);
+            }
+        } catch (Exception e) {
+            log.error("Error occurred while fetching all EmpAchievementSkills: {}", e.getMessage(), e);
+        }
+        return listResult;
+    }
+
+    @Override
+    public EmpAchievementSkillGetDto getEmpAchievementSkillGetById(String id) {
+        log.info("Attempting to fetch EmpAchievementSkill by ID: {}", id);
+        EmpAchievementSkillGetDto result = null;
+        try {
+            Map<String ,Object> data = empAchievementSkillRepo.getEmpAchievementSkillGetById(id);
+            result = new EmpAchievementSkillGetDto().mapToDto(data);
             log.debug("Fetched EmpAchievementSkill: {}", result);
         } catch (Exception e) {
             log.error("Error occurred while fetching EmpAchievementSkill by ID {}: {}", id, e.getMessage(), e);

@@ -2,6 +2,7 @@ package co.id.ogya.lokakarya.services.impl;
 
 import co.id.ogya.lokakarya.dto.empattitudeskill.EmpAttitudeSkillCreateDto;
 import co.id.ogya.lokakarya.dto.empattitudeskill.EmpAttitudeSkillDto;
+import co.id.ogya.lokakarya.dto.empattitudeskill.EmpAttitudeSkillGetDto;
 import co.id.ogya.lokakarya.dto.empattitudeskill.EmpAttitudeSkillUpdateDto;
 import co.id.ogya.lokakarya.entities.EmpAttitudeSkill;
 import co.id.ogya.lokakarya.repositories.EmpAttitudeSkillRepo;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -45,6 +47,38 @@ public class EmpAttitudeSkillServImpl implements EmpAttitudeSkillServ {
         try {
             EmpAttitudeSkill data = empAttitudeSkillRepo.getEmpAttitudeSkillById(id);
             result = convertToDto(data);
+            log.debug("Fetched EmpAttitudeSkill: {}", result);
+        } catch (Exception e) {
+            log.error("Error occurred while fetching EmpAttitudeSkill by ID {}: {}", id, e.getMessage(), e);
+        }
+        return result;
+    }
+
+    @Override
+    public List<EmpAttitudeSkillGetDto> getAllEmpAttitudeSkillGet() {
+        List<EmpAttitudeSkillGetDto> listResult = new ArrayList<>();
+        log.info("Attempting to fetch all EmpAttitudeSkills");
+        try {
+            List<Map<String, Object>> listData = empAttitudeSkillRepo.getEmpAttitudeSkillGets();
+            log.debug("Fetched {} EmpAttitudeSkills from repository", listData.size());
+
+            for (Map<String, Object> data : listData) {
+                EmpAttitudeSkillGetDto result = new EmpAttitudeSkillGetDto().mapToDto(data);
+                listResult.add(result);
+            }
+        } catch (Exception e) {
+            log.error("Error occurred while fetching all EmpAttitudeSkills: {}", e.getMessage(), e);
+        }
+        return listResult;
+    }
+
+    @Override
+    public EmpAttitudeSkillGetDto getEmpAttitudeSkillGetById(String id) {
+        log.info("Attempting to fetch EmpAttitudeSkill by ID: {}", id);
+        EmpAttitudeSkillGetDto result = null;
+        try {
+            Map<String,Object> data = empAttitudeSkillRepo.getEmpAttitudeSkillGetById(id);
+            result = new EmpAttitudeSkillGetDto().mapToDto(data);
             log.debug("Fetched EmpAttitudeSkill: {}", result);
         } catch (Exception e) {
             log.error("Error occurred while fetching EmpAttitudeSkill by ID {}: {}", id, e.getMessage(), e);
@@ -156,4 +190,5 @@ public class EmpAttitudeSkillServImpl implements EmpAttitudeSkillServ {
                 .build();
         return result;
     }
+
 }

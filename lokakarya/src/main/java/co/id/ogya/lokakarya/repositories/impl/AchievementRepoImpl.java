@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Repository
@@ -34,6 +35,30 @@ public class AchievementRepoImpl implements AchievementRepo {
         String sql = "SELECT * FROM TBL_ACHIEVEMENT WHERE ID = ?";
         log.info("Executing query to fetch achievement with ID: {} using query: {}", id, sql);
         Achievement achievement = jdbcTemplate.queryForObject(sql, rowMapper, id);
+        log.info("Successfully fetched achievement: {}", achievement);
+        return achievement;
+    }
+
+
+    @Override
+    public List<Map<String,Object>> getAchievementGets() {
+        String sql = "SELECT a.ID, ACHIEVEMENT, GROUP_NAME, ENABLED " +
+                "FROM TBL_ACHIEVEMENT a " +
+                "JOIN TBL_GROUP_ACHIEVEMENT ga ON a.GROUP_ID = ga.ID ";
+        log.info("Executing query to fetch all achievements: {}", sql);
+        List<Map<String,Object>> achievements = jdbcTemplate.queryForList(sql, rowMapper);
+        log.info("Successfully fetched {} achievements", achievements.size());
+        return achievements;
+    }
+
+    @Override
+    public Map<String, Object> getAchievementGetById(String id) {
+        String sql = "SELECT a.ID, ACHIEVEMENT, GROUP_NAME, ENABLED " +
+                "FROM TBL_ACHIEVEMENT a " +
+                "JOIN TBL_GROUP_ACHIEVEMENT ga ON a.GROUP_ID = ga.ID " +
+                "WHERE a.ID = ?";
+        log.info("Executing query to fetch achievement with ID: {} using query: {}", id, sql);
+        Map<String,Object> achievement = jdbcTemplate.queryForMap(sql, rowMapper, id);
         log.info("Successfully fetched achievement: {}", achievement);
         return achievement;
     }

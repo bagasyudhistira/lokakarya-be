@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Repository
@@ -40,6 +41,39 @@ public class AttitudeSkillRepoImpl implements AttitudeSkillRepo {
         log.info("Executing query to fetch AttitudeSkill by ID: {} using query: {}", id, sql);
         try {
             AttitudeSkill result = jdbcTemplate.queryForObject(sql, rowMapper, id);
+            log.info("Successfully fetched AttitudeSkill: {}", result);
+            return result;
+        } catch (Exception e) {
+            log.error("Error fetching AttitudeSkill by ID: {}. Error: {}", id, e.getMessage());
+            return null;
+        }
+    }
+
+    @Override
+    public List<Map<String,Object>> getAttitudeSkillGets() {
+        String sql = "SELECT ats.ID, ATTITUDE_SKILL, GROUP_NAME, ats.ENABLED " +
+                "FROM TBL_ATTITUDE_SKILL ats " +
+                "JOIN TBL_GROUP_ATTITUDE_SKILL gas ON ats.GROUP_ID = gas.ID";
+        log.info("Executing query to fetch all AttitudeSkills: {}", sql);
+        try {
+            List<Map<String,Object>> result = jdbcTemplate.queryForList(sql, rowMapper);
+            log.info("Successfully fetched {} AttitudeSkills.", result.size());
+            return result;
+        } catch (Exception e) {
+            log.error("Error fetching all AttitudeSkills. Error: {}", e.getMessage());
+            throw e;
+        }
+    }
+
+    @Override
+    public Map<String, Object> getAttitudeSkillGetById(String id) {
+        String sql = "SELECT ats.ID, ATTITUDE_SKILL, GROUP_NAME, ats.ENABLED " +
+                "FROM TBL_ATTITUDE_SKILL ats " +
+                "JOIN TBL_GROUP_ATTITUDE_SKILL gas ON ats.GROUP_ID = gas.ID " +
+                "WHERE ats.ID = ?";
+        log.info("Executing query to fetch AttitudeSkill by ID: {} using query: {}", id, sql);
+        try {
+            Map<String,Object> result = jdbcTemplate.queryForMap(sql, rowMapper, id);
             log.info("Successfully fetched AttitudeSkill: {}", result);
             return result;
         } catch (Exception e) {

@@ -2,6 +2,7 @@ package co.id.ogya.lokakarya.services.impl;
 
 import co.id.ogya.lokakarya.dto.assessmentsummary.AssessmentSummaryCreateDto;
 import co.id.ogya.lokakarya.dto.assessmentsummary.AssessmentSummaryDto;
+import co.id.ogya.lokakarya.dto.assessmentsummary.AssessmentSummaryGetDto;
 import co.id.ogya.lokakarya.dto.assessmentsummary.AssessmentSummaryUpdateDto;
 import co.id.ogya.lokakarya.entities.AssessmentSummary;
 import co.id.ogya.lokakarya.repositories.AssessmentSummaryRepo;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -45,6 +47,38 @@ public class AssessmentSummaryServImpl implements AssessmentSummaryServ {
         try {
             AssessmentSummary data = assessmentSummaryRepo.getAssessmentSummaryById(id);
             result = convertToDto(data);
+            log.debug("Fetched AssessmentSummary: {}", result);
+        } catch (Exception e) {
+            log.error("Error occurred while fetching AssessmentSummary by ID {}: {}", id, e.getMessage(), e);
+        }
+        return result;
+    }
+
+
+    @Override
+    public List<AssessmentSummaryGetDto> getAllAssessmentSummaryGet() {
+        log.info("Attempting to fetch all AssessmentSummaries");
+        List<AssessmentSummaryGetDto> listResult = new ArrayList<>();
+        try {
+            List<Map<String,Object>> listData = assessmentSummaryRepo.getAssessmentSummaryGets();
+            log.debug("Fetched {} AssessmentSummaries from repository", listData.size());
+            for (Map<String,Object> data : listData) {
+                AssessmentSummaryGetDto result = new AssessmentSummaryGetDto().mapToDto(data);
+                listResult.add(result);
+            }
+        } catch (Exception e) {
+            log.error("Error occurred while fetching all AssessmentSummaries: {}", e.getMessage(), e);
+        }
+        return listResult;
+    }
+
+    @Override
+    public AssessmentSummaryGetDto getAssessmentSummaryGetById(String id) {
+        log.info("Attempting to fetch AssessmentSummary by ID: {}", id);
+        AssessmentSummaryGetDto result = null;
+        try {
+            Map<String,Object> data = assessmentSummaryRepo.getAssessmentSummaryGetById(id);
+            result = new AssessmentSummaryGetDto().mapToDto(data);
             log.debug("Fetched AssessmentSummary: {}", result);
         } catch (Exception e) {
             log.error("Error occurred while fetching AssessmentSummary by ID {}: {}", id, e.getMessage(), e);
