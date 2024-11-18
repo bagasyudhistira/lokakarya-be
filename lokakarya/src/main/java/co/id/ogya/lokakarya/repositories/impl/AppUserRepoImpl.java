@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Repository
@@ -35,6 +36,34 @@ public class AppUserRepoImpl implements AppUserRepo {
         log.info("Executing query to fetch AppUser by ID: {} using query: {}", id, sql);
         try {
             AppUser appUser = jdbcTemplate.queryForObject(sql, rowMapper, id);
+            log.info("Successfully fetched AppUser: {}", appUser);
+            return appUser;
+        } catch (Exception e) {
+            log.error("Error fetching AppUser by ID: {}. Error: {}", id, e.getMessage());
+            return null;
+        }
+    }
+
+    @Override
+    public List<Map<String,Object>> getAppUserGets() {
+        String sql = "SELECT au.ID, USERNAME, FULL_NAME, POSITION, EMAIL_ADDRESS, EMPLOYEE_STATUS, " +
+                "JOIN_DATE, ENABLED, PASSWORD, DIVISION_NAME FROM TBL_APP_USER au " +
+                "JOIN TBL_DIVISION d ON au.DIVISION_ID = d.ID ";
+        log.info("Executing query to fetch all AppUsers: {}", sql);
+        List<Map<String,Object>> appUsers = jdbcTemplate.queryForList(sql, rowMapper);
+        log.info("Successfully fetched {} AppUsers", appUsers.size());
+        return appUsers;
+    }
+
+    @Override
+    public Map<String, Object> getAppUserGetById(String id) {
+        String sql = "SELECT au.ID, USERNAME, FULL_NAME, POSITION, EMAIL_ADDRESS, EMPLOYEE_STATUS, " +
+                "JOIN_DATE, ENABLED, PASSWORD, DIVISION_NAME FROM TBL_APP_USER au " +
+                "JOIN TBL_DIVISION d ON au.DIVISION_ID = d.ID " +
+                "WHERE au.ID = ?";
+        log.info("Executing query to fetch AppUser by ID: {} using query: {}", id, sql);
+        try {
+            Map<String,Object> appUser = jdbcTemplate.queryForMap(sql, rowMapper, id);
             log.info("Successfully fetched AppUser: {}", appUser);
             return appUser;
         } catch (Exception e) {

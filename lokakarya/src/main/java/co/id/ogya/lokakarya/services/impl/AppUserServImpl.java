@@ -2,6 +2,7 @@ package co.id.ogya.lokakarya.services.impl;
 
 import co.id.ogya.lokakarya.dto.appuser.AppUserCreateDto;
 import co.id.ogya.lokakarya.dto.appuser.AppUserDto;
+import co.id.ogya.lokakarya.dto.appuser.AppUserGetDto;
 import co.id.ogya.lokakarya.dto.appuser.AppUserUpdateDto;
 import co.id.ogya.lokakarya.entities.AppUser;
 import co.id.ogya.lokakarya.repositories.AppUserRepo;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -45,6 +47,37 @@ public class AppUserServImpl implements AppUserServ {
         try {
             AppUser data = appUserRepo.getAppUserById(id);
             result = convertToDto(data);
+            log.debug("Fetched AppUser: {}", result);
+        } catch (Exception e) {
+            log.error("Error occurred while fetching AppUser by ID {}: {}", id, e.getMessage(), e);
+        }
+        return result;
+    }
+
+    @Override
+    public List<AppUserGetDto> getAllAppUserGet() {
+        log.info("Attempting to fetch all AppUsers");
+        List<AppUserGetDto> listResult = new ArrayList<>();
+        try {
+            List<Map<String,Object>> listData = appUserRepo.getAppUserGets();
+            log.debug("Fetched {} AppUsers from repository", listData.size());
+            for (Map<String,Object> data : listData) {
+                AppUserGetDto result = new AppUserGetDto().mapToDto(data);
+                listResult.add(result);
+            }
+        } catch (Exception e) {
+            log.error("Error occurred while fetching all AppUsers: {}", e.getMessage(), e);
+        }
+        return listResult;
+    }
+
+    @Override
+    public AppUserGetDto getAppUserGetById(String id) {
+        log.info("Attempting to fetch AppUser by ID: {}", id);
+        AppUserGetDto result = null;
+        try {
+            Map<String,Object> data = appUserRepo.getAppUserGetById(id);
+            result = new AppUserGetDto().mapToDto(data);
             log.debug("Fetched AppUser: {}", result);
         } catch (Exception e) {
             log.error("Error occurred while fetching AppUser by ID {}: {}", id, e.getMessage(), e);
@@ -111,7 +144,6 @@ public class AppUserServImpl implements AppUserServ {
                 .joinDate(convertObject.getJoinDate())
                 .enabled(convertObject.isEnabled())
                 .password(convertObject.getPassword())
-                .roleId(convertObject.getRoleId())
                 .divisionId(convertObject.getDivisionId())
                 .createdAt(convertObject.getCreatedAt())
                 .createdBy(convertObject.getCreatedBy())
@@ -132,7 +164,6 @@ public class AppUserServImpl implements AppUserServ {
                 .joinDate(convertObject.getJoinDate())
                 .enabled(convertObject.isEnabled())
                 .password(convertObject.getPassword())
-                .roleId(convertObject.getRoleId())
                 .divisionId(convertObject.getDivisionId())
                 .createdBy(convertObject.getCreatedBy())
                 .build();
@@ -151,7 +182,6 @@ public class AppUserServImpl implements AppUserServ {
                 .joinDate(convertObject.getJoinDate())
                 .enabled(convertObject.isEnabled())
                 .password(convertObject.getPassword())
-                .roleId(convertObject.getRoleId())
                 .divisionId(convertObject.getDivisionId())
                 .updatedAt(convertObject.getUpdatedAt())
                 .updatedBy(convertObject.getUpdatedBy())
@@ -171,7 +201,6 @@ public class AppUserServImpl implements AppUserServ {
                 .joinDate(convertObject.getJoinDate())
                 .enabled(convertObject.isEnabled())
                 .password(convertObject.getPassword())
-                .roleId(convertObject.getRoleId())
                 .divisionId(convertObject.getDivisionId())
                 .createdAt(convertObject.getCreatedAt())
                 .createdBy(convertObject.getCreatedBy())

@@ -1,6 +1,6 @@
 package co.id.ogya.lokakarya.dto;
 
-import co.id.ogya.lokakarya.util.ResponseDetail;
+import co.id.ogya.lokakarya.utils.ResponseDetail;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 

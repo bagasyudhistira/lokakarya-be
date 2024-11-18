@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Repository
@@ -40,6 +41,42 @@ public class EmpAchievementSkillRepoImpl implements EmpAchievementSkillRepo {
         log.info("Executing query to fetch employee achievement skill by ID: {} using query: {}", id, sql);
         try {
             EmpAchievementSkill result = jdbcTemplate.queryForObject(sql, rowMapper, id);
+            log.info("Successfully fetched employee achievement skill: {}", result);
+            return result;
+        } catch (Exception e) {
+            log.error("Error fetching employee achievement skill by ID: {}. Error: {}", id, e.getMessage());
+            return null;
+        }
+    }
+
+
+    @Override
+    public List<Map<String,Object>> getEmpAchievementSkillGets() {
+        String sql = "SELECT eas.ID, FULL_NAME, NOTES, ACHIEVEMENT, SCORE, ASSESSMENT_YEAR " +
+                "FROM TBL_EMP_ACHIEVEMENT_SKILL eas " +
+                "JOIN TBL_APP_USER au ON eas.USER_ID = au.ID " +
+                "JOIN TBL_ACHIEVEMENT a ON eas.ACHIEVEMENT_ID = a.ID ";
+        log.info("Executing query to fetch all employee achievement skills: {}", sql);
+        try {
+            List<Map<String,Object>> result = jdbcTemplate.queryForList(sql, rowMapper);
+            log.info("Successfully fetched {} employee achievement skills.", result.size());
+            return result;
+        } catch (Exception e) {
+            log.error("Error fetching employee achievement skills. Error: {}", e.getMessage());
+            throw e;
+        }
+    }
+
+    @Override
+    public Map<String, Object> getEmpAchievementSkillGetById(String id) {
+        String sql = "SELECT eas.ID, FULL_NAME, NOTES, ACHIEVEMENT, SCORE, ASSESSMENT_YEAR " +
+                "FROM TBL_EMP_ACHIEVEMENT_SKILL eas " +
+                "JOIN TBL_APP_USER au ON eas.USER_ID = au.ID " +
+                "JOIN TBL_ACHIEVEMENT a ON eas.ACHIEVEMENT_ID = a.ID " +
+                "WHERE eas.ID = ?";
+        log.info("Executing query to fetch employee achievement skill by ID: {} using query: {}", id, sql);
+        try {
+            Map<String,Object> result = jdbcTemplate.queryForMap(sql, rowMapper, id);
             log.info("Successfully fetched employee achievement skill: {}", result);
             return result;
         } catch (Exception e) {

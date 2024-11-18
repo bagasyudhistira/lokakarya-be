@@ -39,8 +39,8 @@ public class AppUserDto {
     @JsonProperty("password")
     private String password;
 
-    @JsonProperty("role_id")
-    private String roleId;
+//    @JsonProperty("role_id")
+//    private String roleId;
 
     @JsonProperty("division_id")
     private String divisionId;

@@ -2,6 +2,7 @@ package co.id.ogya.lokakarya.services.impl;
 
 import co.id.ogya.lokakarya.dto.accessdivision.AccessDivisionCreateDto;
 import co.id.ogya.lokakarya.dto.accessdivision.AccessDivisionDto;
+import co.id.ogya.lokakarya.dto.accessdivision.AccessDivisionGetDto;
 import co.id.ogya.lokakarya.dto.accessdivision.AccessDivisionUpdateDto;
 import co.id.ogya.lokakarya.entities.AccessDivision;
 import co.id.ogya.lokakarya.repositories.AccessDivisionRepo;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Transactional(rollbackOn = Exception.class)
@@ -46,6 +48,42 @@ public class AccessDivisionServImpl implements AccessDivisionServ {
             AccessDivision data = accessDivisionRepo.getAccessDivisionById(id);
             if (data != null) {
                 result = convertToDto(data);
+                log.debug("Fetched access division: {}", result);
+            } else {
+                log.warn("No access division found with ID: {}", id);
+            }
+        } catch (Exception e) {
+            log.error("Error occurred while fetching access division by ID {}: {}", id, e.getMessage(), e);
+        }
+        return result;
+    }
+
+
+    @Override
+    public List<AccessDivisionGetDto> getAllAccessDivisionGet() {
+        log.info("Attempting to fetch all access divisions");
+        List<AccessDivisionGetDto> listResult = new ArrayList<>();
+        try {
+            List<Map<String,Object>> listData = accessDivisionRepo.getAccessDivisionGets();
+            log.debug("Fetched {} access divisions from repository", listData.size());
+            for (Map<String,Object> data : listData) {
+                AccessDivisionGetDto result = new AccessDivisionGetDto().mapToDto(data);
+                listResult.add(result);
+            }
+        } catch (Exception e) {
+            log.error("Error occurred while fetching all access divisions: {}", e.getMessage(), e);
+        }
+        return listResult;
+    }
+
+    @Override
+    public AccessDivisionGetDto getAccessDivisionGetById(String id) {
+        log.info("Attempting to fetch access division by ID: {}", id);
+        AccessDivisionGetDto result = null;
+        try {
+            Map<String,Object> data = accessDivisionRepo.getAccessDivisionGetById(id);
+            if (data != null) {
+                result = new AccessDivisionGetDto().mapToDto(data);
                 log.debug("Fetched access division: {}", result);
             } else {
                 log.warn("No access division found with ID: {}", id);

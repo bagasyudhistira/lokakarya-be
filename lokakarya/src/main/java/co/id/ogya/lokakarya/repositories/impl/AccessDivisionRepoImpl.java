@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Repository
@@ -30,7 +31,7 @@ public class AccessDivisionRepoImpl implements AccessDivisionRepo {
             return accessDivisions;
         } catch (Exception e) {
             log.error("Error fetching AccessDivision records: {}", e.getMessage(), e);
-            throw e; // Rethrow the exception or handle accordingly.
+            throw e; 
         }
     }
 
@@ -44,7 +45,40 @@ public class AccessDivisionRepoImpl implements AccessDivisionRepo {
             return accessDivision;
         } catch (Exception e) {
             log.error("Error fetching AccessDivision record with ID {}: {}", id, e.getMessage(), e);
-            throw e; // Rethrow the exception or handle accordingly.
+            throw e; 
+        }
+    }
+    
+    @Override
+    public List<Map<String, Object>> getAccessDivisionGets() {
+        String sql = "SELECT ad.ID, au.FULL_NAME, d.DIVISION_NAME FROM TBL_ACCESS_DIVISION ad " +
+                "JOIN TBL_DIVISION d ON ad.DIVISION_ID = d.ID " +
+                "JOIN TBL_APP_USER au ON ad.USER_ID = au.ID ";
+        try {
+            log.info("Fetching all AccessDivision records");
+            List<Map<String,Object>> accessDivisions = jdbcTemplate.queryForList(sql, rowMapper);
+            log.info("Fetched {} AccessDivision records", accessDivisions.size());
+            return accessDivisions;
+        } catch (Exception e) {
+            log.error("Error fetching AccessDivision records: {}", e.getMessage(), e);
+            throw e;
+        }
+    }
+
+    @Override
+    public Map<String, Object> getAccessDivisionGetById(String id) {
+        String sql = "SELECT ad.ID, au.FULL_NAME, d.DIVISION_NAME FROM TBL_ACCESS_DIVISION ad " +
+                "JOIN TBL_DIVISION d ON ad.DIVISION_ID = d.ID " +
+                "JOIN TBL_APP_USER au ON ad.USER_ID = au.ID " +
+                "WHERE ad.ID = ?";
+        try {
+            log.info("Fetching AccessDivision record with ID: {}", id);
+            Map<String,Object> accessDivision = jdbcTemplate.queryForMap(sql, rowMapper, id);
+            log.info("Fetched AccessDivision record: {}", accessDivision);
+            return accessDivision;
+        } catch (Exception e) {
+            log.error("Error fetching AccessDivision record with ID {}: {}", id, e.getMessage(), e);
+            throw e; 
         }
     }
 
@@ -64,7 +98,7 @@ public class AccessDivisionRepoImpl implements AccessDivisionRepo {
             }
         } catch (Exception e) {
             log.error("Error saving AccessDivision record: {}", e.getMessage(), e);
-            throw e; // Rethrow the exception or handle accordingly.
+            throw e; 
         }
     }
 
@@ -83,7 +117,7 @@ public class AccessDivisionRepoImpl implements AccessDivisionRepo {
             }
         } catch (Exception e) {
             log.error("Error updating AccessDivision record: {}", e.getMessage(), e);
-            throw e; // Rethrow the exception or handle accordingly.
+            throw e; 
         }
     }
 
@@ -102,7 +136,7 @@ public class AccessDivisionRepoImpl implements AccessDivisionRepo {
             }
         } catch (Exception e) {
             log.error("Error deleting AccessDivision record with ID {}: {}", id, e.getMessage(), e);
-            throw e; // Rethrow the exception or handle accordingly.
+            throw e; 
         }
     }
 }

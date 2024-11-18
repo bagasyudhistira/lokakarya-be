@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Repository
@@ -40,6 +41,59 @@ public class AssessmentSummaryRepoImpl implements AssessmentSummaryRepo {
         log.info("Executing query to fetch AssessmentSummary by ID: {} using query: {}", id, sql);
         try {
             AssessmentSummary result = jdbcTemplate.queryForObject(sql, rowMapper, id);
+            log.info("Successfully fetched AssessmentSummary: {}", result);
+            return result;
+        } catch (Exception e) {
+            log.error("Error fetching AssessmentSummary by ID: {}. Error: {}", id, e.getMessage());
+            return null;
+        }
+    }
+
+    @Override
+    public List<Map<String,Object>> getAssessmentSummaryGets() {
+        String sql = "SELECT au.ID, FULL_NAME, YEAR, SCORE, STATUS, " +
+                "ass.CREATED_AT, ass.CREATED_BY, ass.UPDATED_AT, ass.UPDATED_BY " +
+                "FROM TBL_ASSESSMENT_SUMMARY ass " +
+                "JOIN TBL_APP_USER au ON ass.USER_ID = au.ID ";
+        log.info("Executing query to fetch all AssessmentSummary records: {}", sql);
+        try {
+            List<Map<String,Object>> result = jdbcTemplate.queryForList(sql, rowMapper);
+            log.info("Successfully fetched {} AssessmentSummary records.", result.size());
+            return result;
+        } catch (Exception e) {
+            log.error("Error fetching all AssessmentSummary records. Error: {}", e.getMessage());
+            throw e;
+        }
+    }
+
+    @Override
+    public Map<String, Object> getAssessmentSummaryGetById(String id) {
+        String sql = "SELECT ass.ID, FULL_NAME, YEAR, SCORE, STATUS, " +
+                "ass.CREATED_AT, ass.CREATED_BY, ass.UPDATED_AT, ass.UPDATED_BY " +
+                "FROM TBL_ASSESSMENT_SUMMARY ass " +
+                "JOIN TBL_APP_USER au ON ass.USER_ID = au.ID " +
+                "WHERE ass.ID = ?";
+        log.info("Executing query to fetch AssessmentSummary by ID: {} using query: {}", id, sql);
+        try {
+            Map<String,Object> result = jdbcTemplate.queryForMap(sql, rowMapper, id);
+            log.info("Successfully fetched AssessmentSummary: {}", result);
+            return result;
+        } catch (Exception e) {
+            log.error("Error fetching AssessmentSummary by ID: {}. Error: {}", id, e.getMessage());
+            return null;
+        }
+    }
+
+    @Override
+    public List<Map<String,Object>> getAssessmentSummaryGetByUserId(String id) {
+        String sql = "SELECT ass.ID, FULL_NAME, YEAR, SCORE, STATUS, " +
+                "ass.CREATED_AT, ass.CREATED_BY, ass.UPDATED_AT, ass.UPDATED_BY " +
+                "FROM TBL_ASSESSMENT_SUMMARY ass " +
+                "JOIN TBL_APP_USER au ON ass.USER_ID = au.ID " +
+                "WHERE au.ID = ?";
+        log.info("Executing query to fetch AssessmentSummary by ID: {} using query: {}", id, sql);
+        try {
+            List<Map<String, Object>> result = jdbcTemplate.queryForList(sql, rowMapper, id);
             log.info("Successfully fetched AssessmentSummary: {}", result);
             return result;
         } catch (Exception e) {
