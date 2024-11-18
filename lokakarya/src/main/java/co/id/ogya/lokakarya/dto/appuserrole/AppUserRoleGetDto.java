@@ -22,7 +22,7 @@ public class AppUserRoleGetDto {
     @JsonProperty("full_name")
     private String fullName;
 
-    public AppUserRoleGetDto mapToDto(Map<String, Object> convertObject) {
+    public static AppUserRoleGetDto mapToDto(Map<String, Object> convertObject) {
         log.debug("Mapping object to AppUserRoleGetDto: {}", convertObject);
 
         AppUserRoleGetDto result = AppUserRoleGetDto.builder()

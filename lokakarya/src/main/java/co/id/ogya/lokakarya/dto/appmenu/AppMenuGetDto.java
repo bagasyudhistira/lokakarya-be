@@ -20,7 +20,7 @@ public class AppMenuGetDto {
     @JsonProperty("menu_name")
     private String menuName;
 
-    public AppMenuGetDto mapToDto(Map<String, Object> convertObject) {
+    public static AppMenuGetDto mapToDto(Map<String, Object> convertObject) {
         log.debug("Mapping object to AppMenuGetDto: {}", convertObject);
 
         AppMenuGetDto result = AppMenuGetDto.builder()

@@ -27,7 +27,7 @@ public class AchievementGetDto {
     @JsonProperty("enabled")
     private boolean enabled;
 
-    public AchievementGetDto mapToDto(Map<String, Object> convertObject) {
+    public static AchievementGetDto mapToDto(Map<String, Object> convertObject) {
         log.debug("Converting mapping to DTO: {}", convertObject);
 
         AchievementGetDto result = AchievementGetDto.builder()

@@ -23,7 +23,7 @@ public class AccessDivisionGetDto {
     @JsonProperty("division_name")
     private String divisionName;
 
-    public AccessDivisionGetDto mapToDto(Map<String,Object> convertObject) {
+    public static AccessDivisionGetDto mapToDto(Map<String,Object> convertObject) {
         log.debug("Converting AccessDivision entity to DTO: {}", convertObject);
         AccessDivisionGetDto result = AccessDivisionGetDto.builder()
                 .id((String) convertObject.get("ID"))

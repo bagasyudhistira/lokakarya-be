@@ -22,7 +22,7 @@ public class AppRoleMenuGetDto {
     @JsonProperty("menu_name")
     private String menuName;
 
-    public AppRoleMenuGetDto mapToDto(Map<String, Object> convertObject) {
+    public static AppRoleMenuGetDto mapToDto(Map<String, Object> convertObject) {
         log.debug("Mapping object to AppRoleMenuGetDto: {}", convertObject);
 
         AppRoleMenuGetDto result = AppRoleMenuGetDto.builder()

@@ -26,7 +26,7 @@ public class EmpDevPlanGetDto {
     @JsonProperty("assessment_year")
     private int assessmentYear;
 
-    public EmpDevPlanGetDto mapToDto(Map<String, Object> convertObject) {
+    public static EmpDevPlanGetDto mapToDto(Map<String, Object> convertObject) {
         log.debug("Mapping object to EmpDevPlanGetDto: {}", convertObject);
 
         EmpDevPlanGetDto result = EmpDevPlanGetDto.builder()

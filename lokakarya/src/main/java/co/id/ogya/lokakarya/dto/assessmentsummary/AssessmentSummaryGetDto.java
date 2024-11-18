@@ -29,7 +29,7 @@ public class AssessmentSummaryGetDto {
     @JsonProperty("status")
     private byte status;
 
-    public AssessmentSummaryGetDto mapToDto(Map<String, Object> convertObject) {
+    public static AssessmentSummaryGetDto mapToDto(Map<String, Object> convertObject) {
         log.debug("Mapping object to AssessmentSummaryGetDto: {}", convertObject);
 
         AssessmentSummaryGetDto result = AssessmentSummaryGetDto.builder()

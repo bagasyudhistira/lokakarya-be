@@ -31,7 +31,7 @@ public class EmpAchievementSkillGetDto {
     @JsonProperty("assessment_year")
     private int assessmentYear;
 
-    public EmpAchievementSkillGetDto mapToDto(Map<String, Object> convertObject) {
+    public static EmpAchievementSkillGetDto mapToDto(Map<String, Object> convertObject) {
         log.debug("Mapping object to EmpAchievementSkillGetDto: {}", convertObject);
 
         EmpAchievementSkillGetDto result = EmpAchievementSkillGetDto.builder()

@@ -109,7 +109,7 @@ public class AppMenuRepoImpl implements AppMenuRepo {
     }
 
     @Override
-    public Map<String, Object> getAllAppMenuGetById(String id) {
+    public Map<String, Object> getAppMenuGetById(String id) {
         String sql = "SELECT AM.ID, AM.MENU_NAME, AM.CREATED_AT, AU1.FULL_NAME, AM.UPDATED_AT, AU2.FULL_NAME FROM TBL_APP_USER_MENU AU JOIN TBL_APP_USER AU1 ON AM.CREATED_BY = AU1.ID JOIN TBL_APP_USER ON AM.UPDATED_BY = AU2.ID WHERE AM.ID = ?";
         return jdbcTemplate.queryForMap(sql,id);
     }

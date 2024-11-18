@@ -29,7 +29,7 @@ public class EmpAttitudeSkillGetDto {
     @JsonProperty("assessment_year")
     private int assessmentYear;
 
-    public EmpAttitudeSkillGetDto mapToDto(Map<String, Object> convertObject) {
+    public static EmpAttitudeSkillGetDto mapToDto(Map<String, Object> convertObject) {
         log.debug("Converting EmpAttitudeSkill map to DTO: {}", convertObject);
 
         EmpAttitudeSkillGetDto result = EmpAttitudeSkillGetDto.builder()

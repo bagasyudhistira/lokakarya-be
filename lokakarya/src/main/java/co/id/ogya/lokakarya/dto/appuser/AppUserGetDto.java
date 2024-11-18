@@ -38,7 +38,7 @@ public class AppUserGetDto {
     @JsonProperty("division_name")
     private String divisionName;
 
-    public AppUserGetDto mapToDto(Map<String, Object> convertObject) {
+    public static AppUserGetDto mapToDto(Map<String, Object> convertObject) {
         log.debug("Mapping object to AppUserGetDto: {}", convertObject);
 
         AppUserGetDto result = AppUserGetDto.builder()

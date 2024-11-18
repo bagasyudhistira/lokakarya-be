@@ -2,14 +2,17 @@ package co.id.ogya.lokakarya.dto.empsuggestion;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
+import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDateTime;
+import java.util.Map;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @Builder
 @ToString
+@Slf4j
 public class EmpSuggestionGetDto {
     @JsonProperty("id")
     private String id;
@@ -22,4 +25,17 @@ public class EmpSuggestionGetDto {
 
     @JsonProperty("assessment_year")
     private int assessmentYear;
+
+    public static EmpSuggestionGetDto mapToDto(Map<String, Object> convertObject) {
+        log.debug("Mapping object to EmpSuggestionGetDto: {}", convertObject);
+
+        EmpSuggestionGetDto result = EmpSuggestionGetDto.builder()
+                .id((String) convertObject.get("ID"))
+                .fullName((String) convertObject.get("FULL_NAME"))
+                .suggestion((String) convertObject.get("SUGGESTION"))
+                .assessmentYear((Integer) convertObject.get("ASSESSMENT_YEAR"))
+                .build();
+
+        return result;
+    }
 }
