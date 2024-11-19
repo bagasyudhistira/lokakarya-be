@@ -109,7 +109,9 @@ public class AppUserRoleRepoImpl implements AppUserRoleRepo {
 
     @Override
     public List<Map<String, Object>> getAppUserRoleGets() {
-        String sql = "SELECT AUR.ID, AU.FULL_NAME, AR.ROLENAME FROM TBL_APP_USER_ROLE AUR LEFT JOIN TBL_APP_USER AU ON AUR.USER_ID = AU.ID LEFT JOIN TBL_APP_ROLE AR ON AUR.ROLE_ID";
+        String sql = "SELECT AUR.ID, AU.FULL_NAME, AR.ROLENAME FROM TBL_APP_USER_ROLE AUR " +
+                "LEFT JOIN TBL_APP_USER AU ON AUR.USER_ID = AU.ID " +
+                "LEFT JOIN TBL_APP_ROLE AR ON AUR.ROLE_ID = AR.ID";
         try {
             log.info("Fetching AppUserRoles");
             List<Map<String, Object>> userRoles = jdbcTemplate.queryForList(sql);

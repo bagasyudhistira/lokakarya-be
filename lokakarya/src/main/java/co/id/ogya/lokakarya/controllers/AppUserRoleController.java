@@ -157,7 +157,7 @@ public class AppUserRoleController extends ServerResponseList {
         }
     }
 
-    @GetMapping("/get/{id}")
+    @GetMapping("/get/{userId}")
     public ResponseEntity<?> getAllAppUserRoleGet(@PathVariable String userId) {
         log.info("Fetching all AppUserRoles");
         long startTime = System.currentTimeMillis();
