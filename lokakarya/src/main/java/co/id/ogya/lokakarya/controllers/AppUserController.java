@@ -117,6 +117,50 @@ public class AppUserController extends ServerResponseList {
         }
     }
 
+    @GetMapping("/user/{username}")
+    public ResponseEntity<?> getAppUserByUsername(@PathVariable String username) {
+        log.info("Fetching AppUser with username: {}", username);
+        long startTime = System.currentTimeMillis();
+
+        try {
+            AppUserGetDto result = appUserServ.getAppUserByUsername(username);
+            ManagerDto<AppUserGetDto> response = new ManagerDto<>();
+            response.setContent(result);
+            response.setTotalRows(1);
+
+            long endTime = System.currentTimeMillis();
+            response.setInfo(getInfoOk("Time", endTime - startTime));
+            log.info("Fetched AppUser with username: {} in {} ms", username, endTime - startTime);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error fetching AppUser by username {}: {}", username, e.getMessage(), e);
+            return new ResponseEntity<>("Failed to fetch AppUser with username: " + username, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/name/{fullName}")
+    public ResponseEntity<?> getAppUserByFullName(@PathVariable String fullName) {
+        log.info("Fetching AppUser with full name: {}", fullName);
+        long startTime = System.currentTimeMillis();
+
+        try {
+            AppUserGetDto result = appUserServ.getAppUserByUsername(fullName);
+            ManagerDto<AppUserGetDto> response = new ManagerDto<>();
+            response.setContent(result);
+            response.setTotalRows(1);
+
+            long endTime = System.currentTimeMillis();
+            response.setInfo(getInfoOk("Time", endTime - startTime));
+            log.info("Fetched AppUser with full name: {} in {} ms", fullName, endTime - startTime);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error fetching AppUser by full name {}: {}", fullName, e.getMessage(), e);
+            return new ResponseEntity<>("Failed to fetch AppUser with full name: " + fullName, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @PostMapping("/create")
     public ResponseEntity<?> createAppUser(@RequestBody AppUserCreateDto appUserCreateDto) {
         log.info("Creating new AppUser with data: {}", appUserCreateDto);

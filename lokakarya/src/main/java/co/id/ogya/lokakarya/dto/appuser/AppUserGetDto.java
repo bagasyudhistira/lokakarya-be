@@ -17,6 +17,9 @@ public class AppUserGetDto {
     @JsonProperty("id")
     private String id;
 
+    @JsonProperty("username")
+    private String username;
+
     @JsonProperty("full_name")
     private String fullName;
 
@@ -43,6 +46,7 @@ public class AppUserGetDto {
 
         AppUserGetDto result = AppUserGetDto.builder()
                 .id((String) convertObject.get("ID"))
+                .username((String) convertObject.get("USERNAME"))
                 .fullName((String) convertObject.get("FULL_NAME"))
                 .position((String) convertObject.get("POSITION"))
                 .emailAddress((String) convertObject.get("EMAIL_ADDRESS"))
@@ -50,7 +54,7 @@ public class AppUserGetDto {
                         ? ((Number) convertObject.get("EMPLOYEE_STATUS")).byteValue()
                         : 0)
                 .joinDate(convertObject.get("JOIN_DATE") != null
-                        ? new Date(((java.sql.Timestamp) convertObject.get("JOIN_DATE")).getTime())
+                        ? new Date(((java.sql.Date) convertObject.get("JOIN_DATE")).getTime())
                         : null)
                 .enabled(convertObject.get("ENABLED") != null && (Boolean) convertObject.get("ENABLED"))
                 .divisionName((String) convertObject.get("DIVISION_NAME"))
