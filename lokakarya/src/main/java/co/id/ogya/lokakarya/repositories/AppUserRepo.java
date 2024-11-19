@@ -13,6 +13,8 @@ public interface AppUserRepo {
 
     Map<String, Object> getAppUserGetById(String id);
 
+    Map<String, Object> getAppUserByUsername(String username);
+
     AppUser saveAppUser(AppUser appUser);
     AppUser updateAppUser(AppUser appUser);
     Boolean deleteAppUser(String id);
