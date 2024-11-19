@@ -14,5 +14,6 @@ public interface AppUserRoleServ {
     AppUserRoleDto createAppUserRole(AppUserRoleCreateDto appUserRoleCreateDto);
     AppUserRoleDto updateAppUserRole(AppUserRoleUpdateDto appUserRoleUpdateDto);
     boolean deleteAppUserRole(String id);
+    List<AppUserRoleGetDto> getAllAppUserRoleGets();
     List<AppUserRoleGetDto> getAppUserRoleGetById(String userId);
 }

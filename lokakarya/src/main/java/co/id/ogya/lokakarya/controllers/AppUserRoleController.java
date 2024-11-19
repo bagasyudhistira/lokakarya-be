@@ -3,6 +3,7 @@ package co.id.ogya.lokakarya.controllers;
 import co.id.ogya.lokakarya.dto.ManagerDto;
 import co.id.ogya.lokakarya.dto.appuserrole.AppUserRoleCreateDto;
 import co.id.ogya.lokakarya.dto.appuserrole.AppUserRoleDto;
+import co.id.ogya.lokakarya.dto.appuserrole.AppUserRoleGetDto;
 import co.id.ogya.lokakarya.dto.appuserrole.AppUserRoleUpdateDto;
 import co.id.ogya.lokakarya.services.AppUserRoleServ;
 import co.id.ogya.lokakarya.utils.ServerResponseList;
@@ -131,6 +132,50 @@ public class AppUserRoleController extends ServerResponseList {
         } catch (Exception e) {
             log.error("Error deleting AppUserRole with ID {}: {}", id, e.getMessage(), e);
             return new ResponseEntity<>("Failed to delete AppUserRole with ID: " + id, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/get/all")
+    public ResponseEntity<?> getAllAppUserRoleGets() {
+        log.info("Fetching all AppUserRoles");
+        long startTime = System.currentTimeMillis();
+
+        try {
+            List<AppUserRoleGetDto> result = appUserRoleServ.getAllAppUserRoleGets();
+            ManagerDto<List<AppUserRoleGetDto>> response = new ManagerDto<>();
+            response.setContent(result);
+            response.setTotalRows(result.size());
+
+            long endTime = System.currentTimeMillis();
+            response.setInfo(getInfoOk("Time", endTime - startTime));
+            log.info("Fetched all AppUserRoles in {} ms", endTime - startTime);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error fetching all AppUserRoles: {}", e.getMessage(), e);
+            return new ResponseEntity<>("Failed to fetch AppUserRoles", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/get/{id}")
+    public ResponseEntity<?> getAllAppUserRoleGet(@PathVariable String userId) {
+        log.info("Fetching all AppUserRoles");
+        long startTime = System.currentTimeMillis();
+
+        try {
+            List<AppUserRoleGetDto> result = appUserRoleServ.getAppUserRoleGetById(userId);
+            ManagerDto<List<AppUserRoleGetDto>> response = new ManagerDto<>();
+            response.setContent(result);
+            response.setTotalRows(result.size());
+
+            long endTime = System.currentTimeMillis();
+            response.setInfo(getInfoOk("Time", endTime - startTime));
+            log.info("Fetched AppUserRoles with User ID: {} in {} ms", userId, endTime - startTime);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error fetching AppUserRoles: {}", e.getMessage(), e);
+            return new ResponseEntity<>("Failed to fetch AppUserRoles", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

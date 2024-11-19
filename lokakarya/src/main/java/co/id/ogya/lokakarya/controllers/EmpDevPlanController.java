@@ -132,4 +132,48 @@ public class EmpDevPlanController extends ServerResponseList {
             return new ResponseEntity<>("Failed to delete EmpDevPlan with ID: " + id, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("/get/all")
+    public ResponseEntity<?> getAllEmpDevPlanGets() {
+        log.info("Fetching all EmpDevPlans");
+        long startTime = System.currentTimeMillis();
+
+        try {
+            List<EmpDevPlanGetDto> result = empDevPlanServ.getAllEmpDevPlanGets();
+            ManagerDto<List<EmpDevPlanGetDto>> response = new ManagerDto<>();
+            response.setContent(result);
+            response.setTotalRows(result.size());
+
+            long endTime = System.currentTimeMillis();
+            response.setInfo(getInfoOk("Time", endTime - startTime));
+            log.info("Fetched all EmpDevPlans in {} ms", endTime - startTime);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error fetching all EmpDevPlans: {}", e.getMessage(), e);
+            return new ResponseEntity<>("Failed to fetch EmpDevPlans", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/get/{id}")
+    public ResponseEntity<?> getEmpDevPlanGetById(@PathVariable String userId) {
+        log.info("Fetching EmpDevPlan by ID: {}", userId);
+        long startTime = System.currentTimeMillis();
+
+        try {
+            List<EmpDevPlanGetDto> result = empDevPlanServ.getEmpDevPlanGetByUserId(userId);
+            ManagerDto<List<EmpDevPlanGetDto>> response = new ManagerDto<>();
+            response.setContent(result);
+            response.setTotalRows(1);
+
+            long endTime = System.currentTimeMillis();
+            response.setInfo(getInfoOk("Time", endTime - startTime));
+            log.info("Fetched EmpDevPlan with ID: {} in {} ms", userId, endTime - startTime);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error fetching EmpDevPlan by ID {}: {}", userId, e.getMessage(), e);
+            return new ResponseEntity<>("Failed to fetch EmpDevPlan with ID: " + userId, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

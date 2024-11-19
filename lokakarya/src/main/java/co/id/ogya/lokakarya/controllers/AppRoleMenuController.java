@@ -3,6 +3,7 @@ package co.id.ogya.lokakarya.controllers;
 import co.id.ogya.lokakarya.dto.ManagerDto;
 import co.id.ogya.lokakarya.dto.approlemenu.AppRoleMenuCreateDto;
 import co.id.ogya.lokakarya.dto.approlemenu.AppRoleMenuDto;
+import co.id.ogya.lokakarya.dto.approlemenu.AppRoleMenuGetDto;
 import co.id.ogya.lokakarya.dto.approlemenu.AppRoleMenuUpdateDto;
 import co.id.ogya.lokakarya.services.AppRoleMenuServ;
 import co.id.ogya.lokakarya.utils.ServerResponseList;
@@ -131,6 +132,52 @@ public class AppRoleMenuController extends ServerResponseList {
         } catch (Exception e) {
             log.error("Error deleting AppRoleMenu with ID {}: {}", id, e.getMessage(), e);
             return new ResponseEntity<>("Failed to delete AppRoleMenu with ID: " + id, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/get/all")
+    public ResponseEntity<?> getAllAppRoleMenuGets() {
+        log.info("Fetching all app role menus");
+        long startTime = System.currentTimeMillis();
+
+        try {
+            List<AppRoleMenuGetDto> result = appRoleMenuServ.getAllAppRoleMenuGet();
+            ManagerDto<List<AppRoleMenuGetDto>> response = new ManagerDto<>();
+            response.setContent(result);
+            response.setTotalRows(result.size());
+
+            long endTime = System.currentTimeMillis();
+            long totalTime = endTime - startTime;
+            response.setInfo(getInfoOk("Time", totalTime));
+            log.info("Successfully fetched all app role menus in {} ms", totalTime);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error fetching all app role menus: {}", e.getMessage(), e);
+            return new ResponseEntity<>("Failed to fetch all app role menus", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/get/{id}")
+    public ResponseEntity<?> getAppRoleMenuGetByRoleId(@PathVariable String id) {
+        log.info("Fetching app role menu with role ID: {}", id);
+        long startTime = System.currentTimeMillis();
+
+        try {
+            List<AppRoleMenuGetDto> result = appRoleMenuServ.getAppRoleMenuGetByRoleId(id);
+            ManagerDto<List<AppRoleMenuGetDto>> response = new ManagerDto<>();
+            response.setContent(result);
+            response.setTotalRows(result.size());
+
+            long endTime = System.currentTimeMillis();
+            long totalTime = endTime - startTime;
+            response.setInfo(getInfoOk("Time", totalTime));
+            log.info("Successfully fetched app role menu in {} ms", totalTime);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error fetching app role menu: {}", e.getMessage(), e);
+            return new ResponseEntity<>("Failed to fetch app role menu", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }
