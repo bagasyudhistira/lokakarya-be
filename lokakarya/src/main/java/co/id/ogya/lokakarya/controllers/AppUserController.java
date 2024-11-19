@@ -3,6 +3,7 @@ package co.id.ogya.lokakarya.controllers;
 import co.id.ogya.lokakarya.dto.ManagerDto;
 import co.id.ogya.lokakarya.dto.appuser.AppUserCreateDto;
 import co.id.ogya.lokakarya.dto.appuser.AppUserDto;
+import co.id.ogya.lokakarya.dto.appuser.AppUserGetDto;
 import co.id.ogya.lokakarya.dto.appuser.AppUserUpdateDto;
 import co.id.ogya.lokakarya.services.AppUserServ;
 import co.id.ogya.lokakarya.utils.ServerResponseList;
@@ -58,6 +59,50 @@ public class AppUserController extends ServerResponseList {
         try {
             AppUserDto result = appUserServ.getAppUserById(id);
             ManagerDto<AppUserDto> response = new ManagerDto<>();
+            response.setContent(result);
+            response.setTotalRows(1);
+
+            long endTime = System.currentTimeMillis();
+            response.setInfo(getInfoOk("Time", endTime - startTime));
+            log.info("Fetched AppUser with ID: {} in {} ms", id, endTime - startTime);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error fetching AppUser by ID {}: {}", id, e.getMessage(), e);
+            return new ResponseEntity<>("Failed to fetch AppUser with ID: " + id, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/get/all")
+    public ResponseEntity<?> getAllAppUserGets() {
+        log.info("Fetching all AppUsers");
+        long startTime = System.currentTimeMillis();
+
+        try {
+            List<AppUserGetDto> result = appUserServ.getAllAppUserGet();
+            ManagerDto<List<AppUserGetDto>> response = new ManagerDto<>();
+            response.setContent(result);
+            response.setTotalRows(result.size());
+
+            long endTime = System.currentTimeMillis();
+            response.setInfo(getInfoOk("Time", endTime - startTime));
+            log.info("Fetched all AppUsers in {} ms", endTime - startTime);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error fetching all AppUsers: {}", e.getMessage(), e);
+            return new ResponseEntity<>("Failed to fetch AppUsers", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/get/{id}")
+    public ResponseEntity<?> getAppUserGetById(@PathVariable String id) {
+        log.info("Fetching AppUser with ID: {}", id);
+        long startTime = System.currentTimeMillis();
+
+        try {
+            AppUserGetDto result = appUserServ.getAppUserGetById(id);
+            ManagerDto<AppUserGetDto> response = new ManagerDto<>();
             response.setContent(result);
             response.setTotalRows(1);
 

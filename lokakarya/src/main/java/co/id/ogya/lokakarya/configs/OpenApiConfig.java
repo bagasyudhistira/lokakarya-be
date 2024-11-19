@@ -40,4 +40,156 @@ public class OpenApiConfig implements WebMvcConfigurer {
                 .pathsToMatch("/**")
                 .build();
     }
+
+    @Bean
+    GroupedOpenApi accessDivisionApis() {
+        return GroupedOpenApi.builder()
+                .group("Access Division")
+                .pathsToMatch("/accessdivision/**")
+                .build();
+    }
+
+    @Bean
+    GroupedOpenApi achievementApis() {
+        return GroupedOpenApi.builder()
+                .group("Achievement")
+                .pathsToMatch("/achievement/**")
+                .build();
+    }
+
+    @Bean
+    GroupedOpenApi appMenuApis() {
+        return GroupedOpenApi.builder()
+                .group("App Menu")
+                .pathsToMatch("/appmenu/**")
+                .build();
+    }
+
+    @Bean
+    GroupedOpenApi appRoleApis() {
+        return GroupedOpenApi.builder()
+                .group("App Role")
+                .pathsToMatch("/approle/**")
+                .build();
+    }
+
+    @Bean
+    GroupedOpenApi appRoleMenuApis() {
+        return GroupedOpenApi.builder()
+                .group("App Role Menu")
+                .pathsToMatch("/approlemenu/**")
+                .build();
+    }
+
+    @Bean
+    GroupedOpenApi appUserApis() {
+        return GroupedOpenApi.builder()
+                .group("App User")
+                .pathsToMatch("/appuser/**")
+                .build();
+    }
+
+    @Bean
+    GroupedOpenApi appUserRoleApis() {
+        return GroupedOpenApi.builder()
+                .group("App User Role")
+                .pathsToMatch("/appuserrole/**")
+                .build();
+    }
+
+    @Bean
+    GroupedOpenApi assessmentSummaryApis() {
+        return GroupedOpenApi.builder()
+                .group("Assessment Summary")
+                .pathsToMatch("/assessmentsummary/**")
+                .build();
+    }
+
+    @Bean
+    GroupedOpenApi attitudeSkillApis() {
+        return GroupedOpenApi.builder()
+                .group("Attitude Skill")
+                .pathsToMatch("/attitudeskill/**")
+                .build();
+    }
+
+    @Bean
+    GroupedOpenApi devPlanApis() {
+        return GroupedOpenApi.builder()
+                .group("Dev Plan")
+                .pathsToMatch("/devplan/**")
+                .build();
+    }
+
+    @Bean
+    GroupedOpenApi divisionApis() {
+        return GroupedOpenApi.builder()
+                .group("Division")
+                .pathsToMatch("/division/**")
+                .build();
+    }
+
+    @Bean
+    GroupedOpenApi empAchievementSkillApis() {
+        return GroupedOpenApi.builder()
+                .group("Emp Achievement Skill")
+                .pathsToMatch("/empachievementskill/**")
+                .build();
+    }
+
+    @Bean
+    GroupedOpenApi empAttitudeSkillApis() {
+        return GroupedOpenApi.builder()
+                .group("Emp Attitude Skill")
+                .pathsToMatch("/empattitudeskill/**")
+                .build();
+    }
+
+    @Bean
+    GroupedOpenApi empDevPlanApis() {
+        return GroupedOpenApi.builder()
+                .group("Emp Dev Plan")
+                .pathsToMatch("/empdevplan/**")
+                .build();
+    }
+
+    @Bean
+    GroupedOpenApi empSuggestionApis() {
+        return GroupedOpenApi.builder()
+                .group("Emp Suggestion")
+                .pathsToMatch("/empsuggestion/**")
+                .build();
+    }
+
+    @Bean
+    GroupedOpenApi empTechnicalSkillApis() {
+        return GroupedOpenApi.builder()
+                .group("Emp Technical Skill")
+                .pathsToMatch("/emptechnicalskill/**")
+                .build();
+    }
+
+    @Bean
+    GroupedOpenApi groupAchievementApis() {
+        return GroupedOpenApi.builder()
+                .group("Group Achievement")
+                .pathsToMatch("/groupachievement/**")
+                .build();
+    }
+
+    @Bean
+    GroupedOpenApi groupAttitudeSkillApis() {
+        return GroupedOpenApi.builder()
+                .group("Group Attitude Skill")
+                .pathsToMatch("/groupattitudeskill/**")
+                .build();
+    }
+
+    @Bean
+    GroupedOpenApi technicalSkillApis() {
+        return GroupedOpenApi.builder()
+                .group("Technical Skill")
+                .pathsToMatch("/technicalskill/**")
+                .build();
+    }
 }

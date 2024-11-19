@@ -67,6 +67,51 @@ public class EmpAttitudeSkillController extends ServerResponseList {
         }
     }
 
+
+    @GetMapping("/get/all")
+    public ResponseEntity<?> getAllEmpAttitudeSkillGets() {
+        log.info("Fetching all EmpAttitudeSkills");
+        long startTime = System.currentTimeMillis();
+
+        try {
+            List<EmpAttitudeSkillGetDto> result = empAttitudeSkillServ.getAllEmpAttitudeSkillGet();
+            ManagerDto<List<EmpAttitudeSkillGetDto>> response = new ManagerDto<>();
+            response.setContent(result);
+            response.setTotalRows(result.size());
+
+            long endTime = System.currentTimeMillis();
+            response.setInfo(getInfoOk("Time", endTime - startTime));
+            log.info("Fetched all EmpAttitudeSkills in {} ms", endTime - startTime);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error fetching all EmpAttitudeSkills: {}", e.getMessage(), e);
+            return new ResponseEntity<>("Failed to fetch EmpAttitudeSkills", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/get/{id}")
+    public ResponseEntity<?> getEmpAttitudeSkillGetById(@PathVariable String id) {
+        log.info("Fetching EmpAttitudeSkill by ID: {}", id);
+        long startTime = System.currentTimeMillis();
+
+        try {
+            EmpAttitudeSkillGetDto result = empAttitudeSkillServ.getEmpAttitudeSkillGetById(id);
+            ManagerDto<EmpAttitudeSkillGetDto> response = new ManagerDto<>();
+            response.setContent(result);
+            response.setTotalRows(1);
+
+            long endTime = System.currentTimeMillis();
+            response.setInfo(getInfoOk("Time", endTime - startTime));
+            log.info("Fetched EmpAttitudeSkill with ID: {} in {} ms", id, endTime - startTime);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error fetching EmpAttitudeSkill by ID {}: {}", id, e.getMessage(), e);
+            return new ResponseEntity<>("Failed to fetch EmpAttitudeSkill with ID: " + id, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @PostMapping("/create")
     public ResponseEntity<?> createEmpAttitudeSkill(@RequestBody EmpAttitudeSkillCreateDto empAttitudeSkillCreateDto) {
         log.info("Creating EmpAttitudeSkill with data: {}", empAttitudeSkillCreateDto);
