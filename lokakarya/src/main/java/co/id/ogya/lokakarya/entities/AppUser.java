@@ -19,7 +19,7 @@ public class AppUser {
     @Column(name = "ID")
     private String id;
 
-    @Column(name = "USER_NAME")
+    @Column(name = "USERNAME")
     private String username;
 
     @Column(name = "FULL_NAME")

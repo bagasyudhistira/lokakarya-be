@@ -11,5 +11,6 @@ public interface AppUserRoleRepo {
     AppUserRole saveAppUserRole(AppUserRole appUserRole);
     AppUserRole updateAppUserRole(AppUserRole appUserRole);
     Boolean deleteAppUserRole(String id);
+    List<Map<String, Object>> getAppUserRoleGets();
     List<Map<String, Object>> getAppUserRoleGetById(String userId);
 }

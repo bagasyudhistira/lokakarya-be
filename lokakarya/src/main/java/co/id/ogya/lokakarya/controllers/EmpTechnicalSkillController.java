@@ -132,4 +132,48 @@ public class EmpTechnicalSkillController extends ServerResponseList {
             return new ResponseEntity<>("Failed to delete EmpTechnicalSkill with ID: " + id, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("/get/all")
+    public ResponseEntity<?> getAllEmpTechnicalSkillGets() {
+        log.info("Fetching all EmpTechnicalSkills");
+        long startTime = System.currentTimeMillis();
+
+        try {
+            List<EmpTechnicalSkillGetDto> result = empTechnicalSkillServ.getAllEmpTechnicalSkillGets();
+            ManagerDto<List<EmpTechnicalSkillGetDto>> response = new ManagerDto<>();
+            response.setContent(result);
+            response.setTotalRows(result.size());
+
+            long endTime = System.currentTimeMillis();
+            response.setInfo(getInfoOk("Time", endTime - startTime));
+            log.info("Fetched all EmpTechnicalSkills in {} ms", endTime - startTime);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error fetching all EmpTechnicalSkills: {}", e.getMessage(), e);
+            return new ResponseEntity<>("Failed to fetch EmpTechnicalSkills", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/get/{id}")
+    public ResponseEntity<?> getEmpTechnicalSkillGetByUserId(@PathVariable String userId) {
+        log.info("Fetching EmpTechnicalSkill by ID: {}", userId);
+        long startTime = System.currentTimeMillis();
+
+        try {
+            List<EmpTechnicalSkillGetDto> result = empTechnicalSkillServ.getEmpTechnicalSkillGetByUserId(userId);
+            ManagerDto<List<EmpTechnicalSkillGetDto>> response = new ManagerDto<>();
+            response.setContent(result);
+//            response.setTotalRows(1);
+
+            long endTime = System.currentTimeMillis();
+            response.setInfo(getInfoOk("Time", endTime - startTime));
+            log.info("Fetched EmpTechnicalSkill with ID: {} in {} ms", userId, endTime - startTime);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error fetching EmpTechnicalSkill by ID {}: {}", userId, e.getMessage(), e);
+            return new ResponseEntity<>("Failed to fetch EmpTechnicalSkill with ID: " + userId, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

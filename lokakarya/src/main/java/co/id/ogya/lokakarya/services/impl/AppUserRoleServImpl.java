@@ -102,6 +102,19 @@ public class AppUserRoleServImpl implements AppUserRoleServ {
     }
 
     @Override
+    public List<AppUserRoleGetDto> getAllAppUserRoleGets() {
+        List<Map<String,Object>> appUserRoles = appUserRoleRepo.getAppUserRoleGets();
+
+        List<AppUserRoleGetDto> resultList = new ArrayList<>();
+
+        for (Map<String, Object> map : appUserRoles) {
+            resultList.add(AppUserRoleGetDto.mapToDto(map));
+        }
+
+        return resultList;
+    }
+
+    @Override
     public List<AppUserRoleGetDto> getAppUserRoleGetById(String userId) {
         List<Map<String,Object>> appUserRoleGetById = appUserRoleRepo.getAppUserRoleGetById(userId);
 
