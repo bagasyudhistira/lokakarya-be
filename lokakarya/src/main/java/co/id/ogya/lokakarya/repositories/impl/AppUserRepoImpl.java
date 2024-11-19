@@ -90,17 +90,64 @@ public class AppUserRepoImpl implements AppUserRepo {
                 "JOIN_DATE, ENABLED, PASSWORD, DIVISION_NAME " +
                 "FROM TBL_APP_USER au " +
                 "LEFT JOIN TBL_DIVISION d ON au.DIVISION_ID = d.ID " +
-                "WHERE LOWER(USERNAME) = LOWER(?)";
+                "WHERE LOWER(USERNAME) LIKE LOWER(CONCAT('%', ?, '%'))";
         try {
             log.info("Fetching detailed AppUser by username: {}", username);
-            Map<String, Object> appUser = jdbcTemplate.queryForMap(sql, username);
+
+            List<Map<String, Object>> users = jdbcTemplate.queryForList(sql, username);
+
+            if (users.isEmpty()) {
+                log.warn("No AppUser found for username: {}", username);
+                return null;
+            }
+
+            if (users.size() > 1) {
+                log.warn("Multiple AppUsers found for username: {}. Returning the first match.", username);
+            }
+
+            Map<String, Object> appUser = users.get(0);
             log.info("Fetched detailed AppUser: {}", appUser);
             return appUser;
+
         } catch (Exception e) {
             log.error("Error fetching detailed AppUser by username: {}. Error: {}", username, e.getMessage(), e);
             return null;
         }
     }
+
+
+    @Override
+    public Map<String, Object> getAppUserByFullName(String fullName) {
+        String sql = "SELECT au.ID, USERNAME, FULL_NAME, POSITION, EMAIL_ADDRESS, EMPLOYEE_STATUS, " +
+                "JOIN_DATE, ENABLED, PASSWORD, DIVISION_NAME " +
+                "FROM TBL_APP_USER au " +
+                "LEFT JOIN TBL_DIVISION d ON au.DIVISION_ID = d.ID " +
+                "WHERE LOWER(FULL_NAME) LIKE LOWER(CONCAT('%', ?, '%'))";
+        try {
+            log.info("Fetching detailed AppUser by full name: {}", fullName);
+
+            List<Map<String, Object>> users = jdbcTemplate.queryForList(sql, fullName);
+
+            if (users.isEmpty()) {
+                log.warn("No AppUser found for full name: {}", fullName);
+                return null;
+            }
+
+            if (users.size() > 1) {
+                log.warn("Multiple AppUsers found for full name: {}. Returning the first match.", fullName);
+            }
+
+            // Return the first match
+            Map<String, Object> appUser = users.get(0);
+            log.info("Fetched detailed AppUser: {}", appUser);
+            return appUser;
+
+        } catch (Exception e) {
+            log.error("Error fetching detailed AppUser by full name: {}. Error: {}", fullName, e.getMessage(), e);
+            return null;
+        }
+    }
+
 
     @Override
     public AppUser saveAppUser(AppUser appUser) {

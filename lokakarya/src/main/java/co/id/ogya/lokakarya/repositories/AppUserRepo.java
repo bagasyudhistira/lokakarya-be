@@ -15,6 +15,8 @@ public interface AppUserRepo {
 
     Map<String, Object> getAppUserByUsername(String username);
 
+    Map<String, Object> getAppUserByFullName(String fullName);
+
     AppUser saveAppUser(AppUser appUser);
     AppUser updateAppUser(AppUser appUser);
     Boolean deleteAppUser(String id);

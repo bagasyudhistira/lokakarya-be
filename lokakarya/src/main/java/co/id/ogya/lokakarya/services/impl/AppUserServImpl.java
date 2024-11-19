@@ -99,6 +99,21 @@ public class AppUserServImpl implements AppUserServ {
         return result;
     }
 
+
+    @Override
+    public AppUserGetDto getAppUserByFullName(String fullName) {
+        log.info("Attempting to fetch AppUser by full name: {}", fullName);
+        AppUserGetDto result = null;
+        try {
+            Map<String,Object> data = appUserRepo.getAppUserByFullName(fullName);
+            result =  AppUserGetDto.mapToDto(data);
+            log.debug("Fetched AppUser: {}", result);
+        } catch (Exception e) {
+            log.error("Error occurred while fetching AppUser by full name {}: {}", fullName, e.getMessage(), e);
+        }
+        return result;
+    }
+
     @Override
     public AppUserDto createAppUser(AppUserCreateDto appUserCreateDto) {
         log.info("Attempting to create a new AppUser with data: {}", appUserCreateDto);
