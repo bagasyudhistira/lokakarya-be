@@ -36,7 +36,8 @@ public class DivisionRepoImpl implements DivisionRepo {
 
     @Override
     public Division getDivisionById(String id) {
-        String sql = "SELECT * FROM TBL_DIVISION WHERE ID = ?";
+        String sql = "SELECT * FROM TBL_DIVISION " +
+                "WHERE ID = ?";
         log.info("Executing query to fetch division by ID: {} using query: {}", id, sql);
         try {
             Division result = jdbcTemplate.queryForObject(sql, rowMapper, id);
@@ -70,7 +71,8 @@ public class DivisionRepoImpl implements DivisionRepo {
 
     @Override
     public Division updateDivision(Division division) {
-        String sql = "UPDATE TBL_DIVISION SET DIVISION_NAME = ?, UPDATED_AT = SYSDATE(), UPDATED_BY = ? WHERE ID = ?";
+        String sql = "UPDATE TBL_DIVISION SET DIVISION_NAME = ?, UPDATED_AT = SYSDATE(), UPDATED_BY = ? " +
+                "WHERE ID = ?";
         log.info("Executing query to update division with ID: {} using query: {}", division.getId(), sql);
         try {
             int rowsAffected = jdbcTemplate.update(sql, division.getDivisionName(), division.getUpdatedBy(), division.getId());
@@ -89,7 +91,8 @@ public class DivisionRepoImpl implements DivisionRepo {
 
     @Override
     public Boolean deleteDivision(String id) {
-        String sql = "DELETE FROM TBL_DIVISION WHERE ID = ?";
+        String sql = "DELETE FROM TBL_DIVISION " +
+                "WHERE ID = ?";
         log.info("Executing query to delete division with ID: {} using query: {}", id, sql);
         try {
             int rowsAffected = jdbcTemplate.update(sql, id);

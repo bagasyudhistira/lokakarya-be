@@ -60,7 +60,7 @@ public class AchievementServImpl implements AchievementServ {
             List<Map<String,Object>> listData = achievementRepo.getAchievementGets();
             log.debug("Fetched {} achievements from repository", listData.size());
             for (Map<String,Object> data : listData) {
-                AchievementGetDto result = new AchievementGetDto().mapToDto(data);
+                AchievementGetDto result = AchievementGetDto.mapToDto(data);
                 listResult.add(result);
             }
         } catch (Exception e) {
@@ -75,7 +75,7 @@ public class AchievementServImpl implements AchievementServ {
         AchievementGetDto result = null;
         try {
             Map<String ,Object> data = achievementRepo.getAchievementGetById(id);
-            result = new AchievementGetDto().mapToDto(data);
+            result = AchievementGetDto.mapToDto(data);
             log.debug("Fetched achievement: {}", result);
         } catch (Exception e) {
             log.error("Error occurred while fetching achievement by ID {}: {}", id, e.getMessage(), e);

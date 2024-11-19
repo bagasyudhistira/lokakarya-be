@@ -24,7 +24,7 @@ public class EmpTechnicalSkillRepoImpl implements EmpTechnicalSkillRepo {
     @Override
     public List<EmpTechnicalSkill> getEmpTechnicalSkills() {
         String sql = "SELECT * FROM TBL_EMP_TECHNICAL_SKILL";
-        log.info("Executing query to fetch all EmpTechnicalSkills: {}", sql);
+        log.info("Fetching all EmpTechnicalSkills with query: {}", sql);
         try {
             List<EmpTechnicalSkill> result = jdbcTemplate.query(sql, rowMapper);
             log.info("Successfully fetched {} EmpTechnicalSkills", result.size());
@@ -38,13 +38,13 @@ public class EmpTechnicalSkillRepoImpl implements EmpTechnicalSkillRepo {
     @Override
     public EmpTechnicalSkill getEmpTechnicalSkillById(String id) {
         String sql = "SELECT * FROM TBL_EMP_TECHNICAL_SKILL WHERE ID = ?";
-        log.info("Executing query to fetch EmpTechnicalSkill by ID: {}. Query: {}", id, sql);
+        log.info("Fetching EmpTechnicalSkill by ID: {} with query: {}", id, sql);
         try {
             EmpTechnicalSkill result = jdbcTemplate.queryForObject(sql, rowMapper, id);
             log.info("Successfully fetched EmpTechnicalSkill: {}", result);
             return result;
         } catch (Exception e) {
-            log.error("Error while fetching EmpTechnicalSkill with ID: {}. Error: {}", id, e.getMessage());
+            log.error("Error while fetching EmpTechnicalSkill by ID: {}. Error: {}", id, e.getMessage());
             return null;
         }
     }
@@ -53,9 +53,11 @@ public class EmpTechnicalSkillRepoImpl implements EmpTechnicalSkillRepo {
     public EmpTechnicalSkill saveEmpTechnicalSkill(EmpTechnicalSkill empTechnicalSkill) {
         empTechnicalSkill.prePersist();
         String sql = "INSERT INTO TBL_EMP_TECHNICAL_SKILL (ID, USER_ID, TECHNICAL_SKILL_ID, SCORE, ASSESSMENT_YEAR, CREATED_BY) VALUES (?, ?, ?, ?, ?, ?)";
-        log.info("Executing query to save EmpTechnicalSkill: {}. Query: {}", empTechnicalSkill, sql);
+        log.info("Saving EmpTechnicalSkill: {} with query: {}", empTechnicalSkill, sql);
         try {
-            int rowsAffected = jdbcTemplate.update(sql, empTechnicalSkill.getId(), empTechnicalSkill.getUserId(), empTechnicalSkill.getTechnicalSkillId(), empTechnicalSkill.getScore(), empTechnicalSkill.getAssessmentYear(), empTechnicalSkill.getCreatedBy());
+            int rowsAffected = jdbcTemplate.update(sql, empTechnicalSkill.getId(), empTechnicalSkill.getUserId(),
+                    empTechnicalSkill.getTechnicalSkillId(), empTechnicalSkill.getScore(),
+                    empTechnicalSkill.getAssessmentYear(), empTechnicalSkill.getCreatedBy());
             if (rowsAffected > 0) {
                 log.info("Successfully saved EmpTechnicalSkill: {}", empTechnicalSkill);
                 return empTechnicalSkill;
@@ -72,9 +74,11 @@ public class EmpTechnicalSkillRepoImpl implements EmpTechnicalSkillRepo {
     @Override
     public EmpTechnicalSkill updateEmpTechnicalSkill(EmpTechnicalSkill empTechnicalSkill) {
         String sql = "UPDATE TBL_EMP_TECHNICAL_SKILL SET USER_ID = ?, TECHNICAL_SKILL_ID = ?, SCORE = ?, ASSESSMENT_YEAR = ?, UPDATED_AT = SYSDATE(), UPDATED_BY = ? WHERE ID = ?";
-        log.info("Executing query to update EmpTechnicalSkill with ID: {}. Query: {}", empTechnicalSkill.getId(), sql);
+        log.info("Updating EmpTechnicalSkill with ID: {} using query: {}", empTechnicalSkill.getId(), sql);
         try {
-            int rowsAffected = jdbcTemplate.update(sql, empTechnicalSkill.getUserId(), empTechnicalSkill.getTechnicalSkillId(), empTechnicalSkill.getScore(), empTechnicalSkill.getAssessmentYear(), empTechnicalSkill.getUpdatedBy(), empTechnicalSkill.getId());
+            int rowsAffected = jdbcTemplate.update(sql, empTechnicalSkill.getUserId(),
+                    empTechnicalSkill.getTechnicalSkillId(), empTechnicalSkill.getScore(),
+                    empTechnicalSkill.getAssessmentYear(), empTechnicalSkill.getUpdatedBy(), empTechnicalSkill.getId());
             if (rowsAffected > 0) {
                 log.info("Successfully updated EmpTechnicalSkill: {}", empTechnicalSkill);
                 return empTechnicalSkill;
@@ -91,7 +95,7 @@ public class EmpTechnicalSkillRepoImpl implements EmpTechnicalSkillRepo {
     @Override
     public Boolean deleteEmpTechnicalSkill(String id) {
         String sql = "DELETE FROM TBL_EMP_TECHNICAL_SKILL WHERE ID = ?";
-        log.info("Executing query to delete EmpTechnicalSkill with ID: {}. Query: {}", id, sql);
+        log.info("Deleting EmpTechnicalSkill with ID: {} using query: {}", id, sql);
         try {
             int rowsAffected = jdbcTemplate.update(sql, id);
             if (rowsAffected > 0) {
@@ -109,13 +113,36 @@ public class EmpTechnicalSkillRepoImpl implements EmpTechnicalSkillRepo {
 
     @Override
     public List<Map<String, Object>> getEmpTechnicalSkillGets() {
-        String sql = "SELECT ETS.ID, AU.FULL_NAME, TS.TECHNICAL_SKILL, ETS.SCORE, ETS.ASSESSMENT_YEAR FROM TBL_EMP_TECHNICAL_SKILL ETS JOIN TBL_APP_USER AU ON ETS.USER_ID = AU.ID JOIN TBL_TECHNICAL_SKILL TS ON ETS.TECHNICAL_SKILL_ID = TS.ID";
-        return jdbcTemplate.queryForList(sql);
+        String sql = "SELECT ETS.ID, AU.FULL_NAME, TS.TECHNICAL_SKILL, ETS.SCORE, ETS.ASSESSMENT_YEAR " +
+                "FROM TBL_EMP_TECHNICAL_SKILL ETS " +
+                "LEFT JOIN TBL_APP_USER AU ON ETS.USER_ID = AU.ID " +
+                "LEFT JOIN TBL_TECHNICAL_SKILL TS ON ETS.TECHNICAL_SKILL_ID = TS.ID";
+        log.info("Fetching all EmpTechnicalSkills with LEFT JOIN query: {}", sql);
+        try {
+            List<Map<String, Object>> result = jdbcTemplate.queryForList(sql);
+            log.info("Successfully fetched {} EmpTechnicalSkills", result.size());
+            return result;
+        } catch (Exception e) {
+            log.error("Error while fetching all EmpTechnicalSkills. Error: {}", e.getMessage());
+            throw e;
+        }
     }
 
     @Override
     public List<Map<String, Object>> getEmpTechnicalSkillGetByUserId(String userId) {
-        String sql = "SELECT ETS.ID, AU.FULL_NAME, TS.TECHNICAL_SKILL, ETS.SCORE, ETS.ASSESSMENT_YEAR FROM TBL_EMP_TECHNICAL_SKILL ETS JOIN TBL_APP_USER AU ON ETS.USER_ID = AU.ID JOIN TBL_TECHNICAL_SKILL TS ON ETS.TECHNICAL_SKILL_ID = TS.ID";
-        return jdbcTemplate.queryForList(sql, userId);
+        String sql = "SELECT ETS.ID, AU.FULL_NAME, TS.TECHNICAL_SKILL, ETS.SCORE, ETS.ASSESSMENT_YEAR " +
+                "FROM TBL_EMP_TECHNICAL_SKILL ETS " +
+                "LEFT JOIN TBL_APP_USER AU ON ETS.USER_ID = AU.ID " +
+                "LEFT JOIN TBL_TECHNICAL_SKILL TS ON ETS.TECHNICAL_SKILL_ID = TS.ID " +
+                "WHERE ETS.USER_ID = ?";
+        log.info("Fetching EmpTechnicalSkills by UserID: {} with LEFT JOIN query: {}", userId, sql);
+        try {
+            List<Map<String, Object>> result = jdbcTemplate.queryForList(sql, userId);
+            log.info("Successfully fetched {} EmpTechnicalSkills for UserID: {}", result.size(), userId);
+            return result;
+        } catch (Exception e) {
+            log.error("Error while fetching EmpTechnicalSkills for UserID: {}. Error: {}", userId, e.getMessage());
+            throw e;
+        }
     }
 }

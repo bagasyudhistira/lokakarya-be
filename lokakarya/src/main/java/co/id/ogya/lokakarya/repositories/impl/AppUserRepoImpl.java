@@ -24,50 +24,62 @@ public class AppUserRepoImpl implements AppUserRepo {
     @Override
     public List<AppUser> getAppUsers() {
         String sql = "SELECT * FROM TBL_APP_USER";
-        log.info("Executing query to fetch all AppUsers: {}", sql);
-        List<AppUser> appUsers = jdbcTemplate.query(sql, rowMapper);
-        log.info("Successfully fetched {} AppUsers", appUsers.size());
-        return appUsers;
+        try {
+            log.info("Fetching all AppUsers");
+            List<AppUser> appUsers = jdbcTemplate.query(sql, rowMapper);
+            log.info("Fetched {} AppUsers", appUsers.size());
+            return appUsers;
+        } catch (Exception e) {
+            log.error("Error fetching AppUsers: {}", e.getMessage(), e);
+            throw e;
+        }
     }
 
     @Override
     public AppUser getAppUserById(String id) {
         String sql = "SELECT * FROM TBL_APP_USER WHERE ID = ?";
-        log.info("Executing query to fetch AppUser by ID: {} using query: {}", id, sql);
         try {
+            log.info("Fetching AppUser by ID: {}", id);
             AppUser appUser = jdbcTemplate.queryForObject(sql, rowMapper, id);
-            log.info("Successfully fetched AppUser: {}", appUser);
+            log.info("Fetched AppUser: {}", appUser);
             return appUser;
         } catch (Exception e) {
-            log.error("Error fetching AppUser by ID: {}. Error: {}", id, e.getMessage());
+            log.error("Error fetching AppUser by ID: {}. Error: {}", id, e.getMessage(), e);
             return null;
         }
     }
 
     @Override
-    public List<Map<String,Object>> getAppUserGets() {
+    public List<Map<String, Object>> getAppUserGets() {
         String sql = "SELECT au.ID, USERNAME, FULL_NAME, POSITION, EMAIL_ADDRESS, EMPLOYEE_STATUS, " +
-                "JOIN_DATE, ENABLED, PASSWORD, DIVISION_NAME FROM TBL_APP_USER au " +
-                "JOIN TBL_DIVISION d ON au.DIVISION_ID = d.ID ";
-        log.info("Executing query to fetch all AppUsers: {}", sql);
-        List<Map<String,Object>> appUsers = jdbcTemplate.queryForList(sql, rowMapper);
-        log.info("Successfully fetched {} AppUsers", appUsers.size());
-        return appUsers;
+                "JOIN_DATE, ENABLED, PASSWORD, DIVISION_NAME " +
+                "FROM TBL_APP_USER au " +
+                "LEFT JOIN TBL_DIVISION d ON au.DIVISION_ID = d.ID";
+        try {
+            log.info("Fetching all detailed AppUsers with LEFT JOIN");
+            List<Map<String, Object>> appUsers = jdbcTemplate.queryForList(sql);
+            log.info("Fetched {} detailed AppUsers", appUsers.size());
+            return appUsers;
+        } catch (Exception e) {
+            log.error("Error fetching detailed AppUsers: {}", e.getMessage(), e);
+            throw e;
+        }
     }
 
     @Override
     public Map<String, Object> getAppUserGetById(String id) {
         String sql = "SELECT au.ID, USERNAME, FULL_NAME, POSITION, EMAIL_ADDRESS, EMPLOYEE_STATUS, " +
-                "JOIN_DATE, ENABLED, PASSWORD, DIVISION_NAME FROM TBL_APP_USER au " +
-                "JOIN TBL_DIVISION d ON au.DIVISION_ID = d.ID " +
+                "JOIN_DATE, ENABLED, PASSWORD, DIVISION_NAME " +
+                "FROM TBL_APP_USER au " +
+                "LEFT JOIN TBL_DIVISION d ON au.DIVISION_ID = d.ID " +
                 "WHERE au.ID = ?";
-        log.info("Executing query to fetch AppUser by ID: {} using query: {}", id, sql);
         try {
-            Map<String,Object> appUser = jdbcTemplate.queryForMap(sql, rowMapper, id);
-            log.info("Successfully fetched AppUser: {}", appUser);
+            log.info("Fetching detailed AppUser by ID: {}", id);
+            Map<String, Object> appUser = jdbcTemplate.queryForMap(sql, id);
+            log.info("Fetched detailed AppUser: {}", appUser);
             return appUser;
         } catch (Exception e) {
-            log.error("Error fetching AppUser by ID: {}. Error: {}", id, e.getMessage());
+            log.error("Error fetching detailed AppUser by ID: {}. Error: {}", id, e.getMessage(), e);
             return null;
         }
     }
@@ -75,10 +87,12 @@ public class AppUserRepoImpl implements AppUserRepo {
     @Override
     public AppUser saveAppUser(AppUser appUser) {
         appUser.prePersist();
-        String sql = "INSERT INTO TBL_APP_USER (ID, USERNAME, FULL_NAME, POSITION, EMAIL_ADDRESS, EMPLOYEE_STATUS, JOIN_DATE, ENABLED, PASSWORD, ROLE_ID, DIVISION_ID, CREATED_BY) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        log.info("Executing query to save AppUser: {} using query: {}", appUser, sql);
+        String sql = "INSERT INTO TBL_APP_USER (ID, USERNAME, FULL_NAME, POSITION, EMAIL_ADDRESS, EMPLOYEE_STATUS, JOIN_DATE, ENABLED, PASSWORD, ROLE_ID, DIVISION_ID, CREATED_BY) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
-            int rowsAffected = jdbcTemplate.update(sql, appUser.getId(), appUser.getUsername(), appUser.getFullName(), appUser.getPosition(), appUser.getEmailAddress(), appUser.getEmployeeStatus(), appUser.getJoinDate(), appUser.isEnabled(), appUser.getPassword(), appUser.getRoleId(), appUser.getDivisionId(), appUser.getCreatedBy());
+            log.info("Saving AppUser: {}", appUser);
+            int rowsAffected = jdbcTemplate.update(sql, appUser.getId(), appUser.getUsername(), appUser.getFullName(), appUser.getPosition(), appUser.getEmailAddress(),
+                    appUser.getEmployeeStatus(), appUser.getJoinDate(), appUser.isEnabled(), appUser.getPassword(), appUser.getRoleId(), appUser.getDivisionId(), appUser.getCreatedBy());
             if (rowsAffected > 0) {
                 log.info("Successfully saved AppUser: {}", appUser);
                 return appUser;
@@ -87,17 +101,19 @@ public class AppUserRepoImpl implements AppUserRepo {
                 return null;
             }
         } catch (Exception e) {
-            log.error("Error saving AppUser: {}. Error: {}", appUser, e.getMessage());
+            log.error("Error saving AppUser: {}. Error: {}", appUser, e.getMessage(), e);
             return null;
         }
     }
 
     @Override
     public AppUser updateAppUser(AppUser appUser) {
-        String sql = "UPDATE TBL_APP_USER SET FULL_NAME = ?, POSITION = ?, EMAIL_ADDRESS = ?, EMPLOYEE_STATUS = ?, JOIN_DATE = ?, ENABLED = ?, PASSWORD = ?, ROLE_ID = ?, DIVISION_ID = ?, UPDATED_AT = SYSDATE(), UPDATED_BY = ? WHERE ID = ?";
-        log.info("Executing query to update AppUser with ID: {} using query: {}", appUser.getId(), sql);
+        String sql = "UPDATE TBL_APP_USER SET FULL_NAME = ?, POSITION = ?, EMAIL_ADDRESS = ?, EMPLOYEE_STATUS = ?, JOIN_DATE = ?, ENABLED = ?, PASSWORD = ?, " +
+                "ROLE_ID = ?, DIVISION_ID = ?, UPDATED_AT = SYSDATE(), UPDATED_BY = ? WHERE ID = ?";
         try {
-            int rowsAffected = jdbcTemplate.update(sql, appUser.getFullName(), appUser.getPosition(), appUser.getEmailAddress(), appUser.getEmployeeStatus(), appUser.getJoinDate(), appUser.isEnabled(), appUser.getPassword(), appUser.getRoleId(), appUser.getDivisionId(), appUser.getUpdatedBy(), appUser.getId());
+            log.info("Updating AppUser with ID: {}", appUser.getId());
+            int rowsAffected = jdbcTemplate.update(sql, appUser.getFullName(), appUser.getPosition(), appUser.getEmailAddress(), appUser.getEmployeeStatus(),
+                    appUser.getJoinDate(), appUser.isEnabled(), appUser.getPassword(), appUser.getRoleId(), appUser.getDivisionId(), appUser.getUpdatedBy(), appUser.getId());
             if (rowsAffected > 0) {
                 log.info("Successfully updated AppUser: {}", appUser);
                 return appUser;
@@ -106,7 +122,7 @@ public class AppUserRepoImpl implements AppUserRepo {
                 return null;
             }
         } catch (Exception e) {
-            log.error("Error updating AppUser with ID: {}. Error: {}", appUser.getId(), e.getMessage());
+            log.error("Error updating AppUser with ID: {}. Error: {}", appUser.getId(), e.getMessage(), e);
             return null;
         }
     }
@@ -114,8 +130,8 @@ public class AppUserRepoImpl implements AppUserRepo {
     @Override
     public Boolean deleteAppUser(String id) {
         String sql = "DELETE FROM TBL_APP_USER WHERE ID = ?";
-        log.info("Executing query to delete AppUser with ID: {} using query: {}", id, sql);
         try {
+            log.info("Deleting AppUser with ID: {}", id);
             int rowsAffected = jdbcTemplate.update(sql, id);
             if (rowsAffected > 0) {
                 log.info("Successfully deleted AppUser with ID: {}", id);
@@ -125,7 +141,7 @@ public class AppUserRepoImpl implements AppUserRepo {
                 return false;
             }
         } catch (Exception e) {
-            log.error("Error deleting AppUser with ID: {}. Error: {}", id, e.getMessage());
+            log.error("Error deleting AppUser with ID: {}. Error: {}", id, e.getMessage(), e);
             return false;
         }
     }

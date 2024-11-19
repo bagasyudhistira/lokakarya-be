@@ -25,7 +25,7 @@ public class AttitudeSkillGetDto {
 
     @JsonProperty("enabled")
     private boolean enabled;
-    public AttitudeSkillGetDto mapToDto(Map<String, Object> convertObject) {
+    public static AttitudeSkillGetDto mapToDto(Map<String, Object> convertObject) {
         log.debug("Mapping object to AttitudeSkillGetDto: {}", convertObject);
 
         AttitudeSkillGetDto result = AttitudeSkillGetDto.builder()

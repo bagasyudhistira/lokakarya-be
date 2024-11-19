@@ -68,6 +68,53 @@ public class AccessDivisionController extends ServerResponseList {
         }
     }
 
+
+    @GetMapping("/getall")
+    public ResponseEntity<?> getAllAccessDivisionGets() {
+        log.info("Fetching all access divisions");
+        long startTime = System.currentTimeMillis();
+
+        try {
+            List<AccessDivisionGetDto> result = accessDivisionServ.getAllAccessDivisionGet();
+            ManagerDto<List<AccessDivisionGetDto>> response = new ManagerDto<>();
+            response.setContent(result);
+            response.setTotalRows(result.size());
+
+            long endTime = System.currentTimeMillis();
+            long totalTime = endTime - startTime;
+            response.setInfo(getInfoOk("Time", totalTime));
+            log.info("Successfully fetched all access divisions in {} ms", totalTime);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error fetching all access divisions: {}", e.getMessage(), e);
+            return new ResponseEntity<>("Failed to fetch access divisions", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/get/{id}")
+    public ResponseEntity<?> getAccessDivisionGetById(@PathVariable String id) {
+        log.info("Fetching access division with ID: {}", id);
+        long startTime = System.currentTimeMillis();
+
+        try {
+            AccessDivisionGetDto result = accessDivisionServ.getAccessDivisionGetById(id);
+            ManagerDto<AccessDivisionGetDto> response = new ManagerDto<>();
+            response.setContent(result);
+            response.setTotalRows(1);
+
+            long endTime = System.currentTimeMillis();
+            long totalTime = endTime - startTime;
+            response.setInfo(getInfoOk("Time", totalTime));
+            log.info("Successfully fetched access division with ID: {} in {} ms", id, totalTime);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error fetching access division by ID {}: {}", id, e.getMessage(), e);
+            return new ResponseEntity<>("Failed to fetch access division with ID: " + id, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @PostMapping("/create")
     public ResponseEntity<?> createAccessDivision(@RequestBody AccessDivisionCreateDto accessDivisionCreateDto) {
         log.info("Creating new access division with data: {}", accessDivisionCreateDto);

@@ -24,13 +24,13 @@ public class EmpDevPlanRepoImpl implements EmpDevPlanRepo {
     @Override
     public List<EmpDevPlan> getEmpDevPlans() {
         String sql = "SELECT * FROM TBL_EMP_DEV_PLAN";
-        log.info("Executing query to fetch all EmpDevPlans: {}", sql);
+        log.info("Fetching all EmpDevPlans with query: {}", sql);
         try {
             List<EmpDevPlan> result = jdbcTemplate.query(sql, rowMapper);
             log.info("Successfully fetched {} EmpDevPlans", result.size());
             return result;
         } catch (Exception e) {
-            log.error("Error while fetching all EmpDevPlans. Error: {}", e.getMessage());
+            log.error("Error fetching EmpDevPlans. Error: {}", e.getMessage());
             throw e;
         }
     }
@@ -38,13 +38,13 @@ public class EmpDevPlanRepoImpl implements EmpDevPlanRepo {
     @Override
     public EmpDevPlan getEmpDevPlanById(String id) {
         String sql = "SELECT * FROM TBL_EMP_DEV_PLAN WHERE ID = ?";
-        log.info("Executing query to fetch EmpDevPlan by ID: {}, query: {}", id, sql);
+        log.info("Fetching EmpDevPlan by ID: {} with query: {}", id, sql);
         try {
             EmpDevPlan result = jdbcTemplate.queryForObject(sql, rowMapper, id);
             log.info("Successfully fetched EmpDevPlan: {}", result);
             return result;
         } catch (Exception e) {
-            log.error("Error while fetching EmpDevPlan with ID: {}. Error: {}", id, e.getMessage());
+            log.error("Error fetching EmpDevPlan by ID: {}. Error: {}", id, e.getMessage());
             return null;
         }
     }
@@ -53,9 +53,10 @@ public class EmpDevPlanRepoImpl implements EmpDevPlanRepo {
     public EmpDevPlan saveEmpDevPlan(EmpDevPlan empDevPlan) {
         empDevPlan.prePersist();
         String sql = "INSERT INTO TBL_EMP_DEV_PLAN (ID, USER_ID, DEV_PLAN_ID, ASSESSMENT_YEAR, CREATED_BY) VALUES (?, ?, ?, ?, ?)";
-        log.info("Executing query to save EmpDevPlan: {}. Query: {}", empDevPlan, sql);
+        log.info("Saving EmpDevPlan: {} with query: {}", empDevPlan, sql);
         try {
-            int rowsAffected = jdbcTemplate.update(sql, empDevPlan.getId(), empDevPlan.getUserId(), empDevPlan.getDevPlanId(), empDevPlan.getAssessmentYear(), empDevPlan.getCreatedBy());
+            int rowsAffected = jdbcTemplate.update(sql, empDevPlan.getId(), empDevPlan.getUserId(), empDevPlan.getDevPlanId(),
+                    empDevPlan.getAssessmentYear(), empDevPlan.getCreatedBy());
             if (rowsAffected > 0) {
                 log.info("Successfully saved EmpDevPlan: {}", empDevPlan);
                 return empDevPlan;
@@ -64,17 +65,19 @@ public class EmpDevPlanRepoImpl implements EmpDevPlanRepo {
                 return null;
             }
         } catch (Exception e) {
-            log.error("Error while saving EmpDevPlan: {}. Error: {}", empDevPlan, e.getMessage());
+            log.error("Error saving EmpDevPlan: {}. Error: {}", empDevPlan, e.getMessage());
             return null;
         }
     }
 
     @Override
     public EmpDevPlan updateEmpDevPlan(EmpDevPlan empDevPlan) {
-        String sql = "UPDATE TBL_EMP_DEV_PLAN SET USER_ID = ?, DEV_PLAN_ID = ?, ASSESSMENT_YEAR = ?, UPDATED_AT = SYSDATE(), UPDATED_BY = ? WHERE ID = ?";
-        log.info("Executing query to update EmpDevPlan with ID: {}. Query: {}", empDevPlan.getId(), sql);
+        String sql = "UPDATE TBL_EMP_DEV_PLAN SET USER_ID = ?, DEV_PLAN_ID = ?, ASSESSMENT_YEAR = ?, UPDATED_AT = SYSDATE(), UPDATED_BY = ? " +
+                "WHERE ID = ?";
+        log.info("Updating EmpDevPlan with ID: {} using query: {}", empDevPlan.getId(), sql);
         try {
-            int rowsAffected = jdbcTemplate.update(sql, empDevPlan.getUserId(), empDevPlan.getDevPlanId(), empDevPlan.getAssessmentYear(), empDevPlan.getUpdatedBy(), empDevPlan.getId());
+            int rowsAffected = jdbcTemplate.update(sql, empDevPlan.getUserId(), empDevPlan.getDevPlanId(),
+                    empDevPlan.getAssessmentYear(), empDevPlan.getUpdatedBy(), empDevPlan.getId());
             if (rowsAffected > 0) {
                 log.info("Successfully updated EmpDevPlan: {}", empDevPlan);
                 return empDevPlan;
@@ -83,7 +86,7 @@ public class EmpDevPlanRepoImpl implements EmpDevPlanRepo {
                 return null;
             }
         } catch (Exception e) {
-            log.error("Error while updating EmpDevPlan with ID: {}. Error: {}", empDevPlan.getId(), e.getMessage());
+            log.error("Error updating EmpDevPlan with ID: {}. Error: {}", empDevPlan.getId(), e.getMessage());
             return null;
         }
     }
@@ -91,7 +94,7 @@ public class EmpDevPlanRepoImpl implements EmpDevPlanRepo {
     @Override
     public Boolean deleteEmpDevPlan(String id) {
         String sql = "DELETE FROM TBL_EMP_DEV_PLAN WHERE ID = ?";
-        log.info("Executing query to delete EmpDevPlan with ID: {}. Query: {}", id, sql);
+        log.info("Deleting EmpDevPlan with ID: {} using query: {}", id, sql);
         try {
             int rowsAffected = jdbcTemplate.update(sql, id);
             if (rowsAffected > 0) {
@@ -102,20 +105,43 @@ public class EmpDevPlanRepoImpl implements EmpDevPlanRepo {
                 return false;
             }
         } catch (Exception e) {
-            log.error("Error while deleting EmpDevPlan with ID: {}. Error: {}", id, e.getMessage());
+            log.error("Error deleting EmpDevPlan with ID: {}. Error: {}", id, e.getMessage());
             return false;
         }
     }
 
     @Override
     public List<Map<String, Object>> getEmpDevPlanGets() {
-        String sql = "SELECT EDP.ID, AU.FULL_NAME, DP.PLAN, EDP.ASSESSMENT_YEAR FROM TBL_EMP_DEV_PLAN EDP JOIN TBL_APP_USER AU ON EDP.USER_ID = AU.ID JOIN TBL_DEV_PLAN DP ON EDP.DEV_PLAN_ID = DP.ID";
-        return jdbcTemplate.queryForList(sql);
+        String sql = "SELECT EDP.ID, AU.FULL_NAME, DP.PLAN, EDP.ASSESSMENT_YEAR " +
+                "FROM TBL_EMP_DEV_PLAN EDP " +
+                "LEFT JOIN TBL_APP_USER AU ON EDP.USER_ID = AU.ID " +
+                "LEFT JOIN TBL_DEV_PLAN DP ON EDP.DEV_PLAN_ID = DP.ID";
+        log.info("Fetching all EmpDevPlans with LEFT JOIN query: {}", sql);
+        try {
+            List<Map<String, Object>> result = jdbcTemplate.queryForList(sql);
+            log.info("Successfully fetched {} EmpDevPlans", result.size());
+            return result;
+        } catch (Exception e) {
+            log.error("Error fetching EmpDevPlans. Error: {}", e.getMessage());
+            throw e;
+        }
     }
 
     @Override
     public List<Map<String, Object>> getEmpDevPlanGetByUserId(String userId) {
-        String sql = "SELECT EDP.ID, AU.FULL_NAME, DP.PLAN, EDP.ASSESSMENT_YEAR FROM TBL_EMP_DEV_PLAN EDP JOIN TBL_APP_USER AU ON EDP.USER_ID = AU.ID JOIN TBL_DEV_PLAN DP ON EDP.DEV_PLAN_ID = DP.ID WHERE EDP.USER_ID = ?";
-        return jdbcTemplate.queryForList(sql, userId);
+        String sql = "SELECT EDP.ID, AU.FULL_NAME, DP.PLAN, EDP.ASSESSMENT_YEAR " +
+                "FROM TBL_EMP_DEV_PLAN EDP " +
+                "LEFT JOIN TBL_APP_USER AU ON EDP.USER_ID = AU.ID " +
+                "LEFT JOIN TBL_DEV_PLAN DP ON EDP.DEV_PLAN_ID = DP.ID " +
+                "WHERE EDP.USER_ID = ?";
+        log.info("Fetching EmpDevPlans by UserID: {} with LEFT JOIN query: {}", userId, sql);
+        try {
+            List<Map<String, Object>> result = jdbcTemplate.queryForList(sql, userId);
+            log.info("Successfully fetched {} EmpDevPlans for UserID: {}", result.size(), userId);
+            return result;
+        } catch (Exception e) {
+            log.error("Error fetching EmpDevPlans for UserID: {}. Error: {}", userId, e.getMessage());
+            throw e;
+        }
     }
 }

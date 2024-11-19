@@ -24,23 +24,65 @@ public class AppMenuRepoImpl implements AppMenuRepo {
     @Override
     public List<AppMenu> getAppMenus() {
         String sql = "SELECT * FROM TBL_APP_MENU";
-        log.info("Executing query to fetch all AppMenus: {}", sql);
-        List<AppMenu> appMenus = jdbcTemplate.query(sql, rowMapper);
-        log.info("Successfully fetched {} AppMenus", appMenus.size());
-        return appMenus;
+        try {
+            log.info("Fetching all AppMenu records");
+            List<AppMenu> appMenus = jdbcTemplate.query(sql, rowMapper);
+            log.info("Fetched {} AppMenu records", appMenus.size());
+            return appMenus;
+        } catch (Exception e) {
+            log.error("Error fetching AppMenu records: {}", e.getMessage(), e);
+            throw e;
+        }
     }
 
     @Override
     public AppMenu getAppMenuById(String id) {
         String sql = "SELECT * FROM TBL_APP_MENU WHERE ID = ?";
-        log.info("Executing query to fetch AppMenu by ID: {} using query: {}", id, sql);
         try {
+            log.info("Fetching AppMenu record with ID: {}", id);
             AppMenu appMenu = jdbcTemplate.queryForObject(sql, rowMapper, id);
-            log.info("Successfully fetched AppMenu: {}", appMenu);
+            log.info("Fetched AppMenu record: {}", appMenu);
             return appMenu;
         } catch (Exception e) {
-            log.error("Error fetching AppMenu by ID: {}. Error: {}", id, e.getMessage());
-            return null;
+            log.error("Error fetching AppMenu record with ID {}: {}", id, e.getMessage(), e);
+            throw e;
+        }
+    }
+
+    @Override
+    public List<Map<String, Object>> getAppMenuGets() {
+        String sql = "SELECT AM.ID, AM.MENU_NAME, AM.CREATED_AT, AU1.FULL_NAME AS CREATED_BY_NAME, " +
+                "AM.UPDATED_AT, AU2.FULL_NAME AS UPDATED_BY_NAME " +
+                "FROM TBL_APP_MENU AM " +
+                "LEFT JOIN TBL_APP_USER AU1 ON AM.CREATED_BY = AU1.ID " +
+                "LEFT JOIN TBL_APP_USER AU2 ON AM.UPDATED_BY = AU2.ID";
+        try {
+            log.info("Fetching detailed AppMenu records with LEFT JOIN");
+            List<Map<String, Object>> appMenus = jdbcTemplate.queryForList(sql);
+            log.info("Fetched {} detailed AppMenu records", appMenus.size());
+            return appMenus;
+        } catch (Exception e) {
+            log.error("Error fetching detailed AppMenu records: {}", e.getMessage(), e);
+            throw e;
+        }
+    }
+
+    @Override
+    public Map<String, Object> getAppMenuGetById(String id) {
+        String sql = "SELECT AM.ID, AM.MENU_NAME, AM.CREATED_AT, AU1.FULL_NAME AS CREATED_BY_NAME, " +
+                "AM.UPDATED_AT, AU2.FULL_NAME AS UPDATED_BY_NAME " +
+                "FROM TBL_APP_MENU AM " +
+                "LEFT JOIN TBL_APP_USER AU1 ON AM.CREATED_BY = AU1.ID " +
+                "LEFT JOIN TBL_APP_USER AU2 ON AM.UPDATED_BY = AU2.ID " +
+                "WHERE AM.ID = ?";
+        try {
+            log.info("Fetching detailed AppMenu record for ID: {} with LEFT JOIN", id);
+            Map<String, Object> appMenu = jdbcTemplate.queryForMap(sql, id);
+            log.info("Fetched detailed AppMenu record: {}", appMenu);
+            return appMenu;
+        } catch (Exception e) {
+            log.error("Error fetching detailed AppMenu record for ID {}: {}", id, e.getMessage(), e);
+            throw e;
         }
     }
 
@@ -48,69 +90,57 @@ public class AppMenuRepoImpl implements AppMenuRepo {
     public AppMenu saveAppMenu(AppMenu appMenu) {
         appMenu.prePersist();
         String sql = "INSERT INTO TBL_APP_MENU (ID, MENU_NAME, CREATED_BY) VALUES (?, ?, ?)";
-        log.info("Executing query to save AppMenu: {} using query: {}", appMenu, sql);
         try {
+            log.info("Saving AppMenu record: {}", appMenu);
             int rowsAffected = jdbcTemplate.update(sql, appMenu.getId(), appMenu.getMenuName(), appMenu.getCreatedBy());
             if (rowsAffected > 0) {
-                log.info("Successfully saved AppMenu: {}", appMenu);
+                log.info("Successfully saved AppMenu record");
                 return appMenu;
             } else {
-                log.warn("Failed to save AppMenu: {}", appMenu);
+                log.warn("Failed to save AppMenu record: No rows affected");
                 return null;
             }
         } catch (Exception e) {
-            log.error("Error saving AppMenu: {}. Error: {}", appMenu, e.getMessage());
-            return null;
+            log.error("Error saving AppMenu record: {}", e.getMessage(), e);
+            throw e;
         }
     }
 
     @Override
     public AppMenu updateAppMenu(AppMenu appMenu) {
         String sql = "UPDATE TBL_APP_MENU SET MENU_NAME = ?, UPDATED_AT = SYSDATE(), UPDATED_BY = ? WHERE ID = ?";
-        log.info("Executing query to update AppMenu with ID: {} using query: {}", appMenu.getId(), sql);
         try {
+            log.info("Updating AppMenu record: {}", appMenu);
             int rowsAffected = jdbcTemplate.update(sql, appMenu.getMenuName(), appMenu.getUpdatedBy(), appMenu.getId());
             if (rowsAffected > 0) {
-                log.info("Successfully updated AppMenu: {}", appMenu);
+                log.info("Successfully updated AppMenu record");
                 return appMenu;
             } else {
-                log.warn("Failed to update AppMenu with ID: {}", appMenu.getId());
+                log.warn("Failed to update AppMenu record with ID: {}", appMenu.getId());
                 return null;
             }
         } catch (Exception e) {
-            log.error("Error updating AppMenu with ID: {}. Error: {}", appMenu.getId(), e.getMessage());
-            return null;
+            log.error("Error updating AppMenu record: {}", e.getMessage(), e);
+            throw e;
         }
     }
 
     @Override
     public Boolean deleteAppMenu(String id) {
         String sql = "DELETE FROM TBL_APP_MENU WHERE ID = ?";
-        log.info("Executing query to delete AppMenu with ID: {} using query: {}", id, sql);
         try {
+            log.info("Deleting AppMenu record with ID: {}", id);
             int rowsAffected = jdbcTemplate.update(sql, id);
             if (rowsAffected > 0) {
-                log.info("Successfully deleted AppMenu with ID: {}", id);
+                log.info("Successfully deleted AppMenu record with ID: {}", id);
                 return true;
             } else {
-                log.warn("Failed to delete AppMenu with ID: {}", id);
+                log.warn("Failed to delete AppMenu record with ID: {}", id);
                 return false;
             }
         } catch (Exception e) {
-            log.error("Error deleting AppMenu with ID: {}. Error: {}", id, e.getMessage());
-            return false;
+            log.error("Error deleting AppMenu record with ID {}: {}", id, e.getMessage(), e);
+            throw e;
         }
-    }
-
-    @Override
-    public List<Map<String, Object>> getAppMenuGets() {
-        String sql = "SELECT AM.ID, AM.MENU_NAME, AM.CREATED_AT, AU1.FULL_NAME, AM.UPDATED_AT, AU2.FULL_NAME FROM TBL_APP_USER_MENU AU JOIN TBL_APP_USER AU1 ON AM.CREATED_BY = AU1.ID JOIN TBL_APP_USER ON AM.UPDATED_BY = AU2.ID";
-        return jdbcTemplate.queryForList(sql);
-    }
-
-    @Override
-    public Map<String, Object> getAppMenuGetById(String id) {
-        String sql = "SELECT AM.ID, AM.MENU_NAME, AM.CREATED_AT, AU1.FULL_NAME, AM.UPDATED_AT, AU2.FULL_NAME FROM TBL_APP_USER_MENU AU JOIN TBL_APP_USER AU1 ON AM.CREATED_BY = AU1.ID JOIN TBL_APP_USER ON AM.UPDATED_BY = AU2.ID WHERE AM.ID = ?";
-        return jdbcTemplate.queryForMap(sql,id);
     }
 }

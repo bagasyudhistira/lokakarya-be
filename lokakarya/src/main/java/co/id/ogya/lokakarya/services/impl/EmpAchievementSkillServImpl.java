@@ -62,7 +62,7 @@ public class EmpAchievementSkillServImpl implements EmpAchievementSkillServ {
             List<Map<String,Object>> listData = empAchievementSkillRepo.getEmpAchievementSkillGets();
             log.debug("Fetched {} EmpAchievementSkills from repository", listData.size());
             for (Map<String,Object> data : listData) {
-                EmpAchievementSkillGetDto result = new EmpAchievementSkillGetDto().mapToDto(data);
+                EmpAchievementSkillGetDto result =  EmpAchievementSkillGetDto.mapToDto(data);
                 listResult.add(result);
             }
         } catch (Exception e) {
@@ -77,7 +77,7 @@ public class EmpAchievementSkillServImpl implements EmpAchievementSkillServ {
         EmpAchievementSkillGetDto result = null;
         try {
             Map<String ,Object> data = empAchievementSkillRepo.getEmpAchievementSkillGetById(id);
-            result = new EmpAchievementSkillGetDto().mapToDto(data);
+            result =  EmpAchievementSkillGetDto.mapToDto(data);
             log.debug("Fetched EmpAchievementSkill: {}", result);
         } catch (Exception e) {
             log.error("Error occurred while fetching EmpAchievementSkill by ID {}: {}", id, e.getMessage(), e);

@@ -36,7 +36,8 @@ public class GroupAchievementRepoImpl implements GroupAchievementRepo {
 
     @Override
     public GroupAchievement getGroupAchievementById(String id) {
-        String sql = "SELECT * FROM TBL_GROUP_ACHIEVEMENT WHERE ID = ?";
+        String sql = "SELECT * FROM TBL_GROUP_ACHIEVEMENT " +
+                "WHERE ID = ?";
         log.info("Executing query to fetch GroupAchievement by ID: {}. Query: {}", id, sql);
         try {
             GroupAchievement result = jdbcTemplate.queryForObject(sql, rowMapper, id);
@@ -70,7 +71,8 @@ public class GroupAchievementRepoImpl implements GroupAchievementRepo {
 
     @Override
     public GroupAchievement updateGroupAchievement(GroupAchievement groupAchievement) {
-        String sql = "UPDATE TBL_GROUP_ACHIEVEMENT SET GROUP_NAME = ?, PERCENTAGE = ?, ENABLED = ?, UPDATED_AT = SYSDATE(), UPDATED_BY = ? WHERE ID = ?";
+        String sql = "UPDATE TBL_GROUP_ACHIEVEMENT SET GROUP_NAME = ?, PERCENTAGE = ?, ENABLED = ?, UPDATED_AT = SYSDATE(), UPDATED_BY = ? " +
+                "WHERE ID = ?";
         log.info("Executing query to update GroupAchievement with ID: {}. Query: {}", groupAchievement.getId(), sql);
         try {
             int rowsAffected = jdbcTemplate.update(sql, groupAchievement.getGroupName(), groupAchievement.getPercentage(), groupAchievement.isEnabled(), groupAchievement.getUpdatedBy(), groupAchievement.getId());
@@ -89,7 +91,8 @@ public class GroupAchievementRepoImpl implements GroupAchievementRepo {
 
     @Override
     public Boolean deleteGroupAchievement(String id) {
-        String sql = "DELETE FROM TBL_GROUP_ACHIEVEMENT WHERE ID = ?";
+        String sql = "DELETE FROM TBL_GROUP_ACHIEVEMENT " +
+                "WHERE ID = ?";
         log.info("Executing query to delete GroupAchievement with ID: {}. Query: {}", id, sql);
         try {
             int rowsAffected = jdbcTemplate.update(sql, id);

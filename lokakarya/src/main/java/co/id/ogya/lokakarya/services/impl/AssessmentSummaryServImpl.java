@@ -63,7 +63,7 @@ public class AssessmentSummaryServImpl implements AssessmentSummaryServ {
             List<Map<String,Object>> listData = assessmentSummaryRepo.getAssessmentSummaryGets();
             log.debug("Fetched {} AssessmentSummaries from repository", listData.size());
             for (Map<String,Object> data : listData) {
-                AssessmentSummaryGetDto result = new AssessmentSummaryGetDto().mapToDto(data);
+                AssessmentSummaryGetDto result =  AssessmentSummaryGetDto.mapToDto(data);
                 listResult.add(result);
             }
         } catch (Exception e) {
@@ -78,7 +78,7 @@ public class AssessmentSummaryServImpl implements AssessmentSummaryServ {
         AssessmentSummaryGetDto result = null;
         try {
             Map<String,Object> data = assessmentSummaryRepo.getAssessmentSummaryGetById(id);
-            result = new AssessmentSummaryGetDto().mapToDto(data);
+            result =  AssessmentSummaryGetDto.mapToDto(data);
             log.debug("Fetched AssessmentSummary: {}", result);
         } catch (Exception e) {
             log.error("Error occurred while fetching AssessmentSummary by ID {}: {}", id, e.getMessage(), e);

@@ -24,7 +24,7 @@ public class EmpSuggestionRepoImpl implements EmpSuggestionRepo {
     @Override
     public List<EmpSuggestion> getEmpSuggestions() {
         String sql = "SELECT * FROM TBL_EMP_SUGGESTION";
-        log.info("Executing query to fetch all EmpSuggestions: {}", sql);
+        log.info("Fetching all EmpSuggestions with query: {}", sql);
         try {
             List<EmpSuggestion> result = jdbcTemplate.query(sql, rowMapper);
             log.info("Successfully fetched {} EmpSuggestions", result.size());
@@ -38,7 +38,7 @@ public class EmpSuggestionRepoImpl implements EmpSuggestionRepo {
     @Override
     public EmpSuggestion getEmpSuggestionById(String id) {
         String sql = "SELECT * FROM TBL_EMP_SUGGESTION WHERE ID = ?";
-        log.info("Executing query to fetch EmpSuggestion by ID: {}. Query: {}", id, sql);
+        log.info("Fetching EmpSuggestion by ID: {}. Query: {}", id, sql);
         try {
             EmpSuggestion result = jdbcTemplate.queryForObject(sql, rowMapper, id);
             log.info("Successfully fetched EmpSuggestion: {}", result);
@@ -52,10 +52,11 @@ public class EmpSuggestionRepoImpl implements EmpSuggestionRepo {
     @Override
     public EmpSuggestion saveEmpSuggestion(EmpSuggestion empSuggestion) {
         empSuggestion.prePersist();
-        String sql = "INSERT INTO TBL_EMP_SUGGESTION (ID, USER_ID, SUGGESTION, ASSESSMENT_YEAR, CREATED_BY) VALUES (?,?,?,?,?)";
-        log.info("Executing query to save EmpSuggestion: {}. Query: {}", empSuggestion, sql);
+        String sql = "INSERT INTO TBL_EMP_SUGGESTION (ID, USER_ID, SUGGESTION, ASSESSMENT_YEAR, CREATED_BY) VALUES (?, ?, ?, ?, ?)";
+        log.info("Saving EmpSuggestion: {}. Query: {}", empSuggestion, sql);
         try {
-            int rowsAffected = jdbcTemplate.update(sql, empSuggestion.getId(), empSuggestion.getUserId(), empSuggestion.getSuggestion(), empSuggestion.getAssessmentYear(), empSuggestion.getCreatedBy());
+            int rowsAffected = jdbcTemplate.update(sql, empSuggestion.getId(), empSuggestion.getUserId(),
+                    empSuggestion.getSuggestion(), empSuggestion.getAssessmentYear(), empSuggestion.getCreatedBy());
             if (rowsAffected > 0) {
                 log.info("Successfully saved EmpSuggestion: {}", empSuggestion);
                 return empSuggestion;
@@ -71,10 +72,12 @@ public class EmpSuggestionRepoImpl implements EmpSuggestionRepo {
 
     @Override
     public EmpSuggestion updateEmpSuggestion(EmpSuggestion empSuggestion) {
-        String sql = "UPDATE TBL_EMP_SUGGESTION SET USER_ID = ?, SUGGESTION = ?, ASSESSMENT_YEAR = ?, UPDATED_AT = SYSDATE(), UPDATED_BY = ? WHERE ID = ?";
-        log.info("Executing query to update EmpSuggestion with ID: {}. Query: {}", empSuggestion.getId(), sql);
+        String sql = "UPDATE TBL_EMP_SUGGESTION SET USER_ID = ?, SUGGESTION = ?, ASSESSMENT_YEAR = ?, UPDATED_AT = SYSDATE(), UPDATED_BY = ? " +
+                "WHERE ID = ?";
+        log.info("Updating EmpSuggestion with ID: {}. Query: {}", empSuggestion.getId(), sql);
         try {
-            int rowsAffected = jdbcTemplate.update(sql, empSuggestion.getUserId(), empSuggestion.getSuggestion(), empSuggestion.getAssessmentYear(), empSuggestion.getUpdatedBy(), empSuggestion.getId());
+            int rowsAffected = jdbcTemplate.update(sql, empSuggestion.getUserId(), empSuggestion.getSuggestion(),
+                    empSuggestion.getAssessmentYear(), empSuggestion.getUpdatedBy(), empSuggestion.getId());
             if (rowsAffected > 0) {
                 log.info("Successfully updated EmpSuggestion: {}", empSuggestion);
                 return empSuggestion;
@@ -91,7 +94,7 @@ public class EmpSuggestionRepoImpl implements EmpSuggestionRepo {
     @Override
     public Boolean deleteEmpSuggestion(String id) {
         String sql = "DELETE FROM TBL_EMP_SUGGESTION WHERE ID = ?";
-        log.info("Executing query to delete EmpSuggestion with ID: {}. Query: {}", id, sql);
+        log.info("Deleting EmpSuggestion with ID: {}. Query: {}", id, sql);
         try {
             int rowsAffected = jdbcTemplate.update(sql, id);
             if (rowsAffected > 0) {
@@ -109,13 +112,34 @@ public class EmpSuggestionRepoImpl implements EmpSuggestionRepo {
 
     @Override
     public List<Map<String, Object>> getEmpSuggestionGets() {
-        String sql = "SELECT ES.ID, AU.FULL_NAME, ES.SUGGESTION, ES.ASSESSMENT_YEAR FROM TBL_EMP_SUGGESTION ES JOIN TBL_APP_USER AU ON ES.USER_ID = AU.ID";
-        return jdbcTemplate.queryForList(sql);
+        String sql = "SELECT ES.ID, AU.FULL_NAME, ES.SUGGESTION, ES.ASSESSMENT_YEAR " +
+                "FROM TBL_EMP_SUGGESTION ES " +
+                "LEFT JOIN TBL_APP_USER AU ON ES.USER_ID = AU.ID";
+        log.info("Fetching all EmpSuggestions with LEFT JOIN query: {}", sql);
+        try {
+            List<Map<String, Object>> result = jdbcTemplate.queryForList(sql);
+            log.info("Successfully fetched {} EmpSuggestions", result.size());
+            return result;
+        } catch (Exception e) {
+            log.error("Error while fetching all EmpSuggestions. Error: {}", e.getMessage());
+            throw e;
+        }
     }
 
     @Override
     public List<Map<String, Object>> getEmpSuggestionGetByUserId(String userId) {
-        String sql = "SELECT ES.ID, AU.FULL_NAME, ES.SUGGESTION, ES.ASSESSMENT_YEAR FROM TBL_EMP_SUGGESTION ES JOIN TBL_APP_USER AU ON ES.USER_ID = AU.ID WHERE ES.USER_ID = ?";
-        return jdbcTemplate.queryForList(sql, userId);
+        String sql = "SELECT ES.ID, AU.FULL_NAME, ES.SUGGESTION, ES.ASSESSMENT_YEAR " +
+                "FROM TBL_EMP_SUGGESTION ES " +
+                "LEFT JOIN TBL_APP_USER AU ON ES.USER_ID = AU.ID " +
+                "WHERE ES.USER_ID = ?";
+        log.info("Fetching EmpSuggestions by UserID: {} with LEFT JOIN query: {}", userId, sql);
+        try {
+            List<Map<String, Object>> result = jdbcTemplate.queryForList(sql, userId);
+            log.info("Successfully fetched {} EmpSuggestions for UserID: {}", result.size(), userId);
+            return result;
+        } catch (Exception e) {
+            log.error("Error while fetching EmpSuggestions for UserID: {}. Error: {}", userId, e.getMessage());
+            throw e;
+        }
     }
 }

@@ -36,7 +36,8 @@ public class DevPlanRepoImpl implements DevPlanRepo {
 
     @Override
     public DevPlan getDevPlanById(String id) {
-        String sql = "SELECT * FROM TBL_DEV_PLAN WHERE ID = ?";
+        String sql = "SELECT * FROM TBL_DEV_PLAN " +
+                "WHERE ID = ?";
         log.info("Executing query to fetch DevPlan by ID: {} using query: {}", id, sql);
         try {
             DevPlan result = jdbcTemplate.queryForObject(sql, rowMapper, id);
@@ -70,7 +71,8 @@ public class DevPlanRepoImpl implements DevPlanRepo {
 
     @Override
     public DevPlan updateDevPlan(DevPlan devPlan) {
-        String sql = "UPDATE TBL_DEV_PLAN SET PLAN = ?, ENABLED = ?, UPDATED_AT = SYSDATE(), UPDATED_BY = ? WHERE ID = ?";
+        String sql = "UPDATE TBL_DEV_PLAN SET PLAN = ?, ENABLED = ?, UPDATED_AT = SYSDATE(), UPDATED_BY = ? " +
+                "WHERE ID = ?";
         log.info("Executing query to update DevPlan with ID: {} using query: {}", devPlan.getId(), sql);
         try {
             int rowsAffected = jdbcTemplate.update(sql, devPlan.getPlan(), devPlan.isEnabled(), devPlan.getUpdatedBy(), devPlan.getId());
@@ -89,7 +91,8 @@ public class DevPlanRepoImpl implements DevPlanRepo {
 
     @Override
     public Boolean deleteDevPlan(String id) {
-        String sql = "DELETE FROM TBL_DEV_PLAN WHERE ID = ?";
+        String sql = "DELETE FROM TBL_DEV_PLAN " +
+                "WHERE ID = ?";
         log.info("Executing query to delete DevPlan with ID: {} using query: {}", id, sql);
         try {
             int rowsAffected = jdbcTemplate.update(sql, id);

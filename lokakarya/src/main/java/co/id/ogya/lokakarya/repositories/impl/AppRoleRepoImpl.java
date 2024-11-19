@@ -31,7 +31,8 @@ public class AppRoleRepoImpl implements AppRoleRepo {
 
     @Override
     public AppRole getAppRoleById(String id) {
-        String sql = "SELECT * FROM TBL_APP_ROLE WHERE ID = ?";
+        String sql = "SELECT * FROM TBL_APP_ROLE " +
+                "WHERE ID = ?";
         log.info("Executing query to fetch AppRole by ID: {} using query: {}", id, sql);
         try {
             AppRole appRole = jdbcTemplate.queryForObject(sql, rowMapper, id);
@@ -65,7 +66,8 @@ public class AppRoleRepoImpl implements AppRoleRepo {
 
     @Override
     public AppRole updateAppRole(AppRole appRole) {
-        String sql = "UPDATE TBL_APP_ROLE SET ROLENAME = ?, UPDATED_AT = SYSDATE(), UPDATED_BY = ? WHERE ID = ?";
+        String sql = "UPDATE TBL_APP_ROLE SET ROLENAME = ?, UPDATED_AT = SYSDATE(), UPDATED_BY = ? " +
+                "WHERE ID = ?";
         log.info("Executing query to update AppRole with ID: {} using query: {}", appRole.getId(), sql);
         try {
             int rowsAffected = jdbcTemplate.update(sql, appRole.getRolename(), appRole.getUpdatedBy(), appRole.getId());
@@ -84,7 +86,8 @@ public class AppRoleRepoImpl implements AppRoleRepo {
 
     @Override
     public Boolean deleteAppRole(String id) {
-        String sql = "DELETE FROM TBL_APP_ROLE WHERE ID = ?";
+        String sql = "DELETE FROM TBL_APP_ROLE " +
+                "WHERE ID = ?";
         log.info("Executing query to delete AppRole with ID: {} using query: {}", id, sql);
         try {
             int rowsAffected = jdbcTemplate.update(sql, id);

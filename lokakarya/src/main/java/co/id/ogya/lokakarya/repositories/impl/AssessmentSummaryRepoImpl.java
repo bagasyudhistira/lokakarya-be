@@ -38,7 +38,7 @@ public class AssessmentSummaryRepoImpl implements AssessmentSummaryRepo {
     @Override
     public AssessmentSummary getAssessmentSummaryById(String id) {
         String sql = "SELECT * FROM TBL_ASSESSMENT_SUMMARY WHERE ID = ?";
-        log.info("Executing query to fetch AssessmentSummary by ID: {} using query: {}", id, sql);
+        log.info("Executing query to fetch AssessmentSummary by ID: {}", id);
         try {
             AssessmentSummary result = jdbcTemplate.queryForObject(sql, rowMapper, id);
             log.info("Successfully fetched AssessmentSummary: {}", result);
@@ -50,18 +50,18 @@ public class AssessmentSummaryRepoImpl implements AssessmentSummaryRepo {
     }
 
     @Override
-    public List<Map<String,Object>> getAssessmentSummaryGets() {
-        String sql = "SELECT au.ID, FULL_NAME, YEAR, SCORE, STATUS, " +
+    public List<Map<String, Object>> getAssessmentSummaryGets() {
+        String sql = "SELECT au.ID AS USER_ID, FULL_NAME, YEAR, SCORE, STATUS, " +
                 "ass.CREATED_AT, ass.CREATED_BY, ass.UPDATED_AT, ass.UPDATED_BY " +
                 "FROM TBL_ASSESSMENT_SUMMARY ass " +
-                "JOIN TBL_APP_USER au ON ass.USER_ID = au.ID ";
-        log.info("Executing query to fetch all AssessmentSummary records: {}", sql);
+                "LEFT JOIN TBL_APP_USER au ON ass.USER_ID = au.ID";
+        log.info("Executing query to fetch all AssessmentSummary records with user details: {}", sql);
         try {
-            List<Map<String,Object>> result = jdbcTemplate.queryForList(sql, rowMapper);
-            log.info("Successfully fetched {} AssessmentSummary records.", result.size());
+            List<Map<String, Object>> result = jdbcTemplate.queryForList(sql);
+            log.info("Successfully fetched {} AssessmentSummary records with user details.", result.size());
             return result;
         } catch (Exception e) {
-            log.error("Error fetching all AssessmentSummary records. Error: {}", e.getMessage());
+            log.error("Error fetching all AssessmentSummary records with user details. Error: {}", e.getMessage());
             throw e;
         }
     }
@@ -71,11 +71,11 @@ public class AssessmentSummaryRepoImpl implements AssessmentSummaryRepo {
         String sql = "SELECT ass.ID, FULL_NAME, YEAR, SCORE, STATUS, " +
                 "ass.CREATED_AT, ass.CREATED_BY, ass.UPDATED_AT, ass.UPDATED_BY " +
                 "FROM TBL_ASSESSMENT_SUMMARY ass " +
-                "JOIN TBL_APP_USER au ON ass.USER_ID = au.ID " +
+                "LEFT JOIN TBL_APP_USER au ON ass.USER_ID = au.ID " +
                 "WHERE ass.ID = ?";
-        log.info("Executing query to fetch AssessmentSummary by ID: {} using query: {}", id, sql);
+        log.info("Executing query to fetch AssessmentSummary by ID with user details: {}", id);
         try {
-            Map<String,Object> result = jdbcTemplate.queryForMap(sql, rowMapper, id);
+            Map<String, Object> result = jdbcTemplate.queryForMap(sql, id);
             log.info("Successfully fetched AssessmentSummary: {}", result);
             return result;
         } catch (Exception e) {
@@ -85,35 +85,38 @@ public class AssessmentSummaryRepoImpl implements AssessmentSummaryRepo {
     }
 
     @Override
-    public List<Map<String,Object>> getAssessmentSummaryGetByUserId(String id) {
+    public List<Map<String, Object>> getAssessmentSummaryGetByUserId(String userId) {
         String sql = "SELECT ass.ID, FULL_NAME, YEAR, SCORE, STATUS, " +
                 "ass.CREATED_AT, ass.CREATED_BY, ass.UPDATED_AT, ass.UPDATED_BY " +
                 "FROM TBL_ASSESSMENT_SUMMARY ass " +
-                "JOIN TBL_APP_USER au ON ass.USER_ID = au.ID " +
+                "LEFT JOIN TBL_APP_USER au ON ass.USER_ID = au.ID " +
                 "WHERE au.ID = ?";
-        log.info("Executing query to fetch AssessmentSummary by ID: {} using query: {}", id, sql);
+        log.info("Executing query to fetch AssessmentSummary records by User ID: {}", userId);
         try {
-            List<Map<String, Object>> result = jdbcTemplate.queryForList(sql, rowMapper, id);
-            log.info("Successfully fetched AssessmentSummary: {}", result);
+            List<Map<String, Object>> result = jdbcTemplate.queryForList(sql, userId);
+            log.info("Successfully fetched {} AssessmentSummary records for User ID: {}", result.size(), userId);
             return result;
         } catch (Exception e) {
-            log.error("Error fetching AssessmentSummary by ID: {}. Error: {}", id, e.getMessage());
-            return null;
+            log.error("Error fetching AssessmentSummary records for User ID: {}. Error: {}", userId, e.getMessage());
+            throw e;
         }
     }
 
     @Override
     public AssessmentSummary saveAssessmentSummary(AssessmentSummary assessmentSummary) {
         assessmentSummary.prePersist();
-        String sql = "INSERT INTO TBL_ASSESSMENT_SUMMARY (ID, USER_ID, YEAR, SCORE, STATUS, CREATED_BY) VALUES (?, ?, ?, ?, ?, ?)";
-        log.info("Executing query to save AssessmentSummary: {} using query: {}", assessmentSummary, sql);
+        String sql = "INSERT INTO TBL_ASSESSMENT_SUMMARY (ID, USER_ID, YEAR, SCORE, STATUS, CREATED_BY) " +
+                "VALUES (?, ?, ?, ?, ?, ?)";
+        log.info("Executing query to save AssessmentSummary: {}", assessmentSummary);
         try {
-            int rowsAffected = jdbcTemplate.update(sql, assessmentSummary.getId(), assessmentSummary.getUserId(), assessmentSummary.getYear(), assessmentSummary.getScore(), assessmentSummary.getStatus(), assessmentSummary.getCreatedBy());
+            int rowsAffected = jdbcTemplate.update(sql, assessmentSummary.getId(), assessmentSummary.getUserId(),
+                    assessmentSummary.getYear(), assessmentSummary.getScore(), assessmentSummary.getStatus(),
+                    assessmentSummary.getCreatedBy());
             if (rowsAffected > 0) {
                 log.info("Successfully saved AssessmentSummary: {}", assessmentSummary);
                 return assessmentSummary;
             } else {
-                log.warn("No rows affected while saving AssessmentSummary: {}", assessmentSummary);
+                log.warn("Failed to save AssessmentSummary: {}", assessmentSummary);
                 return null;
             }
         } catch (Exception e) {
@@ -124,15 +127,18 @@ public class AssessmentSummaryRepoImpl implements AssessmentSummaryRepo {
 
     @Override
     public AssessmentSummary updateAssessmentSummary(AssessmentSummary assessmentSummary) {
-        String sql = "UPDATE TBL_ASSESSMENT_SUMMARY SET USER_ID = ?, YEAR = ?, SCORE = ?, STATUS = ?, UPDATED_AT = SYSDATE(), UPDATED_BY = ? WHERE ID = ?";
-        log.info("Executing query to update AssessmentSummary with ID: {} using query: {}", assessmentSummary.getId(), sql);
+        String sql = "UPDATE TBL_ASSESSMENT_SUMMARY SET USER_ID = ?, YEAR = ?, SCORE = ?, STATUS = ?, " +
+                "UPDATED_AT = SYSDATE(), UPDATED_BY = ? WHERE ID = ?";
+        log.info("Executing query to update AssessmentSummary with ID: {}", assessmentSummary.getId());
         try {
-            int rowsAffected = jdbcTemplate.update(sql, assessmentSummary.getUserId(), assessmentSummary.getYear(), assessmentSummary.getScore(), assessmentSummary.getStatus(), assessmentSummary.getUpdatedBy(), assessmentSummary.getId());
+            int rowsAffected = jdbcTemplate.update(sql, assessmentSummary.getUserId(), assessmentSummary.getYear(),
+                    assessmentSummary.getScore(), assessmentSummary.getStatus(), assessmentSummary.getUpdatedBy(),
+                    assessmentSummary.getId());
             if (rowsAffected > 0) {
                 log.info("Successfully updated AssessmentSummary: {}", assessmentSummary);
                 return assessmentSummary;
             } else {
-                log.warn("No rows affected while updating AssessmentSummary with ID: {}", assessmentSummary.getId());
+                log.warn("Failed to update AssessmentSummary with ID: {}", assessmentSummary.getId());
                 return null;
             }
         } catch (Exception e) {
@@ -144,14 +150,14 @@ public class AssessmentSummaryRepoImpl implements AssessmentSummaryRepo {
     @Override
     public Boolean deleteAssessmentSummary(String id) {
         String sql = "DELETE FROM TBL_ASSESSMENT_SUMMARY WHERE ID = ?";
-        log.info("Executing query to delete AssessmentSummary with ID: {} using query: {}", id, sql);
+        log.info("Executing query to delete AssessmentSummary with ID: {}", id);
         try {
             int rowsAffected = jdbcTemplate.update(sql, id);
             if (rowsAffected > 0) {
                 log.info("Successfully deleted AssessmentSummary with ID: {}", id);
                 return true;
             } else {
-                log.warn("No rows affected while deleting AssessmentSummary with ID: {}", id);
+                log.warn("Failed to delete AssessmentSummary with ID: {}", id);
                 return false;
             }
         } catch (Exception e) {

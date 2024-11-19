@@ -31,7 +31,7 @@ public class AccessDivisionRepoImpl implements AccessDivisionRepo {
             return accessDivisions;
         } catch (Exception e) {
             log.error("Error fetching AccessDivision records: {}", e.getMessage(), e);
-            throw e; 
+            throw e;
         }
     }
 
@@ -45,47 +45,49 @@ public class AccessDivisionRepoImpl implements AccessDivisionRepo {
             return accessDivision;
         } catch (Exception e) {
             log.error("Error fetching AccessDivision record with ID {}: {}", id, e.getMessage(), e);
-            throw e; 
+            throw e;
         }
     }
-    
+
     @Override
     public List<Map<String, Object>> getAccessDivisionGets() {
-        String sql = "SELECT ad.ID, au.FULL_NAME, d.DIVISION_NAME FROM TBL_ACCESS_DIVISION ad " +
-                "JOIN TBL_DIVISION d ON ad.DIVISION_ID = d.ID " +
-                "JOIN TBL_APP_USER au ON ad.USER_ID = au.ID ";
+        String sql = "SELECT ad.ID, au.FULL_NAME, d.DIVISION_NAME " +
+                "FROM TBL_ACCESS_DIVISION ad " +
+                "LEFT JOIN TBL_DIVISION d ON ad.DIVISION_ID = d.ID " +
+                "LEFT JOIN TBL_APP_USER au ON ad.USER_ID = au.ID";
         try {
-            log.info("Fetching all AccessDivision records");
-            List<Map<String,Object>> accessDivisions = jdbcTemplate.queryForList(sql, rowMapper);
-            log.info("Fetched {} AccessDivision records", accessDivisions.size());
+            log.info("Fetching AccessDivision details with LEFT JOIN");
+            List<Map<String, Object>> accessDivisions = jdbcTemplate.queryForList(sql);
+            log.info("Fetched {} AccessDivision details", accessDivisions.size());
             return accessDivisions;
         } catch (Exception e) {
-            log.error("Error fetching AccessDivision records: {}", e.getMessage(), e);
+            log.error("Error fetching AccessDivision details: {}", e.getMessage(), e);
             throw e;
         }
     }
 
     @Override
     public Map<String, Object> getAccessDivisionGetById(String id) {
-        String sql = "SELECT ad.ID, au.FULL_NAME, d.DIVISION_NAME FROM TBL_ACCESS_DIVISION ad " +
-                "JOIN TBL_DIVISION d ON ad.DIVISION_ID = d.ID " +
-                "JOIN TBL_APP_USER au ON ad.USER_ID = au.ID " +
+        String sql = "SELECT ad.ID, au.FULL_NAME, d.DIVISION_NAME " +
+                "FROM TBL_ACCESS_DIVISION ad " +
+                "LEFT JOIN TBL_DIVISION d ON ad.DIVISION_ID = d.ID " +
+                "LEFT JOIN TBL_APP_USER au ON ad.USER_ID = au.ID " +
                 "WHERE ad.ID = ?";
         try {
-            log.info("Fetching AccessDivision record with ID: {}", id);
-            Map<String,Object> accessDivision = jdbcTemplate.queryForMap(sql, rowMapper, id);
-            log.info("Fetched AccessDivision record: {}", accessDivision);
+            log.info("Fetching AccessDivision details for ID: {} with LEFT JOIN", id);
+            Map<String, Object> accessDivision = jdbcTemplate.queryForMap(sql, id);
+            log.info("Fetched AccessDivision details: {}", accessDivision);
             return accessDivision;
         } catch (Exception e) {
-            log.error("Error fetching AccessDivision record with ID {}: {}", id, e.getMessage(), e);
-            throw e; 
+            log.error("Error fetching AccessDivision details for ID {}: {}", id, e.getMessage(), e);
+            throw e;
         }
     }
 
     @Override
     public AccessDivision saveAccessDivision(AccessDivision accessDivision) {
         accessDivision.prePersist();
-        String sql = "INSERT INTO TBL_ACCESS_DIVISION (ID, USER_ID, DIVISION_ID) VALUES (?,?,?)";
+        String sql = "INSERT INTO TBL_ACCESS_DIVISION (ID, USER_ID, DIVISION_ID) VALUES (?, ?, ?)";
         try {
             log.info("Saving AccessDivision record: {}", accessDivision);
             int rowsAffected = jdbcTemplate.update(sql, accessDivision.getId(), accessDivision.getUserId(), accessDivision.getDivisionId());
@@ -98,7 +100,7 @@ public class AccessDivisionRepoImpl implements AccessDivisionRepo {
             }
         } catch (Exception e) {
             log.error("Error saving AccessDivision record: {}", e.getMessage(), e);
-            throw e; 
+            throw e;
         }
     }
 
@@ -117,7 +119,7 @@ public class AccessDivisionRepoImpl implements AccessDivisionRepo {
             }
         } catch (Exception e) {
             log.error("Error updating AccessDivision record: {}", e.getMessage(), e);
-            throw e; 
+            throw e;
         }
     }
 
@@ -136,7 +138,7 @@ public class AccessDivisionRepoImpl implements AccessDivisionRepo {
             }
         } catch (Exception e) {
             log.error("Error deleting AccessDivision record with ID {}: {}", id, e.getMessage(), e);
-            throw e; 
+            throw e;
         }
     }
 }

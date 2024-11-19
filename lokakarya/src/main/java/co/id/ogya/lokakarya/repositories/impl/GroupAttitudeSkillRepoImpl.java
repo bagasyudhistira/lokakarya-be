@@ -36,7 +36,8 @@ public class GroupAttitudeSkillRepoImpl implements GroupAttitudeSkillRepo {
 
     @Override
     public GroupAttitudeSkill getGroupAttitudeSkillById(String id) {
-        String sql = "SELECT * FROM TBL_GROUP_ATTITUDE_SKILL WHERE ID = ?";
+        String sql = "SELECT * FROM TBL_GROUP_ATTITUDE_SKILL " +
+                "WHERE ID = ?";
         log.info("Executing query to fetch GroupAttitudeSkill by ID: {}. Query: {}", id, sql);
         try {
             GroupAttitudeSkill result = jdbcTemplate.queryForObject(sql, rowMapper, id);
@@ -70,7 +71,8 @@ public class GroupAttitudeSkillRepoImpl implements GroupAttitudeSkillRepo {
 
     @Override
     public GroupAttitudeSkill updateGroupAttitudeSkill(GroupAttitudeSkill groupAttitudeSkill) {
-        String sql = "UPDATE TBL_GROUP_ATTITUDE_SKILL SET GROUP_NAME = ?, PERCENTAGE = ?, ENABLED = ?, UPDATED_AT = SYSDATE(), UPDATED_BY = ? WHERE ID = ?";
+        String sql = "UPDATE TBL_GROUP_ATTITUDE_SKILL SET GROUP_NAME = ?, PERCENTAGE = ?, ENABLED = ?, UPDATED_AT = SYSDATE(), UPDATED_BY = ? " +
+                "WHERE ID = ?";
         log.info("Executing query to update GroupAttitudeSkill with ID: {}. Query: {}", groupAttitudeSkill.getId(), sql);
         try {
             int rowsAffected = jdbcTemplate.update(sql, groupAttitudeSkill.getGroupName(), groupAttitudeSkill.getPercentage(), groupAttitudeSkill.isEnabled(), groupAttitudeSkill.getUpdatedBy(), groupAttitudeSkill.getId());
@@ -89,7 +91,8 @@ public class GroupAttitudeSkillRepoImpl implements GroupAttitudeSkillRepo {
 
     @Override
     public Boolean deleteGroupAttitudeSkill(String id) {
-        String sql = "DELETE FROM TBL_GROUP_ATTITUDE_SKILL WHERE ID = ?";
+        String sql = "DELETE FROM TBL_GROUP_ATTITUDE_SKILL " +
+                "WHERE ID = ?";
         log.info("Executing query to delete GroupAttitudeSkill with ID: {}. Query: {}", id, sql);
         try {
             int rowsAffected = jdbcTemplate.update(sql, id);

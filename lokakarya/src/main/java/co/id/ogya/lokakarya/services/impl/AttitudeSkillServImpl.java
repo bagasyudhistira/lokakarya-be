@@ -62,7 +62,7 @@ public class AttitudeSkillServImpl implements AttitudeSkillServ {
             List<Map<String,Object>> listData = attitudeSkillRepo.getAttitudeSkillGets();
             log.debug("Fetched {} AttitudeSkills from repository", listData.size());
             for (Map<String,Object> data : listData) {
-                AttitudeSkillGetDto result = new AttitudeSkillGetDto().mapToDto(data);
+                AttitudeSkillGetDto result =  AttitudeSkillGetDto.mapToDto(data);
                 listResult.add(result);
             }
         } catch (Exception e) {
@@ -77,7 +77,7 @@ public class AttitudeSkillServImpl implements AttitudeSkillServ {
         AttitudeSkillGetDto result = null;
         try {
             Map<String,Object> data = attitudeSkillRepo.getAttitudeSkillGetById(id);
-            result = new AttitudeSkillGetDto().mapToDto(data);
+            result =  AttitudeSkillGetDto.mapToDto(data);
             log.debug("Fetched AttitudeSkill: {}", result);
         } catch (Exception e) {
             log.error("Error occurred while fetching AttitudeSkill by ID {}: {}", id, e.getMessage(), e);

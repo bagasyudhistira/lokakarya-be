@@ -63,7 +63,7 @@ public class EmpAttitudeSkillServImpl implements EmpAttitudeSkillServ {
             log.debug("Fetched {} EmpAttitudeSkills from repository", listData.size());
 
             for (Map<String, Object> data : listData) {
-                EmpAttitudeSkillGetDto result = new EmpAttitudeSkillGetDto().mapToDto(data);
+                EmpAttitudeSkillGetDto result =  EmpAttitudeSkillGetDto.mapToDto(data);
                 listResult.add(result);
             }
         } catch (Exception e) {
@@ -78,7 +78,7 @@ public class EmpAttitudeSkillServImpl implements EmpAttitudeSkillServ {
         EmpAttitudeSkillGetDto result = null;
         try {
             Map<String,Object> data = empAttitudeSkillRepo.getEmpAttitudeSkillGetById(id);
-            result = new EmpAttitudeSkillGetDto().mapToDto(data);
+            result =  EmpAttitudeSkillGetDto.mapToDto(data);
             log.debug("Fetched EmpAttitudeSkill: {}", result);
         } catch (Exception e) {
             log.error("Error occurred while fetching EmpAttitudeSkill by ID {}: {}", id, e.getMessage(), e);

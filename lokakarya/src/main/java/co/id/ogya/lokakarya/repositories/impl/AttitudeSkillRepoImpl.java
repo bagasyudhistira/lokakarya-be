@@ -38,7 +38,7 @@ public class AttitudeSkillRepoImpl implements AttitudeSkillRepo {
     @Override
     public AttitudeSkill getAttitudeSkillById(String id) {
         String sql = "SELECT * FROM TBL_ATTITUDE_SKILL WHERE ID = ?";
-        log.info("Executing query to fetch AttitudeSkill by ID: {} using query: {}", id, sql);
+        log.info("Executing query to fetch AttitudeSkill by ID: {}", id);
         try {
             AttitudeSkill result = jdbcTemplate.queryForObject(sql, rowMapper, id);
             log.info("Successfully fetched AttitudeSkill: {}", result);
@@ -50,17 +50,17 @@ public class AttitudeSkillRepoImpl implements AttitudeSkillRepo {
     }
 
     @Override
-    public List<Map<String,Object>> getAttitudeSkillGets() {
+    public List<Map<String, Object>> getAttitudeSkillGets() {
         String sql = "SELECT ats.ID, ATTITUDE_SKILL, GROUP_NAME, ats.ENABLED " +
                 "FROM TBL_ATTITUDE_SKILL ats " +
-                "JOIN TBL_GROUP_ATTITUDE_SKILL gas ON ats.GROUP_ID = gas.ID";
-        log.info("Executing query to fetch all AttitudeSkills: {}", sql);
+                "LEFT JOIN TBL_GROUP_ATTITUDE_SKILL gas ON ats.GROUP_ID = gas.ID";
+        log.info("Executing query to fetch all AttitudeSkills with group details: {}", sql);
         try {
-            List<Map<String,Object>> result = jdbcTemplate.queryForList(sql, rowMapper);
-            log.info("Successfully fetched {} AttitudeSkills.", result.size());
+            List<Map<String, Object>> result = jdbcTemplate.queryForList(sql);
+            log.info("Successfully fetched {} AttitudeSkills with group details.", result.size());
             return result;
         } catch (Exception e) {
-            log.error("Error fetching all AttitudeSkills. Error: {}", e.getMessage());
+            log.error("Error fetching all AttitudeSkills with group details. Error: {}", e.getMessage());
             throw e;
         }
     }
@@ -69,12 +69,12 @@ public class AttitudeSkillRepoImpl implements AttitudeSkillRepo {
     public Map<String, Object> getAttitudeSkillGetById(String id) {
         String sql = "SELECT ats.ID, ATTITUDE_SKILL, GROUP_NAME, ats.ENABLED " +
                 "FROM TBL_ATTITUDE_SKILL ats " +
-                "JOIN TBL_GROUP_ATTITUDE_SKILL gas ON ats.GROUP_ID = gas.ID " +
+                "LEFT JOIN TBL_GROUP_ATTITUDE_SKILL gas ON ats.GROUP_ID = gas.ID " +
                 "WHERE ats.ID = ?";
-        log.info("Executing query to fetch AttitudeSkill by ID: {} using query: {}", id, sql);
+        log.info("Executing query to fetch AttitudeSkill by ID with group details: {}", id);
         try {
-            Map<String,Object> result = jdbcTemplate.queryForMap(sql, rowMapper, id);
-            log.info("Successfully fetched AttitudeSkill: {}", result);
+            Map<String, Object> result = jdbcTemplate.queryForMap(sql, id);
+            log.info("Successfully fetched AttitudeSkill with group details: {}", result);
             return result;
         } catch (Exception e) {
             log.error("Error fetching AttitudeSkill by ID: {}. Error: {}", id, e.getMessage());
@@ -85,10 +85,12 @@ public class AttitudeSkillRepoImpl implements AttitudeSkillRepo {
     @Override
     public AttitudeSkill saveAttitudeSkill(AttitudeSkill attitudeSkill) {
         attitudeSkill.prePersist();
-        String sql = "INSERT INTO TBL_ATTITUDE_SKILL (ID, ATTITUDE_SKILL, GROUP_ID, ENABLED, CREATED_BY) VALUES (?, ?, ?, ?, ?)";
-        log.info("Executing query to save AttitudeSkill: {} using query: {}", attitudeSkill, sql);
+        String sql = "INSERT INTO TBL_ATTITUDE_SKILL (ID, ATTITUDE_SKILL, GROUP_ID, ENABLED, CREATED_BY) " +
+                "VALUES (?, ?, ?, ?, ?)";
+        log.info("Executing query to save AttitudeSkill: {}", attitudeSkill);
         try {
-            int rowsAffected = jdbcTemplate.update(sql, attitudeSkill.getId(), attitudeSkill.getAttitudeSkill(), attitudeSkill.getGroupId(), attitudeSkill.isEnabled(), attitudeSkill.getCreatedBy());
+            int rowsAffected = jdbcTemplate.update(sql, attitudeSkill.getId(), attitudeSkill.getAttitudeSkill(),
+                    attitudeSkill.getGroupId(), attitudeSkill.isEnabled(), attitudeSkill.getCreatedBy());
             if (rowsAffected > 0) {
                 log.info("Successfully saved AttitudeSkill: {}", attitudeSkill);
                 return attitudeSkill;
@@ -104,10 +106,12 @@ public class AttitudeSkillRepoImpl implements AttitudeSkillRepo {
 
     @Override
     public AttitudeSkill updateAttitudeSkill(AttitudeSkill attitudeSkill) {
-        String sql = "UPDATE TBL_ATTITUDE_SKILL SET ATTITUDE_SKILL = ?, GROUP_ID = ?, ENABLED = ?, UPDATED_AT = SYSDATE(), UPDATED_BY = ? WHERE ID = ?";
-        log.info("Executing query to update AttitudeSkill with ID: {} using query: {}", attitudeSkill.getId(), sql);
+        String sql = "UPDATE TBL_ATTITUDE_SKILL SET ATTITUDE_SKILL = ?, GROUP_ID = ?, ENABLED = ?, " +
+                "UPDATED_AT = SYSDATE(), UPDATED_BY = ? WHERE ID = ?";
+        log.info("Executing query to update AttitudeSkill with ID: {}", attitudeSkill.getId());
         try {
-            int rowsAffected = jdbcTemplate.update(sql, attitudeSkill.getAttitudeSkill(), attitudeSkill.getGroupId(), attitudeSkill.isEnabled(), attitudeSkill.getUpdatedBy(), attitudeSkill.getId());
+            int rowsAffected = jdbcTemplate.update(sql, attitudeSkill.getAttitudeSkill(), attitudeSkill.getGroupId(),
+                    attitudeSkill.isEnabled(), attitudeSkill.getUpdatedBy(), attitudeSkill.getId());
             if (rowsAffected > 0) {
                 log.info("Successfully updated AttitudeSkill: {}", attitudeSkill);
                 return attitudeSkill;
@@ -124,7 +128,7 @@ public class AttitudeSkillRepoImpl implements AttitudeSkillRepo {
     @Override
     public Boolean deleteAttitudeSkill(String id) {
         String sql = "DELETE FROM TBL_ATTITUDE_SKILL WHERE ID = ?";
-        log.info("Executing query to delete AttitudeSkill with ID: {} using query: {}", id, sql);
+        log.info("Executing query to delete AttitudeSkill with ID: {}", id);
         try {
             int rowsAffected = jdbcTemplate.update(sql, id);
             if (rowsAffected > 0) {

@@ -62,7 +62,7 @@ public class AppUserServImpl implements AppUserServ {
             List<Map<String,Object>> listData = appUserRepo.getAppUserGets();
             log.debug("Fetched {} AppUsers from repository", listData.size());
             for (Map<String,Object> data : listData) {
-                AppUserGetDto result = new AppUserGetDto().mapToDto(data);
+                AppUserGetDto result =  AppUserGetDto.mapToDto(data);
                 listResult.add(result);
             }
         } catch (Exception e) {
@@ -77,7 +77,7 @@ public class AppUserServImpl implements AppUserServ {
         AppUserGetDto result = null;
         try {
             Map<String,Object> data = appUserRepo.getAppUserGetById(id);
-            result = new AppUserGetDto().mapToDto(data);
+            result =  AppUserGetDto.mapToDto(data);
             log.debug("Fetched AppUser: {}", result);
         } catch (Exception e) {
             log.error("Error occurred while fetching AppUser by ID {}: {}", id, e.getMessage(), e);
