@@ -85,14 +85,79 @@ public class AppUserRepoImpl implements AppUserRepo {
     }
 
     @Override
+    public Map<String, Object> getAppUserByUsername(String username) {
+        String sql = "SELECT au.ID, USERNAME, FULL_NAME, POSITION, EMAIL_ADDRESS, EMPLOYEE_STATUS, " +
+                "JOIN_DATE, ENABLED, PASSWORD, DIVISION_NAME " +
+                "FROM TBL_APP_USER au " +
+                "LEFT JOIN TBL_DIVISION d ON au.DIVISION_ID = d.ID " +
+                "WHERE LOWER(USERNAME) LIKE LOWER(CONCAT('%', ?, '%'))";
+        try {
+            log.info("Fetching detailed AppUser by username: {}", username);
+
+            List<Map<String, Object>> users = jdbcTemplate.queryForList(sql, username);
+
+            if (users.isEmpty()) {
+                log.warn("No AppUser found for username: {}", username);
+                return null;
+            }
+
+            if (users.size() > 1) {
+                log.warn("Multiple AppUsers found for username: {}. Returning the first match.", username);
+            }
+
+            Map<String, Object> appUser = users.get(0);
+            log.info("Fetched detailed AppUser: {}", appUser);
+            return appUser;
+
+        } catch (Exception e) {
+            log.error("Error fetching detailed AppUser by username: {}. Error: {}", username, e.getMessage(), e);
+            return null;
+        }
+    }
+
+
+    @Override
+    public Map<String, Object> getAppUserByFullName(String fullName) {
+        String sql = "SELECT au.ID, USERNAME, FULL_NAME, POSITION, EMAIL_ADDRESS, EMPLOYEE_STATUS, " +
+                "JOIN_DATE, ENABLED, PASSWORD, DIVISION_NAME " +
+                "FROM TBL_APP_USER au " +
+                "LEFT JOIN TBL_DIVISION d ON au.DIVISION_ID = d.ID " +
+                "WHERE LOWER(FULL_NAME) LIKE LOWER(CONCAT('%', ?, '%'))";
+        try {
+            log.info("Fetching detailed AppUser by full name: {}", fullName);
+
+            List<Map<String, Object>> users = jdbcTemplate.queryForList(sql, fullName);
+
+            if (users.isEmpty()) {
+                log.warn("No AppUser found for full name: {}", fullName);
+                return null;
+            }
+
+            if (users.size() > 1) {
+                log.warn("Multiple AppUsers found for full name: {}. Returning the first match.", fullName);
+            }
+
+            // Return the first match
+            Map<String, Object> appUser = users.get(0);
+            log.info("Fetched detailed AppUser: {}", appUser);
+            return appUser;
+
+        } catch (Exception e) {
+            log.error("Error fetching detailed AppUser by full name: {}. Error: {}", fullName, e.getMessage(), e);
+            return null;
+        }
+    }
+
+
+    @Override
     public AppUser saveAppUser(AppUser appUser) {
         appUser.prePersist();
-        String sql = "INSERT INTO TBL_APP_USER (ID, USERNAME, FULL_NAME, POSITION, EMAIL_ADDRESS, EMPLOYEE_STATUS, JOIN_DATE, ENABLED, PASSWORD, ROLE_ID, DIVISION_ID, CREATED_BY) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO TBL_APP_USER (ID, USERNAME, FULL_NAME, POSITION, EMAIL_ADDRESS, EMPLOYEE_STATUS, JOIN_DATE, ENABLED, PASSWORD, DIVISION_ID, CREATED_BY) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
             log.info("Saving AppUser: {}", appUser);
             int rowsAffected = jdbcTemplate.update(sql, appUser.getId(), appUser.getUsername(), appUser.getFullName(), appUser.getPosition(), appUser.getEmailAddress(),
-                    appUser.getEmployeeStatus(), appUser.getJoinDate(), appUser.isEnabled(), appUser.getPassword(), appUser.getRoleId(), appUser.getDivisionId(), appUser.getCreatedBy());
+                    appUser.getEmployeeStatus(), appUser.getJoinDate(), appUser.isEnabled(), appUser.getPassword(), appUser.getDivisionId(), appUser.getCreatedBy());
             if (rowsAffected > 0) {
                 log.info("Successfully saved AppUser: {}", appUser);
                 return appUser;
@@ -109,11 +174,11 @@ public class AppUserRepoImpl implements AppUserRepo {
     @Override
     public AppUser updateAppUser(AppUser appUser) {
         String sql = "UPDATE TBL_APP_USER SET FULL_NAME = ?, POSITION = ?, EMAIL_ADDRESS = ?, EMPLOYEE_STATUS = ?, JOIN_DATE = ?, ENABLED = ?, PASSWORD = ?, " +
-                "ROLE_ID = ?, DIVISION_ID = ?, UPDATED_AT = SYSDATE(), UPDATED_BY = ? WHERE ID = ?";
+                "DIVISION_ID = ?, UPDATED_AT = SYSDATE(), UPDATED_BY = ? WHERE ID = ?";
         try {
             log.info("Updating AppUser with ID: {}", appUser.getId());
             int rowsAffected = jdbcTemplate.update(sql, appUser.getFullName(), appUser.getPosition(), appUser.getEmailAddress(), appUser.getEmployeeStatus(),
-                    appUser.getJoinDate(), appUser.isEnabled(), appUser.getPassword(), appUser.getRoleId(), appUser.getDivisionId(), appUser.getUpdatedBy(), appUser.getId());
+                    appUser.getJoinDate(), appUser.isEnabled(), appUser.getPassword(), appUser.getDivisionId(), appUser.getUpdatedBy(), appUser.getId());
             if (rowsAffected > 0) {
                 log.info("Successfully updated AppUser: {}", appUser);
                 return appUser;
