@@ -67,6 +67,51 @@ public class EmpAchievementSkillController extends ServerResponseList {
         }
     }
 
+
+    @GetMapping("/get/all")
+    public ResponseEntity<?> getAllEmpAchievementSkillGets() {
+        log.info("Fetching all employee achievement skills");
+        long startTime = System.currentTimeMillis();
+
+        try {
+            List<EmpAchievementSkillGetDto> result = empAchievementSkillServ.getAllEmpAchievementSkillGet();
+            ManagerDto<List<EmpAchievementSkillGetDto>> response = new ManagerDto<>();
+            response.setContent(result);
+            response.setTotalRows(result.size());
+
+            long endTime = System.currentTimeMillis();
+            response.setInfo(getInfoOk("Time", endTime - startTime));
+            log.info("Fetched all employee achievement skills in {} ms", endTime - startTime);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error fetching all employee achievement skills: {}", e.getMessage(), e);
+            return new ResponseEntity<>("Failed to fetch employee achievement skills", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/get/{id}")
+    public ResponseEntity<?> getEmpAchievementSkillGetById(@PathVariable String id) {
+        log.info("Fetching employee achievement skill with ID: {}", id);
+        long startTime = System.currentTimeMillis();
+
+        try {
+            EmpAchievementSkillGetDto result = empAchievementSkillServ.getEmpAchievementSkillGetById(id);
+            ManagerDto<EmpAchievementSkillGetDto> response = new ManagerDto<>();
+            response.setContent(result);
+            response.setTotalRows(1);
+
+            long endTime = System.currentTimeMillis();
+            response.setInfo(getInfoOk("Time", endTime - startTime));
+            log.info("Fetched employee achievement skill with ID: {} in {} ms", id, endTime - startTime);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error fetching employee achievement skill by ID {}: {}", id, e.getMessage(), e);
+            return new ResponseEntity<>("Failed to fetch employee achievement skill with ID: " + id, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @PostMapping("/create")
     public ResponseEntity<?> createEmpAchievementSkill(@RequestBody EmpAchievementSkillCreateDto empAchievementSkillCreateDto) {
         log.info("Creating new employee achievement skill with data: {}", empAchievementSkillCreateDto);

@@ -52,7 +52,7 @@ public class AchievementRepoImpl implements AchievementRepo {
 
     @Override
     public List<Map<String, Object>> getAchievementGets() {
-        String sql = "SELECT a.ID, ACHIEVEMENT, GROUP_NAME, ENABLED " +
+        String sql = "SELECT a.ID, ACHIEVEMENT, GROUP_NAME, a.ENABLED " +
                 "FROM TBL_ACHIEVEMENT a " +
                 "LEFT JOIN TBL_GROUP_ACHIEVEMENT ga ON a.GROUP_ID = ga.ID";
         log.info("Executing query to fetch all achievements: {}", sql);
@@ -68,7 +68,7 @@ public class AchievementRepoImpl implements AchievementRepo {
 
     @Override
     public Map<String, Object> getAchievementGetById(String id) {
-        String sql = "SELECT a.ID, ACHIEVEMENT, GROUP_NAME, ENABLED " +
+        String sql = "SELECT a.ID, ACHIEVEMENT, GROUP_NAME, a.ENABLED " +
                 "FROM TBL_ACHIEVEMENT a " +
                 "LEFT JOIN TBL_GROUP_ACHIEVEMENT ga ON a.GROUP_ID = ga.ID " +
                 "WHERE a.ID = ?";

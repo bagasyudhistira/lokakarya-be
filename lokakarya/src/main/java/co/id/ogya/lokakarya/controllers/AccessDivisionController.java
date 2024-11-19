@@ -69,7 +69,7 @@ public class AccessDivisionController extends ServerResponseList {
     }
 
 
-    @GetMapping("/getall")
+    @GetMapping("/get/all")
     public ResponseEntity<?> getAllAccessDivisionGets() {
         log.info("Fetching all access divisions");
         long startTime = System.currentTimeMillis();
