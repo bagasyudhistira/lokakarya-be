@@ -103,29 +103,36 @@ public class EmpSuggestionServImpl implements EmpSuggestionServ {
 
     @Override
     public List<EmpSuggestionGetDto> getAllEmpSuggestionGets() {
-        List<Map<String, Object>> empSuggestionRepoList = empSuggestionRepo.getEmpSuggestionGets();
-
+        log.info("Fetching all employee suggestions...");
         List<EmpSuggestionGetDto> resultList = new ArrayList<>();
-
-        for (Map<String, Object> map : empSuggestionRepoList) {
-            resultList.add(EmpSuggestionGetDto.mapToDto(map));
+        try {
+            List<Map<String, Object>> empSuggestionRepoList = empSuggestionRepo.getEmpSuggestionGets();
+            log.debug("Retrieved {} employee suggestions from repository", empSuggestionRepoList.size());
+            empSuggestionRepoList.forEach(map -> resultList.add(EmpSuggestionGetDto.mapToDto(map)));
+            log.info("Successfully fetched all employee suggestions.");
+        } catch (Exception e) {
+            log.error("Failed to fetch employee suggestions. Error: {}", e.getMessage(), e);
+            throw e;
         }
-
         return resultList;
     }
 
     @Override
     public List<EmpSuggestionGetDto> getEmpSuggestionGetByUserId(String userId) {
-        List<Map<String, Object>> empSuggestionRepoList = empSuggestionRepo.getEmpSuggestionGetByUserId(userId);
-
+        log.info("Fetching employee suggestions for user ID: {}", userId);
         List<EmpSuggestionGetDto> resultList = new ArrayList<>();
-
-        for (Map<String, Object> map : empSuggestionRepoList) {
-            resultList.add(EmpSuggestionGetDto.mapToDto(map));
+        try {
+            List<Map<String, Object>> empSuggestionRepoList = empSuggestionRepo.getEmpSuggestionGetByUserId(userId);
+            log.debug("Retrieved {} employee suggestions for user ID: {}", empSuggestionRepoList.size(), userId);
+            empSuggestionRepoList.forEach(map -> resultList.add(EmpSuggestionGetDto.mapToDto(map)));
+            log.info("Successfully fetched employee suggestions for user ID: {}", userId);
+        } catch (Exception e) {
+            log.error("Failed to fetch employee suggestions for user ID: {}. Error: {}", userId, e.getMessage(), e);
+            throw e;
         }
-
         return resultList;
     }
+
 
     private EmpSuggestion convertToEntity(EmpSuggestionDto convertObject) {
         log.debug("Converting EmpSuggestionDto to entity: {}", convertObject);

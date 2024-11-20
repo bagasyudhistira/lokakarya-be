@@ -103,27 +103,33 @@ public class EmpTechnicalSkillServImpl implements EmpTechnicalSkillServ {
 
     @Override
     public List<EmpTechnicalSkillGetDto> getAllEmpTechnicalSkillGets() {
-        List<Map<String, Object>> empTechnicalSkillList = empTechnicalSkillRepo.getEmpTechnicalSkillGets();
-
+        log.info("Fetching all employee technical skills...");
         List<EmpTechnicalSkillGetDto> resultList = new ArrayList<>();
-
-        for (Map<String, Object> map : empTechnicalSkillList) {
-            resultList.add(EmpTechnicalSkillGetDto.mapToDto(map));
+        try {
+            List<Map<String, Object>> empTechnicalSkillList = empTechnicalSkillRepo.getEmpTechnicalSkillGets();
+            log.debug("Retrieved {} employee technical skills from repository", empTechnicalSkillList.size());
+            empTechnicalSkillList.forEach(map -> resultList.add(EmpTechnicalSkillGetDto.mapToDto(map)));
+            log.info("Successfully fetched all employee technical skills.");
+        } catch (Exception e) {
+            log.error("Failed to fetch employee technical skills. Error: {}", e.getMessage(), e);
+            throw e;
         }
-
         return resultList;
     }
 
     @Override
     public List<EmpTechnicalSkillGetDto> getEmpTechnicalSkillGetByUserId(String userId) {
-        List<Map<String, Object>> empTechnicalSkillList = empTechnicalSkillRepo.getEmpTechnicalSkillGetByUserId(userId);
-
+        log.info("Fetching employee technical skills for user ID: {}", userId);
         List<EmpTechnicalSkillGetDto> resultList = new ArrayList<>();
-
-        for (Map<String, Object> map : empTechnicalSkillList) {
-            resultList.add(EmpTechnicalSkillGetDto.mapToDto(map));
+        try {
+            List<Map<String, Object>> empTechnicalSkillList = empTechnicalSkillRepo.getEmpTechnicalSkillGetByUserId(userId);
+            log.debug("Retrieved {} employee technical skills for user ID: {}", empTechnicalSkillList.size(), userId);
+            empTechnicalSkillList.forEach(map -> resultList.add(EmpTechnicalSkillGetDto.mapToDto(map)));
+            log.info("Successfully fetched employee technical skills for user ID: {}", userId);
+        } catch (Exception e) {
+            log.error("Failed to fetch employee technical skills for user ID: {}. Error: {}", userId, e.getMessage(), e);
+            throw e;
         }
-
         return resultList;
     }
 

@@ -103,27 +103,33 @@ public class AppUserRoleServImpl implements AppUserRoleServ {
 
     @Override
     public List<AppUserRoleGetDto> getAllAppUserRoleGets() {
-        List<Map<String,Object>> appUserRoles = appUserRoleRepo.getAppUserRoleGets();
-
+        log.info("Fetching all AppUserRole mappings...");
         List<AppUserRoleGetDto> resultList = new ArrayList<>();
-
-        for (Map<String, Object> map : appUserRoles) {
-            resultList.add(AppUserRoleGetDto.mapToDto(map));
+        try {
+            List<Map<String, Object>> appUserRoles = appUserRoleRepo.getAppUserRoleGets();
+            log.debug("Retrieved {} AppUserRole mappings from repository", appUserRoles.size());
+            appUserRoles.forEach(map -> resultList.add(AppUserRoleGetDto.mapToDto(map)));
+            log.info("Successfully fetched all AppUserRole mappings.");
+        } catch (Exception e) {
+            log.error("Failed to fetch AppUserRole mappings. Error: {}", e.getMessage(), e);
+            throw e;
         }
-
         return resultList;
     }
 
     @Override
     public List<AppUserRoleGetDto> getAppUserRoleGetById(String userId) {
-        List<Map<String,Object>> appUserRoleGetById = appUserRoleRepo.getAppUserRoleGetById(userId);
-
+        log.info("Fetching AppUserRole mappings for user ID: {}", userId);
         List<AppUserRoleGetDto> resultList = new ArrayList<>();
-
-        for (Map<String, Object> map : appUserRoleGetById) {
-            resultList.add(AppUserRoleGetDto.mapToDto(map));
+        try {
+            List<Map<String, Object>> appUserRoleGetById = appUserRoleRepo.getAppUserRoleGetById(userId);
+            log.debug("Retrieved {} AppUserRole mappings for user ID: {}", appUserRoleGetById.size(), userId);
+            appUserRoleGetById.forEach(map -> resultList.add(AppUserRoleGetDto.mapToDto(map)));
+            log.info("Successfully fetched AppUserRole mappings for user ID: {}", userId);
+        } catch (Exception e) {
+            log.error("Failed to fetch AppUserRole mappings for user ID: {}. Error: {}", userId, e.getMessage(), e);
+            throw e;
         }
-
         return resultList;
     }
 

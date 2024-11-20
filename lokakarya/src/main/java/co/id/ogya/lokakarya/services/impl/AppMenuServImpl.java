@@ -137,6 +137,10 @@ public class AppMenuServImpl implements AppMenuServ {
         AppMenuDto result = AppMenuDto.builder()
                 .id(convertObject.getId())
                 .menuName(convertObject.getMenuName())
+                .createdAt(convertObject.getCreatedAt())
+                .createdBy(convertObject.getCreatedBy())
+                .updatedAt(convertObject.getUpdatedAt())
+                .updatedBy(convertObject.getUpdatedBy())
                 .build();
         return result;
     }

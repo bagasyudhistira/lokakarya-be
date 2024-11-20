@@ -103,27 +103,33 @@ public class EmpDevPlanServImpl implements EmpDevPlanServ {
 
     @Override
     public List<EmpDevPlanGetDto> getAllEmpDevPlanGets() {
-        List<Map<String, Object>> empDevPlanList = empDevPlanRepo.getEmpDevPlanGets();
-
+        log.info("Fetching all EmpDevPlans...");
         List<EmpDevPlanGetDto> resultList = new ArrayList<>();
-
-        for (Map<String, Object> map : empDevPlanList) {
-            resultList.add(EmpDevPlanGetDto.mapToDto(map));
+        try {
+            List<Map<String, Object>> empDevPlanList = empDevPlanRepo.getEmpDevPlanGets();
+            log.debug("Retrieved {} EmpDevPlans from repository", empDevPlanList.size());
+            empDevPlanList.forEach(map -> resultList.add(EmpDevPlanGetDto.mapToDto(map)));
+            log.info("Successfully fetched all EmpDevPlans.");
+        } catch (Exception e) {
+            log.error("Failed to fetch EmpDevPlans. Error: {}", e.getMessage(), e);
+            throw e;
         }
-
         return resultList;
     }
 
     @Override
     public List<EmpDevPlanGetDto> getEmpDevPlanGetByUserId(String userId) {
-        List<Map<String, Object>> empDevPlanList = empDevPlanRepo.getEmpDevPlanGetByUserId(userId);
-
+        log.info("Fetching EmpDevPlans for user ID: {}", userId);
         List<EmpDevPlanGetDto> resultList = new ArrayList<>();
-
-        for (Map<String, Object> map : empDevPlanList) {
-            resultList.add(EmpDevPlanGetDto.mapToDto(map));
+        try {
+            List<Map<String, Object>> empDevPlanList = empDevPlanRepo.getEmpDevPlanGetByUserId(userId);
+            log.debug("Retrieved {} EmpDevPlans for user ID: {}", empDevPlanList.size(), userId);
+            empDevPlanList.forEach(map -> resultList.add(EmpDevPlanGetDto.mapToDto(map)));
+            log.info("Successfully fetched EmpDevPlans for user ID: {}", userId);
+        } catch (Exception e) {
+            log.error("Failed to fetch EmpDevPlans for user ID: {}. Error: {}", userId, e.getMessage(), e);
+            throw e;
         }
-
         return resultList;
     }
 

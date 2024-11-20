@@ -103,43 +103,48 @@ public class AppRoleMenuServImpl implements AppRoleMenuServ {
 
     @Override
     public List<AppRoleMenuGetDto> getAllAppRoleMenuGet() {
-        List<Map<String,Object>> allAppRoleMenuGet = appRoleMenuRepo.getAppRoleMenuGets();
-
-        List<AppRoleMenuGetDto> resultList = new ArrayList<>();
-
-        for (Map<String, Object> map : allAppRoleMenuGet) {
-            resultList.add(AppRoleMenuGetDto.mapToDto(map));
+        log.info("Fetching all AppRoleMenu details...");
+        try {
+            List<Map<String, Object>> rawData = appRoleMenuRepo.getAppRoleMenuGets();
+            List<AppRoleMenuGetDto> resultList = new ArrayList<>();
+            rawData.forEach(map -> resultList.add(AppRoleMenuGetDto.mapToDto(map)));
+            log.debug("Successfully fetched {} AppRoleMenu details", resultList.size());
+            return resultList;
+        } catch (Exception e) {
+            log.error("Failed to fetch AppRoleMenu details. Error: {}", e.getMessage(), e);
+            throw e;
         }
-
-        return resultList;
     }
 
     @Override
-    public List<AppRoleMenuGetDto> getAppRoleMenuGetByRoleId(String id) {
-        List<Map<String,Object>> allAppRoleMenuGet = appRoleMenuRepo.getAppRoleMenuGetByRoleId(id);
-
-        List<AppRoleMenuGetDto> resultList = new ArrayList<>();
-
-        for (Map<String, Object> map : allAppRoleMenuGet) {
-            resultList.add(AppRoleMenuGetDto.mapToDto(map));
+    public List<AppRoleMenuGetDto> getAppRoleMenuGetByRoleId(String roleId) {
+        log.info("Fetching AppRoleMenu details by Role ID: {}", roleId);
+        try {
+            List<Map<String, Object>> rawData = appRoleMenuRepo.getAppRoleMenuGetByRoleId(roleId);
+            List<AppRoleMenuGetDto> resultList = new ArrayList<>();
+            rawData.forEach(map -> resultList.add(AppRoleMenuGetDto.mapToDto(map)));
+            log.debug("Successfully fetched {} AppRoleMenu details for Role ID: {}", resultList.size(), roleId);
+            return resultList;
+        } catch (Exception e) {
+            log.error("Failed to fetch AppRoleMenu details by Role ID: {}. Error: {}", roleId, e.getMessage(), e);
+            throw e;
         }
-
-        return resultList;
     }
 
     @Override
-    public List<AppRoleMenuGetDto> getAppRoleMenuGetByMenuId(String id) {
-        List<Map<String,Object>> allAppRoleMenuGet = appRoleMenuRepo.getAppRoleMenuGetByMenuId(id);
-
-        List<AppRoleMenuGetDto> resultList = new ArrayList<>();
-
-        for (Map<String, Object> map : allAppRoleMenuGet) {
-            resultList.add(AppRoleMenuGetDto.mapToDto(map));
+    public List<AppRoleMenuGetDto> getAppRoleMenuGetByMenuId(String menuId) {
+        log.info("Fetching AppRoleMenu details by Menu ID: {}", menuId);
+        try {
+            List<Map<String, Object>> rawData = appRoleMenuRepo.getAppRoleMenuGetByMenuId(menuId);
+            List<AppRoleMenuGetDto> resultList = new ArrayList<>();
+            rawData.forEach(map -> resultList.add(AppRoleMenuGetDto.mapToDto(map)));
+            log.debug("Successfully fetched {} AppRoleMenu details for Menu ID: {}", resultList.size(), menuId);
+            return resultList;
+        } catch (Exception e) {
+            log.error("Failed to fetch AppRoleMenu details by Menu ID: {}. Error: {}", menuId, e.getMessage(), e);
+            throw e;
         }
-
-        return resultList;
     }
-
 
     private AppRoleMenu convertToEntity(AppRoleMenuDto convertObject) {
         log.debug("Converting AppRoleMenuDto to entity: {}", convertObject);
