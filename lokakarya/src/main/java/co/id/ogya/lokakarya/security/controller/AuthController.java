@@ -4,6 +4,7 @@ import co.id.ogya.lokakarya.dto.appuserrole.AppUserRoleGetDto;
 import co.id.ogya.lokakarya.exceptions.UserException;
 import co.id.ogya.lokakarya.repositories.AppUserRoleRepo;
 import co.id.ogya.lokakarya.security.dto.AuthDto;
+import co.id.ogya.lokakarya.security.dto.AuthGetDto;
 import co.id.ogya.lokakarya.security.service.AuthServ;
 import co.id.ogya.lokakarya.security.util.SecurityConstants;
 import co.id.ogya.lokakarya.services.AppUserRoleServ;
@@ -76,10 +77,10 @@ public class AuthController {
     public ResponseEntity<?> authenticateUser() throws UserException {
         log.info("Received request for logged-in user access.");
 
-        authServ.authenticateUser();
+        AuthGetDto user = authServ.authenticateUser();
 
-        String message = "Access success.";
-        log.info("Access granted for logged-in user.");
+        String message = "Logged-in as: " + user.getUsername();
+        log.info("Access granted for: {}", user.getUsername());
 
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
@@ -95,7 +96,7 @@ public class AuthController {
                 .claim("username", userDetails.getUsername())
                 .claim("roles", roles)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(new Date().getTime() + 30000000)) // Set token expiration
+                .setExpiration(new Date(new Date().getTime() + 30000000))
                 .signWith(key)
                 .compact();
     }
