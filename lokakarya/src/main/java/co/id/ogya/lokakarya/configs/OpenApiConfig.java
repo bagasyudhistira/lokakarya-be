@@ -23,9 +23,6 @@ public class OpenApiConfig implements WebMvcConfigurer {
     @Bean
     public OpenAPI openAPI() {
         return new OpenAPI()
-//                .components(new Components().addSecuritySchemes("basicAuth",
-//                        new SecurityScheme().type(SecurityScheme.Type.HTTP).scheme("basic")))
-//                .addSecurityItem(new SecurityRequirement().addList("basicAuth"))
                 .info(new Info()
                         .title("Lokakarya API")
                         .description("API documentation for Lokakarya Kel 1")
@@ -191,6 +188,14 @@ public class OpenApiConfig implements WebMvcConfigurer {
         return GroupedOpenApi.builder()
                 .group("Technical Skill")
                 .pathsToMatch("/technicalskill/**")
+                .build();
+    }
+
+    @Bean
+    GroupedOpenApi authSkillApis() {
+        return GroupedOpenApi.builder()
+                .group("Auth")
+                .pathsToMatch("/auth/**")
                 .build();
     }
 }

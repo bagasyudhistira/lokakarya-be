@@ -2,6 +2,7 @@ package co.id.ogya.lokakarya.security.controller;
 
 import co.id.ogya.lokakarya.dto.appuserrole.AppUserRoleGetDto;
 import co.id.ogya.lokakarya.exceptions.UserException;
+import co.id.ogya.lokakarya.repositories.AppUserRoleRepo;
 import co.id.ogya.lokakarya.security.dto.AuthDto;
 import co.id.ogya.lokakarya.security.service.AuthServ;
 import co.id.ogya.lokakarya.security.util.SecurityConstants;
@@ -39,6 +40,9 @@ public class AuthController {
     @Autowired
     private AppUserRoleServ appUserRoleServ;
 
+    @Autowired
+    private AppUserRoleRepo appUserRoleRepo;
+
     @PostMapping("/sign-in")
     public ResponseEntity<String> signInHandler(@RequestBody AuthDto authRequestDto)
             throws BadCredentialsException, UserException {
@@ -52,27 +56,35 @@ public class AuthController {
             throw new BadCredentialsException("Invalid username or password");
         }
 
-        // Generate JWT token
         String token = generateJwtToken(userDetails);
 
-        // Build the response object
         AuthDto responseDto = AuthDto.builder()
-                .id(userDetails.getId())
                 .username(userDetails.getUsername())
-                .roleId(userDetails.getRoleId())
                 .build();
 
         log.info("User signed in successfully: {}", responseDto.getUsername());
 
-        // Return the response with the JWT token in headers
         return ResponseEntity.ok()
-
                 .body(token);
+    }
+
+    @GetMapping("/authenticate")
+    public ResponseEntity<?> authenticateUser() throws UserException {
+        log.info("Received request for logged-in user access.");
+
+        authServ.authenticateUser();
+
+        String message = "Access success.";
+        log.info("Access granted for logged-in user.");
+
+        return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
     private String generateJwtToken(AuthDto userDetails) {
         SecretKey key = Keys.hmacShaKeyFor(SecurityConstants.JWT_KEY.getBytes());
-        List<AppUserRoleGetDto> roles = appUserRoleServ.getAppUserRoleGetById(appUserServ.getAppUserByUsername(userDetails.getUsername()).getId());
+
+        List<String> roles = appUserRoleRepo.getAppUserRoleNamesById(appUserServ.getAppUserByUsername(userDetails.getUsername()).getId());
+
         return Jwts.builder()
                 .setIssuer("Admin")
                 .setSubject("JWT Token")
@@ -83,5 +95,7 @@ public class AuthController {
                 .signWith(key)
                 .compact();
     }
+
+
 
 }

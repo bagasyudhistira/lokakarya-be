@@ -13,4 +13,5 @@ public interface AppUserRoleRepo {
     Boolean deleteAppUserRole(String id);
     List<Map<String, Object>> getAppUserRoleGets();
     List<Map<String, Object>> getAppUserRoleGetById(String userId);
+    List<String> getAppUserRoleNamesById(String userId);
 }

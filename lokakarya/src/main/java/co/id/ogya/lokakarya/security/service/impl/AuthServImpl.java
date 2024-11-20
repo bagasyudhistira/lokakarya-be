@@ -2,13 +2,20 @@ package co.id.ogya.lokakarya.security.service.impl;
 
 import co.id.ogya.lokakarya.entities.AppUser;
 import co.id.ogya.lokakarya.exceptions.UserException;
+import co.id.ogya.lokakarya.repositories.AppUserRepo;
 import co.id.ogya.lokakarya.security.dto.AuthDto;
+import co.id.ogya.lokakarya.security.dto.AuthGetDto;
 import co.id.ogya.lokakarya.security.repositories.AuthRepo;
 import co.id.ogya.lokakarya.security.service.AuthServ;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+
+import java.util.Map;
 
 @Slf4j
 @Transactional(rollbackOn = Exception.class)
@@ -16,6 +23,9 @@ import org.springframework.stereotype.Service;
 public class AuthServImpl implements AuthServ {
     @Autowired
     AuthRepo authRepo;
+
+    @Autowired
+    AppUserRepo appUserRepo;
 
     @Override
     public AuthDto login(String username) throws UserException {
@@ -34,11 +44,34 @@ public class AuthServImpl implements AuthServ {
     private AuthDto convertToDto(AppUser convertObject) {
         log.debug("Converting AppUser entity to AuthDTO: {}", convertObject);
         AuthDto result = AuthDto.builder()
-                .id(convertObject.getId())
                 .username(convertObject.getUsername())
                 .password(convertObject.getPassword())
-                .roleId(convertObject.getRoleId())
                 .build();
         return result;
+    }
+
+    @Override
+    public AuthGetDto authenticateUser() {
+        log.info("Retrieving logged-in user information");
+
+        SecurityContext sc = SecurityContextHolder.getContext();
+        Authentication auth = sc.getAuthentication();
+
+        if (auth == null) {
+            log.error("No authentication found in security context");
+            return null;
+        }
+
+        String username = auth.getName();
+        log.info("Authenticated user: {}", username);
+
+        Map<String,Object> user = appUserRepo.getAppUserByUsername(username);
+        AuthGetDto loggedUser = AuthGetDto.mapToDto(user);
+        if (user == null) {
+            log.error("No user found for username: {}", loggedUser);
+        } else {
+            log.info("User found: {}", loggedUser);
+        }
+        return loggedUser;
     }
 }
