@@ -52,7 +52,7 @@ public class GroupAchievementRepoImpl implements GroupAchievementRepo {
     @Override
     public GroupAchievement saveGroupAchievement(GroupAchievement groupAchievement) {
         groupAchievement.prePersist();
-        String sql = "INSERT INTO tbl_group_achievement(id, group_name, percentage, enabled, created_by) VALUES(?,?,?,?,?)";
+        String sql = "INSERT INTO TBL_GROUP_ACHIEVEMENT(ID, GROUP_NAME, PERCENTAGE, ENABLED, CREATED_BY) VALUES(?,?,?,?,?)";
         log.info("Executing query to save GroupAchievement: {}. Query: {}", groupAchievement, sql);
         try {
             int rowsAffected = jdbcTemplate.update(sql, groupAchievement.getId(), groupAchievement.getGroupName(), groupAchievement.getPercentage(), groupAchievement.isEnabled(), groupAchievement.getCreatedBy());

@@ -2,10 +2,12 @@ package co.id.ogya.lokakarya.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+@Slf4j
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
