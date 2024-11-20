@@ -20,6 +20,7 @@ import javax.crypto.SecretKey;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 public class JwtValidationFilter extends OncePerRequestFilter {
@@ -50,16 +51,14 @@ public class JwtValidationFilter extends OncePerRequestFilter {
 				log.info("Parsed JWT Claims: {}", claims);
 
 				String username = String.valueOf(claims.get("username"));
-				String role = (String) claims.get("role");
+				List<String> roles = claims.get("roles", List.class);
 				log.info("Extracted Username: {}", username);
-				log.info("Extracted Role: {}", role);
+				log.info("Extracted Role: {}", roles);
 
-				// Create authorities based on the role
-				List<GrantedAuthority> authorities = new ArrayList<>();
-				authorities.add(new SimpleGrantedAuthority("ROLE_" + role));
-				log.info("Granted Authorities: {}", authorities);
+				List<SimpleGrantedAuthority> authorities = roles.stream()
+						.map(role -> new SimpleGrantedAuthority("ROLE_" + role))
+						.collect(Collectors.toList());
 
-				// Create Authentication object
 				Authentication auth = new UsernamePasswordAuthenticationToken(username, null, authorities);
 				SecurityContextHolder.getContext().setAuthentication(auth);
 				log.info("Authentication set in SecurityContext for user: {}", username);
@@ -72,7 +71,6 @@ public class JwtValidationFilter extends OncePerRequestFilter {
 			log.warn("No valid JWT found in request headers.");
 		}
 
-		// Proceed with the filter chain
 		log.info("Continuing with the filter chain.");
 		filterChain.doFilter(request, response);
 	}

@@ -47,7 +47,12 @@ public class SecurityConfig {
                     auth
                             .requestMatchers("/auth/**").permitAll()
                             .requestMatchers("/v3/api-docs/**", "/swagger-ui/**").permitAll()
-//                            .requestMatchers("/**").hasAnyRole("USER", "ADMIN")
+                            .requestMatchers("/appuser/**","/division/**","/approlemenu/**","/groupattitudeskill/**",
+                                    "/attitudeskill/**","/grouptechnicalskill/**","/technicalskill/**","/devplan/**",
+                                    "/groupachievement/**","/achievement/**","/empachievement/**").hasAnyRole("HR")
+                            .requestMatchers(HttpMethod.GET,"/assessmentsummary/**").hasAnyRole("HR","USER","SVP","MGR")
+                            .requestMatchers(HttpMethod.POST,"/empattitudeskill/**","/emptechnicalskill/**","/empdevplan/**",
+                                    "/empsuggestion/**").hasAnyRole("USER")
 //                            .requestMatchers("/**").authenticated()
 //                            .anyRequest().permitAll();
                             .anyRequest().authenticated();
