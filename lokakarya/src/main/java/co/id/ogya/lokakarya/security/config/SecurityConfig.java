@@ -5,6 +5,7 @@ import java.util.Collections;
 
 import co.id.ogya.lokakarya.security.util.JwtGeneratorFilter;
 import co.id.ogya.lokakarya.security.util.JwtValidationFilter;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,45 +28,46 @@ public class SecurityConfig {
     public SecurityFilterChain mySecurityConfig(HttpSecurity http) throws Exception {
         log.info("Configuring security filter chain");
 
-        http.sessionManagement(sessionManagement -> {
-                    log.debug("Setting session management policy to stateless");
+        http
+                .sessionManagement(sessionManagement -> {
                     sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-                }).cors(cors -> {
+                })
+                .cors(cors -> {
                     cors.configurationSource(request -> {
                         CorsConfiguration cfg = new CorsConfiguration();
-                        log.debug("Configuring CORS settings");
                         cfg.setAllowedOriginPatterns(Collections.singletonList("*"));
                         cfg.setAllowedMethods(Collections.singletonList("*"));
                         cfg.setAllowCredentials(true);
                         cfg.setAllowedHeaders(Collections.singletonList("*"));
                         cfg.setExposedHeaders(Arrays.asList("Authorization"));
-                        log.debug("CORS configuration complete");
                         return cfg;
                     });
-                }).authorizeHttpRequests(auth -> {
-                    log.debug("Setting authorization rules");
+                })
+                .authorizeHttpRequests(auth -> {
                     auth
                             .requestMatchers("/auth/**").permitAll()
                             .requestMatchers("/v3/api-docs/**", "/swagger-ui/**").permitAll()
-                            .requestMatchers("/appuser/**","/division/**","/approlemenu/**","/groupattitudeskill/**",
-                                    "/attitudeskill/**","/grouptechnicalskill/**","/technicalskill/**","/devplan/**",
-                                    "/groupachievement/**","/achievement/**","/empachievement/**").hasAnyRole("HR")
-                            .requestMatchers(HttpMethod.GET,"/assessmentsummary/**").hasAnyRole("HR","USER","SVP","MGR")
-                            .requestMatchers(HttpMethod.POST,"/empattitudeskill/**","/emptechnicalskill/**","/empdevplan/**",
+                            .requestMatchers("/appuser/**", "/division/**", "/approlemenu/**", "/groupattitudeskill/**",
+                                    "/attitudeskill/**", "/grouptechnicalskill/**", "/technicalskill/**", "/devplan/**",
+                                    "/groupachievement/**", "/achievement/**", "/empachievement/**").hasAnyRole("HR")
+                            .requestMatchers(HttpMethod.GET, "/assessmentsummary/**").hasAnyRole("HR", "USER", "SVP", "MGR")
+                            .requestMatchers(HttpMethod.POST, "/empattitudeskill/**", "/emptechnicalskill/**", "/empdevplan/**",
                                     "/empsuggestion/**").hasAnyRole("USER")
-//                            .requestMatchers("/**").authenticated()
-//                            .anyRequest().permitAll();
                             .anyRequest().authenticated();
-                }).csrf(csrf -> {
-                    log.debug("Configuring CSRF protection");
+                })
+                .csrf(csrf -> {
                     csrf.ignoringRequestMatchers("/**")
                             .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
                 })
+                .exceptionHandling(exceptionHandling -> {
+                    exceptionHandling
+                            .authenticationEntryPoint((request, response, authException) -> {
+                                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 401
+                                response.setContentType("application/json");
+                                response.getWriter().write("{\"error\": \"Unauthorized\"}");
+                            });
+                })
                 .addFilterBefore(new JwtValidationFilter(), BasicAuthenticationFilter.class);
-
-        log.info("HTTP Basic and Form Login configurations applied");
-        http.httpBasic(Customizer.withDefaults())
-                .formLogin(Customizer.withDefaults());
 
         log.info("Security filter chain configuration complete");
         return http.build();
