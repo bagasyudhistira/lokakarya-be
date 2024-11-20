@@ -30,15 +30,15 @@ public class JwtValidationFilter extends OncePerRequestFilter {
 			throws ServletException, IOException {
 
 		log.info("Inside JwtValidationFilter. Processing request for path: {}", request.getServletPath());
-		String jwt = response.getHeader(SecurityConstants.JWT_HEADER);
+		String jwt = request.getHeader(SecurityConstants.JWT_HEADER);
 		if (jwt == null){
-			log.info("JWT token not in response's header, retrying");
-			jwt = request.getHeader(SecurityConstants.JWT_HEADER);
+			log.info("JWT token not in request header, retrying using response");
+			jwt = response.getHeader(SecurityConstants.JWT_HEADER);
 		}
 		if (jwt != null) {
 			try {
 				log.info("Received JWT Header: {}", jwt);
-				// Extracting the JWT token by removing the "Bearer " prefix
+
 				if(jwt.startsWith("Bearer ")) {
 					jwt = jwt.substring(7);
 					log.info("Extracted JWT Token: {}", jwt);
