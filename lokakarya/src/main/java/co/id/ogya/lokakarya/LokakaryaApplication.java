@@ -10,7 +10,7 @@ import io.swagger.v3.oas.annotations.servers.Server;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@OpenAPIDefinition(info = @Info(title = "REST API", version = "1.1"),
+@OpenAPIDefinition(info = @Info(title = "Lokakarya", version = "1.0"),
 		security = {
 				@SecurityRequirement(name = "bearerToken")
 		},

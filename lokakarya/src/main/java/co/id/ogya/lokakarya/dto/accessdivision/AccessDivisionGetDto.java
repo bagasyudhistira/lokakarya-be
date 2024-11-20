@@ -27,7 +27,7 @@ public class AccessDivisionGetDto {
         log.debug("Converting AccessDivision entity to DTO: {}", convertObject);
         AccessDivisionGetDto result = AccessDivisionGetDto.builder()
                 .id((String) convertObject.get("ID"))
-                .fullName((String) convertObject.get("USER_ID"))
+                .fullName((String) convertObject.get("FULL_NAME"))
                 .divisionName((String) convertObject.get("DIVISION_NAME"))
                 .build();
         return result;

@@ -2,6 +2,7 @@ package co.id.ogya.lokakarya.services.impl;
 
 import co.id.ogya.lokakarya.dto.approle.AppRoleCreateDto;
 import co.id.ogya.lokakarya.dto.approle.AppRoleDto;
+import co.id.ogya.lokakarya.dto.approle.AppRoleGetDto;
 import co.id.ogya.lokakarya.dto.approle.AppRoleUpdateDto;
 import co.id.ogya.lokakarya.entities.AppRole;
 import co.id.ogya.lokakarya.repositories.AppRoleRepo;
@@ -136,6 +137,19 @@ public class AppRoleServImpl implements AppRoleServ {
     private AppRoleDto convertToDto(AppRole convertObject) {
         log.debug("Converting AppRole entity to DTO: {}", convertObject);
         AppRoleDto result = AppRoleDto.builder()
+                .id(convertObject.getId())
+                .rolename(convertObject.getRolename())
+                .createdAt(convertObject.getCreatedAt())
+                .createdBy(convertObject.getCreatedBy())
+                .updatedAt(convertObject.getUpdatedAt())
+                .updatedBy(convertObject.getUpdatedBy())
+                .build();
+        return result;
+    }
+
+    private AppRoleGetDto convertToGetDto(AppRole convertObject) {
+        log.debug("Converting AppRole entity to DTO: {}", convertObject);
+        AppRoleGetDto result = AppRoleGetDto.builder()
                 .id(convertObject.getId())
                 .rolename(convertObject.getRolename())
                 .build();
