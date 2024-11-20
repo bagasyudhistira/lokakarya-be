@@ -43,6 +43,9 @@ public class AuthController {
     @Autowired
     private AppUserRoleRepo appUserRoleRepo;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @PostMapping("/sign-in")
     public ResponseEntity<String> signInHandler(@RequestBody AuthDto authRequestDto)
             throws BadCredentialsException, UserException {
@@ -51,7 +54,8 @@ public class AuthController {
         // Validate user credentials and fetch user details
         AuthDto userDetails = authServ.login(authRequestDto.getUsername());
 
-        if (userDetails == null || !authRequestDto.getPassword().equals(userDetails.getPassword())) {
+
+        if (userDetails == null || !passwordEncoder.matches(authRequestDto.getPassword(), userDetails.getPassword())) {
             log.warn("Failed sign-in attempt for username: {}", authRequestDto.getUsername());
             throw new BadCredentialsException("Invalid username or password");
         }
