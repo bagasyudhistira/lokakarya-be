@@ -1,5 +1,7 @@
 package co.id.ogya.lokakarya.security.controller;
 
+import co.id.ogya.lokakarya.dto.ManagerDto;
+import co.id.ogya.lokakarya.dto.approlemenu.AppRoleMenuGetDto;
 import co.id.ogya.lokakarya.dto.appuserrole.AppUserRoleGetDto;
 import co.id.ogya.lokakarya.exceptions.UserException;
 import co.id.ogya.lokakarya.repositories.AppUserRoleRepo;
@@ -7,8 +9,10 @@ import co.id.ogya.lokakarya.security.dto.AuthDto;
 import co.id.ogya.lokakarya.security.dto.AuthGetDto;
 import co.id.ogya.lokakarya.security.service.AuthServ;
 import co.id.ogya.lokakarya.security.util.SecurityConstants;
+import co.id.ogya.lokakarya.services.AppRoleMenuServ;
 import co.id.ogya.lokakarya.services.AppUserRoleServ;
 import co.id.ogya.lokakarya.services.AppUserServ;
+import co.id.ogya.lokakarya.utils.ServerResponseList;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
@@ -31,7 +35,7 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/auth")
-public class AuthController {
+public class AuthController extends ServerResponseList {
     @Autowired
     private AuthServ authServ;
 
@@ -39,7 +43,7 @@ public class AuthController {
     private AppUserServ appUserServ;
 
     @Autowired
-    private AppUserRoleServ appUserRoleServ;
+    private AppRoleMenuServ appRoleMenuServ;
 
     @Autowired
     private AppUserRoleRepo appUserRoleRepo;
@@ -99,6 +103,28 @@ public class AuthController {
                 .setExpiration(new Date(new Date().getTime() + 30000000))
                 .signWith(key)
                 .compact();
+    }
+
+    @GetMapping("/role/{rolename}")
+    public ResponseEntity<?> getAppRoleMenuByRolename(@PathVariable String rolename) {
+        log.info("Fetching AppRoleMenu with role: {}", rolename);
+        long startTime = System.currentTimeMillis();
+
+        try {
+            List<AppRoleMenuGetDto> result = appRoleMenuServ.getAppRoleMenuByRolename(rolename);
+            ManagerDto<List<AppRoleMenuGetDto>> response = new ManagerDto<>();
+            response.setContent(result);
+            response.setTotalRows(result.size());
+
+            long endTime = System.currentTimeMillis();
+            response.setInfo(getInfoOk("Time", endTime - startTime));
+            log.info("Fetched AppRoleMenus for role {} in {} ms", rolename, endTime - startTime);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error fetching AppRoleMenus for role {}: {}", rolename,e.getMessage(), e);
+            return new ResponseEntity<>("Failed to fetch AppRoleMenus", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
 
