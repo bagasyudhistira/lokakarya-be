@@ -11,7 +11,7 @@ public interface AppRoleMenuServ {
     List<AppRoleMenuDto> getAllAppRoleMenu();
     AppRoleMenuDto getAppRoleMenuById(String id);
 
-    List<AppRoleMenuDto> getAppRoleMenuByRolename(String rolename);
+    List<AppRoleMenuGetDto> getAppRoleMenuByRolename(String rolename);
 
     AppRoleMenuDto createAppRoleMenu(AppRoleMenuCreateDto AppRoleMenuCreateDto);
     AppRoleMenuDto updateAppRoleMenu(AppRoleMenuUpdateDto AppRoleMenuUpdateDto);

@@ -75,8 +75,8 @@ public class AppRoleMenuController extends ServerResponseList {
         long startTime = System.currentTimeMillis();
 
         try {
-            List<AppRoleMenuDto> result = appRoleMenuServ.getAppRoleMenuByRolename(rolename);
-            ManagerDto<List<AppRoleMenuDto>> response = new ManagerDto<>();
+            List<AppRoleMenuGetDto> result = appRoleMenuServ.getAppRoleMenuByRolename(rolename);
+            ManagerDto<List<AppRoleMenuGetDto>> response = new ManagerDto<>();
             response.setContent(result);
             response.setTotalRows(result.size());
 

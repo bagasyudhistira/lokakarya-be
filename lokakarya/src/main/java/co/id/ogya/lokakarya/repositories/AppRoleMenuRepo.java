@@ -9,7 +9,7 @@ public interface AppRoleMenuRepo {
     List<AppRoleMenu> getAppRoleMenus();
     AppRoleMenu getAppRoleMenuById(String id);
 
-    List<AppRoleMenu> getAppRoleMenuByRolename(String rolename);
+    List<Map<String, Object>> getAppRoleMenuByRolename(String rolename);
 
     AppRoleMenu saveAppRoleMenu(AppRoleMenu appRoleMenu);
     AppRoleMenu updateAppRoleMenu(AppRoleMenu appRoleMenu);

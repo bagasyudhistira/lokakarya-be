@@ -50,13 +50,14 @@ public class AppRoleMenuRepoImpl implements AppRoleMenuRepo {
     }
 
     @Override
-    public List<AppRoleMenu> getAppRoleMenuByRolename(String rolename) {
-        String sql = "SELECT * FROM TBL_APP_ROLE_MENU ARM " +
+    public List<Map<String, Object>> getAppRoleMenuByRolename(String rolename) {
+        String sql = "SELECT ARM.ID, ROLENAME, MENU_NAME  FROM TBL_APP_ROLE_MENU ARM " +
                 "LEFT JOIN TBL_APP_ROLE AR on ARM.ROLE_ID = AR.ID " +
+                "LEFT JOIN TBL_APP_MENU AM on ARM.MENU_ID = AM.ID " +
                 "WHERE ROLENAME = ?";
         try {
             log.info("Fetching AppRoleMenu record with role: {}", rolename);
-            List<AppRoleMenu> appRoleMenu = jdbcTemplate.query(sql, rowMapper, rolename);
+            List<Map<String,Object>> appRoleMenu = jdbcTemplate.queryForList(sql, rolename);
             log.info("Fetched {} AppRoleMenu records", appRoleMenu.size());
             return appRoleMenu;
         } catch (Exception e) {
