@@ -69,6 +69,28 @@ public class AppRoleMenuController extends ServerResponseList {
         }
     }
 
+    @GetMapping("/role/{rolename}")
+    public ResponseEntity<?> getAppRoleMenuByRolename(@PathVariable String rolename) {
+        log.info("Fetching AppRoleMenu with role: {}", rolename);
+        long startTime = System.currentTimeMillis();
+
+        try {
+            List<AppRoleMenuDto> result = appRoleMenuServ.getAppRoleMenuByRolename(rolename);
+            ManagerDto<List<AppRoleMenuDto>> response = new ManagerDto<>();
+            response.setContent(result);
+            response.setTotalRows(result.size());
+
+            long endTime = System.currentTimeMillis();
+            response.setInfo(getInfoOk("Time", endTime - startTime));
+            log.info("Fetched AppRoleMenus for role {} in {} ms", rolename, endTime - startTime);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error fetching AppRoleMenus for role {}: {}", rolename,e.getMessage(), e);
+            return new ResponseEntity<>("Failed to fetch AppRoleMenus", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @PostMapping("/create")
     public ResponseEntity<?> createAppRoleMenu(@RequestBody AppRoleMenuCreateDto appRoleMenuCreateDto) {
         log.info("Creating new AppRoleMenu with data: {}", appRoleMenuCreateDto);

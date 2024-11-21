@@ -8,6 +8,9 @@ import java.util.Map;
 public interface AppRoleMenuRepo {
     List<AppRoleMenu> getAppRoleMenus();
     AppRoleMenu getAppRoleMenuById(String id);
+
+    List<AppRoleMenu> getAppRoleMenuByRolename(String rolename);
+
     AppRoleMenu saveAppRoleMenu(AppRoleMenu appRoleMenu);
     AppRoleMenu updateAppRoleMenu(AppRoleMenu appRoleMenu);
     Boolean deleteAppRoleMenu(String id);

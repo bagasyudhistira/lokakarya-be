@@ -55,6 +55,23 @@ public class AppRoleMenuServImpl implements AppRoleMenuServ {
     }
 
     @Override
+    public List<AppRoleMenuDto> getAppRoleMenuByRolename(String rolename) {
+        log.info("Attempting to fetch AppRoleMenu by role: {}", rolename);
+        List<AppRoleMenuDto> listResult = new ArrayList<>();
+        try {
+            List<AppRoleMenu> listData = appRoleMenuRepo.getAppRoleMenuByRolename(rolename);
+            log.debug("Fetched {} AppRoleMenus from repository", listData.size());
+            for (AppRoleMenu data : listData) {
+                AppRoleMenuDto result = convertToDto(data);
+                listResult.add(result);
+            }
+        } catch (Exception e) {
+            log.error("Error occurred while fetching AppRoleMenu by role {}: {}", rolename, e.getMessage(), e);
+        }
+        return listResult;
+    }
+
+    @Override
     public AppRoleMenuDto createAppRoleMenu(AppRoleMenuCreateDto appRoleMenuCreateDto) {
         log.info("Attempting to create a new AppRoleMenu with data: {}", appRoleMenuCreateDto);
         AppRoleMenuDto result = null;
