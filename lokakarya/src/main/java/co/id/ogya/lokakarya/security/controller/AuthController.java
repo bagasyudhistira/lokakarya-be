@@ -93,10 +93,12 @@ public class AuthController extends ServerResponseList {
         SecretKey key = Keys.hmacShaKeyFor(SecurityConstants.JWT_KEY.getBytes());
 
         List<String> roles = appUserRoleRepo.getAppUserRoleNamesById(appUserServ.getAppUserByUsername(userDetails.getUsername()).getId());
+        String userId = appUserServ.getAppUserByUsername(userDetails.getUsername()).getId();
 
         return Jwts.builder()
                 .setIssuer("Admin")
                 .setSubject("JWT Token")
+                .claim("userId", userId)
                 .claim("username", userDetails.getUsername())
                 .claim("roles", roles)
                 .setIssuedAt(new Date())
