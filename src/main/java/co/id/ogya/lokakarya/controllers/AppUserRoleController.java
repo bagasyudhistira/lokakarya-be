@@ -185,7 +185,7 @@ public class AppUserRoleController extends ServerResponseList {
         long startTime = System.currentTimeMillis();
 
         try {
-            List<AppUserRoleDto> result = appUserRoleServ.getAllAppUserRole();
+            List<AppUserRoleDto> result = appUserRoleServ.getAppUserRoleDtoByUserId(userId);
             ManagerDto<List<AppUserRoleDto>> response = new ManagerDto<>();
             response.setContent(result);
             response.setTotalRows(result.size());
