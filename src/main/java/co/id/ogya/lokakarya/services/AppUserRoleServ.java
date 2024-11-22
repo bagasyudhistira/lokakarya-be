@@ -16,4 +16,5 @@ public interface AppUserRoleServ {
     boolean deleteAppUserRole(String id);
     List<AppUserRoleGetDto> getAllAppUserRoleGets();
     List<AppUserRoleGetDto> getAppUserRoleGetById(String userId);
+    List<AppUserRoleDto> getAppUserRoleDtoByUserId(String userId);
 }

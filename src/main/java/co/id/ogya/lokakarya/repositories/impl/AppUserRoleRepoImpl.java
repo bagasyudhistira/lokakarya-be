@@ -162,4 +162,18 @@ public class AppUserRoleRepoImpl implements AppUserRoleRepo {
         }
     }
 
+    @Override
+    public List<AppUserRole> getAppUserRolesByUserId(String userId) {
+        String sql = "SELECT * FROM TBL_APP_USER_ROLE WHERE USER_ID = ?";
+        try {
+            log.info("Fetching AppUserRoles for User ID: {}", userId);
+            List<AppUserRole> appUserRoles = jdbcTemplate.query(sql, rowMapper, userId);
+            log.info("Successfully fetched roles for User ID: {}", userId);
+            return appUserRoles;
+        } catch (Exception e) {
+            log.error("Error fetching AppUserRoles for User ID: {}. Error: {}", userId, e.getMessage(), e);
+            throw e;
+        }
+    }
+
 }

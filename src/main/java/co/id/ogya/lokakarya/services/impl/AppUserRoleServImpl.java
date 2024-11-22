@@ -133,6 +133,23 @@ public class AppUserRoleServImpl implements AppUserRoleServ {
         return resultList;
     }
 
+    @Override
+    public List<AppUserRoleDto> getAppUserRoleDtoByUserId(String userId) {
+        log.info("Attempting to fetch AppUserRoles for User ID {}", userId);
+        List<AppUserRoleDto> listResult = new ArrayList<>();
+        try {
+            List<AppUserRole> listData = appUserRoleRepo.getAppUserRolesByUserId(userId);
+            log.debug("Fetched AppUserRoles for User ID: {}", userId);
+            for (AppUserRole data : listData) {
+                AppUserRoleDto result = convertToDto(data);
+                listResult.add(result);
+            }
+        } catch (Exception e) {
+            log.error("Error occurred while fetching AppUserRoles for User ID {} : {}", userId, e.getMessage(), e);
+        }
+        return listResult;
+    }
+
     private AppUserRole convertToEntity(AppUserRoleDto convertObject) {
         log.debug("Converting AppUserRoleDto to entity: {}", convertObject);
         AppUserRole result = AppUserRole.builder()

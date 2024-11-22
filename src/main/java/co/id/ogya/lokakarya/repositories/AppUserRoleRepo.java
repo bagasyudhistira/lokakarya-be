@@ -14,4 +14,5 @@ public interface AppUserRoleRepo {
     List<Map<String, Object>> getAppUserRoleGets();
     List<Map<String, Object>> getAppUserRoleGetById(String userId);
     List<String> getAppUserRoleNamesById(String userId);
+    List<AppUserRole> getAppUserRolesByUserId(String userId);
 }

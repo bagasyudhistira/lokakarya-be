@@ -178,4 +178,26 @@ public class AppUserRoleController extends ServerResponseList {
             return new ResponseEntity<>("Failed to fetch AppUserRoles", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("/get2/{userId}")
+    public ResponseEntity<?> getAllAppUserRoleByUserId(@PathVariable String userId) {
+        log.info("Fetching AppUserRoles for User ID: {}", userId);
+        long startTime = System.currentTimeMillis();
+
+        try {
+            List<AppUserRoleDto> result = appUserRoleServ.getAllAppUserRole();
+            ManagerDto<List<AppUserRoleDto>> response = new ManagerDto<>();
+            response.setContent(result);
+            response.setTotalRows(result.size());
+
+            long endTime = System.currentTimeMillis();
+            response.setInfo(getInfoOk("Time", endTime - startTime));
+            log.info("Fetched AppUserRoles for User ID {} in {} ms", userId, endTime - startTime);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error fetching AppUserRoles for User ID {} : {}", userId, e.getMessage(), e);
+            return new ResponseEntity<>("Failed to fetch AppUserRoles", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
