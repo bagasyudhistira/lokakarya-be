@@ -218,7 +218,7 @@ public class AppUserRoleController extends ServerResponseList {
 
         } catch (Exception e) {
             log.error("Error fetching AppUserRole for User ID: {} and Role ID: {} : {}", userId, roleId, e.getMessage(), e);
-            throw e;t
+            throw e;
         }
     }
 }
