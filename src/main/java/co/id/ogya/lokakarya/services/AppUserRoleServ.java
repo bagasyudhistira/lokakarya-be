@@ -17,4 +17,5 @@ public interface AppUserRoleServ {
     List<AppUserRoleGetDto> getAllAppUserRoleGets();
     List<AppUserRoleGetDto> getAppUserRoleGetById(String userId);
     List<AppUserRoleDto> getAppUserRoleDtoByUserId(String userId);
+    String getAppUserRoleByUserIdRoleId(String userId, String roleId);
 }

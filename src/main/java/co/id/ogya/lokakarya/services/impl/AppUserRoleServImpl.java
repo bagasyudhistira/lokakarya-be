@@ -146,8 +146,26 @@ public class AppUserRoleServImpl implements AppUserRoleServ {
             }
         } catch (Exception e) {
             log.error("Error occurred while fetching AppUserRoles for User ID {} : {}", userId, e.getMessage(), e);
+            throw e;
         }
         return listResult;
+    }
+
+    @Override
+    public String getAppUserRoleByUserIdRoleId(String userId, String roleId) {
+        log.info("Attempting to fetch AppUserRole for User ID {} and Role ID {}", userId, roleId);
+        try {
+            String result = appUserRoleRepo.getAppUserRoleByUserIdRoleId(userId, roleId);
+            if (result != null) {
+                log.info("Fetched AppUserRole for User ID {} and Role ID {}", userId, roleId);
+            } else {
+                log.info("No AppUserRole for User ID {} and Role ID {}", userId, roleId);
+            }
+            return result;
+        } catch (Exception e) {
+            log.error("Error occurred while fetching AppUserRole for User ID {} and Role ID {} : {}", userId, roleId, e.getMessage(), e );
+            throw e;
+        }
     }
 
     private AppUserRole convertToEntity(AppUserRoleDto convertObject) {

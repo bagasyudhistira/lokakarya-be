@@ -4,6 +4,7 @@ import co.id.ogya.lokakarya.entities.AppUserRole;
 import co.id.ogya.lokakarya.repositories.AppUserRoleRepo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -173,6 +174,29 @@ public class AppUserRoleRepoImpl implements AppUserRoleRepo {
         } catch (Exception e) {
             log.error("Error fetching AppUserRoles for User ID: {}. Error: {}", userId, e.getMessage(), e);
             throw e;
+        }
+    }
+
+    @Override
+    public String getAppUserRoleByUserIdRoleId(String userId, String roleId) {
+        String sql = "SELECT ID FROM TBL_APP_USER_ROLE WHERE USER_ID = ? AND ROLE_ID = ?";
+        try {
+            log.info("Fetching AppUserRoles for User ID: {} and Role ID: {}", userId, roleId);
+            // Use queryForObject to fetch a single result
+            String result = jdbcTemplate.queryForObject(
+                    sql,
+                    new Object[]{userId, roleId}, // Bind parameters
+                    String.class // Specify the return type
+            );
+            log.info("Successfully fetched roles for User ID: {} and Role ID: {}", userId, roleId);
+            return result;
+        } catch (EmptyResultDataAccessException e) {
+            // Handle case where no result is found
+            log.warn("No AppUserRole found for User ID: {} and Role ID: {}", userId, roleId);
+            return null;
+        } catch (Exception e) {
+            log.error("Error fetching AppUserRole for User ID: {} and Role ID: {}. Error: {}", userId, roleId, e.getMessage(), e);
+            throw e; // Rethrow the exception
         }
     }
 
