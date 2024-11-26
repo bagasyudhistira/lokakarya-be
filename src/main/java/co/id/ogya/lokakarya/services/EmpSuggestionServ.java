@@ -16,4 +16,6 @@ public interface EmpSuggestionServ {
     boolean deleteEmpSuggestion(String id);
     List<EmpSuggestionGetDto> getAllEmpSuggestionGets();
     List<EmpSuggestionGetDto> getEmpSuggestionGetByUserId(String userId);
+
+    List<EmpSuggestionGetDto> getEmpSuggestionGetByCreatedBy(String userId);
 }

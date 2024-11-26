@@ -164,7 +164,7 @@ public class EmpSuggestionController extends ServerResponseList {
             List<EmpSuggestionGetDto> result = empSuggestionServ.getEmpSuggestionGetByUserId(userId);
             ManagerDto<List<EmpSuggestionGetDto>> response = new ManagerDto<>();
             response.setContent(result);
-//            response.setTotalRows(1);
+            response.setTotalRows(1);
 
             long endTime = System.currentTimeMillis();
             response.setInfo(getInfoOk("Time", endTime - startTime));
@@ -174,6 +174,28 @@ public class EmpSuggestionController extends ServerResponseList {
         } catch (Exception e) {
             log.error("Error fetching EmpSuggestion by ID {}: {}", userId, e.getMessage(), e);
             return new ResponseEntity<>("Failed to fetch EmpSuggestion with ID: " + userId, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/get/by/{userId}")
+    public ResponseEntity<?> getEmpSuggestionGetByCreatedBy(@PathVariable String userId) {
+        log.info("Fetching EmpSuggestion by ID: {}", userId);
+        long startTime = System.currentTimeMillis();
+
+        try {
+            List<EmpSuggestionGetDto> result = empSuggestionServ.getEmpSuggestionGetByCreatedBy(userId);
+            ManagerDto<List<EmpSuggestionGetDto>> response = new ManagerDto<>();
+            response.setContent(result);
+            response.setTotalRows(1);
+
+            long endTime = System.currentTimeMillis();
+            response.setInfo(getInfoOk("Time", endTime - startTime));
+            log.info("Fetched EmpSuggestion by ID: {} in {} ms", userId, endTime - startTime);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error fetching EmpSuggestion by ID {}: {}", userId, e.getMessage(), e);
+            return new ResponseEntity<>("Failed to fetch EmpSuggestion by ID: " + userId, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

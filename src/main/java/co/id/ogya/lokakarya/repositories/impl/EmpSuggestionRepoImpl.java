@@ -142,4 +142,21 @@ public class EmpSuggestionRepoImpl implements EmpSuggestionRepo {
             throw e;
         }
     }
+    @Override
+    public List<Map<String, Object>> getEmpSuggestionGetByCreatedBy(String userId) {
+        String sql = "SELECT ES.ID, AU.FULL_NAME, ES.SUGGESTION, ES.ASSESSMENT_YEAR " +
+                "FROM TBL_EMP_SUGGESTION ES " +
+                "LEFT JOIN TBL_APP_USER AU ON ES.USER_ID = AU.ID " +
+                "WHERE ES.CREATED_BY = ?";
+        log.info("Fetching EmpSuggestions made by UserID: {} with LEFT JOIN query: {}", userId, sql);
+        try {
+            List<Map<String, Object>> result = jdbcTemplate.queryForList(sql, userId);
+            log.info("Successfully fetched {} EmpSuggestions by UserID: {}", result.size(), userId);
+            return result;
+        } catch (Exception e) {
+            log.error("Error while fetching EmpSuggestions by UserID: {}. Error: {}", userId, e.getMessage());
+            throw e;
+        }
+    }
 }
+

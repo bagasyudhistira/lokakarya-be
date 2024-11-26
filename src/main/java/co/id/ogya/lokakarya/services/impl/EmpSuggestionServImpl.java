@@ -133,6 +133,22 @@ public class EmpSuggestionServImpl implements EmpSuggestionServ {
         return resultList;
     }
 
+    @Override
+    public List<EmpSuggestionGetDto> getEmpSuggestionGetByCreatedBy(String userId) {
+        log.info("Fetching employee suggestions by user ID: {}", userId);
+        List<EmpSuggestionGetDto> resultList = new ArrayList<>();
+        try {
+            List<Map<String, Object>> empSuggestionRepoList = empSuggestionRepo.getEmpSuggestionGetByCreatedBy(userId);
+            log.debug("Retrieved {} employee suggestions by user ID: {}", empSuggestionRepoList.size(), userId);
+            empSuggestionRepoList.forEach(map -> resultList.add(EmpSuggestionGetDto.mapToDto(map)));
+            log.info("Successfully fetched employee suggestions for user ID: {}", userId);
+        } catch (Exception e) {
+            log.error("Failed to fetch employee suggestions by user ID: {}. Error: {}", userId, e.getMessage(), e);
+            throw e;
+        }
+        return resultList;
+    }
+
 
     private EmpSuggestion convertToEntity(EmpSuggestionDto convertObject) {
         log.debug("Converting EmpSuggestionDto to entity: {}", convertObject);
