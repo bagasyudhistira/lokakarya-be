@@ -155,7 +155,7 @@ public class EmpSuggestionController extends ServerResponseList {
         }
     }
 
-    @GetMapping("/get/{id}")
+    @GetMapping("/get/{userId}")
     public ResponseEntity<?> getEmpSuggestionGetById(@PathVariable String userId) {
         log.info("Fetching EmpSuggestion by ID: {}", userId);
         long startTime = System.currentTimeMillis();
