@@ -47,13 +47,13 @@ public class SecurityConfig {
                     auth
                             .requestMatchers("/auth/**").permitAll()
                             .requestMatchers("/v3/api-docs/**", "/swagger-ui/**").permitAll()
+                            .requestMatchers(HttpMethod.GET,"/appuser/get/{id}").permitAll()
                             .requestMatchers("/appuser/**", "/division/**", "/approlemenu/**", "/groupattitudeskill/**",
                                     "/attitudeskill/**", "/grouptechnicalskill/**", "/technicalskill/**", "/devplan/**",
                                     "/groupachievement/**", "/achievement/**", "/empachievement/**").hasAnyRole("HR")
                             .requestMatchers(HttpMethod.GET, "/assessmentsummary/**").hasAnyRole("HR", "USER", "SVP", "MGR")
                             .requestMatchers(HttpMethod.POST, "/empattitudeskill/**", "/emptechnicalskill/**", "/empdevplan/**",
                                     "/empsuggestion/**").hasAnyRole("USER")
-                            .requestMatchers(HttpMethod.GET,"/appuser/get/{id}").permitAll()
                             .anyRequest().authenticated();
                 })
                 .csrf(csrf -> {
