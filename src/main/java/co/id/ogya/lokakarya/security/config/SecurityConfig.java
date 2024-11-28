@@ -53,6 +53,7 @@ public class SecurityConfig {
                             .requestMatchers(HttpMethod.GET, "/assessmentsummary/**").hasAnyRole("HR", "USER", "SVP", "MGR")
                             .requestMatchers(HttpMethod.POST, "/empattitudeskill/**", "/emptechnicalskill/**", "/empdevplan/**",
                                     "/empsuggestion/**").hasAnyRole("USER")
+                            .requestMatchers(HttpMethod.GET,"/appuser/get/{id}").permitAll()
                             .anyRequest().authenticated();
                 })
                 .csrf(csrf -> {
