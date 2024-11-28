@@ -1,9 +1,6 @@
 package co.id.ogya.lokakarya.services.impl;
 
-import co.id.ogya.lokakarya.dto.appuser.AppUserCreateDto;
-import co.id.ogya.lokakarya.dto.appuser.AppUserDto;
-import co.id.ogya.lokakarya.dto.appuser.AppUserGetDto;
-import co.id.ogya.lokakarya.dto.appuser.AppUserUpdateDto;
+import co.id.ogya.lokakarya.dto.appuser.*;
 import co.id.ogya.lokakarya.entities.AppUser;
 import co.id.ogya.lokakarya.repositories.AppUserRepo;
 import co.id.ogya.lokakarya.services.AppUserServ;
@@ -159,6 +156,23 @@ public class AppUserServImpl implements AppUserServ {
             log.error("Error occurred while deleting AppUser with ID {}: {}", id, e.getMessage(), e);
         }
         return isDeleted;
+    }
+
+    @Override
+    public List<AppUserCommonDto> getAllAppUserCommons() {
+        log.info("Attempting to fetch all AppUserCommons");
+        List<AppUserCommonDto> listResult = new ArrayList<>();
+        try {
+            List<Map<String,Object>> listData = appUserRepo.getAppUsersCommons();
+            log.debug("Fetched {} AppUsers from repository", listData.size());
+            for (Map<String, Object> data : listData) {
+                AppUserCommonDto result = AppUserCommonDto.mapToDto(data);
+                listResult.add(result);
+            }
+        } catch (Exception e) {
+            log.error("Error occurred while fetching all AppUserCommons: {}", e.getMessage(), e);
+        }
+        return listResult;
     }
 
     private AppUser convertToEntity(AppUserDto convertObject) {

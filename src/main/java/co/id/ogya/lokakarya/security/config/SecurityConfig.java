@@ -47,7 +47,7 @@ public class SecurityConfig {
                     auth
                             .requestMatchers("/auth/**").permitAll()
                             .requestMatchers("/v3/api-docs/**", "/swagger-ui/**").permitAll()
-                            .requestMatchers(HttpMethod.GET,"/appuser/get/{id}").permitAll()
+                            .requestMatchers(HttpMethod.GET,"/appuser/get/{id}", "/appuser/get/common/all").permitAll()
                             .requestMatchers("/appuser/**", "/division/**", "/approlemenu/**", "/groupattitudeskill/**",
                                     "/attitudeskill/**", "/grouptechnicalskill/**", "/technicalskill/**", "/devplan/**",
                                     "/groupachievement/**", "/achievement/**", "/empachievement/**").hasAnyRole("HR")

@@ -7,6 +7,7 @@ import java.util.Map;
 
 public interface AppUserRepo {
     List<AppUser> getAppUsers();
+
     AppUser getAppUserById(String id);
 
     List<Map<String,Object>> getAppUserGets();
@@ -18,6 +19,11 @@ public interface AppUserRepo {
     Map<String, Object> getAppUserByFullName(String fullName);
 
     AppUser saveAppUser(AppUser appUser);
+
     AppUser updateAppUser(AppUser appUser);
+
     Boolean deleteAppUser(String id);
+
+    List<Map<String,Object>> getAppUsersCommons();
+
 }

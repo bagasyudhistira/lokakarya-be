@@ -210,4 +210,17 @@ public class AppUserRepoImpl implements AppUserRepo {
             return false;
         }
     }
+
+    @Override
+    public List<Map<String, Object>> getAppUsersCommons() {
+        String sql = "SELECT ID, FULL_NAME FROM TBL_APP_USER";
+        log.info("Executing query to fetch AppUsers using query: {}", sql);
+        try {
+            log.info("Successfully fetched AppUsers");
+            return jdbcTemplate.queryForList(sql);
+        } catch (Exception e) {
+            log.error("Error fetching AppUsers. Error: {}", e.getMessage());
+            return null;
+        }
+    }
 }

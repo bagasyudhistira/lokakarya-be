@@ -1,10 +1,7 @@
 package co.id.ogya.lokakarya.controllers;
 
 import co.id.ogya.lokakarya.dto.ManagerDto;
-import co.id.ogya.lokakarya.dto.appuser.AppUserCreateDto;
-import co.id.ogya.lokakarya.dto.appuser.AppUserDto;
-import co.id.ogya.lokakarya.dto.appuser.AppUserGetDto;
-import co.id.ogya.lokakarya.dto.appuser.AppUserUpdateDto;
+import co.id.ogya.lokakarya.dto.appuser.*;
 import co.id.ogya.lokakarya.services.AppUserServ;
 import co.id.ogya.lokakarya.utils.ServerResponseList;
 import lombok.extern.slf4j.Slf4j;
@@ -228,6 +225,28 @@ public class AppUserController extends ServerResponseList {
         } catch (Exception e) {
             log.error("Error deleting AppUser with ID {}: {}", id, e.getMessage(), e);
             return new ResponseEntity<>("Failed to delete AppUser with ID: " + id, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/get/common/all")
+    public ResponseEntity<?> getAllAppUserCommons() {
+        log.info("Fetching all AppUserCommons");
+        long startTime = System.currentTimeMillis();
+
+        try {
+            List<AppUserCommonDto> result = appUserServ.getAllAppUserCommons();
+            ManagerDto<List<AppUserCommonDto>> response = new ManagerDto<>();
+            response.setContent(result);
+            response.setTotalRows(result.size());
+
+            long endTime = System.currentTimeMillis();
+            response.setInfo(getInfoOk("Time", endTime - startTime));
+            log.info("Fetched all AppUserCommons in {} ms", endTime - startTime);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error fetching all AppUserCommons: {}", e.getMessage(), e);
+            return new ResponseEntity<>("Failed to fetch AppUserCommons", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }
