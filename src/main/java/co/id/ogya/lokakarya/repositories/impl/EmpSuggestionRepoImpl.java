@@ -112,7 +112,7 @@ public class EmpSuggestionRepoImpl implements EmpSuggestionRepo {
 
     @Override
     public List<Map<String, Object>> getEmpSuggestionGets() {
-        String sql = "SELECT ES.ID, AU.FULL_NAME, ES.SUGGESTION, ES.ASSESSMENT_YEAR " +
+        String sql = "SELECT ES.ID, ES.USER_ID, AU.FULL_NAME, ES.SUGGESTION, ES.ASSESSMENT_YEAR " +
                 "FROM TBL_EMP_SUGGESTION ES " +
                 "LEFT JOIN TBL_APP_USER AU ON ES.USER_ID = AU.ID";
         log.info("Fetching all EmpSuggestions with LEFT JOIN query: {}", sql);
@@ -128,7 +128,7 @@ public class EmpSuggestionRepoImpl implements EmpSuggestionRepo {
 
     @Override
     public List<Map<String, Object>> getEmpSuggestionGetByUserId(String userId) {
-        String sql = "SELECT ES.ID, AU.FULL_NAME, ES.SUGGESTION, ES.ASSESSMENT_YEAR " +
+        String sql = "SELECT ES.ID, ES,USER_ID, AU.FULL_NAME, ES.SUGGESTION, ES.ASSESSMENT_YEAR " +
                 "FROM TBL_EMP_SUGGESTION ES " +
                 "LEFT JOIN TBL_APP_USER AU ON ES.USER_ID = AU.ID " +
                 "WHERE ES.USER_ID = ?";
@@ -144,7 +144,7 @@ public class EmpSuggestionRepoImpl implements EmpSuggestionRepo {
     }
     @Override
     public List<Map<String, Object>> getEmpSuggestionGetByCreatedBy(String userId) {
-        String sql = "SELECT ES.ID, AU.FULL_NAME, ES.SUGGESTION, ES.ASSESSMENT_YEAR " +
+        String sql = "SELECT ES.ID, ES.USER_ID, AU.FULL_NAME, ES.SUGGESTION, ES.ASSESSMENT_YEAR " +
                 "FROM TBL_EMP_SUGGESTION ES " +
                 "LEFT JOIN TBL_APP_USER AU ON ES.USER_ID = AU.ID " +
                 "WHERE ES.CREATED_BY = ?";

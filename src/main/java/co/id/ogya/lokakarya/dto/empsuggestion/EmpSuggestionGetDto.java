@@ -17,6 +17,9 @@ public class EmpSuggestionGetDto {
     @JsonProperty("id")
     private String id;
 
+    @JsonProperty("user_id")
+    private String userId;
+
     @JsonProperty("full_name")
     private String fullName;
 
@@ -31,6 +34,7 @@ public class EmpSuggestionGetDto {
 
         EmpSuggestionGetDto result = EmpSuggestionGetDto.builder()
                 .id((String) convertObject.get("ID"))
+                .userId((String) convertObject.get("USER_ID"))
                 .fullName((String) convertObject.get("FULL_NAME"))
                 .suggestion((String) convertObject.get("SUGGESTION"))
                 .assessmentYear((Integer) convertObject.get("ASSESSMENT_YEAR"))
