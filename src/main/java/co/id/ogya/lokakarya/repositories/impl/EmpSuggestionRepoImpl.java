@@ -158,5 +158,24 @@ public class EmpSuggestionRepoImpl implements EmpSuggestionRepo {
             throw e;
         }
     }
+
+    @Override
+    public Boolean ifAnyEmpSuggestionExist(String userId, int assessmentYear) {
+        String sql = "SELECT ID FROM TBL_EMP_SUGGESTION WHERE USER_ID = ? AND ASSESSMENT_YEAR = ?";
+        log.info("Looking for EmpSuggestion with User ID: {} and Assessment Year: {} with query: {}", userId, assessmentYear, sql);
+        try {
+            List<EmpSuggestion> result = jdbcTemplate.query(sql, rowMapper);
+            if (result.isEmpty()) {
+                log.info("There is no EmpSuggestion with UserID: {} and Assessment Year: {}", userId, assessmentYear);
+                return false;
+            } else {
+                log.info("There is an EmpSuggestion with UserID: {} and Assessment Year: {}", userId, assessmentYear);
+                return true;
+            }
+        } catch (Exception e) {
+            log.error("Error while looking EmpSuggestion by UserID: {} and Assessment Year: {}. Error: {}", userId, assessmentYear, e.getMessage());
+            throw e;
+        }
+    }
 }
 

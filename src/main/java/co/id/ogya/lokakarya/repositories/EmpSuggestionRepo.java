@@ -13,6 +13,6 @@ public interface EmpSuggestionRepo {
     Boolean deleteEmpSuggestion(String id);
     List<Map<String, Object>> getEmpSuggestionGets();
     List<Map<String, Object>> getEmpSuggestionGetByUserId(String userId);
-
     List<Map<String, Object>> getEmpSuggestionGetByCreatedBy(String userId);
+    Boolean ifAnyEmpSuggestionExist(String userId, int assessmentYear);
 }

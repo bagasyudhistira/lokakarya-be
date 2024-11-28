@@ -149,6 +149,26 @@ public class EmpSuggestionServImpl implements EmpSuggestionServ {
         return resultList;
     }
 
+    @Override
+    public Boolean ifAnyEmpSuggestionExist(String userId, int assessmentYear) {
+        log.info("Looking for EmpSuggestion with User ID: {} and Assessment Year: {}", userId, assessmentYear);
+        Boolean result = false;
+        try {
+            result = empSuggestionRepo.ifAnyEmpSuggestionExist(userId, assessmentYear);
+            if (result) {
+                log.info("There is an EmpSuggestion with UserID: {} and Assessment Year: {}", userId, assessmentYear);
+                return true;
+            } else {
+                log.info("There is no EmpSuggestion with UserID: {} and Assessment Year: {}", userId, assessmentYear);
+                return false;
+            }
+        } catch (Exception e) {
+            log.error("Error while looking EmpSuggestion by UserID: {} and Assessment Year: {}. Error: {}", userId, assessmentYear, e.getMessage());
+            throw e;
+        }
+
+    }
+
 
     private EmpSuggestion convertToEntity(EmpSuggestionDto convertObject) {
         log.debug("Converting EmpSuggestionDto to entity: {}", convertObject);

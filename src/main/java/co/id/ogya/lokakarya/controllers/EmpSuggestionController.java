@@ -198,4 +198,25 @@ public class EmpSuggestionController extends ServerResponseList {
             return new ResponseEntity<>("Failed to fetch EmpSuggestion by ID: " + userId, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("/{userId}/{assessmentYear}")
+    public ResponseEntity<?> getEmpSuggestionGetByAssessmentYear(@PathVariable String userId, @PathVariable int assessmentYear) {
+        log.info("Looking for EmpSuggestion with User ID: {} and Assessment Year: {}", userId, assessmentYear);
+        long startTime = System.currentTimeMillis();
+
+        try {
+            Boolean result = empSuggestionServ.ifAnyEmpSuggestionExist(userId, assessmentYear);
+            ManagerDto<Boolean> response = new ManagerDto<>();
+            response.setContent(result);
+            response.setTotalRows(1);
+
+            long endTime = System.currentTimeMillis();
+            response.setInfo(getInfoOk("Time", endTime - startTime));
+            log.info("Looking for EmpSuggestion with User ID: {} and Assessment Year: {} success in {} ms", userId, assessmentYear, endTime - startTime);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error looking for EmpSuggestion with User ID: {} and Assessment Year: {}. Error: {}", userId, assessmentYear, e.getMessage(), e);
+            return new ResponseEntity<>("Failed to look for EmpSuggestion with User ID: " + userId, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
