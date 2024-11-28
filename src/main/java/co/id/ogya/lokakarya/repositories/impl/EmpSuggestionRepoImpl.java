@@ -164,7 +164,7 @@ public class EmpSuggestionRepoImpl implements EmpSuggestionRepo {
         String sql = "SELECT ID FROM TBL_EMP_SUGGESTION WHERE USER_ID = ? AND ASSESSMENT_YEAR = ?";
         log.info("Looking for EmpSuggestion with User ID: {} and Assessment Year: {} with query: {}", userId, assessmentYear, sql);
         try {
-            List<EmpSuggestion> result = jdbcTemplate.query(sql, rowMapper);
+            List<Map<String, Object>> result = jdbcTemplate.queryForList(sql, userId, assessmentYear);
             if (result.isEmpty()) {
                 log.info("There is no EmpSuggestion with UserID: {} and Assessment Year: {}", userId, assessmentYear);
                 return false;
