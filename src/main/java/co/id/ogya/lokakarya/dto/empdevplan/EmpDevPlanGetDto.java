@@ -23,6 +23,9 @@ public class EmpDevPlanGetDto {
     @JsonProperty("plan")
     private String plan;
 
+    @JsonProperty("too_bright")
+    private String tooBright;
+
     @JsonProperty("assessment_year")
     private int assessmentYear;
 
@@ -33,6 +36,7 @@ public class EmpDevPlanGetDto {
                 .id((String) convertObject.get("ID"))
                 .fullName((String) convertObject.get("FULL_NAME"))
                 .plan((String) convertObject.get("PLAN"))
+                .tooBright((String) convertObject.get("TOO_BRIGHT"))
                 .assessmentYear((Integer) convertObject.get("ASSESSMENT_YEAR"))
                 .build();
 

@@ -24,6 +24,9 @@ public class EmpDevPlan {
     @Column(name = "DEV_PLAN_ID")
     private String devPlanId;
 
+    @Column(name = "TOO_BRIGHT")
+    private String tooBright;
+
     @Column(name = "ASSESSMENT_YEAR")
     private int assessmentYear;
 

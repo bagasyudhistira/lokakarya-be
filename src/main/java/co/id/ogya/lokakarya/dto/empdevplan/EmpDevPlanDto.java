@@ -20,6 +20,9 @@ public class EmpDevPlanDto {
     @JsonProperty("dev_plan_id")
     private String devPlanId;
 
+    @JsonProperty("too_bright")
+    private String tooBright;
+
     @JsonProperty("assessment_year")
     private int assessmentYear;
 

@@ -52,7 +52,7 @@ public class EmpDevPlanRepoImpl implements EmpDevPlanRepo {
     @Override
     public EmpDevPlan saveEmpDevPlan(EmpDevPlan empDevPlan) {
         empDevPlan.prePersist();
-        String sql = "INSERT INTO TBL_EMP_DEV_PLAN (ID, USER_ID, DEV_PLAN_ID, ASSESSMENT_YEAR, CREATED_BY) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO TBL_EMP_DEV_PLAN (ID, USER_ID, DEV_PLAN_ID, TOO_BRIGHT, ASSESSMENT_YEAR, CREATED_BY) VALUES (?, ?, ?, ?, ?, ?, ?)";
         log.info("Saving EmpDevPlan: {} with query: {}", empDevPlan, sql);
         try {
             int rowsAffected = jdbcTemplate.update(sql, empDevPlan.getId(), empDevPlan.getUserId(), empDevPlan.getDevPlanId(),
@@ -72,7 +72,7 @@ public class EmpDevPlanRepoImpl implements EmpDevPlanRepo {
 
     @Override
     public EmpDevPlan updateEmpDevPlan(EmpDevPlan empDevPlan) {
-        String sql = "UPDATE TBL_EMP_DEV_PLAN SET USER_ID = ?, DEV_PLAN_ID = ?, ASSESSMENT_YEAR = ?, UPDATED_AT = SYSDATE(), UPDATED_BY = ? " +
+        String sql = "UPDATE TBL_EMP_DEV_PLAN SET USER_ID = ?, DEV_PLAN_ID = ?, TOO_BRIGHT = ?, ASSESSMENT_YEAR = ?, UPDATED_AT = SYSDATE(), UPDATED_BY = ? " +
                 "WHERE ID = ?";
         log.info("Updating EmpDevPlan with ID: {} using query: {}", empDevPlan.getId(), sql);
         try {
@@ -112,7 +112,7 @@ public class EmpDevPlanRepoImpl implements EmpDevPlanRepo {
 
     @Override
     public List<Map<String, Object>> getEmpDevPlanGets() {
-        String sql = "SELECT EDP.ID, AU.FULL_NAME, DP.PLAN, EDP.ASSESSMENT_YEAR " +
+        String sql = "SELECT EDP.ID, AU.FULL_NAME, DP.PLAN, EDP.ASSESSMENT_YEAR, EDP.TOO_BRIGHT " +
                 "FROM TBL_EMP_DEV_PLAN EDP " +
                 "LEFT JOIN TBL_APP_USER AU ON EDP.USER_ID = AU.ID " +
                 "LEFT JOIN TBL_DEV_PLAN DP ON EDP.DEV_PLAN_ID = DP.ID";
@@ -129,7 +129,7 @@ public class EmpDevPlanRepoImpl implements EmpDevPlanRepo {
 
     @Override
     public List<Map<String, Object>> getEmpDevPlanGetByUserId(String userId) {
-        String sql = "SELECT EDP.ID, AU.FULL_NAME, DP.PLAN, EDP.ASSESSMENT_YEAR " +
+        String sql = "SELECT EDP.ID, AU.FULL_NAME, DP.PLAN, EDP.ASSESSMENT_YEAR, EDP.TOO_BRIGHT " +
                 "FROM TBL_EMP_DEV_PLAN EDP " +
                 "LEFT JOIN TBL_APP_USER AU ON EDP.USER_ID = AU.ID " +
                 "LEFT JOIN TBL_DEV_PLAN DP ON EDP.DEV_PLAN_ID = DP.ID " +

@@ -21,6 +21,9 @@ public class EmpDevPlanCreateDto {
     @JsonProperty("assessment_year")
     private int assessmentYear;
 
+    @JsonProperty("too_bright")
+    private String tooBright;
+
     @JsonProperty("created_by")
     private String createdBy;
 }
