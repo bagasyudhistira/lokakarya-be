@@ -10,10 +10,16 @@ import java.util.Map;
 
 public interface EmpTechnicalSkillServ {
     List<EmpTechnicalSkillDto> getAllEmpTechnicalSkill();
+
     EmpTechnicalSkillDto getEmpTechnicalSkillById(String id);
+
     EmpTechnicalSkillDto createEmpTechnicalSkill(EmpTechnicalSkillCreateDto empTechnicalSkillCreateDto);
+
     EmpTechnicalSkillDto updateEmpTechnicalSkill(EmpTechnicalSkillUpdateDto empTechnicalSkillUpdateDto);
+
     boolean deleteEmpTechnicalSkill(String id);
+
     List<EmpTechnicalSkillGetDto> getAllEmpTechnicalSkillGets();
+
     List<EmpTechnicalSkillGetDto> getEmpTechnicalSkillGetByUserId(String userId);
 }

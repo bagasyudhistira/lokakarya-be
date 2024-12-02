@@ -9,14 +9,19 @@ import java.util.List;
 
 public interface EmpAttitudeSkillServ {
     List<EmpAttitudeSkillDto> getAllEmpAttitudeSkill();
+
     EmpAttitudeSkillDto getEmpAttitudeSkillById(String id);
 
     List<EmpAttitudeSkillGetDto> getAllEmpAttitudeSkillGet();
 
     EmpAttitudeSkillGetDto getEmpAttitudeSkillGetById(String id);
 
+    List<EmpAttitudeSkillGetDto> getAllEmpAttitudeSkillGetByUserId(String userId);
+
     EmpAttitudeSkillDto createEmpAttitudeSkill(EmpAttitudeSkillCreateDto empAttitudeSkillCreateDto);
+
     EmpAttitudeSkillDto updateEmpAttitudeSkill(EmpAttitudeSkillUpdateDto empAttitudeSkillUpdateDto);
+
     boolean deleteEmpAttitudeSkill(String id);
 
 }

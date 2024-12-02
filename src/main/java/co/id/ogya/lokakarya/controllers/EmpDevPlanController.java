@@ -155,9 +155,9 @@ public class EmpDevPlanController extends ServerResponseList {
         }
     }
 
-    @GetMapping("/get/{id}")
-    public ResponseEntity<?> getEmpDevPlanGetById(@PathVariable String userId) {
-        log.info("Fetching EmpDevPlan by ID: {}", userId);
+    @GetMapping("/get/{userId}")
+    public ResponseEntity<?> getEmpDevPlanGetByUserId(@PathVariable String userId) {
+        log.info("Fetching EmpDevPlan by User ID: {}", userId);
         long startTime = System.currentTimeMillis();
 
         try {
@@ -168,12 +168,12 @@ public class EmpDevPlanController extends ServerResponseList {
 
             long endTime = System.currentTimeMillis();
             response.setInfo(getInfoOk("Time", endTime - startTime));
-            log.info("Fetched EmpDevPlan with ID: {} in {} ms", userId, endTime - startTime);
+            log.info("Fetched EmpDevPlan with User ID: {} in {} ms", userId, endTime - startTime);
 
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
-            log.error("Error fetching EmpDevPlan by ID {}: {}", userId, e.getMessage(), e);
-            return new ResponseEntity<>("Failed to fetch EmpDevPlan with ID: " + userId, HttpStatus.INTERNAL_SERVER_ERROR);
+            log.error("Error fetching EmpDevPlan by User ID {}: {}", userId, e.getMessage(), e);
+            return new ResponseEntity<>("Failed to fetch EmpDevPlan with User ID: " + userId, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

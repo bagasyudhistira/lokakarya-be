@@ -155,7 +155,7 @@ public class EmpTechnicalSkillController extends ServerResponseList {
         }
     }
 
-    @GetMapping("/get/{id}")
+    @GetMapping("/get/{userId}")
     public ResponseEntity<?> getEmpTechnicalSkillGetByUserId(@PathVariable String userId) {
         log.info("Fetching EmpTechnicalSkill by ID: {}", userId);
         long startTime = System.currentTimeMillis();

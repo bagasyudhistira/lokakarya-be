@@ -112,6 +112,27 @@ public class EmpAchievementSkillController extends ServerResponseList {
         }
     }
 
+    @GetMapping("/get/{userId}")
+    public ResponseEntity<?> getEmpAchievementSkillGetsByUserId(@PathVariable String userId) {
+        log.info("Fetching employee achievement skills by user ID: {}", userId);
+        long startTime = System.currentTimeMillis();
+        try {
+            List<EmpAchievementSkillGetDto> result = empAchievementSkillServ.getAllEmpAchievementSkillGetByUserId(userId);
+            ManagerDto<List<EmpAchievementSkillGetDto>> response = new ManagerDto<>();
+            response.setContent(result);
+            response.setTotalRows(result.size());
+
+            long endTime = System.currentTimeMillis();
+            response.setInfo(getInfoOk("Time", endTime - startTime));
+            log.info("Fetched all employee achievement skills by user ID: {} in {} ms", userId, endTime - startTime);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error fetching all achievement skills by user ID: {} : {}", userId, e.getMessage(), e);
+            return new ResponseEntity<>("Failed to fetch employee achievement skills", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @PostMapping("/create")
     public ResponseEntity<?> createEmpAchievementSkill(@RequestBody EmpAchievementSkillCreateDto empAchievementSkillCreateDto) {
         log.info("Creating new employee achievement skill with data: {}", empAchievementSkillCreateDto);

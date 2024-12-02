@@ -87,6 +87,24 @@ public class EmpAttitudeSkillServImpl implements EmpAttitudeSkillServ {
     }
 
     @Override
+    public List<EmpAttitudeSkillGetDto> getAllEmpAttitudeSkillGetByUserId(String userId) {
+        List<EmpAttitudeSkillGetDto> listResult = new ArrayList<>();
+        log.info("Attempting to fetch all EmpAttitudeSkills for User ID: {}", userId);
+        try {
+            List<Map<String, Object>> listData = empAttitudeSkillRepo.getEmpAttitudeSkillGetsByUserId(userId);
+            log.debug("Fetched {} EmpAttitudeSkills for User ID: {} from repository", userId, listData.size());
+
+            for (Map<String, Object> data : listData) {
+                EmpAttitudeSkillGetDto result =  EmpAttitudeSkillGetDto.mapToDto(data);
+                listResult.add(result);
+            }
+        } catch (Exception e) {
+            log.error("Error occurred while fetching all EmpAttitudeSkills for User ID: {} : {}", userId, e.getMessage(), e);
+        }
+        return listResult;
+    }
+
+    @Override
     public EmpAttitudeSkillDto createEmpAttitudeSkill(EmpAttitudeSkillCreateDto empAttitudeSkillCreateDto) {
         log.info("Attempting to create a new EmpAttitudeSkill with data: {}", empAttitudeSkillCreateDto);
         EmpAttitudeSkillDto result = null;

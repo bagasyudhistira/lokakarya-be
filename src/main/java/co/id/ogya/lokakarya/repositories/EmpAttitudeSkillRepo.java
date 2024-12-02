@@ -7,13 +7,18 @@ import java.util.Map;
 
 public interface EmpAttitudeSkillRepo {
     List<EmpAttitudeSkill> getEmpAttitudeSkills();
+
     EmpAttitudeSkill getEmpAttitudeSkillById(String id);
 
     List<Map<String,Object>> getEmpAttitudeSkillGets();
 
     Map<String, Object> getEmpAttitudeSkillGetById(String id);
 
+    List<Map<String, Object>> getEmpAttitudeSkillGetsByUserId(String userId);
+
     EmpAttitudeSkill saveEmpAttitudeSkill(EmpAttitudeSkill empAttitudeSkill);
+
     EmpAttitudeSkill updateEmpAttitudeSkill(EmpAttitudeSkill empAttitudeSkill);
+
     Boolean deleteEmpAttitudeSkill(String id);
 }

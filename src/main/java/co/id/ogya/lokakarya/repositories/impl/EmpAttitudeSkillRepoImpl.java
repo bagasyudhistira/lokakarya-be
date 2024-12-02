@@ -53,9 +53,9 @@ public class EmpAttitudeSkillRepoImpl implements EmpAttitudeSkillRepo {
     public List<Map<String, Object>> getEmpAttitudeSkillGets() {
         String sql = "SELECT eas.ID, FULL_NAME, ATTITUDE_SKILL, SCORE, ASSESSMENT_YEAR " +
                 "FROM TBL_EMP_ATTITUDE_SKILL eas " +
-                "LEFT JOIN TBL_ATTITUDE_SKILL ats ON eas.ATTITUDE_SKILL_ID = ats.ID " +
-                "LEFT JOIN TBL_APP_USER au ON eas.USER_ID = au.ID";
-        log.info("Fetching all EmpAttitudeSkills with LEFT JOIN query: {}", sql);
+                "JOIN TBL_ATTITUDE_SKILL ats ON eas.ATTITUDE_SKILL_ID = ats.ID " +
+                "JOIN TBL_APP_USER au ON eas.USER_ID = au.ID";
+        log.info("Fetching all EmpAttitudeSkills with JOIN query: {}", sql);
         try {
             List<Map<String, Object>> result = jdbcTemplate.queryForList(sql);
             log.info("Successfully fetched {} EmpAttitudeSkills", result.size());
@@ -70,16 +70,34 @@ public class EmpAttitudeSkillRepoImpl implements EmpAttitudeSkillRepo {
     public Map<String, Object> getEmpAttitudeSkillGetById(String id) {
         String sql = "SELECT eas.ID, FULL_NAME, ATTITUDE_SKILL, SCORE, ASSESSMENT_YEAR " +
                 "FROM TBL_EMP_ATTITUDE_SKILL eas " +
-                "LEFT JOIN TBL_ATTITUDE_SKILL ats ON eas.ATTITUDE_SKILL_ID = ats.ID " +
-                "LEFT JOIN TBL_APP_USER au ON eas.USER_ID = au.ID " +
+                "JOIN TBL_ATTITUDE_SKILL ats ON eas.ATTITUDE_SKILL_ID = ats.ID " +
+                "JOIN TBL_APP_USER au ON eas.USER_ID = au.ID " +
                 "WHERE eas.ID = ?";
-        log.info("Fetching EmpAttitudeSkill by ID: {} with LEFT JOIN query: {}", id, sql);
+        log.info("Fetching EmpAttitudeSkill by ID: {} with JOIN query: {}", id, sql);
         try {
             Map<String, Object> result = jdbcTemplate.queryForMap(sql, id);
             log.info("Successfully fetched EmpAttitudeSkill: {}", result);
             return result;
         } catch (Exception e) {
             log.error("Error fetching EmpAttitudeSkill by ID: {}. Error: {}", id, e.getMessage());
+            return null;
+        }
+    }
+
+    @Override
+    public List<Map<String, Object>> getEmpAttitudeSkillGetsByUserId(String userId) {
+        String sql = "SELECT eas.ID, FULL_NAME, ATTITUDE_SKILL, SCORE, eas.ASSESSMENT_YEAR " +
+                "FROM TBL_EMP_ATTITUDE_SKILL eas " +
+                "LEFT JOIN TBL_ATTITUDE_SKILL ats ON eas.ATTITUDE_SKILL_ID = ats.ID " +
+                "LEFT JOIN TBL_APP_USER au ON eas.USER_ID = au.ID " +
+                "WHERE eas.ID = ?";
+        log.info("Fetching EmpAttitudeSkill by User ID: {} with JOIN query: {}", userId, sql);
+        try {
+            List<Map<String, Object>> result = jdbcTemplate.queryForList(sql, userId);
+            log.info("Successfully fetched EmpAttitudeSkill: {}", result);
+            return result;
+        } catch (Exception e) {
+            log.error("Error fetching EmpAttitudeSkill by User ID: {}. Error: {}", userId, e.getMessage());
             return null;
         }
     }

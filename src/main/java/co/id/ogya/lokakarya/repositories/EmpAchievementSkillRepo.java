@@ -14,7 +14,11 @@ public interface EmpAchievementSkillRepo {
 
     Map<String, Object> getEmpAchievementSkillGetById(String id);
 
+    List<Map<String, Object>> getEmpAchievementSkillGetsByUserId(String id);
+
     EmpAchievementSkill saveEmpAchievementSkill(EmpAchievementSkill empAchievementSkill);
+
     EmpAchievementSkill updateEmpAchievementSkill(EmpAchievementSkill empAchievementSkill);
+
     Boolean deleteEmpAchievementSkill(String id);
 }

@@ -10,10 +10,16 @@ import java.util.Map;
 
 public interface EmpDevPlanServ {
     List<EmpDevPlanDto> getAllEmpDevPlan();
+
     EmpDevPlanDto getEmpDevPlanById(String id);
+
     EmpDevPlanDto createEmpDevPlan(EmpDevPlanCreateDto empDevPlanCreateDto);
+
     EmpDevPlanDto updateEmpDevPlan(EmpDevPlanUpdateDto empDevPlanUpdateDto);
+
     boolean deleteEmpDevPlan(String id);
+
     List<EmpDevPlanGetDto> getAllEmpDevPlanGets();
+
     List<EmpDevPlanGetDto> getEmpDevPlanGetByUserId(String userId);
 }

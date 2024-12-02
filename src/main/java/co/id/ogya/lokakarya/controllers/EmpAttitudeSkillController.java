@@ -112,6 +112,28 @@ public class EmpAttitudeSkillController extends ServerResponseList {
         }
     }
 
+    @GetMapping("/get/{userId}")
+    public ResponseEntity<?> getEmpAttitudeSkillGetByUserId(@PathVariable String userId) {
+        log.info("Fetching EmpAttitudeSkill by ID: {}", userId);
+        long startTime = System.currentTimeMillis();
+
+        try {
+            List<EmpAttitudeSkillGetDto> result = empAttitudeSkillServ.getAllEmpAttitudeSkillGetByUserId(userId);
+            ManagerDto<List<EmpAttitudeSkillGetDto>> response = new ManagerDto<>();
+            response.setContent(result);
+            response.setTotalRows(result.size());
+
+            long endTime = System.currentTimeMillis();
+            response.setInfo(getInfoOk("Time", endTime - startTime));
+            log.info("Fetched all EmpAttitudeSkills for User ID: {} in {} ms", userId, endTime - startTime);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error fetching all EmpAttitudeSkills for User ID: {} : {}", userId, e.getMessage(), e);
+            return new ResponseEntity<>("Failed to fetch EmpAttitudeSkills", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @PostMapping("/create")
     public ResponseEntity<?> createEmpAttitudeSkill(@RequestBody EmpAttitudeSkillCreateDto empAttitudeSkillCreateDto) {
         log.info("Creating EmpAttitudeSkill with data: {}", empAttitudeSkillCreateDto);

@@ -86,6 +86,23 @@ public class EmpAchievementSkillServImpl implements EmpAchievementSkillServ {
     }
 
     @Override
+    public List<EmpAchievementSkillGetDto> getAllEmpAchievementSkillGetByUserId(String userId) {
+        log.info("Attempting to fetch all EmpAchievementSkills by User ID: {}", userId);
+        List<EmpAchievementSkillGetDto> listResult = new ArrayList<>();
+        try {
+            List<Map<String,Object>> listData = empAchievementSkillRepo.getEmpAchievementSkillGetsByUserId(userId);
+            log.debug("Fetched {} EmpAchievementSkills for User ID: {} from repository", listData.size(), userId);
+            for (Map<String,Object> data : listData) {
+                EmpAchievementSkillGetDto result =  EmpAchievementSkillGetDto.mapToDto(data);
+                listResult.add(result);
+            }
+        } catch (Exception e) {
+            log.error("Error occurred while fetching all EmpAchievementSkill By User ID: {} : {}", userId, e.getMessage(), e);
+        }
+        return listResult;
+    }
+
+    @Override
     public EmpAchievementSkillDto createEmpAchievementSkill(EmpAchievementSkillCreateDto empAchievementSkillCreateDto) {
         log.info("Attempting to create a new EmpAchievementSkill with data: {}", empAchievementSkillCreateDto);
         EmpAchievementSkillDto result = null;

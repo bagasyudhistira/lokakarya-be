@@ -85,6 +85,21 @@ public class EmpAchievementSkillRepoImpl implements EmpAchievementSkillRepo {
     }
 
     @Override
+    public List<Map<String, Object>> getEmpAchievementSkillGetsByUserId(String userId) {
+        String sql = "SELECT EAS.ID, AU.FULL_NAME, A.ACHIEVEMENT, EAS.ASSESSMENT_YEAR FROM TBL_EMP_ACHIEVEMENT_SKILL EAS JOIN TBL_APP_USER AU ON EAS.USER_ID = AU.ID JOIN TBL_ACHIEVEMENT A ON EAS.ACHIEVEMENT_ID = A.ID WHERE EAS.USER_ID = ?";
+        log.info("Executing query to fetch employee achievement skill by User ID: {}", userId);
+        try {
+            List<Map<String, Object>> result = jdbcTemplate.queryForList(sql, userId);
+            log.info("Successfully fetched employee achievement skill: {}", result);
+            return result;
+        } catch (Exception e) {
+            log.error("Error fetching employee achievement skill by User ID: {}. Error: {}", userId, e.getMessage());
+            return null;
+        }
+    }
+
+
+    @Override
     public EmpAchievementSkill saveEmpAchievementSkill(EmpAchievementSkill empAchievementSkill) {
         empAchievementSkill.prePersist();
         String sql = "INSERT INTO TBL_EMP_ACHIEVEMENT_SKILL (ID, USER_ID, NOTES, ACHIEVEMENT_ID, SCORE, ASSESSMENT_YEAR, CREATED_BY) " +
