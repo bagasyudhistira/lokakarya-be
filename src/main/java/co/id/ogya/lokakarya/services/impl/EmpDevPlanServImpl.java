@@ -173,6 +173,7 @@ public class EmpDevPlanServImpl implements EmpDevPlanServ {
         EmpDevPlan result = EmpDevPlan.builder()
                 .userId(convertObject.getUserId())
                 .devPlanId(convertObject.getDevPlanId())
+                .tooBright(convertObject.getTooBright())
                 .assessmentYear(convertObject.getAssessmentYear())
                 .createdBy(convertObject.getCreatedBy())
                 .build();
@@ -185,6 +186,7 @@ public class EmpDevPlanServImpl implements EmpDevPlanServ {
                 .id(convertObject.getId())
                 .userId(convertObject.getUserId())
                 .devPlanId(convertObject.getDevPlanId())
+                .tooBright(convertObject.getTooBright())
                 .assessmentYear(convertObject.getAssessmentYear())
                 .updatedAt(convertObject.getUpdatedAt())
                 .updatedBy(convertObject.getUpdatedBy())
@@ -198,6 +200,7 @@ public class EmpDevPlanServImpl implements EmpDevPlanServ {
                 .id(convertObject.getId())
                 .userId(convertObject.getUserId())
                 .devPlanId(convertObject.getDevPlanId())
+                .tooBright(convertObject.getTooBright())
                 .assessmentYear(convertObject.getAssessmentYear())
                 .createdAt(convertObject.getCreatedAt())
                 .createdBy(convertObject.getCreatedBy())
