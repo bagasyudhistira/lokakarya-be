@@ -158,6 +158,7 @@ public class EmpDevPlanServImpl implements EmpDevPlanServ {
                 .id(convertObject.getId())
                 .userId(convertObject.getUserId())
                 .devPlanId(convertObject.getDevPlanId())
+                .tooBright(convertObject.getTooBright())
                 .assessmentYear(convertObject.getAssessmentYear())
                 .createdAt(convertObject.getCreatedAt())
                 .createdBy(convertObject.getCreatedBy())
