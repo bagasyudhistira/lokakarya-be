@@ -112,7 +112,7 @@ public class EmpDevPlanRepoImpl implements EmpDevPlanRepo {
 
     @Override
     public List<Map<String, Object>> getEmpDevPlanGets() {
-        String sql = "SELECT EDP.ID, AU.FULL_NAME, DP.PLAN, EDP.ASSESSMENT_YEAR, EDP.TOO_BRIGHT " +
+        String sql = "SELECT EDP.ID, EDP.USER_ID, AU.FULL_NAME, DP.PLAN, EDP.ASSESSMENT_YEAR, EDP.TOO_BRIGHT " +
                 "FROM TBL_EMP_DEV_PLAN EDP " +
                 "LEFT JOIN TBL_APP_USER AU ON EDP.USER_ID = AU.ID " +
                 "LEFT JOIN TBL_DEV_PLAN DP ON EDP.DEV_PLAN_ID = DP.ID";

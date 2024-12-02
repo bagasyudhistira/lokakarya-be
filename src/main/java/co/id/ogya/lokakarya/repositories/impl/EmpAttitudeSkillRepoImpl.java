@@ -68,7 +68,7 @@ public class EmpAttitudeSkillRepoImpl implements EmpAttitudeSkillRepo {
 
     @Override
     public Map<String, Object> getEmpAttitudeSkillGetById(String id) {
-        String sql = "SELECT eas.ID, FULL_NAME, ATTITUDE_SKILL, SCORE, ASSESSMENT_YEAR " +
+        String sql = "SELECT eas.ID, eas.USER_ID, FULL_NAME, ATTITUDE_SKILL, SCORE, ASSESSMENT_YEAR " +
                 "FROM TBL_EMP_ATTITUDE_SKILL eas " +
                 "JOIN TBL_ATTITUDE_SKILL ats ON eas.ATTITUDE_SKILL_ID = ats.ID " +
                 "JOIN TBL_APP_USER au ON eas.USER_ID = au.ID " +

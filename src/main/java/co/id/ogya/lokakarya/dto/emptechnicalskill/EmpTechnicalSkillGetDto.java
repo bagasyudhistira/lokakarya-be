@@ -17,6 +17,9 @@ public class EmpTechnicalSkillGetDto {
     @JsonProperty("id")
     private String id;
 
+    @JsonProperty("user_id")
+    private String userId;
+
     @JsonProperty("full_name")
     private String fullName;
 
@@ -34,6 +37,7 @@ public class EmpTechnicalSkillGetDto {
 
         EmpTechnicalSkillGetDto result = EmpTechnicalSkillGetDto.builder()
                 .id((String) convertObject.get("ID"))
+                .userId((String) convertObject.get("USER_ID"))
                 .fullName((String) convertObject.get("FULL_NAME"))
                 .technicalSkill((String) convertObject.get("TECHNICAL_SKILL"))
                 .score((Double) convertObject.get("SCORE"))

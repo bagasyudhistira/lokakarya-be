@@ -130,7 +130,7 @@ public class EmpTechnicalSkillRepoImpl implements EmpTechnicalSkillRepo {
 
     @Override
     public List<Map<String, Object>> getEmpTechnicalSkillGetByUserId(String userId) {
-        String sql = "SELECT ETS.ID, AU.FULL_NAME, TS.TECHNICAL_SKILL, ETS.SCORE, ETS.ASSESSMENT_YEAR " +
+        String sql = "SELECT ETS.ID, ETS.USER_ID, AU.FULL_NAME, TS.TECHNICAL_SKILL, ETS.SCORE, ETS.ASSESSMENT_YEAR " +
                 "FROM TBL_EMP_TECHNICAL_SKILL ETS " +
                 "LEFT JOIN TBL_APP_USER AU ON ETS.USER_ID = AU.ID " +
                 "LEFT JOIN TBL_TECHNICAL_SKILL TS ON ETS.TECHNICAL_SKILL_ID = TS.ID " +

@@ -17,6 +17,9 @@ public class EmpAttitudeSkillGetDto {
     @JsonProperty("id")
     private String id;
 
+    @JsonProperty("user_id")
+    private String userId;
+
     @JsonProperty("full_name")
     private String fullName;
 
@@ -34,6 +37,7 @@ public class EmpAttitudeSkillGetDto {
 
         EmpAttitudeSkillGetDto result = EmpAttitudeSkillGetDto.builder()
                 .id((String) convertObject.get("ID"))
+                .userId((String) convertObject.get("USER_ID"))
                 .fullName((String) convertObject.get("FULL_NAME"))
                 .attitudeSkill((String) convertObject.get("ATTITUDE_SKILL"))
                 .score(convertObject.get("SCORE") != null ? Double.parseDouble(convertObject.get("SCORE").toString()) : null)
