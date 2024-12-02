@@ -52,7 +52,7 @@ public class EmpDevPlanRepoImpl implements EmpDevPlanRepo {
     @Override
     public EmpDevPlan saveEmpDevPlan(EmpDevPlan empDevPlan) {
         empDevPlan.prePersist();
-        String sql = "INSERT INTO TBL_EMP_DEV_PLAN (ID, USER_ID, DEV_PLAN_ID, TOO_BRIGHT, ASSESSMENT_YEAR, CREATED_BY) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO TBL_EMP_DEV_PLAN (ID, USER_ID, DEV_PLAN_ID, TOO_BRIGHT, ASSESSMENT_YEAR, CREATED_BY) VALUES (?, ?, ?, ?, ?, ?)";
         log.info("Saving EmpDevPlan: {} with query: {}", empDevPlan, sql);
         try {
             int rowsAffected = jdbcTemplate.update(sql, empDevPlan.getId(), empDevPlan.getUserId(), empDevPlan.getDevPlanId(),
