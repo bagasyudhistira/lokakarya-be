@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Map;
 
@@ -40,7 +41,9 @@ public class EmpTechnicalSkillGetDto {
                 .userId((String) convertObject.get("USER_ID"))
                 .fullName((String) convertObject.get("FULL_NAME"))
                 .technicalSkill((String) convertObject.get("TECHNICAL_SKILL"))
-                .score((Double) convertObject.get("SCORE"))
+                .score(convertObject.get("SCORE") != null
+                        ? ((BigDecimal) convertObject.get("SCORE")).doubleValue()
+                        : null)
                 .assessmentYear((Integer) convertObject.get("ASSESSMENT_YEAR"))
                 .build();
 
