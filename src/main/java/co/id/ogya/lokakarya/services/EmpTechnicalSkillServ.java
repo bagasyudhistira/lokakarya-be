@@ -22,4 +22,6 @@ public interface EmpTechnicalSkillServ {
     List<EmpTechnicalSkillGetDto> getAllEmpTechnicalSkillGets();
 
     List<EmpTechnicalSkillGetDto> getEmpTechnicalSkillGetByUserId(String userId);
+
+    Boolean ifAnyEmpTechnicalSkillExist(String userId, String technicalSkillId, int assessmentYear);
 }

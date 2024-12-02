@@ -176,4 +176,25 @@ public class EmpDevPlanController extends ServerResponseList {
             return new ResponseEntity<>("Failed to fetch EmpDevPlan with User ID: " + userId, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("/{userId}/{devPlanId}/{assessmentYear}")
+    public ResponseEntity<?> ifAnyEmpDevPlanExist(@PathVariable String userId, @PathVariable String devPlanId, @PathVariable int assessmentYear) {
+        log.info("Looking for EmpDevPlan with User ID: {}, Dev Plan ID: {}, and Assessment Year: {}", userId, devPlanId, assessmentYear);
+        long startTime = System.currentTimeMillis();
+
+        try {
+            Boolean result = empDevPlanServ.ifAnyEmpDevPlanExist(userId, devPlanId, assessmentYear);
+            ManagerDto<Boolean> response = new ManagerDto<>();
+            response.setContent(result);
+            response.setTotalRows(1);
+
+            long endTime = System.currentTimeMillis();
+            response.setInfo(getInfoOk("Time", endTime - startTime));
+            log.info("Looking for EmpDevPlan with User ID: {}, Dev Plan ID: {}, and Assessment Year: {} success in {} ms", userId, devPlanId, assessmentYear, endTime - startTime);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error looking for EmpDevPlan with User ID: {}, Dev Plan ID: {}, and Assessment Year: {}. Error: {}", userId, devPlanId, assessmentYear, e.getMessage(), e);
+            return new ResponseEntity<>("Failed to look for EmpDevPlan with User ID: " + userId + " Dev Plan ID: " + devPlanId + ", and Assessment Year: " + assessmentYear, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

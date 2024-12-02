@@ -24,4 +24,5 @@ public interface EmpAchievementSkillServ {
 
     boolean deleteEmpAchievementSkill(String id);
 
+    Boolean ifAnyEmpAchievementSkillExist(String userId, String achievementId, int assessmentYear);
 }

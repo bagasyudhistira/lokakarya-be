@@ -166,7 +166,6 @@ public class EmpSuggestionServImpl implements EmpSuggestionServ {
             log.error("Error while looking EmpSuggestion by UserID: {} and Assessment Year: {}. Error: {}", userId, assessmentYear, e.getMessage());
             throw e;
         }
-
     }
 
 

@@ -7,11 +7,18 @@ import java.util.Map;
 
 public interface EmpTechnicalSkillRepo {
     List<EmpTechnicalSkill> getEmpTechnicalSkills();
+
     EmpTechnicalSkill getEmpTechnicalSkillById(String id);
+
     EmpTechnicalSkill saveEmpTechnicalSkill(EmpTechnicalSkill empTechnicalSkill);
+
     EmpTechnicalSkill updateEmpTechnicalSkill(EmpTechnicalSkill empTechnicalSkill);
+
     Boolean deleteEmpTechnicalSkill(String id);
+
     List<Map<String, Object>> getEmpTechnicalSkillGets();
+
     List<Map<String, Object>> getEmpTechnicalSkillGetByUserId(String userId);
 
+    Boolean ifAnyEmpTechnicalSkillExist(String userId, String technicalSkillId, int assessmentYear);
 }

@@ -133,6 +133,25 @@ public class EmpTechnicalSkillServImpl implements EmpTechnicalSkillServ {
         return resultList;
     }
 
+    @Override
+    public Boolean ifAnyEmpTechnicalSkillExist(String userId, String technicalSkillId, int assessmentYear) {
+        log.info("Looking for EmpTechnicalSkill with User ID: {}, Technical Skill ID: {}, and Assessment Year: {}", userId, technicalSkillId, assessmentYear);
+        Boolean result = false;
+        try {
+            result = empTechnicalSkillRepo.ifAnyEmpTechnicalSkillExist(userId, technicalSkillId, assessmentYear);
+            if (result) {
+                log.info("There is an EmpTechnicalSkill with User ID: {}, Technical Skill ID: {}, and Assessment Year: {}", userId, technicalSkillId, assessmentYear);
+                return true;
+            } else {
+                log.info("There is no EmpTechnicalSkill with User ID: {}, Technical Skill ID: {}, and Assessment Year: {}", userId, technicalSkillId, assessmentYear);
+                return false;
+            }
+        } catch (Exception e) {
+            log.error("Error while looking EmpTechnicalSkill by User ID: {}, Technical Skill ID: {}, and Assessment Year: {}. Error: {}", userId, technicalSkillId, assessmentYear, e.getMessage());
+            throw e;
+        }
+    }
+
     private EmpTechnicalSkill convertToEntity(EmpTechnicalSkillDto convertObject) {
         log.debug("Converting EmpTechnicalSkillDto to entity: {}", convertObject);
         EmpTechnicalSkill result = EmpTechnicalSkill.builder()

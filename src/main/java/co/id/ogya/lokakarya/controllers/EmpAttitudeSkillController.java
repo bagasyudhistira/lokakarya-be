@@ -199,4 +199,25 @@ public class EmpAttitudeSkillController extends ServerResponseList {
             return new ResponseEntity<>("Failed to delete EmpAttitudeSkill with ID: " + id, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("/{userId}/{attitudeSkillId}/{assessmentYear}")
+    public ResponseEntity<?> ifAnyEmpAttitudeSkillExist(@PathVariable String userId, @PathVariable String attitudeSkillId, @PathVariable int assessmentYear) {
+        log.info("Looking for EmpAttitudeSkill with User ID: {}, Attitude Skill ID: {}, and Assessment Year: {}", userId, attitudeSkillId, assessmentYear);
+        long startTime = System.currentTimeMillis();
+
+        try {
+            Boolean result = empAttitudeSkillServ.ifAnyEmpAttitudeSkillExist(userId, attitudeSkillId, assessmentYear);
+            ManagerDto<Boolean> response = new ManagerDto<>();
+            response.setContent(result);
+            response.setTotalRows(1);
+
+            long endTime = System.currentTimeMillis();
+            response.setInfo(getInfoOk("Time", endTime - startTime));
+            log.info("Looking for EmpAttitudeSkill with User ID: {}, Attitude Skill ID: {}, and Assessment Year: {} success in {} ms", userId, attitudeSkillId, assessmentYear, endTime - startTime);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error looking for EmpAttitudeSkill with User ID: {}, Attitude Skill ID: {}, and Assessment Year: {}. Error: {}", userId, attitudeSkillId, assessmentYear, e.getMessage(), e);
+            return new ResponseEntity<>("Failed to look for EmpAttitudeSkill with User ID: " + userId + " Attitude Skill ID: " + attitudeSkillId + ", and Assessment Year: " + assessmentYear, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

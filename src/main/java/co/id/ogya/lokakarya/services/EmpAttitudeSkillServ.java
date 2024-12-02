@@ -24,4 +24,5 @@ public interface EmpAttitudeSkillServ {
 
     boolean deleteEmpAttitudeSkill(String id);
 
+    Boolean ifAnyEmpAttitudeSkillExist(String userId, String attitudeSkillId, int assessmentYear);
 }

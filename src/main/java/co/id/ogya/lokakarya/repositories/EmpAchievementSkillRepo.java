@@ -21,4 +21,6 @@ public interface EmpAchievementSkillRepo {
     EmpAchievementSkill updateEmpAchievementSkill(EmpAchievementSkill empAchievementSkill);
 
     Boolean deleteEmpAchievementSkill(String id);
+
+    Boolean ifAnyEmpAchievementSkillExist(String userId, String achievementId, int assessmentYear);
 }

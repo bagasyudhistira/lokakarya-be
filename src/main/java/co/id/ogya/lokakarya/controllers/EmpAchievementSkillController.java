@@ -198,4 +198,25 @@ public class EmpAchievementSkillController extends ServerResponseList {
             return new ResponseEntity<>("Failed to delete employee achievement skill with ID: " + id, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("/{userId}/{achievementId}/{assessmentYear}")
+    public ResponseEntity<?> ifAnyEmpAchievementSkillExist(@PathVariable String userId, @PathVariable String achievementId, @PathVariable int assessmentYear) {
+        log.info("Looking for EmpAchievementSkill with User ID: {}, Achievement ID: {}, and Assessment Year: {}", userId, achievementId, assessmentYear);
+        long startTime = System.currentTimeMillis();
+
+        try {
+            Boolean result = empAchievementSkillServ.ifAnyEmpAchievementSkillExist(userId, achievementId, assessmentYear);
+            ManagerDto<Boolean> response = new ManagerDto<>();
+            response.setContent(result);
+            response.setTotalRows(1);
+
+            long endTime = System.currentTimeMillis();
+            response.setInfo(getInfoOk("Time", endTime - startTime));
+            log.info("Looking for EmpAchievementSkill with User ID: {}, Achievement ID: {}, and Assessment Year: {} success in {} ms", achievementId, userId, assessmentYear, endTime - startTime);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error looking for EmpAchievementSkill with User ID: {}, Achievement ID: {}, and Assessment Year: {}. Error: {}", userId, achievementId, assessmentYear, e.getMessage(), e);
+            return new ResponseEntity<>("Failed to look for EmpAchievementSkill with User ID: " + userId + " Achievement ID: " + achievementId + ", and Assessment Year: " + assessmentYear, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

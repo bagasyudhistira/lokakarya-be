@@ -200,7 +200,7 @@ public class EmpSuggestionController extends ServerResponseList {
     }
 
     @GetMapping("/{userId}/{assessmentYear}")
-    public ResponseEntity<?> getEmpSuggestionGetByAssessmentYear(@PathVariable String userId, @PathVariable int assessmentYear) {
+    public ResponseEntity<?> ifAnyEmpSuggestionExist(@PathVariable String userId, @PathVariable int assessmentYear) {
         log.info("Looking for EmpSuggestion with User ID: {} and Assessment Year: {}", userId, assessmentYear);
         long startTime = System.currentTimeMillis();
 

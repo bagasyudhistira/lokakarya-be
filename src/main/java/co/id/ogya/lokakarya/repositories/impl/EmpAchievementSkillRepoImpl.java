@@ -162,4 +162,23 @@ public class EmpAchievementSkillRepoImpl implements EmpAchievementSkillRepo {
             return false;
         }
     }
+
+    @Override
+    public Boolean ifAnyEmpAchievementSkillExist(String userId, String achievementId, int assessmentYear) {
+        String sql = "SELECT ID FROM TBL_EMP_ACHIEVEMENT_SKILL WHERE USER_ID = ? AND ACHIEVEMENT_ID = ? AND ASSESSMENT_YEAR = ?";
+        log.info("Looking for EmpAchievementSkill with User ID: {}, Achievement ID: {}, and Assessment Year: {} with query: {}", userId, achievementId, assessmentYear, sql);
+        try {
+            List<Map<String, Object>> result = jdbcTemplate.queryForList(sql, userId, achievementId, assessmentYear);
+            if (result.isEmpty()) {
+                log.info("There is no EmpAchievementSkill with User ID: {}, Achievement ID: {}, and Assessment Year: {}", userId, achievementId, assessmentYear);
+                return false;
+            } else {
+                log.info("There is an EmpAchievementSkill with User ID: {}, Achievement ID: {}, and Assessment Year: {}", userId, achievementId, assessmentYear);
+                return true;
+            }
+        } catch (Exception e) {
+            log.error("Error while looking EmpAchievementSkill by User ID: {}, Achievement ID: {}, and Assessment Year: {}. Error: {}", userId, achievementId, assessmentYear, e.getMessage());
+            throw e;
+        }
+    }
 }

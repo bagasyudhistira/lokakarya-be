@@ -133,6 +133,25 @@ public class EmpDevPlanServImpl implements EmpDevPlanServ {
         return resultList;
     }
 
+    @Override
+    public Boolean ifAnyEmpDevPlanExist(String userId, String devPlanId, int assessmentYear) {
+        log.info("Looking for EmpDevPlan with User ID: {}, Dev Plan ID: {}, and Assessment Year: {}", userId, devPlanId, assessmentYear);
+        Boolean result = false;
+        try {
+            result = empDevPlanRepo.ifAnyEmpDevPlanExist(userId, devPlanId, assessmentYear);
+            if (result) {
+                log.info("There is an EmpDevPlan with User ID: {}, Dev Plan ID: {}, and Assessment Year: {}", userId, devPlanId, assessmentYear);
+                return true;
+            } else {
+                log.info("There is no EmpDevPlan with User ID: {}, Dev Plan ID: {}, and Assessment Year: {}", userId, devPlanId, assessmentYear);
+                return false;
+            }
+        } catch (Exception e) {
+            log.error("Error while looking EmpDevPlan by User ID: {}, Dev Plan ID: {}, and Assessment Year: {}. Error: {}", userId, devPlanId, assessmentYear, e.getMessage());
+            throw e;
+        }
+    }
+
     private EmpDevPlan convertToEntity(EmpDevPlanDto convertObject) {
         log.debug("Converting EmpDevPlanDto to entity: {}", convertObject);
         EmpDevPlan result = EmpDevPlan.builder()

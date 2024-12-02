@@ -144,4 +144,23 @@ public class EmpDevPlanRepoImpl implements EmpDevPlanRepo {
             throw e;
         }
     }
+
+    @Override
+    public Boolean ifAnyEmpDevPlanExist(String userId, String devPlanId, int assessmentYear) {
+        String sql = "SELECT ID FROM TBL_EMP_DEV_PLAN WHERE USER_ID = ? AND DEV_PLAN_ID = ? AND ASSESSMENT_YEAR = ?";
+        log.info("Looking for EmpDevPlan with User ID: {}, Dev Plan ID: {}, and Assessment Year: {} with query: {}", userId, devPlanId, assessmentYear, sql);
+        try {
+            List<Map<String, Object>> result = jdbcTemplate.queryForList(sql, userId, devPlanId, assessmentYear);
+            if (result.isEmpty()) {
+                log.info("There is no EmpDevPlan with User ID: {}, Dev Plan ID: {}, and Assessment Year: {}", userId, devPlanId, assessmentYear);
+                return false;
+            } else {
+                log.info("There is an EmpDevPlan with User ID: {}, Dev Plan ID: {}, and Assessment Year: {}", userId, devPlanId, assessmentYear);
+                return true;
+            }
+        } catch (Exception e) {
+            log.error("Error while looking EmpDevPlan by User ID: {}, Dev Plan ID: {}, and Assessment Year: {}. Error: {}", userId, devPlanId, assessmentYear, e.getMessage());
+            throw e;
+        }
+    }
 }

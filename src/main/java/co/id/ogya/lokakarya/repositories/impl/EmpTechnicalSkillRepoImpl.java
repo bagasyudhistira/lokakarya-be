@@ -145,4 +145,23 @@ public class EmpTechnicalSkillRepoImpl implements EmpTechnicalSkillRepo {
             throw e;
         }
     }
+
+    @Override
+    public Boolean ifAnyEmpTechnicalSkillExist(String userId, String technicalSkillId, int assessmentYear) {
+        String sql = "SELECT ID FROM TBL_EMP_TECHNICAL_SKILL WHERE USER_ID = ? AND TECHNICAL_SKILL_ID = ? AND ASSESSMENT_YEAR = ?";
+        log.info("Looking for EmpTechnicalSkill with User ID: {}, Technical Skill ID: {}, and Assessment Year: {} with query: {}", userId, technicalSkillId, assessmentYear, sql);
+        try {
+            List<Map<String, Object>> result = jdbcTemplate.queryForList(sql, userId, technicalSkillId, assessmentYear);
+            if (result.isEmpty()) {
+                log.info("There is no EmpTechnicalSkill with User ID: {}, Technical Skill ID: {}, and Assessment Year: {}", userId, technicalSkillId, assessmentYear);
+                return false;
+            } else {
+                log.info("There is an EmpTechnicalSkill with User ID: {}, Technical Skill ID: {}, and Assessment Year: {}", userId, technicalSkillId, assessmentYear);
+                return true;
+            }
+        } catch (Exception e) {
+            log.error("Error while looking EmpTechnicalSkill by User ID: {}, Technical Skill ID: {}, and Assessment Year: {}. Error: {}", userId, technicalSkillId, assessmentYear, e.getMessage());
+            throw e;
+        }
+    }
 }

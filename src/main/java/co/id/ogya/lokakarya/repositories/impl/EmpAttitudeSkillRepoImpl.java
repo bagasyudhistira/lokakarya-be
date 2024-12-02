@@ -165,4 +165,23 @@ public class EmpAttitudeSkillRepoImpl implements EmpAttitudeSkillRepo {
             return false;
         }
     }
+
+    @Override
+    public Boolean ifAnyEmpAttitudeSkillExist(String userId, String attitudeSkillId, int assessmentYear) {
+        String sql = "SELECT ID FROM TBL_EMP_ATTITUDE_SKILL WHERE USER_ID = ? AND ATTITUDE_SKILL_ID = ? AND ASSESSMENT_YEAR = ?";
+        log.info("Looking for EmpAttitudeSkill with User ID: {}, Attitude Skill ID: {}, and Assessment Year: {} with query: {}", userId, attitudeSkillId, assessmentYear, sql);
+        try {
+            List<Map<String, Object>> result = jdbcTemplate.queryForList(sql, userId, attitudeSkillId, assessmentYear);
+            if (result.isEmpty()) {
+                log.info("There is no EmpAttitudeSkill with User ID: {}, Attitude Skill ID: {}, and Assessment Year: {}", userId, attitudeSkillId, assessmentYear);
+                return false;
+            } else {
+                log.info("There is an EmpAttitudeSkill with UserID: {}, Attitude Skill ID: {}, and Assessment Year: {}", userId, attitudeSkillId, assessmentYear);
+                return true;
+            }
+        } catch (Exception e) {
+            log.error("Error while looking EmpAttitudeSkill by User ID: {}, Attitude Skill ID: {}, and Assessment Year: {}. Error: {}", userId, attitudeSkillId, assessmentYear, e.getMessage());
+            throw e;
+        }
+    }
 }

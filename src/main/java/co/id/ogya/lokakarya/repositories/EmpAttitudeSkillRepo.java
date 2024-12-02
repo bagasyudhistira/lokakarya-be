@@ -21,4 +21,6 @@ public interface EmpAttitudeSkillRepo {
     EmpAttitudeSkill updateEmpAttitudeSkill(EmpAttitudeSkill empAttitudeSkill);
 
     Boolean deleteEmpAttitudeSkill(String id);
+
+    Boolean ifAnyEmpAttitudeSkillExist(String userId, String attitudeSkillId, int assessmentYear);
 }

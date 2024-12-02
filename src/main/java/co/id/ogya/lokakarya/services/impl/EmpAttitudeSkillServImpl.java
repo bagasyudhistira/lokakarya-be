@@ -151,6 +151,25 @@ public class EmpAttitudeSkillServImpl implements EmpAttitudeSkillServ {
         return isDeleted;
     }
 
+    @Override
+    public Boolean ifAnyEmpAttitudeSkillExist(String userId, String attitudeSkillId, int assessmentYear) {
+        log.info("Looking for EmpAttitudeSkill with User ID: {}, Attitude Skill ID: {}, and Assessment Year: {}", userId, attitudeSkillId, assessmentYear);
+        Boolean result = false;
+        try {
+            result = empAttitudeSkillRepo.ifAnyEmpAttitudeSkillExist(userId, attitudeSkillId, assessmentYear);
+            if (result) {
+                log.info("There is an EmpAttitudeSkill with User ID: {}, Attitude Skill ID: {}, and Assessment Year: {}", userId, attitudeSkillId, assessmentYear);
+                return true;
+            } else {
+                log.info("There is no EmpAttitudeSkill with User ID: {}, Attitude Skill ID: {}, and Assessment Year: {}", userId, attitudeSkillId, assessmentYear);
+                return false;
+            }
+        } catch (Exception e) {
+            log.error("Error while looking EmpAttitudeSkill by User ID: {}, Attitude Skill ID: {}, and Assessment Year: {}. Error: {}", userId, attitudeSkillId, assessmentYear, e.getMessage());
+            throw e;
+        }
+    }
+
     private EmpAttitudeSkill convertToEntity(EmpAttitudeSkillDto convertObject) {
         log.debug("Converting EmpAttitudeSkillDto to entity: {}", convertObject);
         EmpAttitudeSkill result = EmpAttitudeSkill.builder()

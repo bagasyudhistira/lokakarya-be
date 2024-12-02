@@ -22,4 +22,6 @@ public interface EmpDevPlanServ {
     List<EmpDevPlanGetDto> getAllEmpDevPlanGets();
 
     List<EmpDevPlanGetDto> getEmpDevPlanGetByUserId(String userId);
+
+    Boolean ifAnyEmpDevPlanExist(String userId, String devPlanId, int assessmentYear);
 }

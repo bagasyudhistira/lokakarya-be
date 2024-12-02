@@ -149,6 +149,25 @@ public class EmpAchievementSkillServImpl implements EmpAchievementSkillServ {
         return isDeleted;
     }
 
+    @Override
+    public Boolean ifAnyEmpAchievementSkillExist(String userId, String achievementId, int assessmentYear) {
+        log.info("Looking for EmpAchievementSkill with User ID: {}, Achievement ID: {}, and Assessment Year: {}", userId, achievementId, assessmentYear);
+        Boolean result = false;
+        try {
+            result = empAchievementSkillRepo.ifAnyEmpAchievementSkillExist(userId, achievementId, assessmentYear);
+            if (result) {
+                log.info("There is an EmpAchievementSkill with User ID: {}, Achievement ID: {}, and Assessment Year: {}", userId, achievementId, assessmentYear);
+                return true;
+            } else {
+                log.info("There is no EmpAchievementSkill with User ID: {}, Achievement ID: {}, and Assessment Year: {}", userId, achievementId, assessmentYear);
+                return false;
+            }
+        } catch (Exception e) {
+            log.error("Error while looking EmpAchievementSkill by User ID: {}, Achievement ID: {}, and Assessment Year: {}. Error: {}", userId, achievementId, assessmentYear, e.getMessage());
+            throw e;
+        }
+    }
+
     private EmpAchievementSkill convertToEntity(EmpAchievementSkillDto convertObject) {
         log.debug("Converting EmpAchievementSkillDto to entity: {}", convertObject);
         EmpAchievementSkill result = EmpAchievementSkill.builder()
