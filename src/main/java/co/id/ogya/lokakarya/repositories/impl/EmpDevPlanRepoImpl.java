@@ -55,7 +55,7 @@ public class EmpDevPlanRepoImpl implements EmpDevPlanRepo {
         String sql = "INSERT INTO TBL_EMP_DEV_PLAN (ID, USER_ID, DEV_PLAN_ID, TOO_BRIGHT, ASSESSMENT_YEAR, CREATED_BY) VALUES (?, ?, ?, ?, ?, ?)";
         log.info("Saving EmpDevPlan: {} with query: {}", empDevPlan, sql);
         try {
-            int rowsAffected = jdbcTemplate.update(sql, empDevPlan.getId(), empDevPlan.getUserId(), empDevPlan.getDevPlanId(),
+            int rowsAffected = jdbcTemplate.update(sql, empDevPlan.getId(), empDevPlan.getUserId(), empDevPlan.getDevPlanId(), empDevPlan.getTooBright(),
                     empDevPlan.getAssessmentYear(), empDevPlan.getCreatedBy());
             if (rowsAffected > 0) {
                 log.info("Successfully saved EmpDevPlan: {}", empDevPlan);
