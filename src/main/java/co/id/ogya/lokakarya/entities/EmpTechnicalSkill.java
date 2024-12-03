@@ -24,6 +24,9 @@ public class EmpTechnicalSkill {
     @Column(name = "TECHNICAL_SKILL_ID")
     private String technicalSkillId;
 
+    @Column(name = "SKILL")
+    private String skill;
+
     @Column(name = "SCORE")
     private double score;
 

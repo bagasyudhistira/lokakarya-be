@@ -27,6 +27,9 @@ public class EmpTechnicalSkillGetDto {
     @JsonProperty("technical_skill")
     private String technicalSkill;
 
+    @JsonProperty("skill")
+    private String skill;
+
     @JsonProperty("score")
     private double score;
 
@@ -41,6 +44,7 @@ public class EmpTechnicalSkillGetDto {
                 .userId((String) convertObject.get("USER_ID"))
                 .fullName((String) convertObject.get("FULL_NAME"))
                 .technicalSkill((String) convertObject.get("TECHNICAL_SKILL"))
+                .skill((String) convertObject.get("SKILL"))
                 .score(convertObject.get("SCORE") != null
                         ? ((BigDecimal) convertObject.get("SCORE")).doubleValue()
                         : null)

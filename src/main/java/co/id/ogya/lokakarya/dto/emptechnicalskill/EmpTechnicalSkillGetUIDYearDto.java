@@ -21,6 +21,9 @@ public class EmpTechnicalSkillGetUIDYearDto {
     @JsonProperty("technical_skill_id")
     private String technicalSkillId;
 
+    @JsonProperty("skill")
+    private String skill;
+
     @JsonProperty("score")
     private double score;
 
@@ -30,6 +33,7 @@ public class EmpTechnicalSkillGetUIDYearDto {
         EmpTechnicalSkillGetUIDYearDto result = EmpTechnicalSkillGetUIDYearDto.builder()
                 .id((String) convertObject.get("ID"))
                 .technicalSkillId((String) convertObject.get("TECHNICAL_SKILL_ID"))
+                .skill((String) convertObject.get("SKILL"))
                 .score(convertObject.get("SCORE") != null
                         ? ((BigDecimal) convertObject.get("SCORE")).doubleValue()
                         : null)

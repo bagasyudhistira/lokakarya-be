@@ -20,6 +20,9 @@ public class EmpTechnicalSkillUpdateDto {
     @JsonProperty("technical_skill_id")
     private String technicalSkillId;
 
+    @JsonProperty("skill")
+    private String skill;
+
     @JsonProperty("score")
     private double score;
 
