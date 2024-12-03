@@ -90,7 +90,7 @@ public class EmpAttitudeSkillRepoImpl implements EmpAttitudeSkillRepo {
                 "FROM TBL_EMP_ATTITUDE_SKILL eas " +
                 "LEFT JOIN TBL_ATTITUDE_SKILL ats ON eas.ATTITUDE_SKILL_ID = ats.ID " +
                 "LEFT JOIN TBL_APP_USER au ON eas.USER_ID = au.ID " +
-                "WHERE eas.ID = ?";
+                "WHERE eas.USER_ID = ?";
         log.info("Fetching EmpAttitudeSkill by User ID: {} with JOIN query: {}", userId, sql);
         try {
             List<Map<String, Object>> result = jdbcTemplate.queryForList(sql, userId);
