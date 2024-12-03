@@ -113,7 +113,7 @@ public class EmpAttitudeSkillController extends ServerResponseList {
         }
     }
 
-    @GetMapping("/get/{userId}")
+    @GetMapping("/get/by/{userId}")
     public ResponseEntity<?> getEmpAttitudeSkillGetByUserId(@PathVariable String userId) {
         log.info("Fetching EmpAttitudeSkill by ID: {}", userId);
         long startTime = System.currentTimeMillis();
