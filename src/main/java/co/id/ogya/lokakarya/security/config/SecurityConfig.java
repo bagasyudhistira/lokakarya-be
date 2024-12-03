@@ -54,6 +54,7 @@ public class SecurityConfig {
                             .requestMatchers(HttpMethod.GET, "/assessmentsummary/**").hasAnyRole("HR", "USER", "SVP", "MGR")
                             .requestMatchers(HttpMethod.POST, "/empattitudeskill/**", "/emptechnicalskill/**", "/empdevplan/**",
                                     "/empsuggestion/**").hasAnyRole("USER")
+                            .requestMatchers(HttpMethod.GET, "/attitudeskill/**", "/technicalskill/**", "/devplan/**").hasAnyRole("USER")
                             .anyRequest().authenticated();
                 })
                 .csrf(csrf -> {
