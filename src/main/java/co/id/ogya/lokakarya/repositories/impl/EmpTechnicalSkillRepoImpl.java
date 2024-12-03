@@ -113,7 +113,7 @@ public class EmpTechnicalSkillRepoImpl implements EmpTechnicalSkillRepo {
 
     @Override
     public List<Map<String, Object>> getEmpTechnicalSkillGets() {
-        String sql = "SELECT ETS.ID, AU.FULL_NAME, TS.TECHNICAL_SKILL, ETS.SCORE, ETS.ASSESSMENT_YEAR " +
+        String sql = "SELECT ETS.ID, ETS.USER_ID, AU.FULL_NAME, TS.TECHNICAL_SKILL, ETS.SCORE, ETS.ASSESSMENT_YEAR " +
                 "FROM TBL_EMP_TECHNICAL_SKILL ETS " +
                 "LEFT JOIN TBL_APP_USER AU ON ETS.USER_ID = AU.ID " +
                 "LEFT JOIN TBL_TECHNICAL_SKILL TS ON ETS.TECHNICAL_SKILL_ID = TS.ID";
@@ -161,6 +161,20 @@ public class EmpTechnicalSkillRepoImpl implements EmpTechnicalSkillRepo {
             }
         } catch (Exception e) {
             log.error("Error while looking EmpTechnicalSkill by User ID: {}, Technical Skill ID: {}, and Assessment Year: {}. Error: {}", userId, technicalSkillId, assessmentYear, e.getMessage());
+            throw e;
+        }
+    }
+
+    @Override
+    public List<Map<String, Object>> getEmpTechnicalSkillGetsByUserIdAssessmentYear(String userId, int assessmentYear) {
+        String sql = "SELECT ETS.ID, ETS.TECHNICAL_SKILL_ID, ETS.SCORE FROM TBL_EMP_TECHNICAL_SKILL ETS WHERE ETS.USER_ID = ? AND ETS.ASSESSMENT_YEAR = ?";
+        log.info("Fetching all EmpTechnicalSkills for User ID: {} and Assessment Year: {} with JOIN query: {}", userId, assessmentYear,sql);
+        try {
+            List<Map<String, Object>> result = jdbcTemplate.queryForList(sql, userId, assessmentYear);
+            log.info("Successfully fetched {} EmpTechnicalSkills for User ID: {} and Assessment Year: {}", result.size(), userId, assessmentYear);
+            return result;
+        } catch (Exception e) {
+            log.error("Error fetching EmpTechnicalSkills for User ID: {} and Assessment Year: {}. Error: {}", userId, assessmentYear, e.getMessage());
             throw e;
         }
     }

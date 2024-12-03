@@ -23,4 +23,6 @@ public interface EmpAchievementSkillRepo {
     Boolean deleteEmpAchievementSkill(String id);
 
     Boolean ifAnyEmpAchievementSkillExist(String userId, String achievementId, int assessmentYear);
+
+    List<Map<String, Object>> getEmpAchievementSkillGetsByUserIdAssessmentYear(String userId, int assessmentYear);
 }

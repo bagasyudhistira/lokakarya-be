@@ -1,9 +1,7 @@
 package co.id.ogya.lokakarya.services.impl;
 
-import co.id.ogya.lokakarya.dto.empattitudeskill.EmpAttitudeSkillCreateDto;
-import co.id.ogya.lokakarya.dto.empattitudeskill.EmpAttitudeSkillDto;
-import co.id.ogya.lokakarya.dto.empattitudeskill.EmpAttitudeSkillGetDto;
-import co.id.ogya.lokakarya.dto.empattitudeskill.EmpAttitudeSkillUpdateDto;
+import co.id.ogya.lokakarya.dto.empachievementskill.EmpAchievementSkillGetUIDYearDto;
+import co.id.ogya.lokakarya.dto.empattitudeskill.*;
 import co.id.ogya.lokakarya.entities.EmpAttitudeSkill;
 import co.id.ogya.lokakarya.repositories.EmpAttitudeSkillRepo;
 import co.id.ogya.lokakarya.services.EmpAttitudeSkillServ;
@@ -168,6 +166,23 @@ public class EmpAttitudeSkillServImpl implements EmpAttitudeSkillServ {
             log.error("Error while looking EmpAttitudeSkill by User ID: {}, Attitude Skill ID: {}, and Assessment Year: {}. Error: {}", userId, attitudeSkillId, assessmentYear, e.getMessage());
             throw e;
         }
+    }
+
+    @Override
+    public List<EmpAttitudeSkillGetUIDYearDto> getAllEmpAttitudeSkillGetByUserIdAssessmentYear(String userId, int assessmentYear) {
+        log.info("Attempting to fetch all EmpAttitudeSkills by User ID: {} and Assessment Year: {}", userId, assessmentYear);
+        List<EmpAttitudeSkillGetUIDYearDto> listResult = new ArrayList<>();
+        try {
+            List<Map<String,Object>> listData = empAttitudeSkillRepo.getEmpAttitudeSkillGetsByUserIdAssessmentYear(userId, assessmentYear);
+            log.debug("Fetched {} EmpAttitudeSkills for User ID: {} and Assessment Year: {} from repository", listData.size(), userId, assessmentYear);
+            for (Map<String,Object> data : listData) {
+                EmpAttitudeSkillGetUIDYearDto result =  EmpAttitudeSkillGetUIDYearDto.mapToDto(data);
+                listResult.add(result);
+            }
+        } catch (Exception e) {
+            log.error("Error occurred while fetching all EmpAttitudeSkills By User ID: {} : {}", userId, e.getMessage(), e);
+        }
+        return listResult;
     }
 
     private EmpAttitudeSkill convertToEntity(EmpAttitudeSkillDto convertObject) {

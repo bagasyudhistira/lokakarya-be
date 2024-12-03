@@ -23,4 +23,6 @@ public interface EmpAttitudeSkillRepo {
     Boolean deleteEmpAttitudeSkill(String id);
 
     Boolean ifAnyEmpAttitudeSkillExist(String userId, String attitudeSkillId, int assessmentYear);
+
+    List<Map<String, Object>> getEmpAttitudeSkillGetsByUserIdAssessmentYear(String userId, int assessmentYear);
 }

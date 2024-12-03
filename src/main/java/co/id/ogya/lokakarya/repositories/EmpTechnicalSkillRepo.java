@@ -21,4 +21,6 @@ public interface EmpTechnicalSkillRepo {
     List<Map<String, Object>> getEmpTechnicalSkillGetByUserId(String userId);
 
     Boolean ifAnyEmpTechnicalSkillExist(String userId, String technicalSkillId, int assessmentYear);
+
+    List<Map<String, Object>> getEmpTechnicalSkillGetsByUserIdAssessmentYear(String userId, int assessmentYear);
 }

@@ -1,9 +1,6 @@
 package co.id.ogya.lokakarya.services;
 
-import co.id.ogya.lokakarya.dto.empattitudeskill.EmpAttitudeSkillCreateDto;
-import co.id.ogya.lokakarya.dto.empattitudeskill.EmpAttitudeSkillDto;
-import co.id.ogya.lokakarya.dto.empattitudeskill.EmpAttitudeSkillGetDto;
-import co.id.ogya.lokakarya.dto.empattitudeskill.EmpAttitudeSkillUpdateDto;
+import co.id.ogya.lokakarya.dto.empattitudeskill.*;
 
 import java.util.List;
 
@@ -25,4 +22,6 @@ public interface EmpAttitudeSkillServ {
     boolean deleteEmpAttitudeSkill(String id);
 
     Boolean ifAnyEmpAttitudeSkillExist(String userId, String attitudeSkillId, int assessmentYear);
+
+    List<EmpAttitudeSkillGetUIDYearDto> getAllEmpAttitudeSkillGetByUserIdAssessmentYear(String userId, int assessmentYear);
 }

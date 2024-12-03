@@ -25,7 +25,7 @@ public class EmpAchievementSkillController extends ServerResponseList {
 
     @GetMapping("/all")
     public ResponseEntity<?> getAllEmpAchievementSkills() {
-        log.info("Fetching all employee achievement skills");
+        log.info("Fetching all employee Achievement Skills");
         long startTime = System.currentTimeMillis();
 
         try {
@@ -36,18 +36,18 @@ public class EmpAchievementSkillController extends ServerResponseList {
 
             long endTime = System.currentTimeMillis();
             response.setInfo(getInfoOk("Time", endTime - startTime));
-            log.info("Fetched all employee achievement skills in {} ms", endTime - startTime);
+            log.info("Fetched all employee Achievement Skills in {} ms", endTime - startTime);
 
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
-            log.error("Error fetching all employee achievement skills: {}", e.getMessage(), e);
-            return new ResponseEntity<>("Failed to fetch employee achievement skills", HttpStatus.INTERNAL_SERVER_ERROR);
+            log.error("Error fetching all employee Achievement Skills: {}", e.getMessage(), e);
+            return new ResponseEntity<>("Failed to fetch employee Achievement Skills", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getEmpAchievementSkillById(@PathVariable String id) {
-        log.info("Fetching employee achievement skill with ID: {}", id);
+        log.info("Fetching employee Achievement Skill with ID: {}", id);
         long startTime = System.currentTimeMillis();
 
         try {
@@ -58,19 +58,19 @@ public class EmpAchievementSkillController extends ServerResponseList {
 
             long endTime = System.currentTimeMillis();
             response.setInfo(getInfoOk("Time", endTime - startTime));
-            log.info("Fetched employee achievement skill with ID: {} in {} ms", id, endTime - startTime);
+            log.info("Fetched employee Achievement Skill with ID: {} in {} ms", id, endTime - startTime);
 
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
-            log.error("Error fetching employee achievement skill by ID {}: {}", id, e.getMessage(), e);
-            return new ResponseEntity<>("Failed to fetch employee achievement skill with ID: " + id, HttpStatus.INTERNAL_SERVER_ERROR);
+            log.error("Error fetching employee Achievement Skill by ID {}: {}", id, e.getMessage(), e);
+            return new ResponseEntity<>("Failed to fetch employee Achievement Skill with ID: " + id, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
 
     @GetMapping("/get/all")
     public ResponseEntity<?> getAllEmpAchievementSkillGets() {
-        log.info("Fetching all employee achievement skills");
+        log.info("Fetching all employee Achievement Skills");
         long startTime = System.currentTimeMillis();
 
         try {
@@ -81,18 +81,18 @@ public class EmpAchievementSkillController extends ServerResponseList {
 
             long endTime = System.currentTimeMillis();
             response.setInfo(getInfoOk("Time", endTime - startTime));
-            log.info("Fetched all employee achievement skills in {} ms", endTime - startTime);
+            log.info("Fetched all employee Achievement Skills in {} ms", endTime - startTime);
 
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
-            log.error("Error fetching all employee achievement skills: {}", e.getMessage(), e);
-            return new ResponseEntity<>("Failed to fetch employee achievement skills", HttpStatus.INTERNAL_SERVER_ERROR);
+            log.error("Error fetching all employee Achievement Skills: {}", e.getMessage(), e);
+            return new ResponseEntity<>("Failed to fetch employee Achievement Skills", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @GetMapping("/get/{id}")
     public ResponseEntity<?> getEmpAchievementSkillGetById(@PathVariable String id) {
-        log.info("Fetching employee achievement skill with ID: {}", id);
+        log.info("Fetching employee Achievement Skill with ID: {}", id);
         long startTime = System.currentTimeMillis();
 
         try {
@@ -103,18 +103,18 @@ public class EmpAchievementSkillController extends ServerResponseList {
 
             long endTime = System.currentTimeMillis();
             response.setInfo(getInfoOk("Time", endTime - startTime));
-            log.info("Fetched employee achievement skill with ID: {} in {} ms", id, endTime - startTime);
+            log.info("Fetched employee Achievement Skill with ID: {} in {} ms", id, endTime - startTime);
 
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
-            log.error("Error fetching employee achievement skill by ID {}: {}", id, e.getMessage(), e);
-            return new ResponseEntity<>("Failed to fetch employee achievement skill with ID: " + id, HttpStatus.INTERNAL_SERVER_ERROR);
+            log.error("Error fetching employee Achievement Skill by ID {}: {}", id, e.getMessage(), e);
+            return new ResponseEntity<>("Failed to fetch employee Achievement Skill with ID: " + id, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @GetMapping("/get/{userId}")
     public ResponseEntity<?> getEmpAchievementSkillGetsByUserId(@PathVariable String userId) {
-        log.info("Fetching employee achievement skills by user ID: {}", userId);
+        log.info("Fetching employee Achievement Skills by User ID: {}", userId);
         long startTime = System.currentTimeMillis();
         try {
             List<EmpAchievementSkillGetDto> result = empAchievementSkillServ.getAllEmpAchievementSkillGetByUserId(userId);
@@ -124,18 +124,18 @@ public class EmpAchievementSkillController extends ServerResponseList {
 
             long endTime = System.currentTimeMillis();
             response.setInfo(getInfoOk("Time", endTime - startTime));
-            log.info("Fetched all employee achievement skills by user ID: {} in {} ms", userId, endTime - startTime);
+            log.info("Fetched all employee Achievement Skills by User ID: {} in {} ms", userId, endTime - startTime);
 
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
-            log.error("Error fetching all achievement skills by user ID: {} : {}", userId, e.getMessage(), e);
-            return new ResponseEntity<>("Failed to fetch employee achievement skills", HttpStatus.INTERNAL_SERVER_ERROR);
+            log.error("Error fetching all Achievement Skills by User ID: {} : {}", userId, e.getMessage(), e);
+            return new ResponseEntity<>("Failed to fetch employee Achievement Skills", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @PostMapping("/create")
     public ResponseEntity<?> createEmpAchievementSkill(@RequestBody EmpAchievementSkillCreateDto empAchievementSkillCreateDto) {
-        log.info("Creating new employee achievement skill with data: {}", empAchievementSkillCreateDto);
+        log.info("Creating new employee Achievement Skill with data: {}", empAchievementSkillCreateDto);
         long startTime = System.currentTimeMillis();
 
         try {
@@ -146,18 +146,18 @@ public class EmpAchievementSkillController extends ServerResponseList {
 
             long endTime = System.currentTimeMillis();
             response.setInfo(getInfoOk("Time", endTime - startTime));
-            log.info("Created new employee achievement skill in {} ms", endTime - startTime);
+            log.info("Created new employee Achievement Skill in {} ms", endTime - startTime);
 
             return new ResponseEntity<>(response, HttpStatus.CREATED);
         } catch (Exception e) {
-            log.error("Error creating employee achievement skill: {}", e.getMessage(), e);
-            return new ResponseEntity<>("Failed to create employee achievement skill", HttpStatus.INTERNAL_SERVER_ERROR);
+            log.error("Error creating employee Achievement Skill: {}", e.getMessage(), e);
+            return new ResponseEntity<>("Failed to create employee Achievement Skill", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @PutMapping("/update")
     public ResponseEntity<?> updateEmpAchievementSkill(@RequestBody EmpAchievementSkillUpdateDto empAchievementSkillUpdateDto) {
-        log.info("Updating employee achievement skill with data: {}", empAchievementSkillUpdateDto);
+        log.info("Updating employee Achievement Skill with data: {}", empAchievementSkillUpdateDto);
         long startTime = System.currentTimeMillis();
 
         try {
@@ -168,18 +168,18 @@ public class EmpAchievementSkillController extends ServerResponseList {
 
             long endTime = System.currentTimeMillis();
             response.setInfo(getInfoOk("Time", endTime - startTime));
-            log.info("Updated employee achievement skill in {} ms", endTime - startTime);
+            log.info("Updated employee Achievement Skill in {} ms", endTime - startTime);
 
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
-            log.error("Error updating employee achievement skill: {}", e.getMessage(), e);
-            return new ResponseEntity<>("Failed to update employee achievement skill", HttpStatus.INTERNAL_SERVER_ERROR);
+            log.error("Error updating employee Achievement Skill: {}", e.getMessage(), e);
+            return new ResponseEntity<>("Failed to update employee Achievement Skill", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteEmpAchievementSkill(@PathVariable String id) {
-        log.info("Deleting employee achievement skill with ID: {}", id);
+        log.info("Deleting employee Achievement Skill with ID: {}", id);
         long startTime = System.currentTimeMillis();
 
         try {
@@ -190,12 +190,12 @@ public class EmpAchievementSkillController extends ServerResponseList {
 
             long endTime = System.currentTimeMillis();
             response.setInfo(getInfoOk("Time", endTime - startTime));
-            log.info("Deleted employee achievement skill with ID: {} in {} ms", id, endTime - startTime);
+            log.info("Deleted employee Achievement Skill with ID: {} in {} ms", id, endTime - startTime);
 
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
-            log.error("Error deleting employee achievement skill with ID {}: {}", id, e.getMessage(), e);
-            return new ResponseEntity<>("Failed to delete employee achievement skill with ID: " + id, HttpStatus.INTERNAL_SERVER_ERROR);
+            log.error("Error deleting employee Achievement Skill with ID {}: {}", id, e.getMessage(), e);
+            return new ResponseEntity<>("Failed to delete employee Achievement Skill with ID: " + id, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -217,6 +217,27 @@ public class EmpAchievementSkillController extends ServerResponseList {
         } catch (Exception e) {
             log.error("Error looking for EmpAchievementSkill with User ID: {}, Achievement ID: {}, and Assessment Year: {}. Error: {}", userId, achievementId, assessmentYear, e.getMessage(), e);
             return new ResponseEntity<>("Failed to look for EmpAchievementSkill with User ID: " + userId + " Achievement ID: " + achievementId + ", and Assessment Year: " + assessmentYear, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    
+    @GetMapping("/get/{userId}/{assessmentYear}")
+    public ResponseEntity<?> getEmpAchievementSkillGetsByUserIdAssessmentYear(@PathVariable String userId, @PathVariable int assessmentYear) {
+        log.info("Fetching Employee Achievement Skills by User ID: {} and Assessment Year: {}", userId, assessmentYear);
+        long startTime = System.currentTimeMillis();
+        try {
+            List<EmpAchievementSkillGetUIDYearDto> result = empAchievementSkillServ.getAllEmpAchievementSkillGetByUserIdAssessmentYear(userId, assessmentYear);
+            ManagerDto<List<EmpAchievementSkillGetUIDYearDto>> response = new ManagerDto<>();
+            response.setContent(result);
+            response.setTotalRows(result.size());
+
+            long endTime = System.currentTimeMillis();
+            response.setInfo(getInfoOk("Time", endTime - startTime));
+            log.info("Fetched all employee Achievement Skills by User ID: {} and Assessment Year: {} in {} ms", userId, assessmentYear, endTime - startTime);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error fetching all Achievement Skills by User ID: {} and Assessment Year: {} : {}", userId, assessmentYear, e.getMessage(), e);
+            return new ResponseEntity<>("Failed to fetch employee Achievement Skills", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

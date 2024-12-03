@@ -197,4 +197,25 @@ public class EmpTechnicalSkillController extends ServerResponseList {
             return new ResponseEntity<>("Failed to look for EmpTechnicalSkill with User ID: " + userId + " Technical Skill ID: " + technicalSkillId + ", and Assessment Year: " + assessmentYear, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("/get/{userId}/{assessmentYear}")
+    public ResponseEntity<?> getEmpTechnicalSkillGetsByUserIdAssessmentYear(@PathVariable String userId, @PathVariable int assessmentYear) {
+        log.info("Fetching Employee Technical Skills by User ID: {} and Assessment Year: {}", userId, assessmentYear);
+        long startTime = System.currentTimeMillis();
+        try {
+            List<EmpTechnicalSkillGetUIDYearDto> result = empTechnicalSkillServ.getAllEmpTechnicalSkillGetByUserIdAssessmentYear(userId, assessmentYear);
+            ManagerDto<List<EmpTechnicalSkillGetUIDYearDto>> response = new ManagerDto<>();
+            response.setContent(result);
+            response.setTotalRows(result.size());
+
+            long endTime = System.currentTimeMillis();
+            response.setInfo(getInfoOk("Time", endTime - startTime));
+            log.info("Fetched all employee Technical Skills by User ID: {} and Assessment Year: {} in {} ms", userId, assessmentYear, endTime - startTime);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error fetching all Technical Skills by User ID: {} and Assessment Year: {} : {}", userId, assessmentYear, e.getMessage(), e);
+            return new ResponseEntity<>("Failed to fetch employee Technical Skills", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

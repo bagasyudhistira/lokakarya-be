@@ -51,7 +51,7 @@ public class EmpAttitudeSkillRepoImpl implements EmpAttitudeSkillRepo {
 
     @Override
     public List<Map<String, Object>> getEmpAttitudeSkillGets() {
-        String sql = "SELECT eas.ID, FULL_NAME, ATTITUDE_SKILL, SCORE, ASSESSMENT_YEAR " +
+        String sql = "SELECT eas.ID, eas.USER_ID, au.FULL_NAME, ats.ATTITUDE_SKILL, eas.SCORE, eas.ASSESSMENT_YEAR " +
                 "FROM TBL_EMP_ATTITUDE_SKILL eas " +
                 "JOIN TBL_ATTITUDE_SKILL ats ON eas.ATTITUDE_SKILL_ID = ats.ID " +
                 "JOIN TBL_APP_USER au ON eas.USER_ID = au.ID";
@@ -181,6 +181,20 @@ public class EmpAttitudeSkillRepoImpl implements EmpAttitudeSkillRepo {
             }
         } catch (Exception e) {
             log.error("Error while looking EmpAttitudeSkill by User ID: {}, Attitude Skill ID: {}, and Assessment Year: {}. Error: {}", userId, attitudeSkillId, assessmentYear, e.getMessage());
+            throw e;
+        }
+    }
+
+    @Override
+    public List<Map<String, Object>> getEmpAttitudeSkillGetsByUserIdAssessmentYear(String userId, int assessmentYear) {
+        String sql = "SELECT EAS.ID, EAS.ATTITUDE_SKILL_ID, EAS.SCORE, ASK.GROUP_ID FROM TBL_EMP_ATTITUDE_SKILL EAS JOIN TBL_ATTITUDE_SKILL ASK ON EAS.ATTITUDE_SKILL_ID = ASK.ID WHERE EAS.USER_ID = ? AND EAS.ASSESSMENT_YEAR = ?";
+        log.info("Fetching all EmpAttitudeSkills for User ID: {} and Assessment Year: {} with JOIN query: {}", userId, assessmentYear,sql);
+        try {
+            List<Map<String, Object>> result = jdbcTemplate.queryForList(sql, userId, assessmentYear);
+            log.info("Successfully fetched {} EmpAttitudeSkills for User ID: {} and Assessment Year: {}", result.size(), userId, assessmentYear);
+            return result;
+        } catch (Exception e) {
+            log.error("Error fetching EmpAttitudeSkills for User ID: {} and Assessment Year: {}. Error: {}", userId, assessmentYear, e.getMessage());
             throw e;
         }
     }

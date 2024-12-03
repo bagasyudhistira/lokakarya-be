@@ -181,4 +181,18 @@ public class EmpAchievementSkillRepoImpl implements EmpAchievementSkillRepo {
             throw e;
         }
     }
+
+    @Override
+    public List<Map<String, Object>> getEmpAchievementSkillGetsByUserIdAssessmentYear(String userId, int assessmentYear) {
+        String sql = "SELECT EAS.ID, EAS.ACHIEVEMENT_ID, EAS.SCORE, ACH.GROUP_ID FROM TBL_EMP_ACHIEVEMENT_SKILL EAS JOIN TBL_ACHIEVEMENT ACH ON EAS.ACHIEVEMENT_ID = ACH.ID WHERE EAS.USER_ID = ? AND EAS.ASSESSMENT_YEAR = ?";
+        log.info("Fetching all EmpAchievementSkills for User ID: {} and Assessment Year: {} with JOIN query: {}", userId, assessmentYear,sql);
+        try {
+            List<Map<String, Object>> result = jdbcTemplate.queryForList(sql, userId, assessmentYear);
+            log.info("Successfully fetched {} EmpAchievementSkills for User ID: {} and Assessment Year: {}", result.size(), userId, assessmentYear);
+            return result;
+        } catch (Exception e) {
+            log.error("Error fetching EmpAchievementSkills for User ID: {} and Assessment Year: {}. Error: {}", userId, assessmentYear, e.getMessage());
+            throw e;
+        }
+    }
 }

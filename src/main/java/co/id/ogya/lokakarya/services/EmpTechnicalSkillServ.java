@@ -1,9 +1,6 @@
 package co.id.ogya.lokakarya.services;
 
-import co.id.ogya.lokakarya.dto.emptechnicalskill.EmpTechnicalSkillCreateDto;
-import co.id.ogya.lokakarya.dto.emptechnicalskill.EmpTechnicalSkillDto;
-import co.id.ogya.lokakarya.dto.emptechnicalskill.EmpTechnicalSkillGetDto;
-import co.id.ogya.lokakarya.dto.emptechnicalskill.EmpTechnicalSkillUpdateDto;
+import co.id.ogya.lokakarya.dto.emptechnicalskill.*;
 
 import java.util.List;
 import java.util.Map;
@@ -24,4 +21,6 @@ public interface EmpTechnicalSkillServ {
     List<EmpTechnicalSkillGetDto> getEmpTechnicalSkillGetByUserId(String userId);
 
     Boolean ifAnyEmpTechnicalSkillExist(String userId, String technicalSkillId, int assessmentYear);
+
+    List<EmpTechnicalSkillGetUIDYearDto> getAllEmpTechnicalSkillGetByUserIdAssessmentYear(String userId, int assessmentYear);
 }

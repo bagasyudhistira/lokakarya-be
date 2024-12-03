@@ -1,9 +1,7 @@
 package co.id.ogya.lokakarya.services.impl;
 
-import co.id.ogya.lokakarya.dto.emptechnicalskill.EmpTechnicalSkillCreateDto;
-import co.id.ogya.lokakarya.dto.emptechnicalskill.EmpTechnicalSkillDto;
-import co.id.ogya.lokakarya.dto.emptechnicalskill.EmpTechnicalSkillGetDto;
-import co.id.ogya.lokakarya.dto.emptechnicalskill.EmpTechnicalSkillUpdateDto;
+import co.id.ogya.lokakarya.dto.empattitudeskill.EmpAttitudeSkillGetUIDYearDto;
+import co.id.ogya.lokakarya.dto.emptechnicalskill.*;
 import co.id.ogya.lokakarya.entities.EmpTechnicalSkill;
 import co.id.ogya.lokakarya.repositories.EmpTechnicalSkillRepo;
 import co.id.ogya.lokakarya.services.EmpTechnicalSkillServ;
@@ -150,6 +148,23 @@ public class EmpTechnicalSkillServImpl implements EmpTechnicalSkillServ {
             log.error("Error while looking EmpTechnicalSkill by User ID: {}, Technical Skill ID: {}, and Assessment Year: {}. Error: {}", userId, technicalSkillId, assessmentYear, e.getMessage());
             throw e;
         }
+    }
+
+    @Override
+    public List<EmpTechnicalSkillGetUIDYearDto> getAllEmpTechnicalSkillGetByUserIdAssessmentYear(String userId, int assessmentYear) {
+        log.info("Attempting to fetch all EmpTechnicalSkills by User ID: {} and Assessment Year: {}", userId, assessmentYear);
+        List<EmpTechnicalSkillGetUIDYearDto> listResult = new ArrayList<>();
+        try {
+            List<Map<String,Object>> listData = empTechnicalSkillRepo.getEmpTechnicalSkillGetsByUserIdAssessmentYear(userId, assessmentYear);
+            log.debug("Fetched {} EmpTechnicalSkills for User ID: {} and Assessment Year: {} from repository", listData.size(), userId, assessmentYear);
+            for (Map<String,Object> data : listData) {
+                EmpTechnicalSkillGetUIDYearDto result =  EmpTechnicalSkillGetUIDYearDto.mapToDto(data);
+                listResult.add(result);
+            }
+        } catch (Exception e) {
+            log.error("Error occurred while fetching all EmpTechnicalSkills By User ID: {} : {}", userId, e.getMessage(), e);
+        }
+        return listResult;
     }
 
     private EmpTechnicalSkill convertToEntity(EmpTechnicalSkillDto convertObject) {

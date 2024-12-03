@@ -1,6 +1,7 @@
 package co.id.ogya.lokakarya.controllers;
 
 import co.id.ogya.lokakarya.dto.ManagerDto;
+import co.id.ogya.lokakarya.dto.empachievementskill.EmpAchievementSkillGetUIDYearDto;
 import co.id.ogya.lokakarya.dto.empattitudeskill.*;
 import co.id.ogya.lokakarya.services.EmpAttitudeSkillServ;
 import co.id.ogya.lokakarya.utils.ServerResponseList;
@@ -218,6 +219,27 @@ public class EmpAttitudeSkillController extends ServerResponseList {
         } catch (Exception e) {
             log.error("Error looking for EmpAttitudeSkill with User ID: {}, Attitude Skill ID: {}, and Assessment Year: {}. Error: {}", userId, attitudeSkillId, assessmentYear, e.getMessage(), e);
             return new ResponseEntity<>("Failed to look for EmpAttitudeSkill with User ID: " + userId + " Attitude Skill ID: " + attitudeSkillId + ", and Assessment Year: " + assessmentYear, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/get/{userId}/{assessmentYear}")
+    public ResponseEntity<?> getEmpAttitudeSkillGetsByUserIdAssessmentYear(@PathVariable String userId, @PathVariable int assessmentYear) {
+        log.info("Fetching Employee Attitude Skills by User ID: {} and Assessment Year: {}", userId, assessmentYear);
+        long startTime = System.currentTimeMillis();
+        try {
+            List<EmpAttitudeSkillGetUIDYearDto> result = empAttitudeSkillServ.getAllEmpAttitudeSkillGetByUserIdAssessmentYear(userId, assessmentYear);
+            ManagerDto<List<EmpAttitudeSkillGetUIDYearDto>> response = new ManagerDto<>();
+            response.setContent(result);
+            response.setTotalRows(result.size());
+
+            long endTime = System.currentTimeMillis();
+            response.setInfo(getInfoOk("Time", endTime - startTime));
+            log.info("Fetched all employee Attitude Skills by User ID: {} and Assessment Year: {} in {} ms", userId, assessmentYear, endTime - startTime);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error fetching all Attitude Skills by User ID: {} and Assessment Year: {} : {}", userId, assessmentYear, e.getMessage(), e);
+            return new ResponseEntity<>("Failed to fetch employee Attitude Skills", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

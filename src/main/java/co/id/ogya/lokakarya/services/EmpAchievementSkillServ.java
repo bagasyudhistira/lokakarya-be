@@ -1,9 +1,6 @@
 package co.id.ogya.lokakarya.services;
 
-import co.id.ogya.lokakarya.dto.empachievementskill.EmpAchievementSkillCreateDto;
-import co.id.ogya.lokakarya.dto.empachievementskill.EmpAchievementSkillDto;
-import co.id.ogya.lokakarya.dto.empachievementskill.EmpAchievementSkillGetDto;
-import co.id.ogya.lokakarya.dto.empachievementskill.EmpAchievementSkillUpdateDto;
+import co.id.ogya.lokakarya.dto.empachievementskill.*;
 
 import java.util.List;
 
@@ -25,4 +22,6 @@ public interface EmpAchievementSkillServ {
     boolean deleteEmpAchievementSkill(String id);
 
     Boolean ifAnyEmpAchievementSkillExist(String userId, String achievementId, int assessmentYear);
+
+    List<EmpAchievementSkillGetUIDYearDto> getAllEmpAchievementSkillGetByUserIdAssessmentYear(String userId, int assessmentYear);
 }

@@ -1,9 +1,6 @@
 package co.id.ogya.lokakarya.services.impl;
 
-import co.id.ogya.lokakarya.dto.empachievementskill.EmpAchievementSkillCreateDto;
-import co.id.ogya.lokakarya.dto.empachievementskill.EmpAchievementSkillDto;
-import co.id.ogya.lokakarya.dto.empachievementskill.EmpAchievementSkillGetDto;
-import co.id.ogya.lokakarya.dto.empachievementskill.EmpAchievementSkillUpdateDto;
+import co.id.ogya.lokakarya.dto.empachievementskill.*;
 import co.id.ogya.lokakarya.entities.EmpAchievementSkill;
 import co.id.ogya.lokakarya.repositories.EmpAchievementSkillRepo;
 import co.id.ogya.lokakarya.services.EmpAchievementSkillServ;
@@ -166,6 +163,23 @@ public class EmpAchievementSkillServImpl implements EmpAchievementSkillServ {
             log.error("Error while looking EmpAchievementSkill by User ID: {}, Achievement ID: {}, and Assessment Year: {}. Error: {}", userId, achievementId, assessmentYear, e.getMessage());
             throw e;
         }
+    }
+
+    @Override
+    public List<EmpAchievementSkillGetUIDYearDto> getAllEmpAchievementSkillGetByUserIdAssessmentYear(String userId, int assessmentYear) {
+        log.info("Attempting to fetch all EmpAchievementSkills by User ID: {} and Assessment Year: {}", userId, assessmentYear);
+        List<EmpAchievementSkillGetUIDYearDto> listResult = new ArrayList<>();
+        try {
+            List<Map<String,Object>> listData = empAchievementSkillRepo.getEmpAchievementSkillGetsByUserIdAssessmentYear(userId, assessmentYear);
+            log.debug("Fetched {} EmpAchievementSkills for User ID: {} and Assessment Year: {} from repository", listData.size(), userId, assessmentYear);
+            for (Map<String,Object> data : listData) {
+                EmpAchievementSkillGetUIDYearDto result =  EmpAchievementSkillGetUIDYearDto.mapToDto(data);
+                listResult.add(result);
+            }
+        } catch (Exception e) {
+            log.error("Error occurred while fetching all EmpAchievementSkill By User ID: {} : {}", userId, e.getMessage(), e);
+        }
+        return listResult;
     }
 
     private EmpAchievementSkill convertToEntity(EmpAchievementSkillDto convertObject) {
