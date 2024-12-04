@@ -164,7 +164,6 @@ public class EmpDevPlanController extends ServerResponseList {
             List<EmpDevPlanGetDto> result = empDevPlanServ.getEmpDevPlanGetByUserId(userId);
             ManagerDto<List<EmpDevPlanGetDto>> response = new ManagerDto<>();
             response.setContent(result);
-            response.setTotalRows(1);
 
             long endTime = System.currentTimeMillis();
             response.setInfo(getInfoOk("Time", endTime - startTime));
@@ -177,6 +176,27 @@ public class EmpDevPlanController extends ServerResponseList {
         }
     }
 
+    @GetMapping("/get/{userId}/{assessmentYear}")
+    public ResponseEntity<?> getEmpDevPlanGetByUserIdAssessmentYear(@PathVariable String userId, @PathVariable String assessmentYear) {
+        log.info("Fetching EmpDevPlan by User ID: {}  and Assessment Year: {}", userId);
+        long startTime = System.currentTimeMillis();
+
+        try {
+            List<EmpDevPlanGetDto> result = empDevPlanServ.getEmpDevPlanGetByUserIdAssessmentYear(userId, assessmentYear);
+            ManagerDto<List<EmpDevPlanGetDto>> response = new ManagerDto<>();
+            response.setContent(result);
+
+            long endTime = System.currentTimeMillis();
+            response.setInfo(getInfoOk("Time", endTime - startTime));
+            log.info("Fetched EmpDevPlan with User ID: {} and Assessment Year: {} in {} ms", userId, endTime - startTime);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error fetching EmpDevPlan by User ID {}: {}", userId, e.getMessage(), e);
+            return new ResponseEntity<>("Failed to fetch EmpDevPlan with User ID: " + userId + " and Assessment Year: " + assessmentYear, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @GetMapping("/{userId}/{devPlanId}/{assessmentYear}")
     public ResponseEntity<?> ifAnyEmpDevPlanExist(@PathVariable String userId, @PathVariable String devPlanId, @PathVariable int assessmentYear) {
         log.info("Looking for EmpDevPlan with User ID: {}, Dev Plan ID: {}, and Assessment Year: {}", userId, devPlanId, assessmentYear);
@@ -186,7 +206,6 @@ public class EmpDevPlanController extends ServerResponseList {
             Boolean result = empDevPlanServ.ifAnyEmpDevPlanExist(userId, devPlanId, assessmentYear);
             ManagerDto<Boolean> response = new ManagerDto<>();
             response.setContent(result);
-            response.setTotalRows(1);
 
             long endTime = System.currentTimeMillis();
             response.setInfo(getInfoOk("Time", endTime - startTime));

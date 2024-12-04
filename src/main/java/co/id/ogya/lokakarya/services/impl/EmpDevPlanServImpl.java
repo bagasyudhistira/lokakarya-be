@@ -119,15 +119,31 @@ public class EmpDevPlanServImpl implements EmpDevPlanServ {
 
     @Override
     public List<EmpDevPlanGetDto> getEmpDevPlanGetByUserId(String userId) {
-        log.info("Fetching EmpDevPlans for user ID: {}", userId);
+        log.info("Fetching EmpDevPlans for User ID: {}", userId);
         List<EmpDevPlanGetDto> resultList = new ArrayList<>();
         try {
             List<Map<String, Object>> empDevPlanList = empDevPlanRepo.getEmpDevPlanGetByUserId(userId);
-            log.debug("Retrieved {} EmpDevPlans for user ID: {}", empDevPlanList.size(), userId);
+            log.debug("Retrieved {} EmpDevPlans for User ID: {}", empDevPlanList.size(), userId);
             empDevPlanList.forEach(map -> resultList.add(EmpDevPlanGetDto.mapToDto(map)));
-            log.info("Successfully fetched EmpDevPlans for user ID: {}", userId);
+            log.info("Successfully fetched EmpDevPlans for User ID: {}", userId);
         } catch (Exception e) {
-            log.error("Failed to fetch EmpDevPlans for user ID: {}. Error: {}", userId, e.getMessage(), e);
+            log.error("Failed to fetch EmpDevPlans for User ID: {}. Error: {}", userId, e.getMessage(), e);
+            throw e;
+        }
+        return resultList;
+    }
+
+    @Override
+    public List<EmpDevPlanGetDto> getEmpDevPlanGetByUserIdAssessmentYear(String userId, String assessmentYear) {
+        log.info("Fetching EmpDevPlans for User ID: {}", userId);
+        List<EmpDevPlanGetDto> resultList = new ArrayList<>();
+        try {
+            List<Map<String, Object>> empDevPlanList = empDevPlanRepo.getEmpDevPlanGetByUserIdAssessmentYear(userId, assessmentYear);
+            log.debug("Retrieved {} EmpDevPlans for User ID: {} and Assessment Year: {}", empDevPlanList.size(), userId, assessmentYear);
+            empDevPlanList.forEach(map -> resultList.add(EmpDevPlanGetDto.mapToDto(map)));
+            log.info("Successfully fetched EmpDevPlans for User ID: {} and Assessment Year: {}", userId, assessmentYear);
+        } catch (Exception e) {
+            log.error("Failed to fetch EmpDevPlans for User ID: {} and Assessment Year: {}. Error: {}", userId, assessmentYear, e.getMessage(), e);
             throw e;
         }
         return resultList;

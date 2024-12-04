@@ -20,5 +20,7 @@ public interface EmpDevPlanRepo {
 
     List<Map<String, Object>> getEmpDevPlanGetByUserId(String userId);
 
+    List<Map<String, Object>> getEmpDevPlanGetByUserIdAssessmentYear(String userId, String assessmentYear);
+
     Boolean ifAnyEmpDevPlanExist(String userId, String devPlanId, int assessmentYear);
 }

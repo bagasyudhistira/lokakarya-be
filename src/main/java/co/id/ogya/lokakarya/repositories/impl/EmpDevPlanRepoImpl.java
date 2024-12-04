@@ -134,13 +134,31 @@ public class EmpDevPlanRepoImpl implements EmpDevPlanRepo {
                 "LEFT JOIN TBL_APP_USER AU ON EDP.USER_ID = AU.ID " +
                 "LEFT JOIN TBL_DEV_PLAN DP ON EDP.DEV_PLAN_ID = DP.ID " +
                 "WHERE EDP.USER_ID = ?";
-        log.info("Fetching EmpDevPlans by UserID: {} with LEFT JOIN query: {}", userId, sql);
+        log.info("Fetching EmpDevPlans by User ID: {} with LEFT JOIN query: {}", userId, sql);
         try {
             List<Map<String, Object>> result = jdbcTemplate.queryForList(sql, userId);
-            log.info("Successfully fetched {} EmpDevPlans for UserID: {}", result.size(), userId);
+            log.info("Successfully fetched {} EmpDevPlans for User ID: {}", result.size(), userId);
             return result;
         } catch (Exception e) {
-            log.error("Error fetching EmpDevPlans for UserID: {}. Error: {}", userId, e.getMessage());
+            log.error("Error fetching EmpDevPlans for User ID: {}. Error: {}", userId, e.getMessage());
+            throw e;
+        }
+    }
+
+    @Override
+    public List<Map<String, Object>> getEmpDevPlanGetByUserIdAssessmentYear(String userId, String assessmentYear) {
+        String sql = "SELECT EDP.ID, AU.FULL_NAME, DP.PLAN, EDP.ASSESSMENT_YEAR, EDP.TOO_BRIGHT " +
+                "FROM TBL_EMP_DEV_PLAN EDP " +
+                "LEFT JOIN TBL_APP_USER AU ON EDP.USER_ID = AU.ID " +
+                "LEFT JOIN TBL_DEV_PLAN DP ON EDP.DEV_PLAN_ID = DP.ID " +
+                "WHERE EDP.USER_ID = ? AND EDP.ASSESSMENT_YEAR = ?";
+        log.info("Fetching EmpDevPlans by User ID: {} and Assessment Year: {} with LEFT JOIN query: {}", userId, assessmentYear, sql);
+        try {
+            List<Map<String, Object>> result = jdbcTemplate.queryForList(sql, userId, assessmentYear);
+            log.info("Successfully fetched {} EmpDevPlans for User ID: {} and Assessment Year: {}", result.size(), userId, assessmentYear);
+            return result;
+        } catch (Exception e) {
+            log.error("Error fetching EmpDevPlans for User ID: {} and Assessment Year: {}. Error: {}", userId, assessmentYear, e.getMessage());
             throw e;
         }
     }
