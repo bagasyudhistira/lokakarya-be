@@ -199,6 +199,7 @@ public class AppUserServImpl implements AppUserServ {
     private AppUser convertToEntityCreate(AppUserCreateDto convertObject) {
         log.debug("Converting AppUserCreateDto to entity: {}", convertObject);
         AppUser result = AppUser.builder()
+                .id(convertObject.getId())
                 .username(convertObject.getUsername())
                 .fullName(convertObject.getFullName())
                 .position(convertObject.getPosition())
