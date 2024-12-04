@@ -178,12 +178,12 @@ public class AppUserRepoImpl implements AppUserRepo {
 
     @Override
     public AppUser updateAppUser(AppUser appUser) {
-        String sql = "UPDATE TBL_APP_USER SET FULL_NAME = ?, POSITION = ?, EMAIL_ADDRESS = ?, EMPLOYEE_STATUS = ?, JOIN_DATE = ?, ENABLED = ?, PASSWORD = ?, " +
+        String sql = "UPDATE TBL_APP_USER SET FULL_NAME = ?, POSITION = ?, EMAIL_ADDRESS = ?, EMPLOYEE_STATUS = ?, JOIN_DATE = ?, ENABLED = ?, " +
                 "DIVISION_ID = ?, UPDATED_AT = SYSDATE(), UPDATED_BY = ? WHERE ID = ?";
         try {
             log.info("Updating AppUser with ID: {}", appUser.getId());
             int rowsAffected = jdbcTemplate.update(sql, appUser.getFullName(), appUser.getPosition(), appUser.getEmailAddress(), appUser.getEmployeeStatus(),
-                    appUser.getJoinDate(), appUser.isEnabled(), appUser.getPassword(), appUser.getDivisionId(), appUser.getUpdatedBy(), appUser.getId());
+                    appUser.getJoinDate(), appUser.isEnabled(), appUser.getDivisionId(), appUser.getUpdatedBy(), appUser.getId());
             if (rowsAffected > 0) {
                 log.info("Successfully updated AppUser: {}", appUser);
                 return appUser;
