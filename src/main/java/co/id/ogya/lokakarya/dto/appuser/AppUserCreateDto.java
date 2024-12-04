@@ -13,6 +13,9 @@ import java.util.Date;
 @ToString
 public class AppUserCreateDto {
 
+    @JsonProperty("id")
+    private int id;
+
     @JsonProperty("username")
     private String username;
 
