@@ -21,6 +21,9 @@ public class EmpAchievementSkillGetUIDYearDto {
     @JsonProperty("achievement_id")
     private String achievementId;
 
+    @JsonProperty("notes")
+    private String notes;
+
     @JsonProperty("score")
     private double score;
 
@@ -33,6 +36,7 @@ public class EmpAchievementSkillGetUIDYearDto {
         EmpAchievementSkillGetUIDYearDto result = EmpAchievementSkillGetUIDYearDto.builder()
                 .id((String) convertObject.get("ID"))
                 .achievementId((String) convertObject.get("ACHIEVEMENT_ID"))
+                .notes((String) convertObject.get("NOTES"))
                 .score(convertObject.get("SCORE") != null
                         ? ((BigDecimal) convertObject.get("SCORE")).doubleValue()
                         : null)
