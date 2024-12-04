@@ -94,7 +94,7 @@ public class AppUserRepoImpl implements AppUserRepo {
                 "JOIN_DATE, ENABLED, PASSWORD, DIVISION_NAME " +
                 "FROM TBL_APP_USER au " +
                 "LEFT JOIN TBL_DIVISION d ON au.DIVISION_ID = d.ID " +
-                "WHERE LOWER(USERNAME) LIKE LOWER(CONCAT('%', ?, '%'))";
+                "WHERE LOWER(USERNAME) = ?";
         try {
             log.info("Fetching detailed AppUser by username: {}", username);
 
@@ -157,7 +157,7 @@ public class AppUserRepoImpl implements AppUserRepo {
     public AppUser saveAppUser(AppUser appUser) {
         appUser.prePersist();
         String sql = "INSERT INTO TBL_APP_USER (ID, USERNAME, FULL_NAME, POSITION, EMAIL_ADDRESS, EMPLOYEE_STATUS, JOIN_DATE, ENABLED, PASSWORD, DIVISION_ID, CREATED_BY) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                "VALUES (?, LOWER(?), ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
             log.info("Saving AppUser: {}", appUser);
             int rowsAffected = jdbcTemplate.update(sql, appUser.getId(), appUser.getUsername(), appUser.getFullName(), appUser.getPosition(), appUser.getEmailAddress(),
