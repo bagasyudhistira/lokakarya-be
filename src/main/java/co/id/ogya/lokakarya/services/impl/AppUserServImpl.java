@@ -112,13 +112,13 @@ public class AppUserServImpl implements AppUserServ {
     }
 
     @Override
-    public AppUserDto createAppUser(AppUserCreateDto appUserCreateDto) {
+    public AppUserCreateDto createAppUser(AppUserCreateDto appUserCreateDto) {
         log.info("Attempting to create a new AppUser with data: {}", appUserCreateDto);
-        AppUserDto result = null;
+        AppUserCreateDto result = null;
         try {
             AppUser data = convertToEntityCreate(appUserCreateDto);
             AppUser savedData = appUserRepo.saveAppUser(data);
-            result = convertToDto(savedData);
+            result = convertToCreateDto(savedData);
             log.info("Successfully created AppUser: {}", result);
         } catch (Exception e) {
             log.error("Error occurred while creating AppUser: {}", e.getMessage(), e);
@@ -186,7 +186,7 @@ public class AppUserServImpl implements AppUserServ {
                 .employeeStatus(convertObject.getEmployeeStatus())
                 .joinDate(convertObject.getJoinDate())
                 .enabled(convertObject.isEnabled())
-                .password(convertObject.getPassword())
+//                .password(convertObject.getPassword())
                 .divisionId(convertObject.getDivisionId())
                 .createdAt(convertObject.getCreatedAt())
                 .createdBy(convertObject.getCreatedBy())
@@ -224,7 +224,7 @@ public class AppUserServImpl implements AppUserServ {
                 .employeeStatus(convertObject.getEmployeeStatus())
                 .joinDate(convertObject.getJoinDate())
                 .enabled(convertObject.isEnabled())
-                .password(convertObject.getPassword())
+//                .password(convertObject.getPassword())
                 .divisionId(convertObject.getDivisionId())
                 .updatedAt(convertObject.getUpdatedAt())
                 .updatedBy(convertObject.getUpdatedBy())
@@ -243,12 +243,33 @@ public class AppUserServImpl implements AppUserServ {
                 .employeeStatus(convertObject.getEmployeeStatus())
                 .joinDate(convertObject.getJoinDate())
                 .enabled(convertObject.isEnabled())
-                .password(convertObject.getPassword())
+//                .password(convertObject.getPassword())
                 .divisionId(convertObject.getDivisionId())
                 .createdAt(convertObject.getCreatedAt())
                 .createdBy(convertObject.getCreatedBy())
                 .updatedAt(convertObject.getUpdatedAt())
                 .updatedBy(convertObject.getUpdatedBy())
+                .build();
+        return result;
+    }
+
+    private AppUserCreateDto convertToCreateDto(AppUser convertObject) {
+        log.debug("Converting AppUser entity to DTO: {}", convertObject);
+        AppUserCreateDto result = AppUserCreateDto.builder()
+//                .id(convertObject.getId())
+                .username(convertObject.getUsername())
+                .fullName(convertObject.getFullName())
+                .position(convertObject.getPosition())
+                .emailAddress(convertObject.getEmailAddress())
+                .employeeStatus(convertObject.getEmployeeStatus())
+                .joinDate(convertObject.getJoinDate())
+                .enabled(convertObject.isEnabled())
+                .password(convertObject.getPassword())
+                .divisionId(convertObject.getDivisionId())
+//                .createdAt(convertObject.getCreatedAt())
+                .createdBy(convertObject.getCreatedBy())
+//                .updatedAt(convertObject.getUpdatedAt())
+//                .updatedBy(convertObject.getUpdatedBy())
                 .build();
         return result;
     }

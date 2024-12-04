@@ -36,8 +36,8 @@ public class AppUserDto {
     @JsonProperty("enabled")
     private boolean enabled;
 
-    @JsonProperty("password")
-    private String password;
+//    @JsonProperty("password")
+//    private String password;
 
 //    @JsonProperty("role_id")
 //    private String roleId;

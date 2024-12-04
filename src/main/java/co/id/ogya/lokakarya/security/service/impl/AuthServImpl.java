@@ -1,10 +1,12 @@
 package co.id.ogya.lokakarya.security.service.impl;
 
+import co.id.ogya.lokakarya.dto.appuser.AppUserDto;
 import co.id.ogya.lokakarya.entities.AppUser;
 import co.id.ogya.lokakarya.exceptions.UserException;
 import co.id.ogya.lokakarya.repositories.AppUserRepo;
 import co.id.ogya.lokakarya.security.dto.AuthDto;
 import co.id.ogya.lokakarya.security.dto.AuthGetDto;
+import co.id.ogya.lokakarya.security.dto.AuthPasswordChangeDto;
 import co.id.ogya.lokakarya.security.repositories.AuthRepo;
 import co.id.ogya.lokakarya.security.service.AuthServ;
 import jakarta.transaction.Transactional;
@@ -73,5 +75,17 @@ public class AuthServImpl implements AuthServ {
             log.info("User found: {}", loggedUser);
         }
         return loggedUser;
+    }
+
+    @Override
+    public String changePassword(String userId, String newPassword) {
+        log.info("Attempting to change password for User ID: {}", userId);
+        try {
+            authRepo.changePassword(userId, newPassword);
+            return "Password changed successfully";
+        } catch (Exception e) {
+            log.error("Error occurred while changing password for User ID: {}: {}", userId, e.getMessage(), e);
+            return null;
+        }
     }
 }

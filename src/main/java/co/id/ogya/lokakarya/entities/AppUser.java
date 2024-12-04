@@ -62,8 +62,9 @@ public class AppUser {
     private String updatedBy;
 
     public void prePersist() {
-        if (this.id == null) {
+        if (this.id == null || this.password == null) {
             this.id = UUID.randomUUID().toString();
+            this.password = UUID.randomUUID().toString();
         }
     }
 }

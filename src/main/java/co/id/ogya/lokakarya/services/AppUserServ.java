@@ -17,7 +17,7 @@ public interface AppUserServ {
 
     AppUserGetDto getAppUserByFullName(String fullName);
 
-    AppUserDto createAppUser(AppUserCreateDto appUserCreateDto);
+    AppUserCreateDto createAppUser(AppUserCreateDto appUserCreateDto);
 
     AppUserDto updateAppUser(AppUserUpdateDto appUserUpdateDto);
 

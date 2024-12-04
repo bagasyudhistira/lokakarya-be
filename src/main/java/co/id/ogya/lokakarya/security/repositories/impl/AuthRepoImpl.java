@@ -9,6 +9,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.Map;
+
 @Slf4j
 @Repository
 public class AuthRepoImpl implements AuthRepo {
@@ -29,5 +31,11 @@ public class AuthRepoImpl implements AuthRepo {
             log.error("Error fetching AppUser by username: {}. Error: {}", username, e.getMessage());
             return null;
         }
+    }
+
+    @Override
+    public Integer changePassword(String userId, String newPassword) {
+        String sql = "UPDATE TBL_APP_USER SET PASSWORD = ? WHERE ID = ?";
+        return jdbcTemplate.update(sql, newPassword, userId);
     }
 }

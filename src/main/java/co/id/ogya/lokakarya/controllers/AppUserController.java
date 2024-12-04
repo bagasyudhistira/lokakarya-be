@@ -165,10 +165,10 @@ public class AppUserController extends ServerResponseList {
         long startTime = System.currentTimeMillis();
 
         try {
-            appUserCreateDto.setPassword(passwordEncoder.encode(appUserCreateDto.getPassword()));
+//            appUserCreateDto.setPassword(passwordEncoder.encode(appUserCreateDto.getPassword()));
 
-            AppUserDto result = appUserServ.createAppUser(appUserCreateDto);
-            ManagerDto<AppUserDto> response = new ManagerDto<>();
+            AppUserCreateDto result = appUserServ.createAppUser(appUserCreateDto);
+            ManagerDto<AppUserCreateDto> response = new ManagerDto<>();
             response.setContent(result);
             response.setTotalRows(1);
 
@@ -189,7 +189,7 @@ public class AppUserController extends ServerResponseList {
         long startTime = System.currentTimeMillis();
 
         try {
-            appUserUpdateDto.setPassword(passwordEncoder.encode(appUserUpdateDto.getPassword()));
+//            appUserUpdateDto.setPassword(passwordEncoder.encode(appUserUpdateDto.getPassword()));
             AppUserDto result = appUserServ.updateAppUser(appUserUpdateDto);
             ManagerDto<AppUserDto> response = new ManagerDto<>();
             response.setContent(result);

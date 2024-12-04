@@ -2,11 +2,13 @@ package co.id.ogya.lokakarya.security.controller;
 
 import co.id.ogya.lokakarya.dto.ManagerDto;
 import co.id.ogya.lokakarya.dto.approlemenu.AppRoleMenuGetDto;
+import co.id.ogya.lokakarya.dto.appuser.AppUserDto;
 import co.id.ogya.lokakarya.dto.appuserrole.AppUserRoleGetDto;
 import co.id.ogya.lokakarya.exceptions.UserException;
 import co.id.ogya.lokakarya.repositories.AppUserRoleRepo;
 import co.id.ogya.lokakarya.security.dto.AuthDto;
 import co.id.ogya.lokakarya.security.dto.AuthGetDto;
+import co.id.ogya.lokakarya.security.dto.AuthPasswordChangeDto;
 import co.id.ogya.lokakarya.security.service.AuthServ;
 import co.id.ogya.lokakarya.security.util.SecurityConstants;
 import co.id.ogya.lokakarya.services.AppRoleMenuServ;
@@ -126,6 +128,31 @@ public class AuthController extends ServerResponseList {
         } catch (Exception e) {
             log.error("Error fetching AppRoleMenus for role {}: {}", rolename,e.getMessage(), e);
             return new ResponseEntity<>("Failed to fetch AppRoleMenus", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PutMapping("/changepassword")
+    public ResponseEntity<?> changePassword(@RequestBody AuthPasswordChangeDto authPasswordChangeDto) {
+        log.info("Received change password request.");
+        long startTime = System.currentTimeMillis();
+        try {
+            authPasswordChangeDto.setNewPassword(passwordEncoder.encode(authPasswordChangeDto.getNewPassword()));
+
+            String result = authServ.changePassword(authPasswordChangeDto.getUserId(), authPasswordChangeDto.getNewPassword());
+            ManagerDto<String> response = new ManagerDto<>();
+            response.setContent(result);
+            response.setTotalRows(1);
+
+            long endTime = System.currentTimeMillis();
+            response.setInfo(getInfoOk("Time", endTime - startTime));
+            log.info("Password Changed for User ID: {} in {} ms", authPasswordChangeDto.getUserId(), endTime - startTime);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+
+
+        } catch (Exception e) {
+            log.error("Error fetching change password request", e);
+            return new ResponseEntity<>("Failed to fetch change password request", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

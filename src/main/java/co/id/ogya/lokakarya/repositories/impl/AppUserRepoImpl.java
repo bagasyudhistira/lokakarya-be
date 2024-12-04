@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -20,6 +21,9 @@ public class AppUserRepoImpl implements AppUserRepo {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     @Override
     public List<AppUser> getAppUsers() {
@@ -157,7 +161,8 @@ public class AppUserRepoImpl implements AppUserRepo {
         try {
             log.info("Saving AppUser: {}", appUser);
             int rowsAffected = jdbcTemplate.update(sql, appUser.getId(), appUser.getUsername(), appUser.getFullName(), appUser.getPosition(), appUser.getEmailAddress(),
-                    appUser.getEmployeeStatus(), appUser.getJoinDate(), appUser.isEnabled(), appUser.getPassword(), appUser.getDivisionId(), appUser.getCreatedBy());
+                    appUser.getEmployeeStatus(), appUser.getJoinDate(), appUser.isEnabled(), passwordEncoder.encode(appUser.getPassword()), appUser.getDivisionId(), appUser.getCreatedBy());
+
             if (rowsAffected > 0) {
                 log.info("Successfully saved AppUser: {}", appUser);
                 return appUser;
