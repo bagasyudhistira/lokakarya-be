@@ -45,15 +45,22 @@ public class SecurityConfig {
                 })
                 .authorizeHttpRequests(auth -> {
                     auth
-                            .requestMatchers("/auth/sign-in").permitAll()
-                            .requestMatchers("/v3/api-docs/**", "/swagger-ui/**").permitAll()
-                            .requestMatchers(HttpMethod.GET,"/appuser/get/{id}", "/appuser/get/common/all").permitAll()
-                            .requestMatchers( "/empattitudeskill/**", "/emptechnicalskill/**", "/empdevplan/**", "/attitudeskill/**", "/technicalskill/**", "/devplan/**", "/empsuggestion/**", "/empachievementskill/**").hasAnyRole("USER")
+                            // Routes accessible to everyone
+                            .requestMatchers("/auth/sign-in", "/v3/api-docs/**", "/swagger-ui/**").permitAll()
+
+                            // Routes accessible to specific roles
+                            .requestMatchers(HttpMethod.GET, "/appuser/get/{id}", "/appuser/get/common/all").permitAll()
+                            .requestMatchers("/empattitudeskill/**", "/emptechnicalskill/**", "/empdevplan/**",
+                                    "/attitudeskill/**", "/technicalskill/**", "/devplan/**",
+                                    "/empsuggestion/**", "/empachievementskill/**").hasAnyRole("USER")
                             .requestMatchers(HttpMethod.GET, "/groupattitudeskill/**", "/groupachievement/**").hasAnyRole("USER")
-                            .requestMatchers("/appuser/**", "/division/**", "/approlemenu/**", "/groupattitudeskill/**",
-                                    "/attitudeskill/**", "/grouptechnicalskill/**", "/technicalskill/**", "/devplan/**",
-                                    "/groupachievement/**", "/achievement/**", "/empachievement/**", "/auth/resetpassword").hasAnyRole("HR")
+                            .requestMatchers("/appuser/**", "/division/**", "/approlemenu/**",
+                                    "/groupattitudeskill/**", "/attitudeskill/**", "/grouptechnicalskill/**",
+                                    "/technicalskill/**", "/devplan/**", "/groupachievement/**",
+                                    "/achievement/**", "/empachievement/**", "/auth/resetpassword").hasAnyRole("HR")
                             .requestMatchers(HttpMethod.GET, "/assessmentsummary/**", "/auth/changepassword").hasAnyRole("HR", "USER", "SVP", "MGR")
+
+                            // Default: all other requests require authentication
                             .anyRequest().authenticated();
                 })
                 .csrf(csrf -> {
