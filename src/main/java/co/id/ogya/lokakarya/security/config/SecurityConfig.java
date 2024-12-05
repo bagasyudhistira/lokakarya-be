@@ -45,14 +45,14 @@ public class SecurityConfig {
                 })
                 .authorizeHttpRequests(auth -> {
                     auth
-                            .requestMatchers("/auth/**").permitAll()
+                            .requestMatchers("/auth/sign-in").permitAll()
                             .requestMatchers("/v3/api-docs/**", "/swagger-ui/**").permitAll()
                             .requestMatchers(HttpMethod.GET,"/appuser/get/{id}", "/appuser/get/common/all").permitAll()
                             .requestMatchers( "/empattitudeskill/**", "/emptechnicalskill/**", "/empdevplan/**", "/attitudeskill/**", "/technicalskill/**", "/devplan/**", "/empsuggestion/**", "/empachievementskill/").hasAnyRole("USER")
                             .requestMatchers("/appuser/**", "/division/**", "/approlemenu/**", "/groupattitudeskill/**",
                                     "/attitudeskill/**", "/grouptechnicalskill/**", "/technicalskill/**", "/devplan/**",
-                                    "/groupachievement/**", "/achievement/**", "/empachievement/**").hasAnyRole("HR")
-                            .requestMatchers(HttpMethod.GET, "/assessmentsummary/**").hasAnyRole("HR", "USER", "SVP", "MGR")
+                                    "/groupachievement/**", "/achievement/**", "/empachievement/**", "/auth/resetpassword").hasAnyRole("HR")
+                            .requestMatchers(HttpMethod.GET, "/assessmentsummary/**", "/auth/changepassword").hasAnyRole("HR", "USER", "SVP", "MGR")
                             .anyRequest().authenticated();
                 })
                 .csrf(csrf -> {

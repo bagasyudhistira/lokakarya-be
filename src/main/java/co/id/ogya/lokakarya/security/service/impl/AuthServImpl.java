@@ -85,7 +85,7 @@ public class AuthServImpl implements AuthServ {
             return "Password changed successfully";
         } catch (Exception e) {
             log.error("Error occurred while changing password for User ID: {}: {}", userId, e.getMessage(), e);
-            return null;
+            throw e;
         }
     }
 }

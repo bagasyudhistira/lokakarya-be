@@ -31,6 +31,7 @@ import javax.crypto.SecretKey;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Slf4j
 @Validated
@@ -156,6 +157,30 @@ public class AuthController extends ServerResponseList {
         }
     }
 
+    @PutMapping ("/resetpassword")
+    public ResponseEntity<?> resetPassword(@RequestBody String userId) {
+        log.info("Received change password request.");
+        long startTime = System.currentTimeMillis();
+        try {
+            AuthPasswordChangeDto authPasswordChangeDto = new AuthPasswordChangeDto();
+            String generatedPassword = UUID.randomUUID().toString();
+            authPasswordChangeDto.setNewPassword(passwordEncoder.encode(generatedPassword));
+
+            String result = authServ.changePassword(authPasswordChangeDto.getUserId(), authPasswordChangeDto.getNewPassword());
+            ManagerDto<String> response = new ManagerDto<>();
+            response.setContent(generatedPassword);
+            response.setTotalRows(1);
+
+            long endTime = System.currentTimeMillis();
+            response.setInfo(getInfoOk("Time", endTime - startTime));
+            log.info("Password Changed for User ID: {} in {} ms", authPasswordChangeDto.getUserId(), endTime - startTime);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
 
 
+        } catch (Exception e) {
+            log.error("Error fetching change password request", e);
+            return new ResponseEntity<>("Failed to fetch change password request", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
