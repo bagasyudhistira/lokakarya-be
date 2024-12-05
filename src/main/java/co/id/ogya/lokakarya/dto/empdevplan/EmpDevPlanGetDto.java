@@ -23,6 +23,9 @@ public class EmpDevPlanGetDto {
     @JsonProperty("full_name")
     private String fullName;
 
+    @JsonProperty("dev_plan_id")
+    private String devPlanId;
+
     @JsonProperty("plan")
     private String plan;
 
@@ -39,6 +42,7 @@ public class EmpDevPlanGetDto {
                 .id((String) convertObject.get("ID"))
                 .userId((String) convertObject.get("USER_ID"))
                 .fullName((String) convertObject.get("FULL_NAME"))
+                .devPlanId((String) convertObject.get("DEV_PLAN_ID"))
                 .plan((String) convertObject.get("PLAN"))
                 .tooBright((String) convertObject.get("TOO_BRIGHT"))
                 .assessmentYear((Integer) convertObject.get("ASSESSMENT_YEAR"))
