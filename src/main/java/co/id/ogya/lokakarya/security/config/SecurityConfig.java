@@ -48,7 +48,8 @@ public class SecurityConfig {
                             .requestMatchers("/auth/sign-in").permitAll()
                             .requestMatchers("/v3/api-docs/**", "/swagger-ui/**").permitAll()
                             .requestMatchers(HttpMethod.GET,"/appuser/get/{id}", "/appuser/get/common/all").permitAll()
-                            .requestMatchers( "/empattitudeskill/**", "/emptechnicalskill/**", "/empdevplan/**", "/attitudeskill/**", "/technicalskill/**", "/devplan/**", "/empsuggestion/**", "/empachievementskill/").hasAnyRole("USER")
+                            .requestMatchers( "/empattitudeskill/**", "/emptechnicalskill/**", "/empdevplan/**", "/attitudeskill/**", "/technicalskill/**", "/devplan/**", "/empsuggestion/**", "/empachievementskill/**").hasAnyRole("USER")
+                            .requestMatchers(HttpMethod.GET, "/groupattitudeskill/**", "/groupachievement/**").hasAnyRole("USER")
                             .requestMatchers("/appuser/**", "/division/**", "/approlemenu/**", "/groupattitudeskill/**",
                                     "/attitudeskill/**", "/grouptechnicalskill/**", "/technicalskill/**", "/devplan/**",
                                     "/groupachievement/**", "/achievement/**", "/empachievement/**", "/auth/resetpassword").hasAnyRole("HR")
