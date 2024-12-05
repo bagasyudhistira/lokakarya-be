@@ -158,15 +158,14 @@ public class AuthController extends ServerResponseList {
     }
 
     @PutMapping ("/resetpassword")
-    public ResponseEntity<?> resetPassword(@RequestBody String userId) {
+    public ResponseEntity<?> resetPassword(@RequestBody AuthPasswordChangeDto authPasswordChangeDto) {
         log.info("Received change password request.");
         long startTime = System.currentTimeMillis();
         try {
-            AuthPasswordChangeDto authPasswordChangeDto = new AuthPasswordChangeDto();
             String generatedPassword = UUID.randomUUID().toString();
             authPasswordChangeDto.setNewPassword(passwordEncoder.encode(generatedPassword));
 
-            String result = authServ.changePassword(authPasswordChangeDto.getUserId(), authPasswordChangeDto.getNewPassword());
+            authServ.changePassword(authPasswordChangeDto.getUserId(), authPasswordChangeDto.getNewPassword());
             ManagerDto<String> response = new ManagerDto<>();
             response.setContent(generatedPassword);
             response.setTotalRows(1);
