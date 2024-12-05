@@ -76,7 +76,7 @@ public class EmpDevPlanRepoImpl implements EmpDevPlanRepo {
                 "WHERE ID = ?";
         log.info("Updating EmpDevPlan with ID: {} using query: {}", empDevPlan.getId(), sql);
         try {
-            int rowsAffected = jdbcTemplate.update(sql, empDevPlan.getUserId(), empDevPlan.getDevPlanId(),
+            int rowsAffected = jdbcTemplate.update(sql, empDevPlan.getUserId(), empDevPlan.getDevPlanId(), empDevPlan.getTooBright(),
                     empDevPlan.getAssessmentYear(), empDevPlan.getUpdatedBy(), empDevPlan.getId());
             if (rowsAffected > 0) {
                 log.info("Successfully updated EmpDevPlan: {}", empDevPlan);
