@@ -28,6 +28,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class LokakaryaApplication {
 
 	public static void main(String[] args) {
+		System.setProperty("socksProxyHost", "localhost");
+		System.setProperty("socksProxyPort", "1055");
 		SpringApplication.run(LokakaryaApplication.class, args);
 	}
 
