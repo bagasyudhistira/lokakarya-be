@@ -23,7 +23,7 @@ public class EmpDevPlanRepoImpl implements EmpDevPlanRepo {
 
     @Override
     public List<EmpDevPlan> getEmpDevPlans() {
-        String sql = "SELECT * FROM TBL_EMP_DEV_PLAN";
+        String sql = "SELECT * FROM tbl_emp_dev_plan";
         log.info("Fetching all EmpDevPlans with query: {}", sql);
         try {
             List<EmpDevPlan> result = jdbcTemplate.query(sql, rowMapper);
@@ -37,7 +37,7 @@ public class EmpDevPlanRepoImpl implements EmpDevPlanRepo {
 
     @Override
     public EmpDevPlan getEmpDevPlanById(String id) {
-        String sql = "SELECT * FROM TBL_EMP_DEV_PLAN WHERE ID = ?";
+        String sql = "SELECT * FROM tbl_emp_dev_plan WHERE ID = ?";
         log.info("Fetching EmpDevPlan by ID: {} with query: {}", id, sql);
         try {
             EmpDevPlan result = jdbcTemplate.queryForObject(sql, rowMapper, id);
@@ -52,7 +52,7 @@ public class EmpDevPlanRepoImpl implements EmpDevPlanRepo {
     @Override
     public EmpDevPlan saveEmpDevPlan(EmpDevPlan empDevPlan) {
         empDevPlan.prePersist();
-        String sql = "INSERT INTO TBL_EMP_DEV_PLAN (ID, USER_ID, DEV_PLAN_ID, TOO_BRIGHT, ASSESSMENT_YEAR, CREATED_BY) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO tbl_emp_dev_plan (ID, USER_ID, DEV_PLAN_ID, TOO_BRIGHT, ASSESSMENT_YEAR, CREATED_BY) VALUES (?, ?, ?, ?, ?, ?)";
         log.info("Saving EmpDevPlan: {} with query: {}", empDevPlan, sql);
         try {
             int rowsAffected = jdbcTemplate.update(sql, empDevPlan.getId(), empDevPlan.getUserId(), empDevPlan.getDevPlanId(), empDevPlan.getTooBright(),
@@ -72,7 +72,7 @@ public class EmpDevPlanRepoImpl implements EmpDevPlanRepo {
 
     @Override
     public EmpDevPlan updateEmpDevPlan(EmpDevPlan empDevPlan) {
-        String sql = "UPDATE TBL_EMP_DEV_PLAN SET USER_ID = ?, DEV_PLAN_ID = ?, TOO_BRIGHT = ?, ASSESSMENT_YEAR = ?, UPDATED_AT = SYSDATE(), UPDATED_BY = ? " +
+        String sql = "UPDATE tbl_emp_dev_plan SET USER_ID = ?, DEV_PLAN_ID = ?, TOO_BRIGHT = ?, ASSESSMENT_YEAR = ?, UPDATED_AT = SYSDATE(), UPDATED_BY = ? " +
                 "WHERE ID = ?";
         log.info("Updating EmpDevPlan with ID: {} using query: {}", empDevPlan.getId(), sql);
         try {
@@ -93,7 +93,7 @@ public class EmpDevPlanRepoImpl implements EmpDevPlanRepo {
 
     @Override
     public Boolean deleteEmpDevPlan(String id) {
-        String sql = "DELETE FROM TBL_EMP_DEV_PLAN WHERE ID = ?";
+        String sql = "DELETE FROM tbl_emp_dev_plan WHERE ID = ?";
         log.info("Deleting EmpDevPlan with ID: {} using query: {}", id, sql);
         try {
             int rowsAffected = jdbcTemplate.update(sql, id);
@@ -113,9 +113,9 @@ public class EmpDevPlanRepoImpl implements EmpDevPlanRepo {
     @Override
     public List<Map<String, Object>> getEmpDevPlanGets() {
         String sql = "SELECT EDP.ID, EDP.USER_ID, AU.FULL_NAME, EDP.DEV_PLAN_ID, DP.PLAN, EDP.ASSESSMENT_YEAR, EDP.TOO_BRIGHT " +
-                "FROM TBL_EMP_DEV_PLAN EDP " +
-                "LEFT JOIN TBL_APP_USER AU ON EDP.USER_ID = AU.ID " +
-                "LEFT JOIN TBL_DEV_PLAN DP ON EDP.DEV_PLAN_ID = DP.ID";
+                "FROM tbl_emp_dev_plan EDP " +
+                "LEFT JOIN tbl_app_user AU ON EDP.USER_ID = AU.ID " +
+                "LEFT JOIN tbl_dev_plan DP ON EDP.DEV_PLAN_ID = DP.ID";
         log.info("Fetching all EmpDevPlans with LEFT JOIN query: {}", sql);
         try {
             List<Map<String, Object>> result = jdbcTemplate.queryForList(sql);
@@ -130,9 +130,9 @@ public class EmpDevPlanRepoImpl implements EmpDevPlanRepo {
     @Override
     public List<Map<String, Object>> getEmpDevPlanGetByUserId(String userId) {
         String sql = "SELECT EDP.ID, AU.FULL_NAME, EDP.DEV_PLAN_ID, DP.PLAN, EDP.ASSESSMENT_YEAR, EDP.TOO_BRIGHT " +
-                "FROM TBL_EMP_DEV_PLAN EDP " +
-                "LEFT JOIN TBL_APP_USER AU ON EDP.USER_ID = AU.ID " +
-                "LEFT JOIN TBL_DEV_PLAN DP ON EDP.DEV_PLAN_ID = DP.ID " +
+                "FROM tbl_emp_dev_plan EDP " +
+                "LEFT JOIN tbl_app_user AU ON EDP.USER_ID = AU.ID " +
+                "LEFT JOIN tbl_dev_plan DP ON EDP.DEV_PLAN_ID = DP.ID " +
                 "WHERE EDP.USER_ID = ?";
         log.info("Fetching EmpDevPlans by User ID: {} with LEFT JOIN query: {}", userId, sql);
         try {
@@ -148,9 +148,9 @@ public class EmpDevPlanRepoImpl implements EmpDevPlanRepo {
     @Override
     public List<Map<String, Object>> getEmpDevPlanGetByUserIdAssessmentYear(String userId, String assessmentYear) {
         String sql = "SELECT EDP.ID, AU.FULL_NAME, EDP.DEV_PLAN_ID, DP.PLAN, EDP.ASSESSMENT_YEAR, EDP.TOO_BRIGHT " +
-                "FROM TBL_EMP_DEV_PLAN EDP " +
-                "LEFT JOIN TBL_APP_USER AU ON EDP.USER_ID = AU.ID " +
-                "LEFT JOIN TBL_DEV_PLAN DP ON EDP.DEV_PLAN_ID = DP.ID " +
+                "FROM tbl_emp_dev_plan EDP " +
+                "LEFT JOIN tbl_app_user AU ON EDP.USER_ID = AU.ID " +
+                "LEFT JOIN tbl_dev_plan DP ON EDP.DEV_PLAN_ID = DP.ID " +
                 "WHERE EDP.USER_ID = ? AND EDP.ASSESSMENT_YEAR = ?";
         log.info("Fetching EmpDevPlans by User ID: {} and Assessment Year: {} with LEFT JOIN query: {}", userId, assessmentYear, sql);
         try {
@@ -165,7 +165,7 @@ public class EmpDevPlanRepoImpl implements EmpDevPlanRepo {
 
     @Override
     public Boolean ifAnyEmpDevPlanExist(String userId, String devPlanId, int assessmentYear) {
-        String sql = "SELECT ID FROM TBL_EMP_DEV_PLAN WHERE USER_ID = ? AND DEV_PLAN_ID = ? AND ASSESSMENT_YEAR = ?";
+        String sql = "SELECT ID FROM tbl_emp_dev_plan WHERE USER_ID = ? AND DEV_PLAN_ID = ? AND ASSESSMENT_YEAR = ?";
         log.info("Looking for EmpDevPlan with User ID: {}, Dev Plan ID: {}, and Assessment Year: {} with query: {}", userId, devPlanId, assessmentYear, sql);
         try {
             List<Map<String, Object>> result = jdbcTemplate.queryForList(sql, userId, devPlanId, assessmentYear);

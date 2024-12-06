@@ -23,7 +23,7 @@ public class AppMenuRepoImpl implements AppMenuRepo {
 
     @Override
     public List<AppMenu> getAppMenus() {
-        String sql = "SELECT * FROM TBL_APP_MENU";
+        String sql = "SELECT * FROM tbl_app_menu";
         try {
             log.info("Fetching all AppMenu records");
             List<AppMenu> appMenus = jdbcTemplate.query(sql, rowMapper);
@@ -37,7 +37,7 @@ public class AppMenuRepoImpl implements AppMenuRepo {
 
     @Override
     public AppMenu getAppMenuById(String id) {
-        String sql = "SELECT * FROM TBL_APP_MENU WHERE ID = ?";
+        String sql = "SELECT * FROM tbl_app_menu WHERE ID = ?";
         try {
             log.info("Fetching AppMenu record with ID: {}", id);
             AppMenu appMenu = jdbcTemplate.queryForObject(sql, rowMapper, id);
@@ -53,9 +53,9 @@ public class AppMenuRepoImpl implements AppMenuRepo {
     public List<Map<String, Object>> getAppMenuGets() {
         String sql = "SELECT AM.ID, AM.MENU_NAME, AM.CREATED_AT, AU1.FULL_NAME AS CREATED_BY_NAME, " +
                 "AM.UPDATED_AT, AU2.FULL_NAME AS UPDATED_BY_NAME " +
-                "FROM TBL_APP_MENU AM " +
-                "LEFT JOIN TBL_APP_USER AU1 ON AM.CREATED_BY = AU1.ID " +
-                "LEFT JOIN TBL_APP_USER AU2 ON AM.UPDATED_BY = AU2.ID";
+                "FROM tbl_app_menu AM " +
+                "LEFT JOIN tbl_app_user AU1 ON AM.CREATED_BY = AU1.ID " +
+                "LEFT JOIN tbl_app_user AU2 ON AM.UPDATED_BY = AU2.ID";
         try {
             log.info("Fetching detailed AppMenu records with LEFT JOIN");
             List<Map<String, Object>> appMenus = jdbcTemplate.queryForList(sql);
@@ -71,9 +71,9 @@ public class AppMenuRepoImpl implements AppMenuRepo {
     public Map<String, Object> getAppMenuGetById(String id) {
         String sql = "SELECT AM.ID, AM.MENU_NAME, AM.CREATED_AT, AU1.FULL_NAME AS CREATED_BY_NAME, " +
                 "AM.UPDATED_AT, AU2.FULL_NAME AS UPDATED_BY_NAME " +
-                "FROM TBL_APP_MENU AM " +
-                "LEFT JOIN TBL_APP_USER AU1 ON AM.CREATED_BY = AU1.ID " +
-                "LEFT JOIN TBL_APP_USER AU2 ON AM.UPDATED_BY = AU2.ID " +
+                "FROM tbl_app_menu AM " +
+                "LEFT JOIN tbl_app_user AU1 ON AM.CREATED_BY = AU1.ID " +
+                "LEFT JOIN tbl_app_user AU2 ON AM.UPDATED_BY = AU2.ID " +
                 "WHERE AM.ID = ?";
         try {
             log.info("Fetching detailed AppMenu record for ID: {} with LEFT JOIN", id);
@@ -89,7 +89,7 @@ public class AppMenuRepoImpl implements AppMenuRepo {
     @Override
     public AppMenu saveAppMenu(AppMenu appMenu) {
         appMenu.prePersist();
-        String sql = "INSERT INTO TBL_APP_MENU (ID, MENU_NAME, CREATED_BY) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO tbl_app_menu (ID, MENU_NAME, CREATED_BY) VALUES (?, ?, ?)";
         try {
             log.info("Saving AppMenu record: {}", appMenu);
             int rowsAffected = jdbcTemplate.update(sql, appMenu.getId(), appMenu.getMenuName(), appMenu.getCreatedBy());
@@ -108,7 +108,7 @@ public class AppMenuRepoImpl implements AppMenuRepo {
 
     @Override
     public AppMenu updateAppMenu(AppMenu appMenu) {
-        String sql = "UPDATE TBL_APP_MENU SET MENU_NAME = ?, UPDATED_AT = SYSDATE(), UPDATED_BY = ? WHERE ID = ?";
+        String sql = "UPDATE tbl_app_menu SET MENU_NAME = ?, UPDATED_AT = SYSDATE(), UPDATED_BY = ? WHERE ID = ?";
         try {
             log.info("Updating AppMenu record: {}", appMenu);
             int rowsAffected = jdbcTemplate.update(sql, appMenu.getMenuName(), appMenu.getUpdatedBy(), appMenu.getId());
@@ -127,7 +127,7 @@ public class AppMenuRepoImpl implements AppMenuRepo {
 
     @Override
     public Boolean deleteAppMenu(String id) {
-        String sql = "DELETE FROM TBL_APP_MENU WHERE ID = ?";
+        String sql = "DELETE FROM tbl_app_menu WHERE ID = ?";
         try {
             log.info("Deleting AppMenu record with ID: {}", id);
             int rowsAffected = jdbcTemplate.update(sql, id);

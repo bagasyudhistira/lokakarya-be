@@ -23,7 +23,7 @@ public class AssessmentSummaryRepoImpl implements AssessmentSummaryRepo {
 
     @Override
     public List<AssessmentSummary> getAssessmentSummarys() {
-        String sql = "SELECT * FROM TBL_ASSESSMENT_SUMMARY";
+        String sql = "SELECT * FROM tbl_assessment_summary";
         log.info("Executing query to fetch all AssessmentSummary records: {}", sql);
         try {
             List<AssessmentSummary> result = jdbcTemplate.query(sql, rowMapper);
@@ -37,7 +37,7 @@ public class AssessmentSummaryRepoImpl implements AssessmentSummaryRepo {
 
     @Override
     public AssessmentSummary getAssessmentSummaryById(String id) {
-        String sql = "SELECT * FROM TBL_ASSESSMENT_SUMMARY WHERE ID = ?";
+        String sql = "SELECT * FROM tbl_assessment_summary WHERE ID = ?";
         log.info("Executing query to fetch AssessmentSummary by ID: {}", id);
         try {
             AssessmentSummary result = jdbcTemplate.queryForObject(sql, rowMapper, id);
@@ -53,8 +53,8 @@ public class AssessmentSummaryRepoImpl implements AssessmentSummaryRepo {
     public List<Map<String, Object>> getAssessmentSummaryGets() {
         String sql = "SELECT au.ID AS USER_ID, FULL_NAME, YEAR, SCORE, STATUS, " +
                 "ass.CREATED_AT, ass.CREATED_BY, ass.UPDATED_AT, ass.UPDATED_BY " +
-                "FROM TBL_ASSESSMENT_SUMMARY ass " +
-                "LEFT JOIN TBL_APP_USER au ON ass.USER_ID = au.ID";
+                "FROM tbl_assessment_summary ass " +
+                "LEFT JOIN tbl_app_user au ON ass.USER_ID = au.ID";
         log.info("Executing query to fetch all AssessmentSummary records with user details: {}", sql);
         try {
             List<Map<String, Object>> result = jdbcTemplate.queryForList(sql);
@@ -70,8 +70,8 @@ public class AssessmentSummaryRepoImpl implements AssessmentSummaryRepo {
     public Map<String, Object> getAssessmentSummaryGetById(String id) {
         String sql = "SELECT ass.ID, FULL_NAME, YEAR, SCORE, STATUS, " +
                 "ass.CREATED_AT, ass.CREATED_BY, ass.UPDATED_AT, ass.UPDATED_BY " +
-                "FROM TBL_ASSESSMENT_SUMMARY ass " +
-                "LEFT JOIN TBL_APP_USER au ON ass.USER_ID = au.ID " +
+                "FROM tbl_assessment_summary ass " +
+                "LEFT JOIN tbl_app_user au ON ass.USER_ID = au.ID " +
                 "WHERE ass.ID = ?";
         log.info("Executing query to fetch AssessmentSummary by ID with user details: {}", id);
         try {
@@ -88,8 +88,8 @@ public class AssessmentSummaryRepoImpl implements AssessmentSummaryRepo {
     public List<Map<String, Object>> getAssessmentSummaryGetByUserId(String userId) {
         String sql = "SELECT ass.ID, FULL_NAME, YEAR, SCORE, STATUS, " +
                 "ass.CREATED_AT, ass.CREATED_BY, ass.UPDATED_AT, ass.UPDATED_BY " +
-                "FROM TBL_ASSESSMENT_SUMMARY ass " +
-                "LEFT JOIN TBL_APP_USER au ON ass.USER_ID = au.ID " +
+                "FROM tbl_assessment_summary ass " +
+                "LEFT JOIN tbl_app_user au ON ass.USER_ID = au.ID " +
                 "WHERE au.ID = ?";
         log.info("Executing query to fetch AssessmentSummary records by User ID: {}", userId);
         try {
@@ -105,7 +105,7 @@ public class AssessmentSummaryRepoImpl implements AssessmentSummaryRepo {
     @Override
     public AssessmentSummary saveAssessmentSummary(AssessmentSummary assessmentSummary) {
         assessmentSummary.prePersist();
-        String sql = "INSERT INTO TBL_ASSESSMENT_SUMMARY (ID, USER_ID, YEAR, SCORE, STATUS, CREATED_BY) " +
+        String sql = "INSERT INTO tbl_assessment_summary (ID, USER_ID, YEAR, SCORE, STATUS, CREATED_BY) " +
                 "VALUES (?, ?, ?, ?, ?, ?)";
         log.info("Executing query to save AssessmentSummary: {}", assessmentSummary);
         try {
@@ -127,7 +127,7 @@ public class AssessmentSummaryRepoImpl implements AssessmentSummaryRepo {
 
     @Override
     public AssessmentSummary updateAssessmentSummary(AssessmentSummary assessmentSummary) {
-        String sql = "UPDATE TBL_ASSESSMENT_SUMMARY SET USER_ID = ?, YEAR = ?, SCORE = ?, STATUS = ?, " +
+        String sql = "UPDATE tbl_assessment_summary SET USER_ID = ?, YEAR = ?, SCORE = ?, STATUS = ?, " +
                 "UPDATED_AT = SYSDATE(), UPDATED_BY = ? WHERE ID = ?";
         log.info("Executing query to update AssessmentSummary with ID: {}", assessmentSummary.getId());
         try {
@@ -149,7 +149,7 @@ public class AssessmentSummaryRepoImpl implements AssessmentSummaryRepo {
 
     @Override
     public Boolean deleteAssessmentSummary(String id) {
-        String sql = "DELETE FROM TBL_ASSESSMENT_SUMMARY WHERE ID = ?";
+        String sql = "DELETE FROM tbl_assessment_summary WHERE ID = ?";
         log.info("Executing query to delete AssessmentSummary with ID: {}", id);
         try {
             int rowsAffected = jdbcTemplate.update(sql, id);

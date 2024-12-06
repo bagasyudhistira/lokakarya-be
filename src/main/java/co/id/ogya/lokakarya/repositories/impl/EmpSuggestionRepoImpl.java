@@ -23,7 +23,7 @@ public class EmpSuggestionRepoImpl implements EmpSuggestionRepo {
 
     @Override
     public List<EmpSuggestion> getEmpSuggestions() {
-        String sql = "SELECT * FROM TBL_EMP_SUGGESTION";
+        String sql = "SELECT * FROM tbl_emp_suggestion";
         log.info("Fetching all EmpSuggestions with query: {}", sql);
         try {
             List<EmpSuggestion> result = jdbcTemplate.query(sql, rowMapper);
@@ -37,7 +37,7 @@ public class EmpSuggestionRepoImpl implements EmpSuggestionRepo {
 
     @Override
     public EmpSuggestion getEmpSuggestionById(String id) {
-        String sql = "SELECT * FROM TBL_EMP_SUGGESTION WHERE ID = ?";
+        String sql = "SELECT * FROM tbl_emp_suggestion WHERE ID = ?";
         log.info("Fetching EmpSuggestion by ID: {}. Query: {}", id, sql);
         try {
             EmpSuggestion result = jdbcTemplate.queryForObject(sql, rowMapper, id);
@@ -52,7 +52,7 @@ public class EmpSuggestionRepoImpl implements EmpSuggestionRepo {
     @Override
     public EmpSuggestion saveEmpSuggestion(EmpSuggestion empSuggestion) {
         empSuggestion.prePersist();
-        String sql = "INSERT INTO TBL_EMP_SUGGESTION (ID, USER_ID, SUGGESTION, ASSESSMENT_YEAR, CREATED_BY) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO tbl_emp_suggestion (ID, USER_ID, SUGGESTION, ASSESSMENT_YEAR, CREATED_BY) VALUES (?, ?, ?, ?, ?)";
         log.info("Saving EmpSuggestion: {}. Query: {}", empSuggestion, sql);
         try {
             int rowsAffected = jdbcTemplate.update(sql, empSuggestion.getId(), empSuggestion.getUserId(),
@@ -72,7 +72,7 @@ public class EmpSuggestionRepoImpl implements EmpSuggestionRepo {
 
     @Override
     public EmpSuggestion updateEmpSuggestion(EmpSuggestion empSuggestion) {
-        String sql = "UPDATE TBL_EMP_SUGGESTION SET USER_ID = ?, SUGGESTION = ?, ASSESSMENT_YEAR = ?, UPDATED_AT = SYSDATE(), UPDATED_BY = ? " +
+        String sql = "UPDATE tbl_emp_suggestion SET USER_ID = ?, SUGGESTION = ?, ASSESSMENT_YEAR = ?, UPDATED_AT = SYSDATE(), UPDATED_BY = ? " +
                 "WHERE ID = ?";
         log.info("Updating EmpSuggestion with ID: {}. Query: {}", empSuggestion.getId(), sql);
         try {
@@ -93,7 +93,7 @@ public class EmpSuggestionRepoImpl implements EmpSuggestionRepo {
 
     @Override
     public Boolean deleteEmpSuggestion(String id) {
-        String sql = "DELETE FROM TBL_EMP_SUGGESTION WHERE ID = ?";
+        String sql = "DELETE FROM tbl_emp_suggestion WHERE ID = ?";
         log.info("Deleting EmpSuggestion with ID: {}. Query: {}", id, sql);
         try {
             int rowsAffected = jdbcTemplate.update(sql, id);
@@ -113,8 +113,8 @@ public class EmpSuggestionRepoImpl implements EmpSuggestionRepo {
     @Override
     public List<Map<String, Object>> getEmpSuggestionGets() {
         String sql = "SELECT ES.ID, ES.USER_ID, AU.FULL_NAME, ES.SUGGESTION, ES.ASSESSMENT_YEAR " +
-                "FROM TBL_EMP_SUGGESTION ES " +
-                "LEFT JOIN TBL_APP_USER AU ON ES.USER_ID = AU.ID";
+                "FROM tbl_emp_suggestion ES " +
+                "LEFT JOIN tbl_app_user AU ON ES.USER_ID = AU.ID";
         log.info("Fetching all EmpSuggestions with LEFT JOIN query: {}", sql);
         try {
             List<Map<String, Object>> result = jdbcTemplate.queryForList(sql);
@@ -129,8 +129,8 @@ public class EmpSuggestionRepoImpl implements EmpSuggestionRepo {
     @Override
     public List<Map<String, Object>> getEmpSuggestionGetByUserId(String userId) {
         String sql = "SELECT ES.ID, ES,USER_ID, AU.FULL_NAME, ES.SUGGESTION, ES.ASSESSMENT_YEAR " +
-                "FROM TBL_EMP_SUGGESTION ES " +
-                "LEFT JOIN TBL_APP_USER AU ON ES.USER_ID = AU.ID " +
+                "FROM tbl_emp_suggestion ES " +
+                "LEFT JOIN tbl_app_user AU ON ES.USER_ID = AU.ID " +
                 "WHERE ES.USER_ID = ?";
         log.info("Fetching EmpSuggestions by UserID: {} with LEFT JOIN query: {}", userId, sql);
         try {
@@ -145,8 +145,8 @@ public class EmpSuggestionRepoImpl implements EmpSuggestionRepo {
     @Override
     public List<Map<String, Object>> getEmpSuggestionGetByCreatedBy(String userId) {
         String sql = "SELECT ES.ID, ES.USER_ID, AU.FULL_NAME, ES.SUGGESTION, ES.ASSESSMENT_YEAR " +
-                "FROM TBL_EMP_SUGGESTION ES " +
-                "LEFT JOIN TBL_APP_USER AU ON ES.USER_ID = AU.ID " +
+                "FROM tbl_emp_suggestion ES " +
+                "LEFT JOIN tbl_app_user AU ON ES.USER_ID = AU.ID " +
                 "WHERE ES.CREATED_BY = ?";
         log.info("Fetching EmpSuggestions made by UserID: {} with LEFT JOIN query: {}", userId, sql);
         try {
@@ -161,7 +161,7 @@ public class EmpSuggestionRepoImpl implements EmpSuggestionRepo {
 
     @Override
     public Boolean ifAnyEmpSuggestionExist(String userId, int assessmentYear) {
-        String sql = "SELECT ID FROM TBL_EMP_SUGGESTION WHERE USER_ID = ? AND ASSESSMENT_YEAR = ?";
+        String sql = "SELECT ID FROM tbl_emp_suggestion WHERE USER_ID = ? AND ASSESSMENT_YEAR = ?";
         log.info("Looking for EmpSuggestion with User ID: {} and Assessment Year: {} with query: {}", userId, assessmentYear, sql);
         try {
             List<Map<String, Object>> result = jdbcTemplate.queryForList(sql, userId, assessmentYear);

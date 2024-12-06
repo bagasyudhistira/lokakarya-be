@@ -24,7 +24,7 @@ public class AchievementRepoImpl implements AchievementRepo {
 
     @Override
     public List<Achievement> getAchievements() {
-        String sql = "SELECT * FROM TBL_ACHIEVEMENT";
+        String sql = "SELECT * FROM tbl_achievement";
         log.info("Executing query to fetch all achievements: {}", sql);
         try {
             List<Achievement> achievements = jdbcTemplate.query(sql, rowMapper);
@@ -38,7 +38,7 @@ public class AchievementRepoImpl implements AchievementRepo {
 
     @Override
     public Achievement getAchievementById(String id) {
-        String sql = "SELECT * FROM TBL_ACHIEVEMENT WHERE ID = ?";
+        String sql = "SELECT * FROM tbl_achievement WHERE ID = ?";
         log.info("Executing query to fetch achievement with ID: {} using query: {}", id, sql);
         try {
             Achievement achievement = jdbcTemplate.queryForObject(sql, rowMapper, id);
@@ -53,8 +53,8 @@ public class AchievementRepoImpl implements AchievementRepo {
     @Override
     public List<Map<String, Object>> getAchievementGets() {
         String sql = "SELECT a.ID, ACHIEVEMENT, GROUP_NAME, a.ENABLED " +
-                "FROM TBL_ACHIEVEMENT a " +
-                "LEFT JOIN TBL_GROUP_ACHIEVEMENT ga ON a.GROUP_ID = ga.ID";
+                "FROM tbl_achievement a " +
+                "LEFT JOIN tbl_group_achievement ga ON a.GROUP_ID = ga.ID";
         log.info("Executing query to fetch all achievements: {}", sql);
         try {
             List<Map<String, Object>> achievements = jdbcTemplate.queryForList(sql);
@@ -69,8 +69,8 @@ public class AchievementRepoImpl implements AchievementRepo {
     @Override
     public Map<String, Object> getAchievementGetById(String id) {
         String sql = "SELECT a.ID, ACHIEVEMENT, GROUP_NAME, a.ENABLED " +
-                "FROM TBL_ACHIEVEMENT a " +
-                "LEFT JOIN TBL_GROUP_ACHIEVEMENT ga ON a.GROUP_ID = ga.ID " +
+                "FROM tbl_achievement a " +
+                "LEFT JOIN tbl_group_achievement ga ON a.GROUP_ID = ga.ID " +
                 "WHERE a.ID = ?";
         log.info("Executing query to fetch achievement with ID: {} using query: {}", id, sql);
         try {
@@ -86,7 +86,7 @@ public class AchievementRepoImpl implements AchievementRepo {
     @Override
     public Achievement saveAchievement(Achievement achievement) {
         achievement.prePersist();
-        String sql = "INSERT INTO TBL_ACHIEVEMENT (ID, ACHIEVEMENT, GROUP_ID, ENABLED, CREATED_BY) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO tbl_achievement (ID, ACHIEVEMENT, GROUP_ID, ENABLED, CREATED_BY) VALUES (?, ?, ?, ?, ?)";
         log.info("Executing query to save new achievement: {} using query: {}", achievement, sql);
         try {
             int rowsAffected = jdbcTemplate.update(sql, achievement.getId(), achievement.getAchievement(), achievement.getGroupId(), achievement.isEnabled(), achievement.getCreatedBy());
@@ -105,7 +105,7 @@ public class AchievementRepoImpl implements AchievementRepo {
 
     @Override
     public Achievement updateAchievement(Achievement achievement) {
-        String sql = "UPDATE TBL_ACHIEVEMENT SET ACHIEVEMENT = ?, GROUP_ID = ?, ENABLED = ?, UPDATED_AT = SYSDATE(), UPDATED_BY = ? WHERE ID = ?";
+        String sql = "UPDATE tbl_achievement SET ACHIEVEMENT = ?, GROUP_ID = ?, ENABLED = ?, UPDATED_AT = SYSDATE(), UPDATED_BY = ? WHERE ID = ?";
         log.info("Executing query to update achievement with ID: {} using query: {}", achievement.getId(), sql);
         try {
             int rowsAffected = jdbcTemplate.update(sql, achievement.getAchievement(), achievement.getGroupId(), achievement.isEnabled(), achievement.getUpdatedBy(), achievement.getId());
@@ -124,7 +124,7 @@ public class AchievementRepoImpl implements AchievementRepo {
 
     @Override
     public Boolean deleteAchievement(String id) {
-        String sql = "DELETE FROM TBL_ACHIEVEMENT WHERE ID = ?";
+        String sql = "DELETE FROM tbl_achievement WHERE ID = ?";
         log.info("Executing query to delete achievement with ID: {} using query: {}", id, sql);
         try {
             int rowsAffected = jdbcTemplate.update(sql, id);

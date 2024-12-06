@@ -23,7 +23,7 @@ public class EmpAchievementSkillRepoImpl implements EmpAchievementSkillRepo {
 
     @Override
     public List<EmpAchievementSkill> getEmpAchievementSkills() {
-        String sql = "SELECT * FROM TBL_EMP_ACHIEVEMENT_SKILL";
+        String sql = "SELECT * FROM tbl_emp_achievement_skill";
         log.info("Executing query to fetch all employee achievement skills: {}", sql);
         try {
             List<EmpAchievementSkill> result = jdbcTemplate.query(sql, rowMapper);
@@ -37,7 +37,7 @@ public class EmpAchievementSkillRepoImpl implements EmpAchievementSkillRepo {
 
     @Override
     public EmpAchievementSkill getEmpAchievementSkillById(String id) {
-        String sql = "SELECT * FROM TBL_EMP_ACHIEVEMENT_SKILL WHERE ID = ?";
+        String sql = "SELECT * FROM tbl_emp_achievement_skill WHERE ID = ?";
         log.info("Executing query to fetch employee achievement skill by ID: {}", id);
         try {
             EmpAchievementSkill result = jdbcTemplate.queryForObject(sql, rowMapper, id);
@@ -52,9 +52,9 @@ public class EmpAchievementSkillRepoImpl implements EmpAchievementSkillRepo {
     @Override
     public List<Map<String, Object>> getEmpAchievementSkillGets() {
         String sql = "SELECT eas.ID, FULL_NAME, NOTES, ACHIEVEMENT, SCORE, ASSESSMENT_YEAR " +
-                "FROM TBL_EMP_ACHIEVEMENT_SKILL eas " +
-                "LEFT JOIN TBL_APP_USER au ON eas.USER_ID = au.ID " +
-                "LEFT JOIN TBL_ACHIEVEMENT a ON eas.ACHIEVEMENT_ID = a.ID";
+                "FROM tbl_emp_achievement_skill eas " +
+                "LEFT JOIN tbl_app_user au ON eas.USER_ID = au.ID " +
+                "LEFT JOIN tbl_achievement a ON eas.ACHIEVEMENT_ID = a.ID";
         log.info("Executing query to fetch all employee achievement skills with user and achievement details.");
         try {
             List<Map<String, Object>> result = jdbcTemplate.queryForList(sql);
@@ -69,9 +69,9 @@ public class EmpAchievementSkillRepoImpl implements EmpAchievementSkillRepo {
     @Override
     public Map<String, Object> getEmpAchievementSkillGetById(String id) {
         String sql = "SELECT eas.ID, FULL_NAME, NOTES, ACHIEVEMENT, SCORE, ASSESSMENT_YEAR " +
-                "FROM TBL_EMP_ACHIEVEMENT_SKILL eas " +
-                "LEFT JOIN TBL_APP_USER au ON eas.USER_ID = au.ID " +
-                "LEFT JOIN TBL_ACHIEVEMENT a ON eas.ACHIEVEMENT_ID = a.ID " +
+                "FROM tbl_emp_achievement_skill eas " +
+                "LEFT JOIN tbl_app_user au ON eas.USER_ID = au.ID " +
+                "LEFT JOIN tbl_achievement a ON eas.ACHIEVEMENT_ID = a.ID " +
                 "WHERE eas.ID = ?";
         log.info("Executing query to fetch employee achievement skill by ID: {}", id);
         try {
@@ -86,7 +86,7 @@ public class EmpAchievementSkillRepoImpl implements EmpAchievementSkillRepo {
 
     @Override
     public List<Map<String, Object>> getEmpAchievementSkillGetsByUserId(String userId) {
-        String sql = "SELECT EAS.ID, AU.FULL_NAME, A.ACHIEVEMENT, EAS.ASSESSMENT_YEAR FROM TBL_EMP_ACHIEVEMENT_SKILL EAS JOIN TBL_APP_USER AU ON EAS.USER_ID = AU.ID JOIN TBL_ACHIEVEMENT A ON EAS.ACHIEVEMENT_ID = A.ID WHERE EAS.USER_ID = ?";
+        String sql = "SELECT EAS.ID, AU.FULL_NAME, A.ACHIEVEMENT, EAS.ASSESSMENT_YEAR FROM tbl_emp_achievement_skill EAS JOIN tbl_app_user AU ON EAS.USER_ID = AU.ID JOIN tbl_achievement A ON EAS.ACHIEVEMENT_ID = A.ID WHERE EAS.USER_ID = ?";
         log.info("Executing query to fetch employee achievement skill by User ID: {}", userId);
         try {
             List<Map<String, Object>> result = jdbcTemplate.queryForList(sql, userId);
@@ -102,7 +102,7 @@ public class EmpAchievementSkillRepoImpl implements EmpAchievementSkillRepo {
     @Override
     public EmpAchievementSkill saveEmpAchievementSkill(EmpAchievementSkill empAchievementSkill) {
         empAchievementSkill.prePersist();
-        String sql = "INSERT INTO TBL_EMP_ACHIEVEMENT_SKILL (ID, USER_ID, NOTES, ACHIEVEMENT_ID, SCORE, ASSESSMENT_YEAR, CREATED_BY) " +
+        String sql = "INSERT INTO tbl_emp_achievement_skill (ID, USER_ID, NOTES, ACHIEVEMENT_ID, SCORE, ASSESSMENT_YEAR, CREATED_BY) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?)";
         log.info("Executing query to save employee achievement skill: {}", empAchievementSkill);
         try {
@@ -124,7 +124,7 @@ public class EmpAchievementSkillRepoImpl implements EmpAchievementSkillRepo {
 
     @Override
     public EmpAchievementSkill updateEmpAchievementSkill(EmpAchievementSkill empAchievementSkill) {
-        String sql = "UPDATE TBL_EMP_ACHIEVEMENT_SKILL SET USER_ID = ?, NOTES = ?, ACHIEVEMENT_ID = ?, SCORE = ?, " +
+        String sql = "UPDATE tbl_emp_achievement_skill SET USER_ID = ?, NOTES = ?, ACHIEVEMENT_ID = ?, SCORE = ?, " +
                 "ASSESSMENT_YEAR = ?, UPDATED_AT = SYSDATE(), UPDATED_BY = ? WHERE ID = ?";
         log.info("Executing query to update employee achievement skill with ID: {}", empAchievementSkill.getId());
         try {
@@ -146,7 +146,7 @@ public class EmpAchievementSkillRepoImpl implements EmpAchievementSkillRepo {
 
     @Override
     public Boolean deleteEmpAchievementSkill(String id) {
-        String sql = "DELETE FROM TBL_EMP_ACHIEVEMENT_SKILL WHERE ID = ?";
+        String sql = "DELETE FROM tbl_emp_achievement_skill WHERE ID = ?";
         log.info("Executing query to delete employee achievement skill with ID: {}", id);
         try {
             int rowsAffected = jdbcTemplate.update(sql, id);
@@ -165,7 +165,7 @@ public class EmpAchievementSkillRepoImpl implements EmpAchievementSkillRepo {
 
     @Override
     public Boolean ifAnyEmpAchievementSkillExist(String userId, String achievementId, int assessmentYear) {
-        String sql = "SELECT ID FROM TBL_EMP_ACHIEVEMENT_SKILL WHERE USER_ID = ? AND ACHIEVEMENT_ID = ? AND ASSESSMENT_YEAR = ?";
+        String sql = "SELECT ID FROM tbl_emp_achievement_skill WHERE USER_ID = ? AND ACHIEVEMENT_ID = ? AND ASSESSMENT_YEAR = ?";
         log.info("Looking for EmpAchievementSkill with User ID: {}, Achievement ID: {}, and Assessment Year: {} with query: {}", userId, achievementId, assessmentYear, sql);
         try {
             List<Map<String, Object>> result = jdbcTemplate.queryForList(sql, userId, achievementId, assessmentYear);
@@ -184,7 +184,7 @@ public class EmpAchievementSkillRepoImpl implements EmpAchievementSkillRepo {
 
     @Override
     public List<Map<String, Object>> getEmpAchievementSkillGetsByUserIdAssessmentYear(String userId, int assessmentYear) {
-        String sql = "SELECT EAS.ID, EAS.ACHIEVEMENT_ID, EAS.NOTES, EAS.SCORE, ACH.GROUP_ID FROM TBL_EMP_ACHIEVEMENT_SKILL EAS JOIN TBL_ACHIEVEMENT ACH ON EAS.ACHIEVEMENT_ID = ACH.ID WHERE EAS.USER_ID = ? AND EAS.ASSESSMENT_YEAR = ?";
+        String sql = "SELECT EAS.ID, EAS.ACHIEVEMENT_ID, EAS.NOTES, EAS.SCORE, ACH.GROUP_ID FROM tbl_emp_achievement_skill EAS JOIN tbl_achievement ACH ON EAS.ACHIEVEMENT_ID = ACH.ID WHERE EAS.USER_ID = ? AND EAS.ASSESSMENT_YEAR = ?";
         log.info("Fetching all EmpAchievementSkills for User ID: {} and Assessment Year: {} with JOIN query: {}", userId, assessmentYear,sql);
         try {
             List<Map<String, Object>> result = jdbcTemplate.queryForList(sql, userId, assessmentYear);

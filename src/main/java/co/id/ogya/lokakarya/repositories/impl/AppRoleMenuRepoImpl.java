@@ -23,7 +23,7 @@ public class AppRoleMenuRepoImpl implements AppRoleMenuRepo {
 
     @Override
     public List<AppRoleMenu> getAppRoleMenus() {
-        String sql = "SELECT * FROM TBL_APP_ROLE_MENU";
+        String sql = "SELECT * FROM tbl_app_role_menu";
         try {
             log.info("Fetching all AppRoleMenu records");
             List<AppRoleMenu> appRoleMenus = jdbcTemplate.query(sql, rowMapper);
@@ -37,7 +37,7 @@ public class AppRoleMenuRepoImpl implements AppRoleMenuRepo {
 
     @Override
     public AppRoleMenu getAppRoleMenuById(String id) {
-        String sql = "SELECT * FROM TBL_APP_ROLE_MENU WHERE ID = ?";
+        String sql = "SELECT * FROM tbl_app_role_menu WHERE ID = ?";
         try {
             log.info("Fetching AppRoleMenu record with ID: {}", id);
             AppRoleMenu appRoleMenu = jdbcTemplate.queryForObject(sql, rowMapper, id);
@@ -51,9 +51,9 @@ public class AppRoleMenuRepoImpl implements AppRoleMenuRepo {
 
     @Override
     public List<Map<String, Object>> getAppRoleMenuByRolename(String rolename) {
-        String sql = "SELECT ARM.ID, ROLENAME, MENU_NAME  FROM TBL_APP_ROLE_MENU ARM " +
-                "LEFT JOIN TBL_APP_ROLE AR on ARM.ROLE_ID = AR.ID " +
-                "LEFT JOIN TBL_APP_MENU AM on ARM.MENU_ID = AM.ID " +
+        String sql = "SELECT ARM.ID, ROLENAME, MENU_NAME  FROM tbl_app_role_menu ARM " +
+                "LEFT JOIN tbl_app_role AR on ARM.ROLE_ID = AR.ID " +
+                "LEFT JOIN tbl_app_menu AM on ARM.MENU_ID = AM.ID " +
                 "WHERE ROLENAME = ?";
         try {
             log.info("Fetching AppRoleMenu record with role: {}", rolename);
@@ -69,7 +69,7 @@ public class AppRoleMenuRepoImpl implements AppRoleMenuRepo {
     @Override
     public AppRoleMenu saveAppRoleMenu(AppRoleMenu appRoleMenu) {
         appRoleMenu.prePersist();
-        String sql = "INSERT INTO TBL_APP_ROLE_MENU (ID, ROLE_ID, MENU_ID) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO tbl_app_role_menu (ID, ROLE_ID, MENU_ID) VALUES (?, ?, ?)";
         try {
             log.info("Saving AppRoleMenu record: {}", appRoleMenu);
             int rowsAffected = jdbcTemplate.update(sql, appRoleMenu.getId(), appRoleMenu.getRoleId(), appRoleMenu.getMenuId());
@@ -88,7 +88,7 @@ public class AppRoleMenuRepoImpl implements AppRoleMenuRepo {
 
     @Override
     public AppRoleMenu updateAppRoleMenu(AppRoleMenu appRoleMenu) {
-        String sql = "UPDATE TBL_APP_ROLE_MENU SET ROLE_ID = ?, MENU_ID = ? WHERE ID = ?";
+        String sql = "UPDATE tbl_app_role_menu SET ROLE_ID = ?, MENU_ID = ? WHERE ID = ?";
         try {
             log.info("Updating AppRoleMenu record with ID: {}", appRoleMenu.getId());
             int rowsAffected = jdbcTemplate.update(sql, appRoleMenu.getRoleId(), appRoleMenu.getMenuId(), appRoleMenu.getId());
@@ -107,7 +107,7 @@ public class AppRoleMenuRepoImpl implements AppRoleMenuRepo {
 
     @Override
     public Boolean deleteAppRoleMenu(String id) {
-        String sql = "DELETE FROM TBL_APP_ROLE_MENU WHERE ID = ?";
+        String sql = "DELETE FROM tbl_app_role_menu WHERE ID = ?";
         try {
             log.info("Deleting AppRoleMenu record with ID: {}", id);
             int rowsAffected = jdbcTemplate.update(sql, id);
@@ -127,9 +127,9 @@ public class AppRoleMenuRepoImpl implements AppRoleMenuRepo {
     @Override
     public List<Map<String, Object>> getAppRoleMenuGets() {
         String sql = "SELECT ARM.ID, AR.ROLENAME, AM.MENU_NAME " +
-                "FROM TBL_APP_ROLE_MENU ARM " +
-                "LEFT JOIN TBL_APP_ROLE AR ON ARM.ROLE_ID = AR.ID " +
-                "LEFT JOIN TBL_APP_MENU AM ON ARM.MENU_ID = AM.ID";
+                "FROM tbl_app_role_menu ARM " +
+                "LEFT JOIN tbl_app_role AR ON ARM.ROLE_ID = AR.ID " +
+                "LEFT JOIN tbl_app_menu AM ON ARM.MENU_ID = AM.ID";
         try {
             log.info("Fetching all detailed AppRoleMenu records with LEFT JOIN");
             List<Map<String, Object>> appRoleMenus = jdbcTemplate.queryForList(sql);
@@ -144,9 +144,9 @@ public class AppRoleMenuRepoImpl implements AppRoleMenuRepo {
     @Override
     public List<Map<String, Object>> getAppRoleMenuGetByRoleId(String roleId) {
         String sql = "SELECT ARM.ID, AR.ROLENAME, AM.MENU_NAME " +
-                "FROM TBL_APP_ROLE_MENU ARM " +
-                "LEFT JOIN TBL_APP_ROLE AR ON ARM.ROLE_ID = AR.ID " +
-                "LEFT JOIN TBL_APP_MENU AM ON ARM.MENU_ID = AM.ID " +
+                "FROM tbl_app_role_menu ARM " +
+                "LEFT JOIN tbl_app_role AR ON ARM.ROLE_ID = AR.ID " +
+                "LEFT JOIN tbl_app_menu AM ON ARM.MENU_ID = AM.ID " +
                 "WHERE ARM.ROLE_ID = ?";
         try {
             log.info("Fetching AppRoleMenu records for Role ID: {}", roleId);
@@ -162,9 +162,9 @@ public class AppRoleMenuRepoImpl implements AppRoleMenuRepo {
     @Override
     public List<Map<String, Object>> getAppRoleMenuGetByMenuId(String menuId) {
         String sql = "SELECT ARM.ID, AR.ROLENAME, AM.MENU_NAME " +
-                "FROM TBL_APP_ROLE_MENU ARM " +
-                "LEFT JOIN TBL_APP_ROLE AR ON ARM.ROLE_ID = AR.ID " +
-                "LEFT JOIN TBL_APP_MENU AM ON ARM.MENU_ID = AM.ID " +
+                "FROM tbl_app_role_menu ARM " +
+                "LEFT JOIN tbl_app_role AR ON ARM.ROLE_ID = AR.ID " +
+                "LEFT JOIN tbl_app_menu AM ON ARM.MENU_ID = AM.ID " +
                 "WHERE ARM.MENU_ID = ?";
         try {
             log.info("Fetching AppRoleMenu records for Menu ID: {}", menuId);

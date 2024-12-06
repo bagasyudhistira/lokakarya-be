@@ -22,7 +22,7 @@ public class TechnicalSkillRepoImpl implements TechnicalSkillRepo {
 
     @Override
     public List<TechnicalSkill> getTechnicalSkills() {
-        String sql = "SELECT * FROM TBL_TECHNICAL_SKILL";
+        String sql = "SELECT * FROM tbl_technical_skill";
         log.info("Executing query to fetch all TechnicalSkills: {}", sql);
         try {
             List<TechnicalSkill> result = jdbcTemplate.query(sql, rowMapper);
@@ -36,7 +36,7 @@ public class TechnicalSkillRepoImpl implements TechnicalSkillRepo {
 
     @Override
     public TechnicalSkill getTechnicalSkillById(String id) {
-        String sql = "SELECT * FROM TBL_TECHNICAL_SKILL " +
+        String sql = "SELECT * FROM tbl_technical_skill " +
                 "WHERE ID = ?";
         log.info("Executing query to fetch TechnicalSkill by ID: {}. Query: {}", id, sql);
         try {
@@ -52,7 +52,7 @@ public class TechnicalSkillRepoImpl implements TechnicalSkillRepo {
     @Override
     public TechnicalSkill saveTechnicalSkill(TechnicalSkill technicalSkill) {
         technicalSkill.prePersist();
-        String sql = "INSERT INTO TBL_TECHNICAL_SKILL (ID, TECHNICAL_SKILL, ENABLED, CREATED_BY) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO tbl_technical_skill (ID, TECHNICAL_SKILL, ENABLED, CREATED_BY) VALUES (?, ?, ?, ?)";
         log.info("Executing query to save TechnicalSkill: {}. Query: {}", technicalSkill, sql);
         try {
             int rowsAffected = jdbcTemplate.update(sql, technicalSkill.getId(), technicalSkill.getTechnicalSkill(), technicalSkill.isEnabled(), technicalSkill.getCreatedBy());
@@ -71,7 +71,7 @@ public class TechnicalSkillRepoImpl implements TechnicalSkillRepo {
 
     @Override
     public TechnicalSkill updateTechnicalSkill(TechnicalSkill technicalSkill) {
-        String sql = "UPDATE TBL_TECHNICAL_SKILL SET TECHNICAL_SKILL = ?, ENABLED = ?, UPDATED_AT = SYSDATE(), UPDATED_BY = ? " +
+        String sql = "UPDATE tbl_technical_skill SET TECHNICAL_SKILL = ?, ENABLED = ?, UPDATED_AT = SYSDATE(), UPDATED_BY = ? " +
                 "WHERE ID = ?";
         log.info("Executing query to update TechnicalSkill with ID: {}. Query: {}", technicalSkill.getId(), sql);
         try {
@@ -91,7 +91,7 @@ public class TechnicalSkillRepoImpl implements TechnicalSkillRepo {
 
     @Override
     public Boolean deleteTechnicalSkill(String id) {
-        String sql = "DELETE FROM TBL_TECHNICAL_SKILL " +
+        String sql = "DELETE FROM tbl_technical_skill " +
                 "WHERE ID = ?";
         log.info("Executing query to delete TechnicalSkill with ID: {}. Query: {}", id, sql);
         try {

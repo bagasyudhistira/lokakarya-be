@@ -21,7 +21,7 @@ public class AuthRepoImpl implements AuthRepo {
 
     @Override
     public AppUser getAppUser(String username) {
-        String sql = "SELECT * FROM TBL_APP_USER WHERE USERNAME = ?";
+        String sql = "SELECT * FROM tbl_app_user WHERE USERNAME = ?";
         log.info("Executing query to fetch AppUser by username: {} using query: {}", username, sql);
         try {
             AppUser appUser = jdbcTemplate.queryForObject(sql, rowMapper, username);
@@ -35,7 +35,7 @@ public class AuthRepoImpl implements AuthRepo {
 
     @Override
     public Integer changePassword(String userId, String newPassword) {
-        String sql = "UPDATE TBL_APP_USER SET PASSWORD = ? WHERE ID = ?";
+        String sql = "UPDATE tbl_app_user SET PASSWORD = ? WHERE ID = ?";
         return jdbcTemplate.update(sql, newPassword, userId);
     }
 }

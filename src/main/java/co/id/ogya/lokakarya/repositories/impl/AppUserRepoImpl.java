@@ -27,7 +27,7 @@ public class AppUserRepoImpl implements AppUserRepo {
 
     @Override
     public List<AppUser> getAppUsers() {
-        String sql = "SELECT * FROM TBL_APP_USER";
+        String sql = "SELECT * FROM tbl_app_user";
         try {
             log.info("Fetching all AppUsers");
             List<AppUser> appUsers = jdbcTemplate.query(sql, rowMapper);
@@ -41,7 +41,7 @@ public class AppUserRepoImpl implements AppUserRepo {
 
     @Override
     public AppUser getAppUserById(String id) {
-        String sql = "SELECT * FROM TBL_APP_USER WHERE ID = ?";
+        String sql = "SELECT * FROM tbl_app_user WHERE ID = ?";
         try {
             log.info("Fetching AppUser by ID: {}", id);
             AppUser appUser = jdbcTemplate.queryForObject(sql, rowMapper, id);
@@ -57,8 +57,8 @@ public class AppUserRepoImpl implements AppUserRepo {
     public List<Map<String, Object>> getAppUserGets() {
         String sql = "SELECT au.ID, USERNAME, FULL_NAME, POSITION, EMAIL_ADDRESS, EMPLOYEE_STATUS, " +
                 "JOIN_DATE, ENABLED, PASSWORD, DIVISION_NAME " +
-                "FROM TBL_APP_USER au " +
-                "LEFT JOIN TBL_DIVISION d ON au.DIVISION_ID = d.ID";
+                "FROM tbl_app_user au " +
+                "LEFT JOIN tbl_division d ON au.DIVISION_ID = d.ID";
         try {
             log.info("Fetching all detailed AppUsers with LEFT JOIN");
             List<Map<String, Object>> appUsers = jdbcTemplate.queryForList(sql);
@@ -74,8 +74,8 @@ public class AppUserRepoImpl implements AppUserRepo {
     public Map<String, Object> getAppUserGetById(String id) {
         String sql = "SELECT au.ID, USERNAME, FULL_NAME, POSITION, EMAIL_ADDRESS, EMPLOYEE_STATUS, " +
                 "JOIN_DATE, ENABLED, PASSWORD, DIVISION_NAME " +
-                "FROM TBL_APP_USER au " +
-                "LEFT JOIN TBL_DIVISION d ON au.DIVISION_ID = d.ID " +
+                "FROM tbl_app_user au " +
+                "LEFT JOIN tbl_division d ON au.DIVISION_ID = d.ID " +
                 "WHERE au.ID = ?";
         try {
             log.info("Fetching detailed AppUser by ID: {}", id);
@@ -92,8 +92,8 @@ public class AppUserRepoImpl implements AppUserRepo {
     public Map<String, Object> getAppUserByUsername(String username) {
         String sql = "SELECT au.ID, USERNAME, FULL_NAME, POSITION, EMAIL_ADDRESS, EMPLOYEE_STATUS, " +
                 "JOIN_DATE, ENABLED, PASSWORD, DIVISION_NAME " +
-                "FROM TBL_APP_USER au " +
-                "LEFT JOIN TBL_DIVISION d ON au.DIVISION_ID = d.ID " +
+                "FROM tbl_app_user au " +
+                "LEFT JOIN tbl_division d ON au.DIVISION_ID = d.ID " +
                 "WHERE LOWER(USERNAME) = ?";
         try {
             log.info("Fetching detailed AppUser by username: {}", username);
@@ -124,8 +124,8 @@ public class AppUserRepoImpl implements AppUserRepo {
     public Map<String, Object> getAppUserByFullName(String fullName) {
         String sql = "SELECT au.ID, USERNAME, FULL_NAME, POSITION, EMAIL_ADDRESS, EMPLOYEE_STATUS, " +
                 "JOIN_DATE, ENABLED, PASSWORD, DIVISION_NAME " +
-                "FROM TBL_APP_USER au " +
-                "LEFT JOIN TBL_DIVISION d ON au.DIVISION_ID = d.ID " +
+                "FROM tbl_app_user au " +
+                "LEFT JOIN tbl_division d ON au.DIVISION_ID = d.ID " +
                 "WHERE LOWER(FULL_NAME) LIKE LOWER(CONCAT('%', ?, '%'))";
         try {
             log.info("Fetching detailed AppUser by full name: {}", fullName);
@@ -156,7 +156,7 @@ public class AppUserRepoImpl implements AppUserRepo {
     @Override
     public AppUser saveAppUser(AppUser appUser) {
         appUser.prePersist();
-        String sql = "INSERT INTO TBL_APP_USER (ID, USERNAME, FULL_NAME, POSITION, EMAIL_ADDRESS, EMPLOYEE_STATUS, JOIN_DATE, ENABLED, PASSWORD, DIVISION_ID, CREATED_BY) " +
+        String sql = "INSERT INTO tbl_app_user (ID, USERNAME, FULL_NAME, POSITION, EMAIL_ADDRESS, EMPLOYEE_STATUS, JOIN_DATE, ENABLED, PASSWORD, DIVISION_ID, CREATED_BY) " +
                 "VALUES (?, LOWER(?), ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
             log.info("Saving AppUser: {}", appUser);
@@ -178,7 +178,7 @@ public class AppUserRepoImpl implements AppUserRepo {
 
     @Override
     public AppUser updateAppUser(AppUser appUser) {
-        String sql = "UPDATE TBL_APP_USER SET FULL_NAME = ?, POSITION = ?, EMAIL_ADDRESS = ?, EMPLOYEE_STATUS = ?, JOIN_DATE = ?, ENABLED = ?, " +
+        String sql = "UPDATE tbl_app_user SET FULL_NAME = ?, POSITION = ?, EMAIL_ADDRESS = ?, EMPLOYEE_STATUS = ?, JOIN_DATE = ?, ENABLED = ?, " +
                 "DIVISION_ID = ?, UPDATED_AT = SYSDATE(), UPDATED_BY = ? WHERE ID = ?";
         try {
             log.info("Updating AppUser with ID: {}", appUser.getId());
@@ -199,7 +199,7 @@ public class AppUserRepoImpl implements AppUserRepo {
 
     @Override
     public Boolean deleteAppUser(String id) {
-        String sql = "DELETE FROM TBL_APP_USER WHERE ID = ?";
+        String sql = "DELETE FROM tbl_app_user WHERE ID = ?";
         try {
             log.info("Deleting AppUser with ID: {}", id);
             int rowsAffected = jdbcTemplate.update(sql, id);
@@ -218,7 +218,7 @@ public class AppUserRepoImpl implements AppUserRepo {
 
     @Override
     public List<Map<String, Object>> getAppUsersCommons() {
-        String sql = "SELECT ID, FULL_NAME FROM TBL_APP_USER";
+        String sql = "SELECT ID, FULL_NAME FROM tbl_app_user";
         log.info("Executing query to fetch AppUsers using query: {}", sql);
         try {
             log.info("Successfully fetched AppUsers");

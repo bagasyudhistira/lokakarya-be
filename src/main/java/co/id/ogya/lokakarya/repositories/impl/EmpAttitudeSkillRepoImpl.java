@@ -23,7 +23,7 @@ public class EmpAttitudeSkillRepoImpl implements EmpAttitudeSkillRepo {
 
     @Override
     public List<EmpAttitudeSkill> getEmpAttitudeSkills() {
-        String sql = "SELECT * FROM TBL_EMP_ATTITUDE_SKILL";
+        String sql = "SELECT * FROM tbl_emp_attitude_skill";
         log.info("Fetching all EmpAttitudeSkills with query: {}", sql);
         try {
             List<EmpAttitudeSkill> result = jdbcTemplate.query(sql, rowMapper);
@@ -37,7 +37,7 @@ public class EmpAttitudeSkillRepoImpl implements EmpAttitudeSkillRepo {
 
     @Override
     public EmpAttitudeSkill getEmpAttitudeSkillById(String id) {
-        String sql = "SELECT * FROM TBL_EMP_ATTITUDE_SKILL WHERE ID = ?";
+        String sql = "SELECT * FROM tbl_emp_attitude_skill WHERE ID = ?";
         log.info("Fetching EmpAttitudeSkill by ID: {} with query: {}", id, sql);
         try {
             EmpAttitudeSkill result = jdbcTemplate.queryForObject(sql, rowMapper, id);
@@ -52,9 +52,9 @@ public class EmpAttitudeSkillRepoImpl implements EmpAttitudeSkillRepo {
     @Override
     public List<Map<String, Object>> getEmpAttitudeSkillGets() {
         String sql = "SELECT eas.ID, eas.USER_ID, au.FULL_NAME, ats.ATTITUDE_SKILL, eas.SCORE, eas.ASSESSMENT_YEAR " +
-                "FROM TBL_EMP_ATTITUDE_SKILL eas " +
-                "JOIN TBL_ATTITUDE_SKILL ats ON eas.ATTITUDE_SKILL_ID = ats.ID " +
-                "JOIN TBL_APP_USER au ON eas.USER_ID = au.ID";
+                "FROM tbl_emp_attitude_skill eas " +
+                "JOIN tbl_attitude_skill ats ON eas.ATTITUDE_SKILL_ID = ats.ID " +
+                "JOIN tbl_app_user au ON eas.USER_ID = au.ID";
         log.info("Fetching all EmpAttitudeSkills with JOIN query: {}", sql);
         try {
             List<Map<String, Object>> result = jdbcTemplate.queryForList(sql);
@@ -69,9 +69,9 @@ public class EmpAttitudeSkillRepoImpl implements EmpAttitudeSkillRepo {
     @Override
     public Map<String, Object> getEmpAttitudeSkillGetById(String id) {
         String sql = "SELECT eas.ID, eas.USER_ID, FULL_NAME, ATTITUDE_SKILL, SCORE, ASSESSMENT_YEAR " +
-                "FROM TBL_EMP_ATTITUDE_SKILL eas " +
-                "JOIN TBL_ATTITUDE_SKILL ats ON eas.ATTITUDE_SKILL_ID = ats.ID " +
-                "JOIN TBL_APP_USER au ON eas.USER_ID = au.ID " +
+                "FROM tbl_emp_attitude_skill eas " +
+                "JOIN tbl_attitude_skill ats ON eas.ATTITUDE_SKILL_ID = ats.ID " +
+                "JOIN tbl_app_user au ON eas.USER_ID = au.ID " +
                 "WHERE eas.ID = ?";
         log.info("Fetching EmpAttitudeSkill by ID: {} with JOIN query: {}", id, sql);
         try {
@@ -87,9 +87,9 @@ public class EmpAttitudeSkillRepoImpl implements EmpAttitudeSkillRepo {
     @Override
     public List<Map<String, Object>> getEmpAttitudeSkillGetsByUserId(String userId) {
         String sql = "SELECT eas.ID, FULL_NAME, ATTITUDE_SKILL, SCORE, eas.ASSESSMENT_YEAR " +
-                "FROM TBL_EMP_ATTITUDE_SKILL eas " +
-                "LEFT JOIN TBL_ATTITUDE_SKILL ats ON eas.ATTITUDE_SKILL_ID = ats.ID " +
-                "LEFT JOIN TBL_APP_USER au ON eas.USER_ID = au.ID " +
+                "FROM tbl_emp_attitude_skill eas " +
+                "LEFT JOIN tbl_attitude_skill ats ON eas.ATTITUDE_SKILL_ID = ats.ID " +
+                "LEFT JOIN tbl_app_user au ON eas.USER_ID = au.ID " +
                 "WHERE eas.USER_ID = ?";
         log.info("Fetching EmpAttitudeSkill by User ID: {} with JOIN query: {}", userId, sql);
         try {
@@ -105,7 +105,7 @@ public class EmpAttitudeSkillRepoImpl implements EmpAttitudeSkillRepo {
     @Override
     public EmpAttitudeSkill saveEmpAttitudeSkill(EmpAttitudeSkill empAttitudeSkill) {
         empAttitudeSkill.prePersist();
-        String sql = "INSERT INTO TBL_EMP_ATTITUDE_SKILL (ID, USER_ID, ATTITUDE_SKILL_ID, SCORE, ASSESSMENT_YEAR, CREATED_BY) " +
+        String sql = "INSERT INTO tbl_emp_attitude_skill (ID, USER_ID, ATTITUDE_SKILL_ID, SCORE, ASSESSMENT_YEAR, CREATED_BY) " +
                 "VALUES (?, ?, ?, ?, ?, ?)";
         log.info("Saving EmpAttitudeSkill: {} with query: {}", empAttitudeSkill, sql);
         try {
@@ -127,7 +127,7 @@ public class EmpAttitudeSkillRepoImpl implements EmpAttitudeSkillRepo {
 
     @Override
     public EmpAttitudeSkill updateEmpAttitudeSkill(EmpAttitudeSkill empAttitudeSkill) {
-        String sql = "UPDATE TBL_EMP_ATTITUDE_SKILL SET USER_ID = ?, ATTITUDE_SKILL_ID = ?, SCORE = ?, ASSESSMENT_YEAR = ?, " +
+        String sql = "UPDATE tbl_emp_attitude_skill SET USER_ID = ?, ATTITUDE_SKILL_ID = ?, SCORE = ?, ASSESSMENT_YEAR = ?, " +
                 "UPDATED_AT = SYSDATE(), UPDATED_BY = ? WHERE ID = ?";
         log.info("Updating EmpAttitudeSkill with ID: {} using query: {}", empAttitudeSkill.getId(), sql);
         try {
@@ -149,7 +149,7 @@ public class EmpAttitudeSkillRepoImpl implements EmpAttitudeSkillRepo {
 
     @Override
     public Boolean deleteEmpAttitudeSkill(String id) {
-        String sql = "DELETE FROM TBL_EMP_ATTITUDE_SKILL WHERE ID = ?";
+        String sql = "DELETE FROM tbl_emp_attitude_skill WHERE ID = ?";
         log.info("Deleting EmpAttitudeSkill with ID: {} using query: {}", id, sql);
         try {
             int rowsAffected = jdbcTemplate.update(sql, id);
@@ -168,7 +168,7 @@ public class EmpAttitudeSkillRepoImpl implements EmpAttitudeSkillRepo {
 
     @Override
     public Boolean ifAnyEmpAttitudeSkillExist(String userId, String attitudeSkillId, int assessmentYear) {
-        String sql = "SELECT ID FROM TBL_EMP_ATTITUDE_SKILL WHERE USER_ID = ? AND ATTITUDE_SKILL_ID = ? AND ASSESSMENT_YEAR = ?";
+        String sql = "SELECT ID FROM tbl_emp_attitude_skill WHERE USER_ID = ? AND ATTITUDE_SKILL_ID = ? AND ASSESSMENT_YEAR = ?";
         log.info("Looking for EmpAttitudeSkill with User ID: {}, Attitude Skill ID: {}, and Assessment Year: {} with query: {}", userId, attitudeSkillId, assessmentYear, sql);
         try {
             List<Map<String, Object>> result = jdbcTemplate.queryForList(sql, userId, attitudeSkillId, assessmentYear);
@@ -187,7 +187,7 @@ public class EmpAttitudeSkillRepoImpl implements EmpAttitudeSkillRepo {
 
     @Override
     public List<Map<String, Object>> getEmpAttitudeSkillGetsByUserIdAssessmentYear(String userId, int assessmentYear) {
-        String sql = "SELECT EAS.ID, EAS.ATTITUDE_SKILL_ID, EAS.SCORE, ASK.GROUP_ID FROM TBL_EMP_ATTITUDE_SKILL EAS JOIN TBL_ATTITUDE_SKILL ASK ON EAS.ATTITUDE_SKILL_ID = ASK.ID WHERE EAS.USER_ID = ? AND EAS.ASSESSMENT_YEAR = ?";
+        String sql = "SELECT EAS.ID, EAS.ATTITUDE_SKILL_ID, EAS.SCORE, ASK.GROUP_ID FROM tbl_emp_attitude_skill EAS JOIN tbl_attitude_skill ASK ON EAS.ATTITUDE_SKILL_ID = ASK.ID WHERE EAS.USER_ID = ? AND EAS.ASSESSMENT_YEAR = ?";
         log.info("Fetching all EmpAttitudeSkills for User ID: {} and Assessment Year: {} with JOIN query: {}", userId, assessmentYear,sql);
         try {
             List<Map<String, Object>> result = jdbcTemplate.queryForList(sql, userId, assessmentYear);

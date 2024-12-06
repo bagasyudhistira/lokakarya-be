@@ -22,7 +22,7 @@ public class AppRoleRepoImpl implements AppRoleRepo {
 
     @Override
     public List<AppRole> getAppRoles() {
-        String sql = "SELECT * FROM TBL_APP_ROLE";
+        String sql = "SELECT * FROM tbl_app_role";
         log.info("Executing query to fetch all AppRoles: {}", sql);
         List<AppRole> appRoles = jdbcTemplate.query(sql, rowMapper);
         log.info("Successfully fetched {} AppRoles", appRoles.size());
@@ -31,7 +31,7 @@ public class AppRoleRepoImpl implements AppRoleRepo {
 
     @Override
     public AppRole getAppRoleById(String id) {
-        String sql = "SELECT * FROM TBL_APP_ROLE " +
+        String sql = "SELECT * FROM tbl_app_role " +
                 "WHERE ID = ?";
         log.info("Executing query to fetch AppRole by ID: {} using query: {}", id, sql);
         try {
@@ -47,7 +47,7 @@ public class AppRoleRepoImpl implements AppRoleRepo {
     @Override
     public AppRole saveAppRole(AppRole appRole) {
         appRole.prePersist();
-        String sql = "INSERT INTO TBL_APP_ROLE (ID, ROLENAME, CREATED_BY) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO tbl_app_role (ID, ROLENAME, CREATED_BY) VALUES (?, ?, ?)";
         log.info("Executing query to save AppRole: {} using query: {}", appRole, sql);
         try {
             int rowsAffected = jdbcTemplate.update(sql, appRole.getId(), appRole.getRolename(), appRole.getCreatedBy());
@@ -66,7 +66,7 @@ public class AppRoleRepoImpl implements AppRoleRepo {
 
     @Override
     public AppRole updateAppRole(AppRole appRole) {
-        String sql = "UPDATE TBL_APP_ROLE SET ROLENAME = ?, UPDATED_AT = SYSDATE(), UPDATED_BY = ? " +
+        String sql = "UPDATE tbl_app_role SET ROLENAME = ?, UPDATED_AT = SYSDATE(), UPDATED_BY = ? " +
                 "WHERE ID = ?";
         log.info("Executing query to update AppRole with ID: {} using query: {}", appRole.getId(), sql);
         try {
@@ -86,7 +86,7 @@ public class AppRoleRepoImpl implements AppRoleRepo {
 
     @Override
     public Boolean deleteAppRole(String id) {
-        String sql = "DELETE FROM TBL_APP_ROLE " +
+        String sql = "DELETE FROM tbl_app_role " +
                 "WHERE ID = ?";
         log.info("Executing query to delete AppRole with ID: {} using query: {}", id, sql);
         try {

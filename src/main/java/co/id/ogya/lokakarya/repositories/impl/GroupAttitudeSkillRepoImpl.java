@@ -22,7 +22,7 @@ public class GroupAttitudeSkillRepoImpl implements GroupAttitudeSkillRepo {
 
     @Override
     public List<GroupAttitudeSkill> getGroupAttitudeSkills() {
-        String sql = "SELECT * FROM TBL_GROUP_ATTITUDE_SKILL";
+        String sql = "SELECT * FROM tbl_group_attitude_skill";
         log.info("Executing query to fetch all GroupAttitudeSkills: {}", sql);
         try {
             List<GroupAttitudeSkill> result = jdbcTemplate.query(sql, rowMapper);
@@ -36,7 +36,7 @@ public class GroupAttitudeSkillRepoImpl implements GroupAttitudeSkillRepo {
 
     @Override
     public GroupAttitudeSkill getGroupAttitudeSkillById(String id) {
-        String sql = "SELECT * FROM TBL_GROUP_ATTITUDE_SKILL " +
+        String sql = "SELECT * FROM tbl_group_attitude_skill " +
                 "WHERE ID = ?";
         log.info("Executing query to fetch GroupAttitudeSkill by ID: {}. Query: {}", id, sql);
         try {
@@ -52,7 +52,7 @@ public class GroupAttitudeSkillRepoImpl implements GroupAttitudeSkillRepo {
     @Override
     public GroupAttitudeSkill saveGroupAttitudeSkill(GroupAttitudeSkill groupAttitudeSkill) {
         groupAttitudeSkill.prePersist();
-        String sql = "INSERT INTO TBL_GROUP_ATTITUDE_SKILL (ID, GROUP_NAME, PERCENTAGE, ENABLED, CREATED_BY) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO tbl_group_attitude_skill (ID, GROUP_NAME, PERCENTAGE, ENABLED, CREATED_BY) VALUES (?, ?, ?, ?, ?)";
         log.info("Executing query to save GroupAttitudeSkill: {}. Query: {}", groupAttitudeSkill, sql);
         try {
             int rowsAffected = jdbcTemplate.update(sql, groupAttitudeSkill.getId(), groupAttitudeSkill.getGroupName(), groupAttitudeSkill.getPercentage(), groupAttitudeSkill.isEnabled(), groupAttitudeSkill.getCreatedBy());
@@ -71,7 +71,7 @@ public class GroupAttitudeSkillRepoImpl implements GroupAttitudeSkillRepo {
 
     @Override
     public GroupAttitudeSkill updateGroupAttitudeSkill(GroupAttitudeSkill groupAttitudeSkill) {
-        String sql = "UPDATE TBL_GROUP_ATTITUDE_SKILL SET GROUP_NAME = ?, PERCENTAGE = ?, ENABLED = ?, UPDATED_AT = SYSDATE(), UPDATED_BY = ? " +
+        String sql = "UPDATE tbl_group_attitude_skill SET GROUP_NAME = ?, PERCENTAGE = ?, ENABLED = ?, UPDATED_AT = SYSDATE(), UPDATED_BY = ? " +
                 "WHERE ID = ?";
         log.info("Executing query to update GroupAttitudeSkill with ID: {}. Query: {}", groupAttitudeSkill.getId(), sql);
         try {
@@ -91,7 +91,7 @@ public class GroupAttitudeSkillRepoImpl implements GroupAttitudeSkillRepo {
 
     @Override
     public Boolean deleteGroupAttitudeSkill(String id) {
-        String sql = "DELETE FROM TBL_GROUP_ATTITUDE_SKILL " +
+        String sql = "DELETE FROM tbl_group_attitude_skill " +
                 "WHERE ID = ?";
         log.info("Executing query to delete GroupAttitudeSkill with ID: {}. Query: {}", id, sql);
         try {

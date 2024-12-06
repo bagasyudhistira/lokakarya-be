@@ -24,7 +24,7 @@ public class AppUserRoleRepoImpl implements AppUserRoleRepo {
 
     @Override
     public List<AppUserRole> getAppUserRoles() {
-        String sql = "SELECT * FROM TBL_APP_USER_ROLE";
+        String sql = "SELECT * FROM tbl_app_user_role";
         try {
             log.info("Fetching all AppUserRoles");
             List<AppUserRole> appUserRoles = jdbcTemplate.query(sql, rowMapper);
@@ -38,7 +38,7 @@ public class AppUserRoleRepoImpl implements AppUserRoleRepo {
 
     @Override
     public AppUserRole getAppUserRoleById(String id) {
-        String sql = "SELECT * FROM TBL_APP_USER_ROLE WHERE ID = ?";
+        String sql = "SELECT * FROM tbl_app_user_role WHERE ID = ?";
         try {
             log.info("Fetching AppUserRole by ID: {}", id);
             AppUserRole appUserRole = jdbcTemplate.queryForObject(sql, rowMapper, id);
@@ -53,7 +53,7 @@ public class AppUserRoleRepoImpl implements AppUserRoleRepo {
     @Override
     public AppUserRole saveAppUserRole(AppUserRole appUserRole) {
         appUserRole.prePersist();
-        String sql = "INSERT INTO TBL_APP_USER_ROLE (ID, ROLE_ID, USER_ID) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO tbl_app_user_role (ID, ROLE_ID, USER_ID) VALUES (?, ?, ?)";
         try {
             log.info("Saving AppUserRole: {}", appUserRole);
             int rowsAffected = jdbcTemplate.update(sql, appUserRole.getId(), appUserRole.getRoleId(), appUserRole.getUserId());
@@ -72,7 +72,7 @@ public class AppUserRoleRepoImpl implements AppUserRoleRepo {
 
     @Override
     public AppUserRole updateAppUserRole(AppUserRole appUserRole) {
-        String sql = "UPDATE TBL_APP_USER_ROLE SET ROLE_ID = ?, USER_ID = ? WHERE ID = ?";
+        String sql = "UPDATE tbl_app_user_role SET ROLE_ID = ?, USER_ID = ? WHERE ID = ?";
         try {
             log.info("Updating AppUserRole with ID: {}", appUserRole.getId());
             int rowsAffected = jdbcTemplate.update(sql, appUserRole.getRoleId(), appUserRole.getUserId(), appUserRole.getId());
@@ -91,7 +91,7 @@ public class AppUserRoleRepoImpl implements AppUserRoleRepo {
 
     @Override
     public Boolean deleteAppUserRole(String id) {
-        String sql = "DELETE FROM TBL_APP_USER_ROLE WHERE ID = ?";
+        String sql = "DELETE FROM tbl_app_user_role WHERE ID = ?";
         try {
             log.info("Deleting AppUserRole with ID: {}", id);
             int rowsAffected = jdbcTemplate.update(sql, id);
@@ -110,9 +110,9 @@ public class AppUserRoleRepoImpl implements AppUserRoleRepo {
 
     @Override
     public List<Map<String, Object>> getAppUserRoleGets() {
-        String sql = "SELECT AUR.ID, AU.FULL_NAME, AR.ROLENAME FROM TBL_APP_USER_ROLE AUR " +
-                "LEFT JOIN TBL_APP_USER AU ON AUR.USER_ID = AU.ID " +
-                "LEFT JOIN TBL_APP_ROLE AR ON AUR.ROLE_ID = AR.ID";
+        String sql = "SELECT AUR.ID, AU.FULL_NAME, AR.ROLENAME FROM tbl_app_user_role AUR " +
+                "LEFT JOIN tbl_app_user AU ON AUR.USER_ID = AU.ID " +
+                "LEFT JOIN tbl_app_role AR ON AUR.ROLE_ID = AR.ID";
         try {
             log.info("Fetching AppUserRoles");
             List<Map<String, Object>> userRoles = jdbcTemplate.queryForList(sql);
@@ -127,8 +127,8 @@ public class AppUserRoleRepoImpl implements AppUserRoleRepo {
     @Override
     public List<Map<String, Object>> getAppUserRoleGetById(String userId) {
         String sql = "SELECT AUR.ID, AU.FULL_NAME, AR.ROLENAME " +
-                "FROM TBL_APP_USER_ROLE AUR LEFT JOIN TBL_APP_USER AU ON AUR.USER_ID = AU.ID " +
-                "LEFT JOIN TBL_APP_ROLE AR ON AUR.ROLE_ID = AR.ID " +
+                "FROM tbl_app_user_role AUR LEFT JOIN tbl_app_user AU ON AUR.USER_ID = AU.ID " +
+                "LEFT JOIN tbl_app_role AR ON AUR.ROLE_ID = AR.ID " +
                 "WHERE AUR.USER_ID = ?";
         try {
             log.info("Fetching AppUserRoles for User ID: {}", userId);
@@ -144,8 +144,8 @@ public class AppUserRoleRepoImpl implements AppUserRoleRepo {
     @Override
     public List<String> getAppUserRoleNamesById(String userId) {
         String sql = "SELECT AR.ROLENAME " +
-                "FROM TBL_APP_USER_ROLE AUR LEFT JOIN TBL_APP_USER AU ON AUR.USER_ID = AU.ID " +
-                "LEFT JOIN TBL_APP_ROLE AR ON AUR.ROLE_ID = AR.ID " +
+                "FROM tbl_app_user_role AUR LEFT JOIN tbl_app_user AU ON AUR.USER_ID = AU.ID " +
+                "LEFT JOIN tbl_app_role AR ON AUR.ROLE_ID = AR.ID " +
                 "WHERE AUR.USER_ID = ?";
         try {
             log.info("Fetching AppUserRoles for User ID: {}", userId);
@@ -165,7 +165,7 @@ public class AppUserRoleRepoImpl implements AppUserRoleRepo {
 
     @Override
     public List<AppUserRole> getAppUserRolesByUserId(String userId) {
-        String sql = "SELECT * FROM TBL_APP_USER_ROLE WHERE USER_ID = ?";
+        String sql = "SELECT * FROM tbl_app_user_role WHERE USER_ID = ?";
         try {
             log.info("Fetching AppUserRoles for User ID: {}", userId);
             List<AppUserRole> appUserRoles = jdbcTemplate.query(sql, rowMapper, userId);
@@ -179,7 +179,7 @@ public class AppUserRoleRepoImpl implements AppUserRoleRepo {
 
     @Override
     public String getAppUserRoleByUserIdRoleId(String userId, String roleId) {
-        String sql = "SELECT ID FROM TBL_APP_USER_ROLE WHERE USER_ID = ? AND ROLE_ID = ?";
+        String sql = "SELECT ID FROM tbl_app_user_role WHERE USER_ID = ? AND ROLE_ID = ?";
         try {
             log.info("Fetching AppUserRoles for User ID: {} and Role ID: {}", userId, roleId);
             // Use queryForObject to fetch a single result

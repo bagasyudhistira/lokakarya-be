@@ -23,7 +23,7 @@ public class AttitudeSkillRepoImpl implements AttitudeSkillRepo {
 
     @Override
     public List<AttitudeSkill> getAttitudeSkills() {
-        String sql = "SELECT * FROM TBL_ATTITUDE_SKILL";
+        String sql = "SELECT * FROM tbl_attitude_skill";
         log.info("Executing query to fetch all AttitudeSkills: {}", sql);
         try {
             List<AttitudeSkill> result = jdbcTemplate.query(sql, rowMapper);
@@ -37,7 +37,7 @@ public class AttitudeSkillRepoImpl implements AttitudeSkillRepo {
 
     @Override
     public AttitudeSkill getAttitudeSkillById(String id) {
-        String sql = "SELECT * FROM TBL_ATTITUDE_SKILL WHERE ID = ?";
+        String sql = "SELECT * FROM tbl_attitude_skill WHERE ID = ?";
         log.info("Executing query to fetch AttitudeSkill by ID: {}", id);
         try {
             AttitudeSkill result = jdbcTemplate.queryForObject(sql, rowMapper, id);
@@ -52,8 +52,8 @@ public class AttitudeSkillRepoImpl implements AttitudeSkillRepo {
     @Override
     public List<Map<String, Object>> getAttitudeSkillGets() {
         String sql = "SELECT ats.ID, ATTITUDE_SKILL, GROUP_NAME, ats.ENABLED " +
-                "FROM TBL_ATTITUDE_SKILL ats " +
-                "LEFT JOIN TBL_GROUP_ATTITUDE_SKILL gas ON ats.GROUP_ID = gas.ID";
+                "FROM tbl_attitude_skill ats " +
+                "LEFT JOIN tbl_group_attitude_skill gas ON ats.GROUP_ID = gas.ID";
         log.info("Executing query to fetch all AttitudeSkills with group details: {}", sql);
         try {
             List<Map<String, Object>> result = jdbcTemplate.queryForList(sql);
@@ -68,8 +68,8 @@ public class AttitudeSkillRepoImpl implements AttitudeSkillRepo {
     @Override
     public Map<String, Object> getAttitudeSkillGetById(String id) {
         String sql = "SELECT ats.ID, ATTITUDE_SKILL, GROUP_NAME, ats.ENABLED " +
-                "FROM TBL_ATTITUDE_SKILL ats " +
-                "LEFT JOIN TBL_GROUP_ATTITUDE_SKILL gas ON ats.GROUP_ID = gas.ID " +
+                "FROM tbl_attitude_skill ats " +
+                "LEFT JOIN tbl_group_attitude_skill gas ON ats.GROUP_ID = gas.ID " +
                 "WHERE ats.ID = ?";
         log.info("Executing query to fetch AttitudeSkill by ID with group details: {}", id);
         try {
@@ -85,7 +85,7 @@ public class AttitudeSkillRepoImpl implements AttitudeSkillRepo {
     @Override
     public AttitudeSkill saveAttitudeSkill(AttitudeSkill attitudeSkill) {
         attitudeSkill.prePersist();
-        String sql = "INSERT INTO TBL_ATTITUDE_SKILL (ID, ATTITUDE_SKILL, GROUP_ID, ENABLED, CREATED_BY) " +
+        String sql = "INSERT INTO tbl_attitude_skill (ID, ATTITUDE_SKILL, GROUP_ID, ENABLED, CREATED_BY) " +
                 "VALUES (?, ?, ?, ?, ?)";
         log.info("Executing query to save AttitudeSkill: {}", attitudeSkill);
         try {
@@ -106,7 +106,7 @@ public class AttitudeSkillRepoImpl implements AttitudeSkillRepo {
 
     @Override
     public AttitudeSkill updateAttitudeSkill(AttitudeSkill attitudeSkill) {
-        String sql = "UPDATE TBL_ATTITUDE_SKILL SET ATTITUDE_SKILL = ?, GROUP_ID = ?, ENABLED = ?, " +
+        String sql = "UPDATE tbl_attitude_skill SET ATTITUDE_SKILL = ?, GROUP_ID = ?, ENABLED = ?, " +
                 "UPDATED_AT = SYSDATE(), UPDATED_BY = ? WHERE ID = ?";
         log.info("Executing query to update AttitudeSkill with ID: {}", attitudeSkill.getId());
         try {
@@ -127,7 +127,7 @@ public class AttitudeSkillRepoImpl implements AttitudeSkillRepo {
 
     @Override
     public Boolean deleteAttitudeSkill(String id) {
-        String sql = "DELETE FROM TBL_ATTITUDE_SKILL WHERE ID = ?";
+        String sql = "DELETE FROM tbl_attitude_skill WHERE ID = ?";
         log.info("Executing query to delete AttitudeSkill with ID: {}", id);
         try {
             int rowsAffected = jdbcTemplate.update(sql, id);

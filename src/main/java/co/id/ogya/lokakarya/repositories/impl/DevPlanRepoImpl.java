@@ -22,7 +22,7 @@ public class DevPlanRepoImpl implements DevPlanRepo {
 
     @Override
     public List<DevPlan> getDevPlans() {
-        String sql = "SELECT * FROM TBL_DEV_PLAN";
+        String sql = "SELECT * FROM tbl_dev_plan";
         log.info("Executing query to fetch all DevPlans: {}", sql);
         try {
             List<DevPlan> result = jdbcTemplate.query(sql, rowMapper);
@@ -36,7 +36,7 @@ public class DevPlanRepoImpl implements DevPlanRepo {
 
     @Override
     public DevPlan getDevPlanById(String id) {
-        String sql = "SELECT * FROM TBL_DEV_PLAN " +
+        String sql = "SELECT * FROM tbl_dev_plan " +
                 "WHERE ID = ?";
         log.info("Executing query to fetch DevPlan by ID: {} using query: {}", id, sql);
         try {
@@ -52,7 +52,7 @@ public class DevPlanRepoImpl implements DevPlanRepo {
     @Override
     public DevPlan saveDevPlan(DevPlan devPlan) {
         devPlan.prePersist();
-        String sql = "INSERT INTO TBL_DEV_PLAN(ID, PLAN, ENABLED, CREATED_BY) VALUES(?,?,?,?)";
+        String sql = "INSERT INTO tbl_dev_plan(ID, PLAN, ENABLED, CREATED_BY) VALUES(?,?,?,?)";
         log.info("Executing query to save DevPlan: {} using query: {}", devPlan, sql);
         try {
             int rowsAffected = jdbcTemplate.update(sql, devPlan.getId(), devPlan.getPlan(), devPlan.isEnabled(), devPlan.getCreatedBy());
@@ -71,7 +71,7 @@ public class DevPlanRepoImpl implements DevPlanRepo {
 
     @Override
     public DevPlan updateDevPlan(DevPlan devPlan) {
-        String sql = "UPDATE TBL_DEV_PLAN SET PLAN = ?, ENABLED = ?, UPDATED_AT = SYSDATE(), UPDATED_BY = ? " +
+        String sql = "UPDATE tbl_dev_plan SET PLAN = ?, ENABLED = ?, UPDATED_AT = SYSDATE(), UPDATED_BY = ? " +
                 "WHERE ID = ?";
         log.info("Executing query to update DevPlan with ID: {} using query: {}", devPlan.getId(), sql);
         try {
@@ -91,7 +91,7 @@ public class DevPlanRepoImpl implements DevPlanRepo {
 
     @Override
     public Boolean deleteDevPlan(String id) {
-        String sql = "DELETE FROM TBL_DEV_PLAN " +
+        String sql = "DELETE FROM tbl_dev_plan " +
                 "WHERE ID = ?";
         log.info("Executing query to delete DevPlan with ID: {} using query: {}", id, sql);
         try {

@@ -22,7 +22,7 @@ public class GroupAchievementRepoImpl implements GroupAchievementRepo {
 
     @Override
     public List<GroupAchievement> getGroupAchievements() {
-        String sql = "SELECT * FROM TBL_GROUP_ACHIEVEMENT";
+        String sql = "SELECT * FROM tbl_group_achievement";
         log.info("Executing query to fetch all GroupAchievements: {}", sql);
         try {
             List<GroupAchievement> result = jdbcTemplate.query(sql, rowMapper);
@@ -36,7 +36,7 @@ public class GroupAchievementRepoImpl implements GroupAchievementRepo {
 
     @Override
     public GroupAchievement getGroupAchievementById(String id) {
-        String sql = "SELECT * FROM TBL_GROUP_ACHIEVEMENT " +
+        String sql = "SELECT * FROM tbl_group_achievement " +
                 "WHERE ID = ?";
         log.info("Executing query to fetch GroupAchievement by ID: {}. Query: {}", id, sql);
         try {
@@ -52,7 +52,7 @@ public class GroupAchievementRepoImpl implements GroupAchievementRepo {
     @Override
     public GroupAchievement saveGroupAchievement(GroupAchievement groupAchievement) {
         groupAchievement.prePersist();
-        String sql = "INSERT INTO TBL_GROUP_ACHIEVEMENT(ID, GROUP_NAME, PERCENTAGE, ENABLED, CREATED_BY) VALUES(?,?,?,?,?)";
+        String sql = "INSERT INTO tbl_group_achievement(ID, GROUP_NAME, PERCENTAGE, ENABLED, CREATED_BY) VALUES(?,?,?,?,?)";
         log.info("Executing query to save GroupAchievement: {}. Query: {}", groupAchievement, sql);
         try {
             int rowsAffected = jdbcTemplate.update(sql, groupAchievement.getId(), groupAchievement.getGroupName(), groupAchievement.getPercentage(), groupAchievement.isEnabled(), groupAchievement.getCreatedBy());
@@ -71,7 +71,7 @@ public class GroupAchievementRepoImpl implements GroupAchievementRepo {
 
     @Override
     public GroupAchievement updateGroupAchievement(GroupAchievement groupAchievement) {
-        String sql = "UPDATE TBL_GROUP_ACHIEVEMENT SET GROUP_NAME = ?, PERCENTAGE = ?, ENABLED = ?, UPDATED_AT = SYSDATE(), UPDATED_BY = ? " +
+        String sql = "UPDATE tbl_group_achievement SET GROUP_NAME = ?, PERCENTAGE = ?, ENABLED = ?, UPDATED_AT = SYSDATE(), UPDATED_BY = ? " +
                 "WHERE ID = ?";
         log.info("Executing query to update GroupAchievement with ID: {}. Query: {}", groupAchievement.getId(), sql);
         try {
@@ -91,7 +91,7 @@ public class GroupAchievementRepoImpl implements GroupAchievementRepo {
 
     @Override
     public Boolean deleteGroupAchievement(String id) {
-        String sql = "DELETE FROM TBL_GROUP_ACHIEVEMENT " +
+        String sql = "DELETE FROM tbl_group_achievement " +
                 "WHERE ID = ?";
         log.info("Executing query to delete GroupAchievement with ID: {}. Query: {}", id, sql);
         try {

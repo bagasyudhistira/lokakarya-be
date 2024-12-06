@@ -22,7 +22,7 @@ public class DivisionRepoImpl implements DivisionRepo {
 
     @Override
     public List<Division> getDivisions() {
-        String sql = "SELECT * FROM TBL_DIVISION";
+        String sql = "SELECT * FROM tbl_division";
         log.info("Executing query to fetch all divisions: {}", sql);
         try {
             List<Division> result = jdbcTemplate.query(sql, rowMapper);
@@ -36,7 +36,7 @@ public class DivisionRepoImpl implements DivisionRepo {
 
     @Override
     public Division getDivisionById(String id) {
-        String sql = "SELECT * FROM TBL_DIVISION " +
+        String sql = "SELECT * FROM tbl_division " +
                 "WHERE ID = ?";
         log.info("Executing query to fetch division by ID: {} using query: {}", id, sql);
         try {
@@ -52,7 +52,7 @@ public class DivisionRepoImpl implements DivisionRepo {
     @Override
     public Division saveDivision(Division division) {
         division.prePersist();
-        String sql = "INSERT INTO TBL_DIVISION (ID, DIVISION_NAME, CREATED_BY) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO tbl_division (ID, DIVISION_NAME, CREATED_BY) VALUES (?, ?, ?)";
         log.info("Executing query to save division: {} using query: {}", division, sql);
         try {
             int rowsAffected = jdbcTemplate.update(sql, division.getId(), division.getDivisionName(), division.getCreatedBy());
@@ -71,7 +71,7 @@ public class DivisionRepoImpl implements DivisionRepo {
 
     @Override
     public Division updateDivision(Division division) {
-        String sql = "UPDATE TBL_DIVISION SET DIVISION_NAME = ?, UPDATED_AT = SYSDATE(), UPDATED_BY = ? " +
+        String sql = "UPDATE tbl_division SET DIVISION_NAME = ?, UPDATED_AT = SYSDATE(), UPDATED_BY = ? " +
                 "WHERE ID = ?";
         log.info("Executing query to update division with ID: {} using query: {}", division.getId(), sql);
         try {
@@ -91,7 +91,7 @@ public class DivisionRepoImpl implements DivisionRepo {
 
     @Override
     public Boolean deleteDivision(String id) {
-        String sql = "DELETE FROM TBL_DIVISION " +
+        String sql = "DELETE FROM tbl_division " +
                 "WHERE ID = ?";
         log.info("Executing query to delete division with ID: {} using query: {}", id, sql);
         try {
