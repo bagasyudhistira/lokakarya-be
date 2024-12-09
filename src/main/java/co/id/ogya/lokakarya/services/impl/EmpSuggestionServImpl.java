@@ -154,6 +154,7 @@ public class EmpSuggestionServImpl implements EmpSuggestionServ {
             EmpSuggestionOneDto result = EmpSuggestionOneDto.mapToDto(data);
             if (!data.isEmpty()) {
                 log.info("There is an EmpSuggestion with UserID: {} and Assessment Year: {}", userId, assessmentYear);
+                log.info(result.toString());
                 return result;
             } else {
                 log.info("There is no EmpSuggestion with UserID: {} and Assessment Year: {}", userId, assessmentYear);

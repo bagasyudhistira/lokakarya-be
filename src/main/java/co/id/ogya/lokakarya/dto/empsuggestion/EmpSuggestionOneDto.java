@@ -20,7 +20,7 @@ public class EmpSuggestionOneDto {
         log.debug("Mapping object to EmpSuggestionOneDto: {}", convertObject);
 
         EmpSuggestionOneDto result = EmpSuggestionOneDto.builder()
-                .suggestion((String) convertObject.get("ID"))
+                .suggestion((String) convertObject.get("SUGGESTION"))
                 .build();
 
         return result;

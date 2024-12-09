@@ -170,6 +170,7 @@ public class EmpSuggestionRepoImpl implements EmpSuggestionRepo {
                 return null;
             } else {
                 log.info("There is an EmpSuggestion with UserID: {} and Assessment Year: {}", userId, assessmentYear);
+                log.info(result.toString());
                 return result;
             }
         } catch (Exception e) {
