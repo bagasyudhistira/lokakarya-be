@@ -161,7 +161,7 @@ public class EmpSuggestionRepoImpl implements EmpSuggestionRepo {
 
     @Override
     public Map<String, Object> ifAnyEmpSuggestionExist(String userId, int assessmentYear) {
-        String sql = "SELECT ID FROM tbl_emp_suggestion WHERE USER_ID = ? AND ASSESSMENT_YEAR = ?";
+        String sql = "SELECT SUGGESTION FROM tbl_emp_suggestion WHERE USER_ID = ? AND ASSESSMENT_YEAR = ?";
         log.info("Looking for EmpSuggestion with User ID: {} and Assessment Year: {} with query: {}", userId, assessmentYear, sql);
         try {
             Map<String, Object> result = jdbcTemplate.queryForMap(sql, userId, assessmentYear);
