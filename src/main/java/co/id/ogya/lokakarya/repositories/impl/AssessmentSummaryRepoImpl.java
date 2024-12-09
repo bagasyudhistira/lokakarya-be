@@ -165,4 +165,14 @@ public class AssessmentSummaryRepoImpl implements AssessmentSummaryRepo {
             return false;
         }
     }
+
+    @Override
+    public List<Map<String, Object>> getAchievementSummaryByUserIdAssessmentYear(String userId, int assessmentYear) {
+        String sql = "SELECT GAC.GROUP_NAME, SUM(EAC.SCORE)/(50 * COUNT(EAC.ACHIEVEMENT_ID)) * 100 SUM_SCORE, GAC.PERCENTAGE FROM tbl_emp_achievement_skill EAC JOIN tbl_achievement ACH ON EAC.ACHIEVEMENT_ID = ACH.ID JOIN tbl_group_achievement GAC ON ACH.GROUP_ID = GAC.ID WHERE EAC.USER_ID = ? AND EAC.ASSESSMENT_YEAR = ? GROUP BY GAC.GROUP_NAME;"
+    }
+
+    @Override
+    public List<Map<String, Object>> getAttitudeSkillSummaryByUserIdAssessmentYear(String userId, int assessmentYear) {
+        String sql = "";
+    }
 }

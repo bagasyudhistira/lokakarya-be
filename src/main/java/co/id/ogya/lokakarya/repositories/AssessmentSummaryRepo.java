@@ -16,6 +16,12 @@ public interface AssessmentSummaryRepo {
     List<Map<String,Object>> getAssessmentSummaryGetByUserId(String id);
 
     AssessmentSummary saveAssessmentSummary(AssessmentSummary assessmentSummary);
+
     AssessmentSummary updateAssessmentSummary(AssessmentSummary assessmentSummary);
+
     Boolean deleteAssessmentSummary(String id);
+
+    List<Map<String, Object>> getAchievementSummaryByUserIdAssessmentYear(String userId, int assessmentYear);
+
+    List<Map<String, Object>> getAttitudeSkillSummaryByUserIdAssessmentYear(String userId, int assessmentYear);
 }
