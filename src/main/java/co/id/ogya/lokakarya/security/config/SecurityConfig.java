@@ -50,6 +50,7 @@ public class SecurityConfig {
 
                             // Routes accessible to specific roles
                             .requestMatchers(HttpMethod.GET, "/appuser/get/{id}", "/appuser/get/common/all").permitAll()
+                            .requestMatchers(HttpMethod.GET, "/assessmentsummary/**", "/auth/changepassword").hasAnyRole("HR", "USER", "SVP", "MGR")
                             .requestMatchers("/empattitudeskill/**", "/emptechnicalskill/**", "/empdevplan/**",
                                     "/attitudeskill/**", "/technicalskill/**", "/devplan/**",
                                     "/empsuggestion/**", "/empachievementskill/**").hasAnyRole("USER")
@@ -58,7 +59,6 @@ public class SecurityConfig {
                                     "/groupattitudeskill/**", "/attitudeskill/**", "/grouptechnicalskill/**",
                                     "/technicalskill/**", "/devplan/**", "/groupachievement/**",
                                     "/achievement/**", "/empachievement/**", "/auth/resetpassword").hasAnyRole("HR")
-                            .requestMatchers(HttpMethod.GET, "/assessmentsummary/**", "/auth/changepassword").hasAnyRole("HR", "USER", "SVP", "MGR")
 
                             // Default: all other requests require authentication
                             .anyRequest().authenticated();
