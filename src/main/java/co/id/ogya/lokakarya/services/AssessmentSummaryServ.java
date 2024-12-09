@@ -1,9 +1,6 @@
 package co.id.ogya.lokakarya.services;
 
-import co.id.ogya.lokakarya.dto.assessmentsummary.AssessmentSummaryCreateDto;
-import co.id.ogya.lokakarya.dto.assessmentsummary.AssessmentSummaryDto;
-import co.id.ogya.lokakarya.dto.assessmentsummary.AssessmentSummaryGetDto;
-import co.id.ogya.lokakarya.dto.assessmentsummary.AssessmentSummaryUpdateDto;
+import co.id.ogya.lokakarya.dto.assessmentsummary.*;
 
 import java.util.List;
 
@@ -17,7 +14,13 @@ public interface AssessmentSummaryServ {
     AssessmentSummaryGetDto getAssessmentSummaryGetById(String id);
 
     AssessmentSummaryDto createAssessmentSummary(AssessmentSummaryCreateDto assessmentSummaryCreateDto);
+
     AssessmentSummaryDto updateAssessmentSummary(AssessmentSummaryUpdateDto assessmentSummaryUpdateDto);
+
     boolean deleteAssessmentSummary(String id);
+
+    List<AchievementSummaryGetDto> getAchievementSummaryByUserIdAssessmentYear(String userId, int assessmentYear);
+
+    List<AttitudeSkillSummaryGetDto> getAttitudeSkillSummaryByUserIdAssessmentYear(String userId, int assessmentYear);
 
 }

@@ -1,10 +1,7 @@
 package co.id.ogya.lokakarya.controllers;
 
 import co.id.ogya.lokakarya.dto.ManagerDto;
-import co.id.ogya.lokakarya.dto.assessmentsummary.AssessmentSummaryCreateDto;
-import co.id.ogya.lokakarya.dto.assessmentsummary.AssessmentSummaryDto;
-import co.id.ogya.lokakarya.dto.assessmentsummary.AssessmentSummaryGetDto;
-import co.id.ogya.lokakarya.dto.assessmentsummary.AssessmentSummaryUpdateDto;
+import co.id.ogya.lokakarya.dto.assessmentsummary.*;
 import co.id.ogya.lokakarya.services.AssessmentSummaryServ;
 import co.id.ogya.lokakarya.utils.ServerResponseList;
 import lombok.extern.slf4j.Slf4j;
@@ -177,6 +174,50 @@ public class AssessmentSummaryController extends ServerResponseList {
         } catch (Exception e) {
             log.error("Error deleting AssessmentSummary with ID {}: {}", id, e.getMessage(), e);
             return new ResponseEntity<>("Failed to delete AssessmentSummary with ID: " + id, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/achievementsummary")
+    public ResponseEntity<?> getAchievementSummaryByUserIdAssessmentYear(@RequestBody String userId, @RequestBody int assessmentYear) {
+        log.info("Fetching all AchievementSummary for User ID: {} and Assessment Year: {}", userId, assessmentYear);
+        long startTime = System.currentTimeMillis();
+
+        try {
+            List<AchievementSummaryGetDto> result = assessmentSummaryServ.getAchievementSummaryByUserIdAssessmentYear(userId, assessmentYear);
+            ManagerDto<List<AchievementSummaryGetDto>> response = new ManagerDto<>();
+            response.setContent(result);
+            response.setTotalRows(result.size());
+
+            long endTime = System.currentTimeMillis();
+            response.setInfo(getInfoOk("Time", endTime - startTime));
+            log.info("Fetched all AchievementSummary for User ID: {} and Assessment Year: {} in {} ms", userId, assessmentYear, endTime - startTime);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error fetching all AssessmentSummaries: {}", e.getMessage(), e);
+            return new ResponseEntity<>("Failed to fetch Achievement Summary", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/attitudeskillsummary")
+    public ResponseEntity<?> getAttitudeSkillSummaryByUserIdAssessmentYear(@RequestBody String userId, @RequestBody int assessmentYear) {
+        log.info("Fetching all AttitudeSkillSummary for User ID: {} and Assessment Year: {}", userId, assessmentYear);
+        long startTime = System.currentTimeMillis();
+
+        try {
+            List<AttitudeSkillSummaryGetDto> result = assessmentSummaryServ.getAttitudeSkillSummaryByUserIdAssessmentYear(userId, assessmentYear);
+            ManagerDto<List<AttitudeSkillSummaryGetDto>> response = new ManagerDto<>();
+            response.setContent(result);
+            response.setTotalRows(result.size());
+
+            long endTime = System.currentTimeMillis();
+            response.setInfo(getInfoOk("Time", endTime - startTime));
+            log.info("Fetched all AttitudeSkillSummary for User ID: {} and Assessment Year: {} in {} ms", userId, assessmentYear, endTime - startTime);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error fetching all AssessmentSummaries: {}", e.getMessage(), e);
+            return new ResponseEntity<>("Failed to fetch AttitudeSkillSummary", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

@@ -168,11 +168,29 @@ public class AssessmentSummaryRepoImpl implements AssessmentSummaryRepo {
 
     @Override
     public List<Map<String, Object>> getAchievementSummaryByUserIdAssessmentYear(String userId, int assessmentYear) {
-        String sql = "SELECT GAC.GROUP_NAME, SUM(EAC.SCORE)/(50 * COUNT(EAC.ACHIEVEMENT_ID)) * 100 SUM_SCORE, GAC.PERCENTAGE FROM tbl_emp_achievement_skill EAC JOIN tbl_achievement ACH ON EAC.ACHIEVEMENT_ID = ACH.ID JOIN tbl_group_achievement GAC ON ACH.GROUP_ID = GAC.ID WHERE EAC.USER_ID = ? AND EAC.ASSESSMENT_YEAR = ? GROUP BY GAC.GROUP_NAME;"
+        String sql = "SELECT GAC.GROUP_NAME, SUM(EAC.SCORE)/(50 * COUNT(EAC.ACHIEVEMENT_ID)) * 100 SUM_SCORE, GAC.PERCENTAGE FROM tbl_emp_achievement_skill EAC JOIN tbl_achievement ACH ON EAC.ACHIEVEMENT_ID = ACH.ID JOIN tbl_group_achievement GAC ON ACH.GROUP_ID = GAC.ID WHERE EAC.USER_ID = ? AND EAC.ASSESSMENT_YEAR = ? GROUP BY GAC.GROUP_NAME";
+        log.info("Executing query to fetch AchievementSummary by User ID: {} and Assessment Year: {}", userId, assessmentYear);
+        try {
+            List<Map<String, Object>> result = jdbcTemplate.queryForList(sql, userId);
+            log.info("Successfully fetched {} AchievementSummary records for User ID: {} and Assessment Year: {}", result.size(), userId, assessmentYear);
+            return result;
+        } catch (Exception e) {
+            log.error("Error fetching AchievementSummary records for User ID: {} and Assessment Year: {}. Error: {}", userId, assessmentYear, e.getMessage());
+            throw e;
+        }
     }
 
     @Override
     public List<Map<String, Object>> getAttitudeSkillSummaryByUserIdAssessmentYear(String userId, int assessmentYear) {
-        String sql = "";
+        String sql = "SELECT GAT.GROUP_NAME, SUM(EAT.SCORE)/(50 * COUNT(EAT.ATTITUDE_SKILL_ID)) * 100 SUM_SCORE, GAT.PERCENTAGE FROM tbl_emp_attitude_skill EAT JOIN tbl_attitude_skill ATS ON EAT.ATTITUDE_SKILL_ID = ATS.ID JOIN tbl_group_attitude_skill GAT ON ATS.GROUP_ID = GAT.ID WHERE EAT.USER_ID = ? AND EAT.ASSESSMENT_YEAR = ? GROUP BY GAT.GROUP_NAME";
+        log.info("Executing query to fetch AttitudeSkillSummary by User ID: {} and Assessment Year: {}", userId, assessmentYear);
+        try {
+            List<Map<String, Object>> result = jdbcTemplate.queryForList(sql, userId);
+            log.info("Successfully fetched {} AttitudeSkillSummary records for User ID: {} and Assessment Year: {}", result.size(), userId, assessmentYear);
+            return result;
+        } catch (Exception e) {
+            log.error("Error fetching AttitudeSkillSummary records for User ID: {} and Assessment Year: {}. Error: {}", userId, assessmentYear, e.getMessage());
+            throw e;
+        }
     }
 }
