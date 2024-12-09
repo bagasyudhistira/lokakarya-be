@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
+import java.math.BigDecimal;
 import java.util.Map;
 
 @AllArgsConstructor
@@ -27,8 +28,12 @@ public class AchievementSummaryGetDto {
 
         AchievementSummaryGetDto result = AchievementSummaryGetDto.builder()
                 .groupName((String) convertObject.get("GROUP_NAME"))
-                .sumScore((Double) convertObject.get("SUM_SCORE"))
-                .percentage((Double) convertObject.get("PERCENTAGE"))
+                .sumScore(convertObject.get("SUM_SCORE") != null
+                        ? ((BigDecimal) convertObject.get("SUM_SCORE")).doubleValue()
+                        : null)
+                .percentage(convertObject.get("PERCENTAGE") != null
+                        ? ((BigDecimal) convertObject.get("PERCENTAGE")).doubleValue()
+                        : null)
                 .build();
 
         return result;

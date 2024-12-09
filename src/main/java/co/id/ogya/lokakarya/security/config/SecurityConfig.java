@@ -58,7 +58,7 @@ public class SecurityConfig {
                             .requestMatchers("/appuser/**", "/division/**", "/approlemenu/**",
                                     "/groupattitudeskill/**", "/attitudeskill/**", "/grouptechnicalskill/**",
                                     "/technicalskill/**", "/devplan/**", "/groupachievement/**",
-                                    "/achievement/**", "/empachievement/**", "/auth/resetpassword").hasAnyRole("HR")
+                                    "/achievement/**", "/empachievement/**", "/auth/resetpassword", "/assessmentsummary/**").hasAnyRole("HR")
 
                             // Default: all other requests require authentication
                             .anyRequest().authenticated();

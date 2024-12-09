@@ -177,8 +177,8 @@ public class AssessmentSummaryController extends ServerResponseList {
         }
     }
 
-    @GetMapping("/achievementsummary")
-    public ResponseEntity<?> getAchievementSummaryByUserIdAssessmentYear(@RequestBody String userId, @RequestBody int assessmentYear) {
+    @GetMapping("/achievementsummary/{userId}/{assessmentYear}")
+    public ResponseEntity<?> getAchievementSummaryByUserIdAssessmentYear(@PathVariable String userId, @PathVariable int assessmentYear) {
         log.info("Fetching all AchievementSummary for User ID: {} and Assessment Year: {}", userId, assessmentYear);
         long startTime = System.currentTimeMillis();
 
@@ -199,8 +199,8 @@ public class AssessmentSummaryController extends ServerResponseList {
         }
     }
 
-    @GetMapping("/attitudeskillsummary")
-    public ResponseEntity<?> getAttitudeSkillSummaryByUserIdAssessmentYear(@RequestBody String userId, @RequestBody int assessmentYear) {
+    @GetMapping("/attitudeskillsummary/{userId}/{assessmentYear}")
+    public ResponseEntity<?> getAttitudeSkillSummaryByUserIdAssessmentYear(@PathVariable String userId, @PathVariable int assessmentYear) {
         log.info("Fetching all AttitudeSkillSummary for User ID: {} and Assessment Year: {}", userId, assessmentYear);
         long startTime = System.currentTimeMillis();
 

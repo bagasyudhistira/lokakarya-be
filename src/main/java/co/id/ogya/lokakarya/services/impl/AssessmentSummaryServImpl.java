@@ -152,7 +152,7 @@ public class AssessmentSummaryServImpl implements AssessmentSummaryServ {
         log.info("Attempting to fetch all AttitudeSkillSummary for User ID: {} and Assessment Year: {}", userId, assessmentYear);
         List<AttitudeSkillSummaryGetDto> listResult = new ArrayList<>();
         try {
-            List<Map<String, Object>> listData = assessmentSummaryRepo.getAchievementSummaryByUserIdAssessmentYear(userId, assessmentYear);
+            List<Map<String, Object>> listData = assessmentSummaryRepo.getAttitudeSkillSummaryByUserIdAssessmentYear(userId, assessmentYear);
             log.debug("Fetched {} AttitudeSkillSummary from repository for User ID: {} and Assessment Year: {}", listData.size(), userId, assessmentYear);
             for (Map<String,Object> data : listData) {
                 AttitudeSkillSummaryGetDto result = AttitudeSkillSummaryGetDto.mapToDto(data);
