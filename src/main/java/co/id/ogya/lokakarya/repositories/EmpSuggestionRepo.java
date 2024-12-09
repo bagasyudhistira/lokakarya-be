@@ -22,5 +22,5 @@ public interface EmpSuggestionRepo {
 
     List<Map<String, Object>> getEmpSuggestionGetByCreatedBy(String userId);
 
-    Boolean ifAnyEmpSuggestionExist(String userId, int assessmentYear);
+    Map<String, Object> ifAnyEmpSuggestionExist(String userId, int assessmentYear);
 }

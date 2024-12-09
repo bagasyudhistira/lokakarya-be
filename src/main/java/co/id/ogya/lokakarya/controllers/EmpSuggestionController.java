@@ -205,8 +205,8 @@ public class EmpSuggestionController extends ServerResponseList {
         long startTime = System.currentTimeMillis();
 
         try {
-            Boolean result = empSuggestionServ.ifAnyEmpSuggestionExist(userId, assessmentYear);
-            ManagerDto<Boolean> response = new ManagerDto<>();
+            EmpSuggestionOneDto result = empSuggestionServ.ifAnyEmpSuggestionExist(userId, assessmentYear);
+            ManagerDto<EmpSuggestionOneDto> response = new ManagerDto<>();
             response.setContent(result);
             response.setTotalRows(1);
 

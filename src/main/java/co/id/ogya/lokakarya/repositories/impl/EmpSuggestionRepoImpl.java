@@ -160,17 +160,17 @@ public class EmpSuggestionRepoImpl implements EmpSuggestionRepo {
     }
 
     @Override
-    public Boolean ifAnyEmpSuggestionExist(String userId, int assessmentYear) {
+    public Map<String, Object> ifAnyEmpSuggestionExist(String userId, int assessmentYear) {
         String sql = "SELECT ID FROM tbl_emp_suggestion WHERE USER_ID = ? AND ASSESSMENT_YEAR = ?";
         log.info("Looking for EmpSuggestion with User ID: {} and Assessment Year: {} with query: {}", userId, assessmentYear, sql);
         try {
-            List<Map<String, Object>> result = jdbcTemplate.queryForList(sql, userId, assessmentYear);
+            Map<String, Object> result = jdbcTemplate.queryForMap(sql, userId, assessmentYear);
             if (result.isEmpty()) {
                 log.info("There is no EmpSuggestion with UserID: {} and Assessment Year: {}", userId, assessmentYear);
-                return false;
+                return null;
             } else {
                 log.info("There is an EmpSuggestion with UserID: {} and Assessment Year: {}", userId, assessmentYear);
-                return true;
+                return result;
             }
         } catch (Exception e) {
             log.error("Error while looking EmpSuggestion by UserID: {} and Assessment Year: {}. Error: {}", userId, assessmentYear, e.getMessage());

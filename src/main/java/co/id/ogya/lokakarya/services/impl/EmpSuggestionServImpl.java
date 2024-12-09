@@ -1,9 +1,6 @@
 package co.id.ogya.lokakarya.services.impl;
 
-import co.id.ogya.lokakarya.dto.empsuggestion.EmpSuggestionCreateDto;
-import co.id.ogya.lokakarya.dto.empsuggestion.EmpSuggestionDto;
-import co.id.ogya.lokakarya.dto.empsuggestion.EmpSuggestionGetDto;
-import co.id.ogya.lokakarya.dto.empsuggestion.EmpSuggestionUpdateDto;
+import co.id.ogya.lokakarya.dto.empsuggestion.*;
 import co.id.ogya.lokakarya.entities.EmpSuggestion;
 import co.id.ogya.lokakarya.repositories.EmpSuggestionRepo;
 import co.id.ogya.lokakarya.services.EmpSuggestionServ;
@@ -150,17 +147,17 @@ public class EmpSuggestionServImpl implements EmpSuggestionServ {
     }
 
     @Override
-    public Boolean ifAnyEmpSuggestionExist(String userId, int assessmentYear) {
+    public EmpSuggestionOneDto ifAnyEmpSuggestionExist(String userId, int assessmentYear) {
         log.info("Looking for EmpSuggestion with User ID: {} and Assessment Year: {}", userId, assessmentYear);
-        Boolean result = false;
         try {
-            result = empSuggestionRepo.ifAnyEmpSuggestionExist(userId, assessmentYear);
-            if (result) {
+            Map<String, Object> data = empSuggestionRepo.ifAnyEmpSuggestionExist(userId, assessmentYear);
+            EmpSuggestionOneDto result = EmpSuggestionOneDto.mapToDto(data);
+            if (!data.isEmpty()) {
                 log.info("There is an EmpSuggestion with UserID: {} and Assessment Year: {}", userId, assessmentYear);
-                return true;
+                return result;
             } else {
                 log.info("There is no EmpSuggestion with UserID: {} and Assessment Year: {}", userId, assessmentYear);
-                return false;
+                return null;
             }
         } catch (Exception e) {
             log.error("Error while looking EmpSuggestion by UserID: {} and Assessment Year: {}. Error: {}", userId, assessmentYear, e.getMessage());

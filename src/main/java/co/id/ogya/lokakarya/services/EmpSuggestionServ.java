@@ -1,9 +1,6 @@
 package co.id.ogya.lokakarya.services;
 
-import co.id.ogya.lokakarya.dto.empsuggestion.EmpSuggestionCreateDto;
-import co.id.ogya.lokakarya.dto.empsuggestion.EmpSuggestionDto;
-import co.id.ogya.lokakarya.dto.empsuggestion.EmpSuggestionGetDto;
-import co.id.ogya.lokakarya.dto.empsuggestion.EmpSuggestionUpdateDto;
+import co.id.ogya.lokakarya.dto.empsuggestion.*;
 
 import java.util.List;
 import java.util.Map;
@@ -25,5 +22,5 @@ public interface EmpSuggestionServ {
 
     List<EmpSuggestionGetDto> getEmpSuggestionGetByCreatedBy(String userId);
 
-    Boolean ifAnyEmpSuggestionExist(String userId, int assessmentYear);
+    EmpSuggestionOneDto ifAnyEmpSuggestionExist(String userId, int assessmentYear);
 }
