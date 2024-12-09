@@ -1,9 +1,6 @@
 package co.id.ogya.lokakarya.services.impl;
 
-import co.id.ogya.lokakarya.dto.assessmentsummary.AssessmentSummaryCreateDto;
-import co.id.ogya.lokakarya.dto.assessmentsummary.AssessmentSummaryDto;
-import co.id.ogya.lokakarya.dto.assessmentsummary.AssessmentSummaryGetDto;
-import co.id.ogya.lokakarya.dto.assessmentsummary.AssessmentSummaryUpdateDto;
+import co.id.ogya.lokakarya.dto.assessmentsummary.*;
 import co.id.ogya.lokakarya.entities.AssessmentSummary;
 import co.id.ogya.lokakarya.repositories.AssessmentSummaryRepo;
 import co.id.ogya.lokakarya.services.AssessmentSummaryServ;
@@ -131,6 +128,40 @@ public class AssessmentSummaryServImpl implements AssessmentSummaryServ {
             log.error("Error occurred while deleting AssessmentSummary with ID {}: {}", id, e.getMessage(), e);
         }
         return isDeleted;
+    }
+
+    @Override
+    public List<AchievementSummaryGetDto> getAchievementSummaryByUserIdAssessmentYear(String userId, int assessmentYear) {
+        log.info("Attempting to fetch all AchievementSummary for User ID: {} and Assessment Year: {}", userId, assessmentYear);
+        List<AchievementSummaryGetDto> listResult = new ArrayList<>();
+        try {
+            List<Map<String, Object>> listData = assessmentSummaryRepo.getAchievementSummaryByUserIdAssessmentYear(userId, assessmentYear);
+            log.debug("Fetched {} AchievementSummary from repository for User ID: {} and Assessment Year: {}", listData.size(), userId, assessmentYear);
+            for (Map<String,Object> data : listData) {
+                AchievementSummaryGetDto result = AchievementSummaryGetDto.mapToDto(data);
+                listResult.add(result);
+            }
+        } catch (Exception e) {
+            log.error("Error occurred while fetching all AchievementSummary for User ID: {} and Assessment Year: {} : {}", userId, assessmentYear, e.getMessage(), e);
+        }
+        return listResult;
+    }
+
+    @Override
+    public List<AttitudeSkillSummaryGetDto> getAttitudeSkillSummaryByUserIdAssessmentYear(String userId, int assessmentYear) {
+        log.info("Attempting to fetch all AttitudeSkillSummary for User ID: {} and Assessment Year: {}", userId, assessmentYear);
+        List<AttitudeSkillSummaryGetDto> listResult = new ArrayList<>();
+        try {
+            List<Map<String, Object>> listData = assessmentSummaryRepo.getAchievementSummaryByUserIdAssessmentYear(userId, assessmentYear);
+            log.debug("Fetched {} AttitudeSkillSummary from repository for User ID: {} and Assessment Year: {}", listData.size(), userId, assessmentYear);
+            for (Map<String,Object> data : listData) {
+                AttitudeSkillSummaryGetDto result = AttitudeSkillSummaryGetDto.mapToDto(data);
+                listResult.add(result);
+            }
+        } catch (Exception e) {
+            log.error("Error occurred while fetching all AttitudeSkillSummary for User ID: {} and Assessment Year: {} : {}", userId, assessmentYear, e.getMessage(), e);
+        }
+        return listResult;
     }
 
     private AssessmentSummary convertToEntity(AssessmentSummaryDto convertObject) {
