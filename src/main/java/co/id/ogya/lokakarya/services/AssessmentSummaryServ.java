@@ -13,6 +13,8 @@ public interface AssessmentSummaryServ {
 
     AssessmentSummaryGetDto getAssessmentSummaryGetById(String id);
 
+    AssessmentSummaryGetDto getAssessmentSummaryGetByUserIdAndAssessmentYear(String userId, int year);
+
     AssessmentSummaryDto createAssessmentSummary(AssessmentSummaryCreateDto assessmentSummaryCreateDto);
 
     AssessmentSummaryDto updateAssessmentSummary(AssessmentSummaryUpdateDto assessmentSummaryUpdateDto);

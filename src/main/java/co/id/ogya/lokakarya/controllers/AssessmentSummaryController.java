@@ -111,6 +111,28 @@ public class AssessmentSummaryController extends ServerResponseList {
         }
     }
 
+    @GetMapping("/get/{userId}/{year}")
+    public ResponseEntity<?> getAssessmentSummaryGetByUserIdAndAssessmentYear(@PathVariable String userId, @PathVariable int year) {
+        log.info("Fetching AssessmentSummary with ID: {} year {}", userId, year);
+        long startTime = System.currentTimeMillis();
+
+        try {
+            AssessmentSummaryGetDto result = assessmentSummaryServ.getAssessmentSummaryGetByUserIdAndAssessmentYear(userId,year);
+            ManagerDto<AssessmentSummaryGetDto> response = new ManagerDto<>();
+            response.setContent(result);
+            response.setTotalRows(1);
+
+            long endTime = System.currentTimeMillis();
+            response.setInfo(getInfoOk("Time", endTime - startTime));
+            log.info("Fetched AssessmentSummary with ID: {} in {} ms", userId, endTime - startTime);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error fetching AssessmentSummary by ID {}: {}", userId, e.getMessage(), e);
+            return new ResponseEntity<>("Failed to fetch AssessmentSummary with ID: " + userId, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @PostMapping("/create")
     public ResponseEntity<?> createAssessmentSummary(@RequestBody AssessmentSummaryCreateDto assessmentSummaryCreateDto) {
         log.info("Creating new AssessmentSummary with data: {}", assessmentSummaryCreateDto);

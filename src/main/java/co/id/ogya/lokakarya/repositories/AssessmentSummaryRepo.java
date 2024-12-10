@@ -13,6 +13,8 @@ public interface AssessmentSummaryRepo {
 
     Map<String, Object> getAssessmentSummaryGetById(String id);
 
+    Map<String, Object> getAssessmentSummaryGetByUserIdAndAssessmentYear(String userId, int year);
+
     List<Map<String,Object>> getAssessmentSummaryGetByUserId(String id);
 
     AssessmentSummary saveAssessmentSummary(AssessmentSummary assessmentSummary);

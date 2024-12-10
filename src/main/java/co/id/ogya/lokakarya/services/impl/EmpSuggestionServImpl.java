@@ -7,6 +7,7 @@ import co.id.ogya.lokakarya.services.EmpSuggestionServ;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -151,8 +152,8 @@ public class EmpSuggestionServImpl implements EmpSuggestionServ {
         log.info("Looking for EmpSuggestion with User ID: {} and Assessment Year: {}", userId, assessmentYear);
         try {
             Map<String, Object> data = empSuggestionRepo.ifAnyEmpSuggestionExist(userId, assessmentYear);
-            EmpSuggestionOneDto result = EmpSuggestionOneDto.mapToDto(data);
-            if (!data.isEmpty()) {
+            if (data != null) {
+                EmpSuggestionOneDto result = EmpSuggestionOneDto.mapToDto(data);
                 log.info("There is an EmpSuggestion with UserID: {} and Assessment Year: {}", userId, assessmentYear);
                 log.info(result.toString());
                 return result;

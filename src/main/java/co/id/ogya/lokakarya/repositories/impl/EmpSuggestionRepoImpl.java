@@ -4,6 +4,7 @@ import co.id.ogya.lokakarya.entities.EmpSuggestion;
 import co.id.ogya.lokakarya.repositories.EmpSuggestionRepo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -165,15 +166,15 @@ public class EmpSuggestionRepoImpl implements EmpSuggestionRepo {
         log.info("Looking for EmpSuggestion with User ID: {} and Assessment Year: {} with query: {}", userId, assessmentYear, sql);
         try {
             Map<String, Object> result = jdbcTemplate.queryForMap(sql, userId, assessmentYear);
-            if (result.isEmpty()) {
-                log.info("There is no EmpSuggestion with UserID: {} and Assessment Year: {}", userId, assessmentYear);
-                return null;
-            } else {
-                log.info("There is an EmpSuggestion with UserID: {} and Assessment Year: {}", userId, assessmentYear);
-                log.info(result.toString());
-                return result;
-            }
-        } catch (Exception e) {
+
+            log.info("There is an EmpSuggestion with UserID: {} and Assessment Year: {}", userId, assessmentYear);
+            log.info(result.toString());
+            return result;
+        } catch (EmptyResultDataAccessException e){
+            log.info("There is no EmpSuggestion with UserID: {} and Assessment Year: {}", userId, assessmentYear);
+            return null;
+        }
+        catch (Exception e) {
             log.error("Error while looking EmpSuggestion by UserID: {} and Assessment Year: {}. Error: {}", userId, assessmentYear, e.getMessage());
             throw e;
         }

@@ -85,6 +85,24 @@ public class AssessmentSummaryRepoImpl implements AssessmentSummaryRepo {
     }
 
     @Override
+    public Map<String, Object> getAssessmentSummaryGetByUserIdAndAssessmentYear(String userId, int year) {
+        String sql = "SELECT ass.ID, FULL_NAME, YEAR, SCORE, STATUS, " +
+                "ass.CREATED_AT, ass.CREATED_BY, ass.UPDATED_AT, ass.UPDATED_BY " +
+                "FROM tbl_assessment_summary ass " +
+                "LEFT JOIN tbl_app_user au ON ass.USER_ID = au.ID " +
+                "WHERE ass.USER_ID = ? AND WHERE YEAR = ?";
+        log.info("Executing query to fetch AssessmentSummary by ID with user details: {} year: {}", userId, year);
+        try {
+            Map<String, Object> result = jdbcTemplate.queryForMap(sql, userId, year);
+            log.info("Successfully fetched AssessmentSummary: {}", result);
+            return result;
+        } catch (Exception e) {
+            log.error("Error fetching AssessmentSummary by ID: {} year: {}. Error: {}", userId, year, e.getMessage());
+            return null;
+        }
+    }
+
+    @Override
     public List<Map<String, Object>> getAssessmentSummaryGetByUserId(String userId) {
         String sql = "SELECT ass.ID, FULL_NAME, YEAR, SCORE, STATUS, " +
                 "ass.CREATED_AT, ass.CREATED_BY, ass.UPDATED_AT, ass.UPDATED_BY " +
