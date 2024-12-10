@@ -90,7 +90,7 @@ public class AssessmentSummaryRepoImpl implements AssessmentSummaryRepo {
                 "ass.CREATED_AT, ass.CREATED_BY, ass.UPDATED_AT, ass.UPDATED_BY " +
                 "FROM tbl_assessment_summary ass " +
                 "LEFT JOIN tbl_app_user au ON ass.USER_ID = au.ID " +
-                "WHERE ass.USER_ID = ? AND WHERE YEAR = ?";
+                "WHERE ass.USER_ID = ? AND YEAR = ?";
         log.info("Executing query to fetch AssessmentSummary by ID with user details: {} year: {}", userId, year);
         try {
             Map<String, Object> result = jdbcTemplate.queryForMap(sql, userId, year);
