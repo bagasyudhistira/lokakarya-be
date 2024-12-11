@@ -98,6 +98,7 @@ public class AuthController extends ServerResponseList {
 
         List<String> roles = appUserRoleRepo.getAppUserRoleNamesById(appUserServ.getAppUserByUsername(userDetails.getUsername()).getId());
         String divisionId = appUserServ.getAppUserByUsername(userDetails.getUsername()).getDivisionId();
+        log.info("Division Id: {}", divisionId);
         String userId = appUserServ.getAppUserByUsername(userDetails.getUsername()).getId();
 
         return Jwts.builder()
