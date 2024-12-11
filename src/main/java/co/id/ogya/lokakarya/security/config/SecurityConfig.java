@@ -48,17 +48,26 @@ public class SecurityConfig {
                             // Routes accessible to everyone
                             .requestMatchers("/auth/sign-in", "/v3/api-docs/**", "/swagger-ui/**").permitAll()
 
-                            // Routes accessible to specific roles
+                            // Public GET routes
                             .requestMatchers(HttpMethod.GET, "/appuser/get/{id}", "/appuser/get/common/all").permitAll()
-                            .requestMatchers(HttpMethod.GET, "/assessmentsummary/**", "/auth/changepassword").hasAnyRole("HR", "USER", "SVP", "MGR")
+
+                            // Routes accessible by HR, USER, SVP, MGR (GET only)
+                            .requestMatchers("/assessmentsummary/**", "/auth/changepassword").hasAnyRole("HR", "USER", "SVP", "MGR")
+
+                            // Allow both USER and HR to GET /groupattitudeskill/** and /groupachievement/**
+                            .requestMatchers(HttpMethod.GET, "/groupattitudeskill/**", "/groupachievement/**").hasAnyRole("USER", "HR")
+
+                            // Routes accessible by USER (any method)
                             .requestMatchers("/empattitudeskill/**", "/emptechnicalskill/**", "/empdevplan/**",
                                     "/attitudeskill/**", "/technicalskill/**", "/devplan/**",
                                     "/empsuggestion/**", "/empachievementskill/**").hasAnyRole("USER")
-                            .requestMatchers(HttpMethod.GET, "/groupattitudeskill/**", "/groupachievement/**").hasAnyRole("USER")
+
+                            // Routes accessible by HR (broader coverage)
                             .requestMatchers("/appuser/**", "/division/**", "/approlemenu/**",
                                     "/groupattitudeskill/**", "/attitudeskill/**", "/grouptechnicalskill/**",
                                     "/technicalskill/**", "/devplan/**", "/groupachievement/**",
-                                    "/achievement/**", "/empachievement/**", "/auth/resetpassword", "/assessmentsummary/**").hasAnyRole("HR")
+                                    "/achievement/**", "/empachievement/**", "/auth/resetpassword", "/assessmentsummary/**")
+                            .hasAnyRole("HR")
 
                             // Default: all other requests require authentication
                             .anyRequest().authenticated();
