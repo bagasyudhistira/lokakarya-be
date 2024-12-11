@@ -5,6 +5,7 @@ import co.id.ogya.lokakarya.dto.approlemenu.AppRoleMenuGetDto;
 import co.id.ogya.lokakarya.dto.appuser.AppUserDto;
 import co.id.ogya.lokakarya.dto.appuserrole.AppUserRoleGetDto;
 import co.id.ogya.lokakarya.exceptions.UserException;
+import co.id.ogya.lokakarya.repositories.AppUserRepo;
 import co.id.ogya.lokakarya.repositories.AppUserRoleRepo;
 import co.id.ogya.lokakarya.security.dto.AuthDto;
 import co.id.ogya.lokakarya.security.dto.AuthGetDto;
@@ -96,6 +97,7 @@ public class AuthController extends ServerResponseList {
         SecretKey key = Keys.hmacShaKeyFor(SecurityConstants.JWT_KEY.getBytes());
 
         List<String> roles = appUserRoleRepo.getAppUserRoleNamesById(appUserServ.getAppUserByUsername(userDetails.getUsername()).getId());
+        String divisionId = appUserServ.getAppUserByUsername(userDetails.getUsername()).getDivisionId();
         String userId = appUserServ.getAppUserByUsername(userDetails.getUsername()).getId();
 
         return Jwts.builder()
@@ -103,6 +105,7 @@ public class AuthController extends ServerResponseList {
                 .setSubject("JWT Token")
                 .claim("userId", userId)
                 .claim("username", userDetails.getUsername())
+                .claim("divisionId", divisionId)
                 .claim("roles", roles)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(new Date().getTime() + 30000000))
