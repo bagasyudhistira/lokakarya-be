@@ -59,7 +59,7 @@ public class SecurityConfig {
 
                             // Routes accessible by USER (any method)
                             .requestMatchers("/empattitudeskill/**", "/emptechnicalskill/**", "/empdevplan/**",
-                                    "/attitudeskill/**",s "/devplan/**",
+                                    "/attitudeskill/**", "/devplan/**",
                                     "/empsuggestion/**", "/empachievementskill/**").hasAnyRole("USER")
 
                             // Routes accessible by HR (broader coverage)
