@@ -54,6 +54,20 @@ public class AppUserRepoImpl implements AppUserRepo {
     }
 
     @Override
+    public List<AppUser> getAppUsersByDivisionId(String divisionId) {
+        String sql = "SELECT * FROM tbl_app_user WHERE DIVISION_ID = ?";
+        try {
+            log.info("Fetching AppUsers for Division ID: {}", divisionId);
+            List<AppUser> appUsers = jdbcTemplate.query(sql, rowMapper, divisionId);
+            log.info("Fetched {} AppUsers", appUsers.size());
+            return appUsers;
+        } catch (Exception e) {
+            log.error("Error fetching AppUsers: {}", e.getMessage(), e);
+            throw e;
+        }
+    }
+
+    @Override
     public List<Map<String, Object>> getAppUserGets() {
         String sql = "SELECT au.ID, USERNAME, FULL_NAME, POSITION, EMAIL_ADDRESS, EMPLOYEE_STATUS, " +
                 "JOIN_DATE, ENABLED, PASSWORD, DIVISION_NAME " +

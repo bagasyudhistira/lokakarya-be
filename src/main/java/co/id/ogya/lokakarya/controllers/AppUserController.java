@@ -71,6 +71,28 @@ public class AppUserController extends ServerResponseList {
         }
     }
 
+    @GetMapping("/div/{divisionId}")
+    public ResponseEntity<?> getAllAppUsers(@PathVariable String divisionId) {
+        log.info("Fetching all AppUsers for Division ID: {}", divisionId);
+        long startTime = System.currentTimeMillis();
+
+        try {
+            List<AppUserDto> result = appUserServ.getAppUserByDivisionId(divisionId);
+            ManagerDto<List<AppUserDto>> response = new ManagerDto<>();
+            response.setContent(result);
+            response.setTotalRows(result.size());
+
+            long endTime = System.currentTimeMillis();
+            response.setInfo(getInfoOk("Time", endTime - startTime));
+            log.info("Fetched all AppUsers for Division ID: {} in {} ms", divisionId, endTime - startTime);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error fetching all AppUsers for Division ID: {} : {}", divisionId, e.getMessage(), e);
+            return new ResponseEntity<>("Failed to fetch AppUsers", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @GetMapping("/get/all")
     public ResponseEntity<?> getAllAppUserGets() {
         log.info("Fetching all AppUsers");

@@ -9,6 +9,8 @@ public interface AppUserServ {
 
     AppUserDto getAppUserById(String id);
 
+    List<AppUserDto> getAppUserByDivisionId(String divisionId);
+
     List<AppUserGetDto> getAllAppUserGet();
 
     AppUserGetDto getAppUserGetById(String id);

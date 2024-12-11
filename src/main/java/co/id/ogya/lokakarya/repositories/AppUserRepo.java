@@ -10,6 +10,8 @@ public interface AppUserRepo {
 
     AppUser getAppUserById(String id);
 
+    List<AppUser> getAppUsersByDivisionId(String divisionId);
+
     List<Map<String,Object>> getAppUserGets();
 
     Map<String, Object> getAppUserGetById(String id);

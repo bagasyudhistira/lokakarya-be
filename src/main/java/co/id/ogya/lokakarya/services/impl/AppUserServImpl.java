@@ -52,6 +52,23 @@ public class AppUserServImpl implements AppUserServ {
     }
 
     @Override
+    public List<AppUserDto> getAppUserByDivisionId(String divisionId) {
+        log.info("Attempting to fetch all AppUsers");
+        List<AppUserDto> listResult = new ArrayList<>();
+        try {
+            List<AppUser> listData = appUserRepo.getAppUsersByDivisionId(divisionId);
+            log.debug("Fetched {} AppUsers for Division ID: {} from repository", listData.size(), divisionId);
+            for (AppUser data : listData) {
+                AppUserDto result = convertToDto(data);
+                listResult.add(result);
+            }
+        } catch (Exception e) {
+            log.error("Error occurred while fetching all AppUsers: {}", e.getMessage(), e);
+        }
+        return listResult;
+    }
+
+    @Override
     public List<AppUserGetDto> getAllAppUserGet() {
         log.info("Attempting to fetch all AppUsers");
         List<AppUserGetDto> listResult = new ArrayList<>();
