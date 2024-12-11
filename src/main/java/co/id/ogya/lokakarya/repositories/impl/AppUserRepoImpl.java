@@ -70,7 +70,7 @@ public class AppUserRepoImpl implements AppUserRepo {
     @Override
     public List<Map<String, Object>> getAppUserGets() {
         String sql = "SELECT au.ID, USERNAME, FULL_NAME, POSITION, EMAIL_ADDRESS, EMPLOYEE_STATUS, " +
-                "JOIN_DATE, ENABLED, PASSWORD, DIVISION_NAME " +
+                "JOIN_DATE, ENABLED, PASSWORD, DIVISION_ID, DIVISION_NAME " +
                 "FROM tbl_app_user au " +
                 "LEFT JOIN tbl_division d ON au.DIVISION_ID = d.ID";
         try {

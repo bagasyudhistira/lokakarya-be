@@ -38,6 +38,9 @@ public class AppUserGetDto {
     @JsonProperty("enabled")
     private boolean enabled;
 
+    @JsonProperty("division_id")
+    private String divisionId;
+
     @JsonProperty("division_name")
     private String divisionName;
 
@@ -57,6 +60,7 @@ public class AppUserGetDto {
                         ? new Date(((java.sql.Date) convertObject.get("JOIN_DATE")).getTime())
                         : null)
                 .enabled(convertObject.get("ENABLED") != null && (Boolean) convertObject.get("ENABLED"))
+                .divisionId((String) convertObject.get("DIVISION_ID"))
                 .divisionName((String) convertObject.get("DIVISION_NAME"))
                 .build();
 
