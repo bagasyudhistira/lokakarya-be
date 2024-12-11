@@ -49,7 +49,7 @@ public class SecurityConfig {
                             .requestMatchers("/auth/sign-in", "/v3/api-docs/**", "/swagger-ui/**").permitAll()
 
                             // Public GET routes
-                            .requestMatchers(HttpMethod.GET, "/appuser/get/{id}", "/appuser/get/common/all", "/empachievementskill/**", "/empattitudeskill/**", "/empsuggestion/**", "/division/all").hasAnyRole("HR", "USER", "SVP", "MGR")
+                            .requestMatchers(HttpMethod.GET, "/appuser/get/{id}", "/appuser/get/common/all", "/empachievementskill/**", "/empattitudeskill/**", "/empsuggestion/**", "/division/all", "/attitudeskill/**", "/achievement/**").hasAnyRole("HR", "USER", "SVP", "MGR")
 
                             // Routes accessible by HR, USER, SVP, MGR (GET only)
                             .requestMatchers("/assessmentsummary/**", "/auth/changepassword").hasAnyRole("HR", "USER", "SVP", "MGR")
