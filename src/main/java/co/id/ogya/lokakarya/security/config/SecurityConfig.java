@@ -50,6 +50,7 @@ public class SecurityConfig {
 
                             // Public GET routes
                             .requestMatchers(HttpMethod.GET, "/appuser/get/{id}", "/appuser/get/common/all", "/empachievementskill/**", "/empattitudeskill/**", "/empsuggestion/**", "/division/all", "/attitudeskill/**", "/achievement/**", "/appuser/div/**",  "/groupattitudeskill/**", "/groupachievement/**", "/technicalskill/**", "/devplan/**").hasAnyRole("HR", "USER", "SVP", "MGR")
+                            .requestMatchers(HttpMethod.GET, "/appuser/**").hasAnyRole("SVP", "MGR")
 
                             // Routes accessible by HR, USER, SVP, MGR (GET only)
                             .requestMatchers("/assessmentsummary/**", "/auth/changepassword").hasAnyRole("HR", "USER", "SVP", "MGR")
