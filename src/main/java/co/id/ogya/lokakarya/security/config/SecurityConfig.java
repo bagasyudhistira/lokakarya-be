@@ -49,7 +49,7 @@ public class SecurityConfig {
                             .requestMatchers("/auth/sign-in", "/v3/api-docs/**", "/swagger-ui/**").permitAll()
 
                             // Public GET routes
-                            .requestMatchers(HttpMethod.GET, "/appuser/get/{id}", "/appuser/get/common/all").permitAll()
+                            .requestMatchers(HttpMethod.GET, "/appuser/get/{id}", "/appuser/get/common/all", "/empachievementskill/**", "/empattitudeskill/**", "/empsuggestion/**", "/division/all").hasAnyRole("HR", "USER", "SVP", "MGR")
 
                             // Routes accessible by HR, USER, SVP, MGR (GET only)
                             .requestMatchers("/assessmentsummary/**", "/auth/changepassword").hasAnyRole("HR", "USER", "SVP", "MGR")
@@ -64,9 +64,8 @@ public class SecurityConfig {
 
                             // Routes accessible by HR (broader coverage)
                             .requestMatchers("/appuser/**", "/division/**", "/approlemenu/**",
-                                    "/groupattitudeskill/**", "/attitudeskill/**", "/grouptechnicalskill/**",
-                                    "/technicalskill/**", "/devplan/**", "/groupachievement/**",
-                                    "/achievement/**", "/empachievement/**", "/auth/resetpassword", "/assessmentsummary/**")
+                                    "/groupattitudeskill/**", "/attitudeskill/**", "/technicalskill/**", "/devplan/**", "/groupachievement/**",
+                                    "/achievement/**", "/empachievementskill/**", "/auth/resetpassword", "/assessmentsummary/**")
                             .hasAnyRole("HR")
 
                             // Default: all other requests require authentication
