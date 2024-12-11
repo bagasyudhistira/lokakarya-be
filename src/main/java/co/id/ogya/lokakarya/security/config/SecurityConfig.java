@@ -55,11 +55,11 @@ public class SecurityConfig {
                             .requestMatchers("/assessmentsummary/**", "/auth/changepassword").hasAnyRole("HR", "USER", "SVP", "MGR")
 
                             // Allow both USER and HR to GET /groupattitudeskill/** and /groupachievement/**
-                            .requestMatchers(HttpMethod.GET, "/groupattitudeskill/**", "/groupachievement/**").hasAnyRole("USER", "HR")
+                            .requestMatchers(HttpMethod.GET, "/groupattitudeskill/**", "/groupachievement/**", "/technicalskill/**").hasAnyRole("USER", "HR")
 
                             // Routes accessible by USER (any method)
                             .requestMatchers("/empattitudeskill/**", "/emptechnicalskill/**", "/empdevplan/**",
-                                    "/attitudeskill/**", "/technicalskill/**", "/devplan/**",
+                                    "/attitudeskill/**",s "/devplan/**",
                                     "/empsuggestion/**", "/empachievementskill/**").hasAnyRole("USER")
 
                             // Routes accessible by HR (broader coverage)
