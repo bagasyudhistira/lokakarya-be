@@ -104,7 +104,7 @@ public class TechnicalSkillServImpl implements TechnicalSkillServ {
         log.info("Attempting to fetch TechnicalSkill by Technical Skill : {}", technicalSkill);
         TechnicalSkillDto result = null;
         try {
-            TechnicalSkill data = technicalSkillRepo.getTechnicalSkillById(technicalSkill);
+            TechnicalSkill data = technicalSkillRepo.getTechnicalSkillByName(technicalSkill);
             result = convertToDto(data);
             log.debug("Fetched TechnicalSkill: {}", result);
         } catch (Exception e) {
