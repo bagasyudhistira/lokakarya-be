@@ -179,4 +179,25 @@ public class AchievementController extends ServerResponseList {
             return new ResponseEntity<>("Failed to delete achievement with ID: " + id, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("/name/{achievementName}")
+    public ResponseEntity<?> getAchievementByName(@PathVariable String achievementName) {
+        log.info("Fetching achievement with name: {}", achievementName);
+        long startTime = System.currentTimeMillis();
+        try {
+            AchievementDto result = achievementServ.getAchievementByName(achievementName);
+            ManagerDto<AchievementDto> response = new ManagerDto<>();
+            response.setContent(result);
+            response.setTotalRows(1);
+
+            long endTime = System.currentTimeMillis();
+            response.setInfo(getInfoOk("Time", endTime - startTime));
+            log.info("Fetched achievement with name: {} in {} ms", achievementName, endTime - startTime);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error fetching achievement by name {}: {}", achievementName, e.getMessage(), e);
+            return new ResponseEntity<>("Failed to fetch achievement with name: " + achievementName, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

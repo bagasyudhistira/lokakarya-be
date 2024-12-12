@@ -6,8 +6,14 @@ import java.util.List;
 
 public interface DevPlanRepo {
     List<DevPlan> getDevPlans();
+
     DevPlan getDevPlanById(String id);
+
     DevPlan saveDevPlan(DevPlan devPlan);
+
     DevPlan updateDevPlan(DevPlan devPlan);
+
     Boolean deleteDevPlan(String id);
+
+    DevPlan getDevPlanByName(String planName);
 }

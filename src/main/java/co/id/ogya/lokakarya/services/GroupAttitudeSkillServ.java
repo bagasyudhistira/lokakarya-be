@@ -8,9 +8,14 @@ import java.util.List;
 
 public interface GroupAttitudeSkillServ {
     List<GroupAttitudeSkillDto> getAllGroupAttitudeSkill();
+
     GroupAttitudeSkillDto getGroupAttitudeSkillById(String id);
+
     GroupAttitudeSkillDto createGroupAttitudeSkill(GroupAttitudeSkillCreateDto groupAttitudeSkillCreateDto);
+
     GroupAttitudeSkillDto updateGroupAttitudeSkill(GroupAttitudeSkillUpdateDto groupAttitudeSkillUpdateDto);
+
     boolean deleteGroupAttitudeSkill(String id);
 
+    GroupAttitudeSkillDto getGroupAttitudeSkillByGroupName(String groupName);
 }

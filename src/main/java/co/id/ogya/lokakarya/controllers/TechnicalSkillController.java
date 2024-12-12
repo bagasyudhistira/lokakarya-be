@@ -132,4 +132,26 @@ public class TechnicalSkillController extends ServerResponseList {
             return new ResponseEntity<>("Failed to delete TechnicalSkill with ID: " + id, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("/name/{technicalSkill}")
+    public ResponseEntity<?> getTechnicalSkillByName(@PathVariable String technicalSkill) {
+        log.info("Fetching TechnicalSkill by name: {}", technicalSkill);
+        long startTime = System.currentTimeMillis();
+
+        try {
+            TechnicalSkillDto result = technicalSkillServ.getTechnicalSkillByName(technicalSkill);
+            ManagerDto<TechnicalSkillDto> response = new ManagerDto<>();
+            response.setContent(result);
+            response.setTotalRows(1);
+
+            long endTime = System.currentTimeMillis();
+            response.setInfo(getInfoOk("Time", endTime - startTime));
+            log.info("Fetched TechnicalSkill with name: {} in {} ms", technicalSkill, endTime - startTime);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error fetching TechnicalSkill by name {}: {}", technicalSkill, e.getMessage(), e);
+            return new ResponseEntity<>("Failed to fetch TechnicalSkill with name: " + technicalSkill, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

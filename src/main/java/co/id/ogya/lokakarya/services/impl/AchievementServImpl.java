@@ -130,6 +130,20 @@ public class AchievementServImpl implements AchievementServ {
         return isDeleted;
     }
 
+    @Override
+    public AchievementDto getAchievementByName(String achievementName) {
+        log.info("Attempting to fetch achievement by Achievement Name: {}", achievementName);
+        AchievementDto result = null;
+        try {
+            Achievement data = achievementRepo.getAchievementByName(achievementName);
+            result = convertToDto(data);
+            log.debug("Fetched achievement: {}", result);
+        } catch (Exception e) {
+            log.error("Error occurred while fetching achievement by Achievement Name {}: {}", achievementName, e.getMessage(), e);
+        }
+        return result;
+    }
+
     private Achievement convertToEntity(AchievementDto convertObject) {
         log.debug("Converting AchievementDto to entity: {}", convertObject);
         Achievement result = Achievement.builder()

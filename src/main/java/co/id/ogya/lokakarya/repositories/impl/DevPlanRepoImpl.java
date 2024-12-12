@@ -108,4 +108,18 @@ public class DevPlanRepoImpl implements DevPlanRepo {
             return false;
         }
     }
+
+    @Override
+    public DevPlan getDevPlanByName(String planName) {
+        String sql = "SELECT * FROM tbl_dev_plan WHERE LOWER(PLAN) = LOWER(?)";
+        log.info("Executing query to fetch DevPlan by Plan Name: {} using query: {}", planName, sql);
+        try {
+            DevPlan result = jdbcTemplate.queryForObject(sql, rowMapper, planName);
+            log.info("Successfully fetched DevPlan: {}", result);
+            return result;
+        } catch (Exception e) {
+            log.error("Error fetching DevPlan by Plan Name: {}. Error: {}", planName, e.getMessage());
+            return null;
+        }
+    }
 }

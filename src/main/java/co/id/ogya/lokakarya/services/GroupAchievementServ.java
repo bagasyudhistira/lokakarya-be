@@ -8,9 +8,14 @@ import java.util.List;
 
 public interface GroupAchievementServ {
     List<GroupAchievementDto> getAllGroupAchievement();
+
     GroupAchievementDto getGroupAchievementById(String id);
+
     GroupAchievementDto createGroupAchievement(GroupAchievementCreateDto groupAchievementCreateDto);
+
     GroupAchievementDto updateGroupAchievement(GroupAchievementUpdateDto groupAchievementUpdateDto);
+
     boolean deleteGroupAchievement(String id);
 
+    GroupAchievementDto getGroupAchievementByGroupName(String groupName);
 }

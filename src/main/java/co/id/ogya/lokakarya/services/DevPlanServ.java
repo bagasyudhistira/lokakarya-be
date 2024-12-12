@@ -8,9 +8,14 @@ import java.util.List;
 
 public interface DevPlanServ {
     List<DevPlanDto> getAllDevPlan();
+
     DevPlanDto getDevPlanById(String id);
+
     DevPlanDto createDevPlan(DevPlanCreateDto devPlanCreateDto);
+
     DevPlanDto updateDevPlan(DevPlanUpdateDto devPlanUpdateDto);
+
     boolean deleteDevPlan(String id);
 
+    DevPlanDto getDevPlanByName(String planName);
 }

@@ -9,6 +9,7 @@ import java.util.List;
 
 public interface AchievementServ {
     List<AchievementDto> getAllAchievement();
+
     AchievementDto getAchievementById(String id);
 
     List<AchievementGetDto> getAllAchievementGet();
@@ -16,7 +17,10 @@ public interface AchievementServ {
     AchievementGetDto getAchievementGetById(String id);
 
     AchievementDto createAchievement(AchievementCreateDto achievementCreateDto);
+
     AchievementDto updateAchievement(AchievementUpdateDto achievementUpdateDto);
+
     boolean deleteAchievement(String id);
 
+    AchievementDto getAchievementByName(String achievementName);
 }

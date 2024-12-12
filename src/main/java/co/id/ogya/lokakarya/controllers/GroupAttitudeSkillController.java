@@ -132,4 +132,26 @@ public class GroupAttitudeSkillController extends ServerResponseList {
             return new ResponseEntity<>("Failed to delete GroupAttitudeSkill with ID: " + id, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("/name/{groupName}")
+    public ResponseEntity<?> getGroupAttitudeSkillByGroupName(@PathVariable String groupName) {
+        log.info("Fetching GroupAttitudeSkill by name: {}", groupName);
+        long startTime = System.currentTimeMillis();
+
+        try {
+            GroupAttitudeSkillDto result = groupAttitudeSkillServ.getGroupAttitudeSkillByGroupName(groupName);
+            ManagerDto<GroupAttitudeSkillDto> response = new ManagerDto<>();
+            response.setContent(result);
+            response.setTotalRows(1);
+
+            long endTime = System.currentTimeMillis();
+            response.setInfo(getInfoOk("Time", endTime - startTime));
+            log.info("Fetched GroupAttitudeSkill with name: {} in {} ms", groupName, endTime - startTime);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error fetching GroupAttitudeSkill by name {}: {}", groupName, e.getMessage(), e);
+            return new ResponseEntity<>("Failed to fetch GroupAttitudeSkill with name: " + groupName, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

@@ -99,6 +99,20 @@ public class TechnicalSkillServImpl implements TechnicalSkillServ {
         return isDeleted;
     }
 
+    @Override
+    public TechnicalSkillDto getTechnicalSkillByName(String technicalSkill) {
+        log.info("Attempting to fetch TechnicalSkill by Technical Skill : {}", technicalSkill);
+        TechnicalSkillDto result = null;
+        try {
+            TechnicalSkill data = technicalSkillRepo.getTechnicalSkillById(technicalSkill);
+            result = convertToDto(data);
+            log.debug("Fetched TechnicalSkill: {}", result);
+        } catch (Exception e) {
+            log.error("Error occurred while fetching TechnicalSkill by Technical Skill {}: {}", technicalSkill, e.getMessage(), e);
+        }
+        return result;
+    }
+
     private TechnicalSkill convertToEntity(TechnicalSkillDto convertObject) {
         log.debug("Converting TechnicalSkillDto to entity: {}", convertObject);
         return TechnicalSkill.builder()

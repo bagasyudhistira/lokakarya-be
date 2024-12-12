@@ -99,6 +99,20 @@ public class DevPlanServImpl implements DevPlanServ {
         return isDeleted;
     }
 
+    @Override
+    public DevPlanDto getDevPlanByName(String planName) {
+        log.info("Attempting to fetch DevPlan by Plan Name: {}", planName);
+        DevPlanDto result = null;
+        try {
+            DevPlan data = devPlanRepo.getDevPlanByName(planName);
+            result = convertToDto(data);
+            log.debug("Fetched DevPlan: {}", result);
+        } catch (Exception e) {
+            log.error("Error occurred while fetching DevPlan by Plan Name {}: {}", planName, e.getMessage(), e);
+        }
+        return result;
+    }
+
     private DevPlan convertToEntity(DevPlanDto convertObject) {
         log.debug("Converting DevPlanDto to entity: {}", convertObject);
         DevPlan result = DevPlan.builder()

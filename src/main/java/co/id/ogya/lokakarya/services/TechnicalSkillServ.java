@@ -8,9 +8,14 @@ import java.util.List;
 
 public interface TechnicalSkillServ {
     List<TechnicalSkillDto> getAllTechnicalSkill();
+
     TechnicalSkillDto getTechnicalSkillById(String id);
+
     TechnicalSkillDto createTechnicalSkill(TechnicalSkillCreateDto technicalSkillCreateDto);
+
     TechnicalSkillDto updateTechnicalSkill(TechnicalSkillUpdateDto technicalSkillUpdateDto);
+
     boolean deleteTechnicalSkill(String id);
 
+    TechnicalSkillDto getTechnicalSkillByName(String technicalSkill);
 }

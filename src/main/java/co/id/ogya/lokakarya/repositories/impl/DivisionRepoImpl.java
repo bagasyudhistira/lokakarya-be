@@ -36,8 +36,7 @@ public class DivisionRepoImpl implements DivisionRepo {
 
     @Override
     public Division getDivisionById(String id) {
-        String sql = "SELECT * FROM tbl_division " +
-                "WHERE ID = ?";
+        String sql = "SELECT * FROM tbl_division WHERE ID = ?";
         log.info("Executing query to fetch division by ID: {} using query: {}", id, sql);
         try {
             Division result = jdbcTemplate.queryForObject(sql, rowMapper, id);
@@ -106,6 +105,20 @@ public class DivisionRepoImpl implements DivisionRepo {
         } catch (Exception e) {
             log.error("Error deleting division with ID: {}. Error: {}", id, e.getMessage());
             return false;
+        }
+    }
+
+    @Override
+    public Division getDivisionByName(String divisionName) {
+        String sql = "SELECT * FROM tbl_division WHERE LOWER(DIVISION_NAME) = LOWER(?)";
+        log.info("Executing query to fetch division by Division Name: {} using query: {}", divisionName, sql);
+        try {
+            Division result = jdbcTemplate.queryForObject(sql, rowMapper, divisionName);
+            log.info("Successfully fetched division: {}", result);
+            return result;
+        } catch (Exception e) {
+            log.error("Error fetching division by Division Name: {}. Error: {}", divisionName, e.getMessage());
+            return null;
         }
     }
 }

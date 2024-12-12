@@ -132,4 +132,26 @@ public class GroupAchievementController extends ServerResponseList {
             return new ResponseEntity<>("Failed to delete GroupAchievement with ID: " + id, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("/name/{groupName}")
+    public ResponseEntity<?> getGroupAchievementByGroupName(@PathVariable String groupName) {
+        log.info("Fetching GroupAchievement by name: {}", groupName);
+        long startTime = System.currentTimeMillis();
+
+        try {
+            GroupAchievementDto result = groupAchievementServ.getGroupAchievementByGroupName(groupName);
+            ManagerDto<GroupAchievementDto> response = new ManagerDto<>();
+            response.setContent(result);
+            response.setTotalRows(1);
+
+            long endTime = System.currentTimeMillis();
+            response.setInfo(getInfoOk("Time", endTime - startTime));
+            log.info("Fetched GroupAchievement with name: {} in {} ms", groupName, endTime - startTime);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error fetching GroupAchievement by name {}: {}", groupName, e.getMessage(), e);
+            return new ResponseEntity<>("Failed to fetch GroupAchievement with name: " + groupName, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

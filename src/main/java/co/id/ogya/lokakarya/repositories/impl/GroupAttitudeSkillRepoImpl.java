@@ -108,4 +108,18 @@ public class GroupAttitudeSkillRepoImpl implements GroupAttitudeSkillRepo {
             return false;
         }
     }
+
+    @Override
+    public GroupAttitudeSkill getGroupAttitudeSkillByGroupName(String groupName) {
+        String sql = "SELECT * FROM tbl_group_attitude_skill WHERE LOWER(GROUP_NAME) = LOWER(?)";
+        log.info("Executing query to fetch GroupAttitudeSkill by Group Name: {}. Query: {}", groupName, sql);
+        try {
+            GroupAttitudeSkill result = jdbcTemplate.queryForObject(sql, rowMapper, groupName);
+            log.info("Successfully fetched GroupAttitudeSkill: {}", result);
+            return result;
+        } catch (Exception e) {
+            log.error("Error while fetching GroupAttitudeSkill with Group Name: {}. Error: {}", groupName, e.getMessage());
+            return null;
+        }
+    }
 }

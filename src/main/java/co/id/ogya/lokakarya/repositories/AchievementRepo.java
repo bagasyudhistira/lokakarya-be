@@ -7,6 +7,7 @@ import java.util.Map;
 
 public interface AchievementRepo {
     List<Achievement> getAchievements();
+
     Achievement getAchievementById(String id);
 
     List<Map<String,Object>> getAchievementGets();
@@ -14,6 +15,10 @@ public interface AchievementRepo {
     Map<String, Object> getAchievementGetById(String id);
 
     Achievement saveAchievement(Achievement achievement);
+
     Achievement updateAchievement(Achievement achievement);
+
     Boolean deleteAchievement(String id);
+
+    Achievement getAchievementByName(String achievementName);
 }

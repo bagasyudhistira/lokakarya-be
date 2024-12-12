@@ -99,6 +99,20 @@ public class GroupAttitudeSkillServImpl implements GroupAttitudeSkillServ {
         return isDeleted;
     }
 
+    @Override
+    public GroupAttitudeSkillDto getGroupAttitudeSkillByGroupName(String groupName) {
+        log.info("Attempting to fetch GroupAttitudeSkill by Group Name: {}", groupName);
+        GroupAttitudeSkillDto result = null;
+        try {
+            GroupAttitudeSkill data = groupAttitudeSkillRepo.getGroupAttitudeSkillByGroupName(groupName);
+            result = convertToDto(data);
+            log.debug("Fetched GroupAttitudeSkill: {}", result);
+        } catch (Exception e) {
+            log.error("Error occurred while fetching GroupAttitudeSkill by Group Name : {} : {}", groupName, e.getMessage(), e);
+        }
+        return result;
+    }
+
     private GroupAttitudeSkill convertToEntity(GroupAttitudeSkillDto convertObject) {
         log.debug("Converting GroupAttitudeSkillDto to entity: {}", convertObject);
         GroupAttitudeSkill result = GroupAttitudeSkill.builder()

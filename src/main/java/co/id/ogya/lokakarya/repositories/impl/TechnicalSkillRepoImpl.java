@@ -108,4 +108,18 @@ public class TechnicalSkillRepoImpl implements TechnicalSkillRepo {
             return false;
         }
     }
+
+    @Override
+    public TechnicalSkill getTechnicalSkillByName(String technicalSkillName) {
+        String sql = "SELECT * FROM tbl_technical_skill WHERE LOWER(TECHNICAL_SKILL) = LOWER(?)";
+        log.info("Executing query to fetch TechnicalSkill by ID: {}. Query: {}", technicalSkillName, sql);
+        try {
+            TechnicalSkill result = jdbcTemplate.queryForObject(sql, rowMapper, technicalSkillName);
+            log.info("Successfully fetched TechnicalSkill: {}", result);
+            return result;
+        } catch (Exception e) {
+            log.error("Error while fetching TechnicalSkill with Technical Skill: {}. Error: {}", technicalSkillName, e.getMessage());
+            return null;
+        }
+    }
 }

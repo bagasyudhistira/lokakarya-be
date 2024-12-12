@@ -134,4 +134,26 @@ public class DivisionController extends ServerResponseList {
             return new ResponseEntity<>("Failed to delete division with ID: " + id, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("/name/{divisionName}")
+    public ResponseEntity<?> getDivisionByName(@PathVariable String divisionName) {
+        log.info("Fetching division with name: {}", divisionName);
+        long startTime = System.currentTimeMillis();
+
+        try {
+            DivisionDto result = divisionServ.getDivisionByName(divisionName);
+            ManagerDto<DivisionDto> response = new ManagerDto<>();
+            response.setContent(result);
+            response.setTotalRows(1);
+
+            long endTime = System.currentTimeMillis();
+            response.setInfo(getInfoOk("Time", endTime - startTime));
+            log.info("Fetched division with name: {} in {} ms", divisionName, endTime - startTime);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error fetching division by name {}: {}", divisionName, e.getMessage(), e);
+            return new ResponseEntity<>("Failed to fetch division with name: " + divisionName, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

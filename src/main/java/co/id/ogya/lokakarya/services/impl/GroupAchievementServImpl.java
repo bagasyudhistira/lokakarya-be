@@ -99,6 +99,20 @@ public class GroupAchievementServImpl implements GroupAchievementServ {
         return isDeleted;
     }
 
+    @Override
+    public GroupAchievementDto getGroupAchievementByGroupName(String groupName) {
+        log.info("Attempting to fetch GroupAchievement by Group Name: {}", groupName);
+        GroupAchievementDto result = null;
+        try {
+            GroupAchievement data = groupAchievementRepo.getGroupAchievementByGroupName(groupName);
+            result = convertToDto(data);
+            log.debug("Fetched GroupAchievement: {}", result);
+        } catch (Exception e) {
+            log.error("Error occurred while fetching GroupAchievement by Group Name {}: {}", groupName, e.getMessage(), e);
+        }
+        return result;
+    }
+
     private GroupAchievement convertToEntity(GroupAchievementDto convertObject) {
         log.debug("Converting GroupAchievementDto to entity: {}", convertObject);
         GroupAchievement result = GroupAchievement.builder()

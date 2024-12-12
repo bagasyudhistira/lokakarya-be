@@ -180,4 +180,26 @@ public class AttitudeSkillController extends ServerResponseList {
             return new ResponseEntity<>("Failed to delete AttitudeSkill with ID: " + id, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("/name/{attitudeSkillName}")
+    public ResponseEntity<?> getAttitudeSkillByName(@PathVariable String attitudeSkillName) {
+        log.info("Fetching AttitudeSkill with name: {}", attitudeSkillName);
+        long startTime = System.currentTimeMillis();
+
+        try {
+            AttitudeSkillDto result = attitudeSkillServ.getAttitudeSkillByName(attitudeSkillName);
+            ManagerDto<AttitudeSkillDto> response = new ManagerDto<>();
+            response.setContent(result);
+            response.setTotalRows(1);
+
+            long endTime = System.currentTimeMillis();
+            response.setInfo(getInfoOk("Time", endTime - startTime));
+            log.info("Fetched AttitudeSkill with name: {} in {} ms", attitudeSkillName, endTime - startTime);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error fetching AttitudeSkill by name {}: {}", attitudeSkillName, e.getMessage(), e);
+            return new ResponseEntity<>("Failed to fetch AttitudeSkill with name: " + attitudeSkillName, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

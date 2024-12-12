@@ -132,6 +132,20 @@ public class AttitudeSkillServImpl implements AttitudeSkillServ {
         return isDeleted;
     }
 
+    @Override
+    public AttitudeSkillDto getAttitudeSkillByName(String attitudeSkillName) {
+        log.info("Attempting to fetch AttitudeSkill by Attitude Skill: {}", attitudeSkillName);
+        AttitudeSkillDto result = null;
+        try {
+            AttitudeSkill data = attitudeSkillRepo.getAttitudeSkillByName(attitudeSkillName);
+            result = convertToDto(data);
+            log.debug("Fetched AttitudeSkill: {}", result);
+        } catch (Exception e) {
+            log.error("Error occurred while fetching AttitudeSkill by Attitude Skill : {}: {}", attitudeSkillName, e.getMessage(), e);
+        }
+        return result;
+    }
+
     private AttitudeSkill convertToEntity(AttitudeSkillDto convertObject) {
         log.debug("Converting AttitudeSkillDto to entity: {}", convertObject);
         AttitudeSkill result = AttitudeSkill.builder()

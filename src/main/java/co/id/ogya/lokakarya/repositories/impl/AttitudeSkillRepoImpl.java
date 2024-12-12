@@ -143,4 +143,18 @@ public class AttitudeSkillRepoImpl implements AttitudeSkillRepo {
             return false;
         }
     }
+
+    @Override
+    public AttitudeSkill getAttitudeSkillByName(String attitudeSkillName) {
+        String sql = "SELECT * FROM tbl_attitude_skill WHERE LOWER(ATTITUDE_SKILL) = LOWER(?)";
+        log.info("Executing query to fetch AttitudeSkill by Attitude Skill: {}", attitudeSkillName);
+        try {
+            AttitudeSkill result = jdbcTemplate.queryForObject(sql, rowMapper, attitudeSkillName);
+            log.info("Successfully fetched AttitudeSkill: {}", result);
+            return result;
+        } catch (Exception e) {
+            log.error("Error fetching AttitudeSkill by Attitude Skill: {}. Error: {}", attitudeSkillName, e.getMessage());
+            return null;
+        }
+    }
 }

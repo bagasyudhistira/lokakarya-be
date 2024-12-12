@@ -6,8 +6,14 @@ import java.util.List;
 
 public interface GroupAttitudeSkillRepo {
     List<GroupAttitudeSkill> getGroupAttitudeSkills();
+
     GroupAttitudeSkill getGroupAttitudeSkillById(String id);
+
     GroupAttitudeSkill saveGroupAttitudeSkill(GroupAttitudeSkill groupAttitudeSkill);
+
     GroupAttitudeSkill updateGroupAttitudeSkill(GroupAttitudeSkill groupAttitudeSkill);
+
     Boolean deleteGroupAttitudeSkill(String id);
+
+    GroupAttitudeSkill getGroupAttitudeSkillByGroupName(String groupName);
 }

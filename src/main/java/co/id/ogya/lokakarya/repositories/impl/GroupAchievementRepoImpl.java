@@ -108,4 +108,18 @@ public class GroupAchievementRepoImpl implements GroupAchievementRepo {
             return false;
         }
     }
+
+    @Override
+    public GroupAchievement getGroupAchievementByGroupName(String groupName) {
+        String sql = "SELECT * FROM tbl_group_achievement WHERE LOWER(GROUP_NAME) = LOWER(?)";
+        log.info("Executing query to fetch GroupAchievement by Group Name: {}. Query: {}", groupName, sql);
+        try {
+            GroupAchievement result = jdbcTemplate.queryForObject(sql, rowMapper, groupName);
+            log.info("Successfully fetched GroupAchievement: {}", result);
+            return result;
+        } catch (Exception e) {
+            log.error("Error while fetching GroupAchievement with Group Name: {}. Error: {}", groupName, e.getMessage());
+            return null;
+        }
+    }
 }

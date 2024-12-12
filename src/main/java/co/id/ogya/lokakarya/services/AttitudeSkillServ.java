@@ -17,7 +17,10 @@ public interface AttitudeSkillServ {
     AttitudeSkillGetDto getAttitudeSkillGetById(String id);
 
     AttitudeSkillDto createAttitudeSkill(AttitudeSkillCreateDto attitudeSkillCreateDto);
+
     AttitudeSkillDto updateAttitudeSkill(AttitudeSkillUpdateDto attitudeSkillUpdateDto);
+
     boolean deleteAttitudeSkill(String id);
 
+    AttitudeSkillDto getAttitudeSkillByName(String attitudeSkillName);
 }

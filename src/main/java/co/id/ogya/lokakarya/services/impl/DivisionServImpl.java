@@ -99,6 +99,20 @@ public class DivisionServImpl implements DivisionServ {
         return isDeleted;
     }
 
+    @Override
+    public DivisionDto getDivisionByName(String divisionName) {
+        log.info("Attempting to fetch Division by Division Name: {}", divisionName);
+        DivisionDto result = null;
+        try {
+            Division data = divisionRepo.getDivisionByName(divisionName);
+            result = convertToDto(data);
+            log.debug("Fetched Division: {}", result);
+        } catch (Exception e) {
+            log.error("Error occurred while fetching Division by Division Name {} : {}", divisionName, e.getMessage(), e);
+        }
+        return result;
+    }
+
     private Division convertToEntity(DivisionDto convertObject) {
         log.debug("Converting DivisionDto to entity: {}", convertObject);
         Division result = Division.builder()

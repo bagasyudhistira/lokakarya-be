@@ -134,4 +134,26 @@ public class DevPlanController extends ServerResponseList {
             return new ResponseEntity<>("Failed to delete DevPlan with ID: " + id, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("/name/{planName}")
+    public ResponseEntity<?> getDevPlanByName(@PathVariable String planName) {
+        log.info("Fetching DevPlan with name: {}", planName);
+        long startTime = System.currentTimeMillis();
+
+        try {
+            DevPlanDto result = devPlanServ.getDevPlanByName(planName);
+            ManagerDto<DevPlanDto> response = new ManagerDto<>();
+            response.setContent(result);
+            response.setTotalRows(1);
+
+            long endTime = System.currentTimeMillis();
+            response.setInfo(getInfoOk("Time", endTime - startTime));
+            log.info("Fetched DevPlan with name: {} in {} ms", planName, endTime - startTime);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error fetching DevPlan by name {}: {}", planName, e.getMessage(), e);
+            return new ResponseEntity<>("Failed to fetch DevPlan with name: " + planName, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

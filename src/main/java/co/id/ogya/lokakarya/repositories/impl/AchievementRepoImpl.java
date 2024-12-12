@@ -140,4 +140,18 @@ public class AchievementRepoImpl implements AchievementRepo {
             throw ex;
         }
     }
+
+    @Override
+    public Achievement getAchievementByName(String achievementName) {
+        String sql = "SELECT * FROM tbl_achievement WHERE LOWER(ACHIEVEMENT) = LOWER(?)";
+        log.info("Executing query to fetch achievement with Achievement: {} using query: {}", achievementName, sql);
+        try {
+            Achievement achievement = jdbcTemplate.queryForObject(sql, rowMapper, achievementName);
+            log.info("Successfully fetched achievement: {}", achievement);
+            return achievement;
+        } catch (DataAccessException ex) {
+            log.error("Error fetching achievement with ID {}: {}", achievementName, ex.getMessage(), ex);
+            throw ex;
+        }
+    }
 }
