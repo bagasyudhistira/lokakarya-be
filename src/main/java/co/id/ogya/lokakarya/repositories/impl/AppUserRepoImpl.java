@@ -166,6 +166,37 @@ public class AppUserRepoImpl implements AppUserRepo {
         }
     }
 
+    @Override
+    public Map<String, Object> getAppUserByEmail(String email) {
+        String sql = "SELECT au.ID, USERNAME, FULL_NAME, POSITION, EMAIL_ADDRESS, EMPLOYEE_STATUS, " +
+                "JOIN_DATE, ENABLED, PASSWORD, DIVISION_ID, DIVISION_NAME " +
+                "FROM tbl_app_user au " +
+                "LEFT JOIN tbl_division d ON au.DIVISION_ID = d.ID " +
+                "WHERE LOWER(EMAIL_ADDRESS) = ?";
+        try {
+            log.info("Fetching detailed AppUser by Email: {}", email);
+
+            List<Map<String, Object>> users = jdbcTemplate.queryForList(sql, email);
+
+            if (users.isEmpty()) {
+                log.warn("No AppUser found for Email: {}", email);
+                return null;
+            }
+
+            if (users.size() > 1) {
+                log.warn("Multiple AppUsers found for Email: {}. Returning the first match.", email);
+            }
+
+            Map<String, Object> appUser = users.get(0);
+            log.info("Fetched detailed AppUser: {}", appUser);
+            return appUser;
+
+        } catch (Exception e) {
+            log.error("Error fetching detailed AppUser by Email: {}. Error: {}", email, e.getMessage(), e);
+            return null;
+        }
+    }
+
 
     @Override
     public AppUser saveAppUser(AppUser appUser) {

@@ -20,6 +20,8 @@ public interface AppUserRepo {
 
     Map<String, Object> getAppUserByFullName(String fullName);
 
+    Map<String, Object> getAppUserByEmail(String email);
+
     AppUser saveAppUser(AppUser appUser);
 
     AppUser updateAppUser(AppUser appUser);

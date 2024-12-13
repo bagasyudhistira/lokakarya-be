@@ -129,6 +129,20 @@ public class AppUserServImpl implements AppUserServ {
     }
 
     @Override
+    public AppUserGetDto getAppUserByEmail(String email) {
+        log.info("Attempting to fetch AppUser by Email: {}", email);
+        AppUserGetDto result = null;
+        try {
+            Map<String,Object> data = appUserRepo.getAppUserByEmail(email);
+            result =  AppUserGetDto.mapToDto(data);
+            log.debug("Fetched AppUser: {}", result);
+        } catch (Exception e) {
+            log.error("Error occurred while fetching AppUser by Email {}: {}", email, e.getMessage(), e);
+        }
+        return result;
+    }
+
+    @Override
     public AppUserCreateDto createAppUser(AppUserCreateDto appUserCreateDto) {
         log.info("Attempting to create a new AppUser with data: {}", appUserCreateDto);
         AppUserCreateDto result = null;

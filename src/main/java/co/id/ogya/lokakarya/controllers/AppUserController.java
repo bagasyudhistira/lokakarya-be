@@ -137,7 +137,7 @@ public class AppUserController extends ServerResponseList {
         }
     }
 
-    @GetMapping("/user/{username}")
+    @GetMapping("/username/{username}")
     public ResponseEntity<?> getAppUserByUsername(@PathVariable String username) {
         log.info("Fetching AppUser with username: {}", username);
         long startTime = System.currentTimeMillis();
@@ -178,6 +178,28 @@ public class AppUserController extends ServerResponseList {
         } catch (Exception e) {
             log.error("Error fetching AppUser by full name {}: {}", fullName, e.getMessage(), e);
             return new ResponseEntity<>("Failed to fetch AppUser with full name: " + fullName, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/email/{email}")
+    public ResponseEntity<?> getAppUserByEmail(@PathVariable String email) {
+        log.info("Fetching AppUser with Email: {}", email);
+        long startTime = System.currentTimeMillis();
+
+        try {
+            AppUserGetDto result = appUserServ.getAppUserByEmail(email);
+            ManagerDto<AppUserGetDto> response = new ManagerDto<>();
+            response.setContent(result);
+            response.setTotalRows(1);
+
+            long endTime = System.currentTimeMillis();
+            response.setInfo(getInfoOk("Time", endTime - startTime));
+            log.info("Fetched AppUser with full Email: {} in {} ms", email, endTime - startTime);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error fetching AppUser by full name {}: {}", email, e.getMessage(), e);
+            return new ResponseEntity<>("Failed to fetch AppUser with Email: " + email, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
