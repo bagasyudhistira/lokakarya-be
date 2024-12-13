@@ -25,4 +25,8 @@ public interface AssessmentSummaryServ {
 
     List<AttitudeSkillSummaryGetDto> getAttitudeSkillSummaryByUserIdAssessmentYear(String userId, int assessmentYear);
 
+    List<AssessmentSummaryJointGetDto> getAssessmentSummariesByDivisionIdAssessmentYear(String divisionId, int assessmentYear);
+
+    List<AssessmentSummaryJointGetDto> getAssessmentSummariesByAssessmentYear(int assessmentYear);
+
 }

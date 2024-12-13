@@ -7,6 +7,7 @@ import java.util.Map;
 
 public interface AssessmentSummaryRepo {
     List<AssessmentSummary> getAssessmentSummarys();
+
     AssessmentSummary getAssessmentSummaryById(String id);
 
     List<Map<String,Object>> getAssessmentSummaryGets();
@@ -26,4 +27,8 @@ public interface AssessmentSummaryRepo {
     List<Map<String, Object>> getAchievementSummaryByUserIdAssessmentYear(String userId, int assessmentYear);
 
     List<Map<String, Object>> getAttitudeSkillSummaryByUserIdAssessmentYear(String userId, int assessmentYear);
+
+    List<Map<String, Object>> getAssessmentSummariesByDivisionIdAssessmentYear(String divisionId, int assessmentYear);
+
+    List<Map<String, Object>> getAssessmentSummariesByAssessmentYear(int assessmentYear);
 }

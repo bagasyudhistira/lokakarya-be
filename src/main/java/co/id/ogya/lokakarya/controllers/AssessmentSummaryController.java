@@ -216,7 +216,7 @@ public class AssessmentSummaryController extends ServerResponseList {
 
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
-            log.error("Error fetching all AssessmentSummaries: {}", e.getMessage(), e);
+            log.error("Error fetching all AchievementSummaries: {}", e.getMessage(), e);
             return new ResponseEntity<>("Failed to fetch Achievement Summary", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -238,8 +238,52 @@ public class AssessmentSummaryController extends ServerResponseList {
 
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
-            log.error("Error fetching all AssessmentSummaries: {}", e.getMessage(), e);
+            log.error("Error fetching all AttitudeSkillSummaries: {}", e.getMessage(), e);
             return new ResponseEntity<>("Failed to fetch AttitudeSkillSummary", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/divyear/{divisionId}/{assessmentYear}")
+    public ResponseEntity<?> getAssessmentSummariesByDivisionIdAssessmentYear(@PathVariable String divisionId, @PathVariable int assessmentYear) {
+        log.info("Fetching all AssessmentSummaries for Division ID: {} and Assessment Year: {}", divisionId, assessmentYear);
+        long startTime = System.currentTimeMillis();
+
+        try {
+            List<AssessmentSummaryJointGetDto> result = assessmentSummaryServ.getAssessmentSummariesByDivisionIdAssessmentYear(divisionId, assessmentYear);
+            ManagerDto<List<AssessmentSummaryJointGetDto>> response = new ManagerDto<>();
+            response.setContent(result);
+            response.setTotalRows(result.size());
+
+            long endTime = System.currentTimeMillis();
+            response.setInfo(getInfoOk("Time", endTime - startTime));
+            log.info("Fetched all AssessmentSummaries for Division ID: {} and Assessment Year: {} in {} ms", divisionId, assessmentYear, endTime - startTime);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error fetching all AssessmentSummaries: {}", e.getMessage(), e);
+            return new ResponseEntity<>("Failed to fetch AssessmentSummaries", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/year/{assessmentYear}")
+    public ResponseEntity<?> getAssessmentSummariesByAssessmentYear(@PathVariable int assessmentYear) {
+        log.info("Fetching all AssessmentSummaries for Assessment Year: {}", assessmentYear);
+        long startTime = System.currentTimeMillis();
+
+        try {
+            List<AssessmentSummaryJointGetDto> result = assessmentSummaryServ.getAssessmentSummariesByAssessmentYear(assessmentYear);
+            ManagerDto<List<AssessmentSummaryJointGetDto>> response = new ManagerDto<>();
+            response.setContent(result);
+            response.setTotalRows(result.size());
+
+            long endTime = System.currentTimeMillis();
+            response.setInfo(getInfoOk("Time", endTime - startTime));
+            log.info("Fetched all AssessmentSummaries for Assessment Year: {} in {} ms", assessmentYear, endTime - startTime);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error fetching all AssessmentSummaries: {}", e.getMessage(), e);
+            return new ResponseEntity<>("Failed to fetch AssessmentSummaries", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

@@ -178,6 +178,40 @@ public class AssessmentSummaryServImpl implements AssessmentSummaryServ {
         return listResult;
     }
 
+    @Override
+    public List<AssessmentSummaryJointGetDto> getAssessmentSummariesByDivisionIdAssessmentYear(String divisionId, int assessmentYear) {
+        log.info("Attempting to fetch all AssessmentSummary for Division ID: {} and Assessment Year: {}", divisionId, assessmentYear);
+        List<AssessmentSummaryJointGetDto> listResult = new ArrayList<>();
+        try {
+            List<Map<String, Object>> listData = assessmentSummaryRepo.getAssessmentSummariesByDivisionIdAssessmentYear(divisionId, assessmentYear);
+            log.debug("Fetched {} AssessmentSummary from repository for Division ID: {} and Assessment Year: {}", listData.size(), divisionId, assessmentYear);
+            for (Map<String,Object> data : listData) {
+                AssessmentSummaryJointGetDto result = AssessmentSummaryJointGetDto.mapToDto(data);
+                listResult.add(result);
+            }
+        } catch (Exception e) {
+            log.error("Error occurred while fetching all AssessmentSummary for Division ID: {} and Assessment Year: {} : {}", divisionId, assessmentYear, e.getMessage(), e);
+        }
+        return listResult;
+    }
+
+    @Override
+    public List<AssessmentSummaryJointGetDto> getAssessmentSummariesByAssessmentYear(int assessmentYear) {
+        log.info("Attempting to fetch all AssessmentSummary for Assessment Year: {}", assessmentYear);
+        List<AssessmentSummaryJointGetDto> listResult = new ArrayList<>();
+        try {
+            List<Map<String, Object>> listData = assessmentSummaryRepo.getAssessmentSummariesByAssessmentYear(assessmentYear);
+            log.debug("Fetched {} AssessmentSummary from repository for Assessment Year: {}", listData.size(), assessmentYear);
+            for (Map<String,Object> data : listData) {
+                AssessmentSummaryJointGetDto result = AssessmentSummaryJointGetDto.mapToDto(data);
+                listResult.add(result);
+            }
+        } catch (Exception e) {
+            log.error("Error occurred while fetching all AssessmentSummary for Assessment Year: {} : {}", assessmentYear, e.getMessage(), e);
+        }
+        return listResult;
+    }
+
     private AssessmentSummary convertToEntity(AssessmentSummaryDto convertObject) {
         log.debug("Converting AssessmentSummaryDto to entity: {}", convertObject);
         AssessmentSummary result = AssessmentSummary.builder()
