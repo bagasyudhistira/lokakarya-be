@@ -214,7 +214,7 @@ public class AssessmentSummaryRepoImpl implements AssessmentSummaryRepo {
 
     @Override
     public List<Map<String, Object>> getAssessmentSummariesByDivisionIdAssessmentYear(String divisionId, int assessmentYear) {
-        String sql = "SELECT ASM.YEAR, ASM.USER_ID, AU.FULL_NAME, DV.DIVISION_NAME, ASM.STATUS, ASM.SCORE FROM tbl_assessment_summary ASM JOIN tbl_app_user AU ON ASM.USER_ID = AU.ID JOIN tbl_division DV ON AU.DIVISION_ID = DV.ID WHERE DV.ID = ? AND ASM.YEAR = ?";
+        String sql = "SELECT ASM.ID, ASM.YEAR, ASM.USER_ID, AU.FULL_NAME, DV.DIVISION_NAME, ASM.STATUS, ASM.SCORE FROM tbl_assessment_summary ASM JOIN tbl_app_user AU ON ASM.USER_ID = AU.ID JOIN tbl_division DV ON AU.DIVISION_ID = DV.ID WHERE DV.ID = ? AND ASM.YEAR = ?";
         log.info("Executing query to fetch  AssessmentSummaries by Division ID: {} and Assessment Year: {}", divisionId, assessmentYear);
         try {
             List<Map<String, Object>> result = jdbcTemplate.queryForList(sql, divisionId, assessmentYear);
@@ -228,7 +228,7 @@ public class AssessmentSummaryRepoImpl implements AssessmentSummaryRepo {
 
     @Override
     public List<Map<String, Object>> getAssessmentSummariesByAssessmentYear(int assessmentYear) {
-        String sql = "SELECT ASM.YEAR, ASM.USER_ID, AU.FULL_NAME, DV.DIVISION_NAME, ASM.STATUS, ASM.SCORE FROM tbl_assessment_summary ASM JOIN tbl_app_user AU ON ASM.USER_ID = AU.ID JOIN tbl_division DV ON AU.DIVISION_ID = DV.ID WHERE ASM.YEAR = ?";
+        String sql = "SELECT ASM.ID, ASM.YEAR, ASM.USER_ID, AU.FULL_NAME, DV.DIVISION_NAME, ASM.STATUS, ASM.SCORE FROM tbl_assessment_summary ASM JOIN tbl_app_user AU ON ASM.USER_ID = AU.ID JOIN tbl_division DV ON AU.DIVISION_ID = DV.ID WHERE ASM.YEAR = ?";
         log.info("Executing query to fetch  AssessmentSummaries by Assessment Year: {}", assessmentYear);
         try {
             List<Map<String, Object>> result = jdbcTemplate.queryForList(sql, assessmentYear);
