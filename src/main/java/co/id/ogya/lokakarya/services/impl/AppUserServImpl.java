@@ -209,7 +209,7 @@ public class AppUserServImpl implements AppUserServ {
     private AppUser convertToEntityCreate(AppUserCreateDto convertObject) {
         log.debug("Converting AppUserCreateDto to entity: {}", convertObject);
         AppUser result = AppUser.builder()
-                .id(convertObject.getId())
+//                .id(convertObject.getId())
                 .username(convertObject.getUsername())
                 .fullName(convertObject.getFullName())
                 .position(convertObject.getPosition())
@@ -235,7 +235,6 @@ public class AppUserServImpl implements AppUserServ {
                 .employeeStatus(convertObject.getEmployeeStatus())
                 .joinDate(convertObject.getJoinDate())
                 .enabled(convertObject.isEnabled())
-//                .password(convertObject.getPassword())
                 .divisionId(convertObject.getDivisionId())
                 .updatedAt(convertObject.getUpdatedAt())
                 .updatedBy(convertObject.getUpdatedBy())
@@ -254,7 +253,6 @@ public class AppUserServImpl implements AppUserServ {
                 .employeeStatus(convertObject.getEmployeeStatus())
                 .joinDate(convertObject.getJoinDate())
                 .enabled(convertObject.isEnabled())
-//                .password(convertObject.getPassword())
                 .divisionId(convertObject.getDivisionId())
                 .createdAt(convertObject.getCreatedAt())
                 .createdBy(convertObject.getCreatedBy())
@@ -267,7 +265,6 @@ public class AppUserServImpl implements AppUserServ {
     private AppUserCreateDto convertToCreateDto(AppUser convertObject) {
         log.debug("Converting AppUser entity to DTO: {}", convertObject);
         AppUserCreateDto result = AppUserCreateDto.builder()
-                .id(convertObject.getId())
                 .username(convertObject.getUsername())
                 .fullName(convertObject.getFullName())
                 .position(convertObject.getPosition())
@@ -277,10 +274,7 @@ public class AppUserServImpl implements AppUserServ {
                 .enabled(convertObject.isEnabled())
                 .password(convertObject.getPassword())
                 .divisionId(convertObject.getDivisionId())
-//                .createdAt(convertObject.getCreatedAt())
                 .createdBy(convertObject.getCreatedBy())
-//                .updatedAt(convertObject.getUpdatedAt())
-//                .updatedBy(convertObject.getUpdatedBy())
                 .build();
         return result;
     }
