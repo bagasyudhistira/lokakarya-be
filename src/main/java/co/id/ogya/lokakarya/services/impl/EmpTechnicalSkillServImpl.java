@@ -167,23 +167,6 @@ public class EmpTechnicalSkillServImpl implements EmpTechnicalSkillServ {
         return listResult;
     }
 
-    private EmpTechnicalSkill convertToEntity(EmpTechnicalSkillDto convertObject) {
-        log.debug("Converting EmpTechnicalSkillDto to entity: {}", convertObject);
-        EmpTechnicalSkill result = EmpTechnicalSkill.builder()
-                .id(convertObject.getId())
-                .userId(convertObject.getUserId())
-                .technicalSkillId(convertObject.getTechnicalSkillId())
-                .skill(convertObject.getSkill())
-                .score(convertObject.getScore())
-                .assessmentYear(convertObject.getAssessmentYear())
-                .createdAt(convertObject.getCreatedAt())
-                .createdBy(convertObject.getCreatedBy())
-                .updatedAt(convertObject.getUpdatedAt())
-                .updatedBy(convertObject.getUpdatedBy())
-                .build();
-        return result;
-    }
-
     private EmpTechnicalSkill convertToEntityCreate(EmpTechnicalSkillCreateDto convertObject) {
         log.debug("Converting EmpTechnicalSkillCreateDto to entity: {}", convertObject);
         EmpTechnicalSkill result = EmpTechnicalSkill.builder()

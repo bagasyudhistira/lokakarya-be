@@ -99,19 +99,6 @@ public class AppMenuServImpl implements AppMenuServ {
         return isDeleted;
     }
 
-    private AppMenu convertToEntity(AppMenuDto convertObject) {
-        log.debug("Converting AppMenuDto to entity: {}", convertObject);
-        AppMenu result = AppMenu.builder()
-                .id(convertObject.getId())
-                .menuName(convertObject.getMenuName())
-                .createdAt(convertObject.getCreatedAt())
-                .createdBy(convertObject.getCreatedBy())
-                .updatedAt(convertObject.getUpdatedAt())
-                .updatedBy(convertObject.getUpdatedBy())
-                .build();
-        return result;
-    }
-
     private AppMenu convertToEntityCreate(AppMenuCreateDto convertObject) {
         log.debug("Converting AppMenuCreateDto to entity: {}", convertObject);
         AppMenu result = AppMenu.builder()

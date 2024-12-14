@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 @Builder
 @ToString
 public class AchievementCreateDto {
-
     @JsonProperty("achievement")
     private String achievement;
 

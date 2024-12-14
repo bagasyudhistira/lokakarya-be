@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 @Builder
 @ToString
 public class AssessmentSummaryCreateDto {
-
     @JsonProperty("user_id")
     private String userId;
 

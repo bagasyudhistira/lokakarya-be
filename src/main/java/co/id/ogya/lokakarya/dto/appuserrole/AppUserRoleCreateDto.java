@@ -9,7 +9,6 @@ import lombok.*;
 @Builder
 @ToString
 public class AppUserRoleCreateDto {
-
     @JsonProperty("role_id")
     private String roleId;
 

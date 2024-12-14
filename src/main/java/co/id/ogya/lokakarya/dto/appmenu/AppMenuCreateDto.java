@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 @Builder
 @ToString
 public class AppMenuCreateDto {
-
     @JsonProperty("menu_name")
     private String menuName;
 

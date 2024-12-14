@@ -182,23 +182,6 @@ public class EmpAchievementSkillServImpl implements EmpAchievementSkillServ {
         return listResult;
     }
 
-    private EmpAchievementSkill convertToEntity(EmpAchievementSkillDto convertObject) {
-        log.debug("Converting EmpAchievementSkillDto to entity: {}", convertObject);
-        EmpAchievementSkill result = EmpAchievementSkill.builder()
-                .id(convertObject.getId())
-                .userId(convertObject.getUserId())
-                .notes(convertObject.getNotes())
-                .achievementId(convertObject.getAchievementId())
-                .score(convertObject.getScore())
-                .assessmentYear(convertObject.getAssessmentYear())
-                .createdAt(convertObject.getCreatedAt())
-                .createdBy(convertObject.getCreatedBy())
-                .updatedAt(convertObject.getUpdatedAt())
-                .updatedBy(convertObject.getUpdatedBy())
-                .build();
-        return result;
-    }
-
     private EmpAchievementSkill convertToEntityCreate(EmpAchievementSkillCreateDto convertObject) {
         log.debug("Converting EmpAchievementSkillCreateDto to entity: {}", convertObject);
         EmpAchievementSkill result = EmpAchievementSkill.builder()

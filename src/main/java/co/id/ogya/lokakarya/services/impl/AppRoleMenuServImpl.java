@@ -163,16 +163,6 @@ public class AppRoleMenuServImpl implements AppRoleMenuServ {
         }
     }
 
-    private AppRoleMenu convertToEntity(AppRoleMenuDto convertObject) {
-        log.debug("Converting AppRoleMenuDto to entity: {}", convertObject);
-        AppRoleMenu result = AppRoleMenu.builder()
-                .id(convertObject.getId())
-                .roleId(convertObject.getRoleId())
-                .menuId(convertObject.getMenuId())
-                .build();
-        return result;
-    }
-
     private AppRoleMenu convertToEntityCreate(AppRoleMenuCreateDto convertObject) {
         log.debug("Converting AppRoleMenuCreateDto to entity: {}", convertObject);
         AppRoleMenu result = AppRoleMenu.builder()

@@ -12,10 +12,6 @@ import java.util.Date;
 @Builder
 @ToString
 public class AppUserCreateDto {
-
-    @JsonProperty("id")
-    private String id;
-
     @JsonProperty("username")
     private String username;
 
@@ -39,9 +35,6 @@ public class AppUserCreateDto {
 
     @JsonProperty("password")
     private String password;
-
-//    @JsonProperty("role_id")
-//    private String roleId;
 
     @JsonProperty("division_id")
     private String divisionId;

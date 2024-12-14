@@ -113,20 +113,6 @@ public class DevPlanServImpl implements DevPlanServ {
         return result;
     }
 
-    private DevPlan convertToEntity(DevPlanDto convertObject) {
-        log.debug("Converting DevPlanDto to entity: {}", convertObject);
-        DevPlan result = DevPlan.builder()
-                .id(convertObject.getId())
-                .plan(convertObject.getPlan())
-                .enabled(convertObject.isEnabled())
-                .createdAt(convertObject.getCreatedAt())
-                .createdBy(convertObject.getCreatedBy())
-                .updatedAt(convertObject.getUpdatedAt())
-                .updatedBy(convertObject.getUpdatedBy())
-                .build();
-        return result;
-    }
-
     private DevPlan convertToEntityCreate(DevPlanCreateDto convertObject) {
         log.debug("Converting DevPlanCreateDto to entity: {}", convertObject);
         DevPlan result = DevPlan.builder()

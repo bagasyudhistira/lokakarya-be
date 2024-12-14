@@ -206,27 +206,6 @@ public class AppUserServImpl implements AppUserServ {
         return listResult;
     }
 
-    private AppUser convertToEntity(AppUserDto convertObject) {
-        log.debug("Converting AppUserDto to entity: {}", convertObject);
-        AppUser result = AppUser.builder()
-                .id(convertObject.getId())
-                .username(convertObject.getUsername())
-                .fullName(convertObject.getFullName())
-                .position(convertObject.getPosition())
-                .emailAddress(convertObject.getEmailAddress())
-                .employeeStatus(convertObject.getEmployeeStatus())
-                .joinDate(convertObject.getJoinDate())
-                .enabled(convertObject.isEnabled())
-//                .password(convertObject.getPassword())
-                .divisionId(convertObject.getDivisionId())
-                .createdAt(convertObject.getCreatedAt())
-                .createdBy(convertObject.getCreatedBy())
-                .updatedAt(convertObject.getUpdatedAt())
-                .updatedBy(convertObject.getUpdatedBy())
-                .build();
-        return result;
-    }
-
     private AppUser convertToEntityCreate(AppUserCreateDto convertObject) {
         log.debug("Converting AppUserCreateDto to entity: {}", convertObject);
         AppUser result = AppUser.builder()

@@ -112,20 +112,7 @@ public class TechnicalSkillServImpl implements TechnicalSkillServ {
         }
         return result;
     }
-
-    private TechnicalSkill convertToEntity(TechnicalSkillDto convertObject) {
-        log.debug("Converting TechnicalSkillDto to entity: {}", convertObject);
-        return TechnicalSkill.builder()
-                .id(convertObject.getId())
-                .technicalSkill(convertObject.getTechnicalSkill())
-                .enabled(convertObject.isEnabled())
-                .createdAt(convertObject.getCreatedAt())
-                .createdBy(convertObject.getCreatedBy())
-                .updatedAt(convertObject.getUpdatedAt())
-                .updatedBy(convertObject.getUpdatedBy())
-                .build();
-    }
-
+    
     private TechnicalSkill convertToEntityCreate(TechnicalSkillCreateDto convertObject) {
         log.debug("Converting TechnicalSkillCreateDto to entity: {}", convertObject);
         return TechnicalSkill.builder()

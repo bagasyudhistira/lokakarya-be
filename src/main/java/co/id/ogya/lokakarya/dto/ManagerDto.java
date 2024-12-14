@@ -12,8 +12,10 @@ import lombok.*;
 public class ManagerDto<T> {
     @JsonProperty("info")
     private ResponseDetail info;
+
     @JsonProperty("total_rows")
     private int totalRows;
+
     @JsonProperty("content")
     private T content;
 }

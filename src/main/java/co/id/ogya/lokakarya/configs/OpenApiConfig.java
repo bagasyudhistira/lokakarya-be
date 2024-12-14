@@ -25,7 +25,7 @@ public class OpenApiConfig implements WebMvcConfigurer {
         return new OpenAPI()
                 .info(new Info()
                         .title("Lokakarya API")
-                        .description("API documentation for Lokakarya Kel 1")
+                        .description("API documentation for Lokakarya Kelompok 1")
                         .version("0.1")
                         .contact(new Contact().name("Lokakarya Team").email("lokakarya@example.com"))
                         .license(new License().name("Apache 2.0").url("http://springdoc.org")));

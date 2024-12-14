@@ -113,21 +113,6 @@ public class GroupAttitudeSkillServImpl implements GroupAttitudeSkillServ {
         return result;
     }
 
-    private GroupAttitudeSkill convertToEntity(GroupAttitudeSkillDto convertObject) {
-        log.debug("Converting GroupAttitudeSkillDto to entity: {}", convertObject);
-        GroupAttitudeSkill result = GroupAttitudeSkill.builder()
-                .id(convertObject.getId())
-                .groupName(convertObject.getGroupName())
-                .percentage(convertObject.getPercentage())
-                .enabled(convertObject.isEnabled())
-                .createdAt(convertObject.getCreatedAt())
-                .createdBy(convertObject.getCreatedBy())
-                .updatedAt(convertObject.getUpdatedAt())
-                .updatedBy(convertObject.getUpdatedBy())
-                .build();
-        return result;
-    }
-
     private GroupAttitudeSkill convertToEntityCreate(GroupAttitudeSkillCreateDto convertObject) {
         log.debug("Converting GroupAttitudeSkillCreateDto to entity: {}", convertObject);
         GroupAttitudeSkill result = GroupAttitudeSkill.builder()

@@ -141,16 +141,6 @@ public class AccessDivisionServImpl implements AccessDivisionServ {
         return isDeleted;
     }
 
-    private AccessDivision convertToEntity(AccessDivisionDto convertObject) {
-        log.debug("Converting AccessDivisionDto to entity: {}", convertObject);
-        AccessDivision result = AccessDivision.builder()
-                .id(convertObject.getId())
-                .userId(convertObject.getUserId())
-                .divisionId(convertObject.getDivisionId())
-                .build();
-        return result;
-    }
-
     private AccessDivision convertToEntityCreate(AccessDivisionCreateDto convertObject) {
         log.debug("Converting AccessDivisionCreateDto to entity: {}", convertObject);
         AccessDivision result = AccessDivision.builder()

@@ -168,22 +168,6 @@ public class EmpDevPlanServImpl implements EmpDevPlanServ {
         }
     }
 
-    private EmpDevPlan convertToEntity(EmpDevPlanDto convertObject) {
-        log.debug("Converting EmpDevPlanDto to entity: {}", convertObject);
-        EmpDevPlan result = EmpDevPlan.builder()
-                .id(convertObject.getId())
-                .userId(convertObject.getUserId())
-                .devPlanId(convertObject.getDevPlanId())
-                .tooBright(convertObject.getTooBright())
-                .assessmentYear(convertObject.getAssessmentYear())
-                .createdAt(convertObject.getCreatedAt())
-                .createdBy(convertObject.getCreatedBy())
-                .updatedAt(convertObject.getUpdatedAt())
-                .updatedBy(convertObject.getUpdatedBy())
-                .build();
-        return result;
-    }
-
     private EmpDevPlan convertToEntityCreate(EmpDevPlanCreateDto convertObject) {
         log.debug("Converting EmpDevPlanCreateDto to entity: {}", convertObject);
         EmpDevPlan result = EmpDevPlan.builder()

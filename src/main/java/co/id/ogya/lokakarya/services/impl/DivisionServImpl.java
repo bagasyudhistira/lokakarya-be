@@ -113,19 +113,6 @@ public class DivisionServImpl implements DivisionServ {
         return result;
     }
 
-    private Division convertToEntity(DivisionDto convertObject) {
-        log.debug("Converting DivisionDto to entity: {}", convertObject);
-        Division result = Division.builder()
-                .id(convertObject.getId())
-                .divisionName(convertObject.getDivisionName())
-                .createdAt(convertObject.getCreatedAt())
-                .createdBy(convertObject.getCreatedBy())
-                .updatedAt(convertObject.getUpdatedAt())
-                .updatedBy(convertObject.getUpdatedBy())
-                .build();
-        return result;
-    }
-
     private Division convertToEntityCreate(DivisionCreateDto convertObject) {
         log.debug("Converting DivisionCreateDto to entity: {}", convertObject);
         Division result = Division.builder()

@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 @Builder
 @ToString
 public class GroupAchievementCreateDto {
-
     @JsonProperty("group_name")
     private String groupName;
 

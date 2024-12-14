@@ -146,13 +146,4 @@ public class AppRoleServImpl implements AppRoleServ {
                 .build();
         return result;
     }
-
-    private AppRoleGetDto convertToGetDto(AppRole convertObject) {
-        log.debug("Converting AppRole entity to DTO: {}", convertObject);
-        AppRoleGetDto result = AppRoleGetDto.builder()
-                .id(convertObject.getId())
-                .rolename(convertObject.getRolename())
-                .build();
-        return result;
-    }
 }
