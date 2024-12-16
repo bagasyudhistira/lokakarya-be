@@ -186,7 +186,7 @@ public class AssessmentSummaryRepoImpl implements AssessmentSummaryRepo {
 
     @Override
     public List<Map<String, Object>> getAchievementSummaryByUserIdAssessmentYear(String userId, int assessmentYear) {
-        String sql = "SELECT GAC.GROUP_NAME, GAC.ENABLED, SUM(EAC.SCORE)/(50 * COUNT(EAC.ACHIEVEMENT_ID)) * 100 SUM_SCORE, GAC.PERCENTAGE FROM tbl_emp_achievement_skill EAC JOIN tbl_achievement ACH ON EAC.ACHIEVEMENT_ID = ACH.ID JOIN tbl_group_achievement GAC ON ACH.GROUP_ID = GAC.ID WHERE EAC.USER_ID = ? AND EAC.ASSESSMENT_YEAR = ? AND GAC.ENABLED = TRUE GROUP BY GAC.GROUP_NAME";
+        String sql = "SELECT GAC.GROUP_NAME, GAC.ENABLED, SUM(EAC.SCORE)/(50 * COUNT(EAC.ACHIEVEMENT_ID)) * 100 SUM_SCORE, GAC.PERCENTAGE FROM tbl_emp_achievement_skill EAC JOIN tbl_achievement ACH ON EAC.ACHIEVEMENT_ID = ACH.ID JOIN tbl_group_achievement GAC ON ACH.GROUP_ID = GAC.ID WHERE EAC.USER_ID = ? AND EAC.ASSESSMENT_YEAR = ? AND GAC.ENABLED = TRUE AND ACH.ENABLED = TRUE GROUP BY GAC.GROUP_NAME";
         log.info("Executing query to fetch AchievementSummary by User ID: {} and Assessment Year: {}", userId, assessmentYear);
         try {
             List<Map<String, Object>> result = jdbcTemplate.queryForList(sql, userId, assessmentYear);
