@@ -146,21 +146,6 @@ public class AttitudeSkillServImpl implements AttitudeSkillServ {
         return result;
     }
 
-    private AttitudeSkill convertToEntity(AttitudeSkillDto convertObject) {
-        log.debug("Converting AttitudeSkillDto to entity: {}", convertObject);
-        AttitudeSkill result = AttitudeSkill.builder()
-                .id(convertObject.getId())
-                .attitudeSkill(convertObject.getAttitudeSkill())
-                .groupId(convertObject.getGroupId())
-                .enabled(convertObject.isEnabled())
-                .createdAt(convertObject.getCreatedAt())
-                .createdBy(convertObject.getCreatedBy())
-                .updatedAt(convertObject.getUpdatedAt())
-                .updatedBy(convertObject.getUpdatedBy())
-                .build();
-        return result;
-    }
-
     private AttitudeSkill convertToEntityCreate(AttitudeSkillCreateDto convertObject) {
         log.debug("Converting AttitudeSkillCreateDto to entity: {}", convertObject);
         AttitudeSkill result = AttitudeSkill.builder()

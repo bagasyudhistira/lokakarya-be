@@ -212,22 +212,6 @@ public class AssessmentSummaryServImpl implements AssessmentSummaryServ {
         return listResult;
     }
 
-    private AssessmentSummary convertToEntity(AssessmentSummaryDto convertObject) {
-        log.debug("Converting AssessmentSummaryDto to entity: {}", convertObject);
-        AssessmentSummary result = AssessmentSummary.builder()
-                .id(convertObject.getId())
-                .userId(convertObject.getUserId())
-                .year(convertObject.getYear())
-                .score(convertObject.getScore())
-                .status(convertObject.getStatus())
-                .createdAt(convertObject.getCreatedAt())
-                .createdBy(convertObject.getCreatedBy())
-                .updatedAt(convertObject.getUpdatedAt())
-                .updatedBy(convertObject.getUpdatedBy())
-                .build();
-        return result;
-    }
-
     private AssessmentSummary convertToEntityCreate(AssessmentSummaryCreateDto convertObject) {
         log.debug("Converting AssessmentSummaryCreateDto to entity: {}", convertObject);
         AssessmentSummary result = AssessmentSummary.builder()

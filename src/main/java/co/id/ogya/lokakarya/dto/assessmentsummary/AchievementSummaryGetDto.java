@@ -17,6 +17,9 @@ public class AchievementSummaryGetDto {
     @JsonProperty("group_name")
     private String groupName;
 
+    @JsonProperty("enabled")
+    private boolean enabled;
+
     @JsonProperty("sum_score")
     private Double sumScore;
 
@@ -28,6 +31,7 @@ public class AchievementSummaryGetDto {
 
         AchievementSummaryGetDto result = AchievementSummaryGetDto.builder()
                 .groupName((String) convertObject.get("GROUP_NAME"))
+                .enabled((boolean) convertObject.get("ENABLED"))
                 .sumScore(convertObject.get("SUM_SCORE") != null
                         ? ((BigDecimal) convertObject.get("SUM_SCORE")).doubleValue()
                         : null)
