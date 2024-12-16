@@ -45,28 +45,9 @@ public class SecurityConfig {
                 })
                 .authorizeHttpRequests(auth -> {
                     auth
-                            // Routes accessible to everyone
-                            .requestMatchers("/auth/sign-in", "/v3/api-docs/**", "/swagger-ui/**").permitAll()
-
-                            // Public GET routes
-                            .requestMatchers(HttpMethod.GET, "/appuser/get/{id}", "/appuser/get/common/all", "/empachievementskill/**", "/empattitudeskill/**", "/empsuggestion/**", "/division/all", "/attitudeskill/**", "/achievement/**", "/appuser/div/**",  "/groupattitudeskill/**", "/groupachievement/**", "/technicalskill/**", "/devplan/**").hasAnyRole("HR", "USER", "SVP", "MGR")
-                            .requestMatchers(HttpMethod.GET, "/appuser/**").hasAnyRole("SVP", "MGR")
-
-                            // Routes accessible by HR, USER, SVP, MGR (GET only)
-                            .requestMatchers("/assessmentsummary/**", "/auth/changepassword").hasAnyRole("HR", "USER", "SVP", "MGR")
-
-                            // Routes accessible by USER (any method)
-                            .requestMatchers("/empattitudeskill/**", "/emptechnicalskill/**", "/empdevplan/**",
-                                    "/attitudeskill/**",
-                                    "/empsuggestion/**", "/empachievementskill/**").hasAnyRole("USER")
-
-                            // Routes accessible by HR (broader coverage)
-                            .requestMatchers("/appuser/**", "/division/**", "/approlemenu/**",
-                                    "/groupattitudeskill/**", "/attitudeskill/**", "/technicalskill/**", "/devplan/**", "/groupachievement/**",
-                                    "/achievement/**", "/empachievementskill/**", "/auth/resetpassword", "/assessmentsummary/**")
-                            .hasAnyRole("HR")
-
-                            // Default: all other requests require authentication
+                            .requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
+                            .requestMatchers("/auth/login").permitAll()
+                            .requestMatchers("/v3/api-docs/**", "/swagger-ui/**").permitAll()
                             .anyRequest().authenticated();
                 })
                 .csrf(csrf -> {
