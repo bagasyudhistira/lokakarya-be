@@ -20,18 +20,19 @@ public class AuthRepoImpl implements AuthRepo {
     private final RowMapper<AppUser> rowMapper = new BeanPropertyRowMapper<>(AppUser.class);
 
     @Override
-    public AppUser getAppUser(String username) {
-        String sql = "SELECT * FROM tbl_app_user WHERE USERNAME = ?";
-        log.info("Executing query to fetch AppUser by username: {} using query: {}", username, sql);
+    public AppUser getAppUser(String input) {
+        String sql = "SELECT * FROM tbl_app_user WHERE USERNAME = ? OR EMAIL_ADDRESS = ?";
+        log.info("Executing query to fetch AppUser by input: {} using query: {}", input, sql);
         try {
-            AppUser appUser = jdbcTemplate.queryForObject(sql, rowMapper, username);
+            AppUser appUser = jdbcTemplate.queryForObject(sql, rowMapper, input, input);
             log.info("Successfully fetched AppUser: {}", appUser);
             return appUser;
         } catch (Exception e) {
-            log.error("Error fetching AppUser by username: {}. Error: {}", username, e.getMessage());
+            log.error("Error fetching AppUser by input: {}. Error: {}", input, e.getMessage());
             return null;
         }
     }
+
 
     @Override
     public Integer changePassword(String userId, String newPassword) {

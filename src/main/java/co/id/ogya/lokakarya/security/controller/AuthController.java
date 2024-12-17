@@ -58,15 +58,14 @@ public class AuthController extends ServerResponseList {
     @PostMapping("/sign-in")
     public ResponseEntity<String> signInHandler(@RequestBody AuthDto authRequestDto)
             throws BadCredentialsException, UserException {
-        log.info("Received sign-in request for username: {}", authRequestDto.getUsername());
+        log.info("Received sign-in request for input: {}", authRequestDto.getUsername());
 
         // Validate user credentials and fetch user details
         AuthDto userDetails = authServ.login(authRequestDto.getUsername());
 
-
         if (userDetails == null || !passwordEncoder.matches(authRequestDto.getPassword(), userDetails.getPassword())) {
-            log.warn("Failed sign-in attempt for username: {}", authRequestDto.getUsername());
-            throw new BadCredentialsException("Invalid username or password");
+            log.warn("Failed sign-in attempt for input: {}", authRequestDto.getUsername());
+            throw new BadCredentialsException("Invalid username/email or password");
         }
 
         String token = generateJwtToken(userDetails);
@@ -80,6 +79,7 @@ public class AuthController extends ServerResponseList {
         return ResponseEntity.ok()
                 .body(token);
     }
+
 
     @GetMapping("/authenticate")
     public ResponseEntity<?> authenticateUser() throws UserException {
