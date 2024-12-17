@@ -265,6 +265,7 @@ public class AppUserServImpl implements AppUserServ {
     private AppUserCreateDto convertToCreateDto(AppUser convertObject) {
         log.debug("Converting AppUser entity to DTO: {}", convertObject);
         AppUserCreateDto result = AppUserCreateDto.builder()
+                .id(convertObject.getId())
                 .username(convertObject.getUsername())
                 .fullName(convertObject.getFullName())
                 .position(convertObject.getPosition())
