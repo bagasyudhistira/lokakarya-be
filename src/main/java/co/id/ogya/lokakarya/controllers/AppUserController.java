@@ -115,6 +115,8 @@ public class AppUserController extends ServerResponseList {
         }
     }
 
+
+
     @GetMapping("/get/{id}")
     public ResponseEntity<?> getAppUserGetById(@PathVariable String id) {
         log.info("Fetching AppUser with ID: {}", id);
@@ -293,4 +295,30 @@ public class AppUserController extends ServerResponseList {
             return new ResponseEntity<>("Failed to fetch AppUserCommons", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("/get/all/{page}/{pageSize}")
+    public ResponseEntity<?> getAllAppUserGetsPerPage(@PathVariable int page, @PathVariable int pageSize) {
+        log.info("Fetching all AppUsers");
+        long startTime = System.currentTimeMillis();
+
+        try {
+            List<AppUserGetDto> result = appUserServ.getAllAppUserGetPerPage(page, pageSize);
+            Long total = appUserServ.getAllAppUsersCount();
+            ManagerDto<List<AppUserGetDto>> response = new ManagerDto<>();
+            response.setContent(result);
+            response.setTotalRows(result.size());
+            response.setTotalData(total);
+
+            long endTime = System.currentTimeMillis();
+            response.setInfo(getInfoOk("Time", endTime - startTime));
+            log.info("Fetched {} AppUsers in {} ms", result.size(), endTime - startTime);
+            log.info("Total Users: {}", total);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error fetching all AppUsers: {}", e.getMessage(), e);
+            return new ResponseEntity<>("Failed to fetch AppUsers", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }

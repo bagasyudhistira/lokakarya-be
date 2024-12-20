@@ -27,7 +27,7 @@ public class AppUserRepoImpl implements AppUserRepo {
 
     @Override
     public List<AppUser> getAppUsers() {
-        String sql = "SELECT * FROM tbl_app_user";
+        String sql = "SELECT * FROM tbl_app_user ORDER BY username";
         try {
             log.info("Fetching all AppUsers");
             List<AppUser> appUsers = jdbcTemplate.query(sql, rowMapper);
@@ -80,6 +80,21 @@ public class AppUserRepoImpl implements AppUserRepo {
             return appUsers;
         } catch (Exception e) {
             log.error("Error fetching detailed AppUsers: {}", e.getMessage(), e);
+            throw e;
+        }
+    }
+
+    @Override
+    public List<Map<String, Object>> getAppUserGetsPerPage(int page, int pageSize) {
+        int offset = (page - 1) * pageSize;
+        String sql = "SELECT * FROM tbl_app_user ORDER BY username LIMIT ? OFFSET ?;";
+        try {
+            log.info("Fetching all AppUsers");
+            List<Map<String, Object>> appUsers = jdbcTemplate.queryForList(sql, pageSize, offset);
+            log.info("Fetched {} AppUsers", appUsers.size());
+            return appUsers;
+        } catch (Exception e) {
+            log.error("Error fetching AppUsers: {}", e.getMessage(), e);
             throw e;
         }
     }
@@ -273,4 +288,19 @@ public class AppUserRepoImpl implements AppUserRepo {
             return null;
         }
     }
+
+    @Override
+    public Long getAppUsersCount() {
+        String sql = "SELECT COUNT(ID) FROM tbl_app_user;";
+        try {
+            log.info("Fetching total number of AppUsers");
+            Long totalUsers = jdbcTemplate.queryForObject(sql, Long.class);
+            log.info("Total users: {}", totalUsers);
+            return totalUsers;
+        } catch (Exception e) {
+            log.error("Error fetching AppUsers count: {}", e.getMessage(), e);
+            throw e;
+        }
+    }
+
 }

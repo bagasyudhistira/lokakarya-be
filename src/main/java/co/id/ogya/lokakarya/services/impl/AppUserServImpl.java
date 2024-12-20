@@ -86,6 +86,23 @@ public class AppUserServImpl implements AppUserServ {
     }
 
     @Override
+    public List<AppUserGetDto> getAllAppUserGetPerPage(int page, int pageSize) {
+        log.info("Attempting to fetch all AppUsers");
+        List<AppUserGetDto> listResult = new ArrayList<>();
+        try {
+            List<Map<String, Object>> listData = appUserRepo.getAppUserGetsPerPage(page, pageSize);
+            log.debug("Fetched {} AppUsers from repository", listData.size());
+            for (Map<String, Object> data : listData) {
+                AppUserGetDto result =  AppUserGetDto.mapToDto(data);
+                listResult.add(result);
+            }
+        } catch (Exception e) {
+            log.error("Error occurred while fetching all AppUsers: {}", e.getMessage(), e);
+        }
+        return listResult;
+    }
+
+    @Override
     public AppUserGetDto getAppUserGetById(String id) {
         log.info("Attempting to fetch AppUser by ID: {}", id);
         AppUserGetDto result = null;
@@ -204,6 +221,19 @@ public class AppUserServImpl implements AppUserServ {
             log.error("Error occurred while fetching all AppUserCommons: {}", e.getMessage(), e);
         }
         return listResult;
+    }
+
+    @Override
+    public Long getAllAppUsersCount() {
+        try {
+            log.info("Fetching total count of all AppUsers from repository");
+            Long totalUsers = appUserRepo.getAppUsersCount();
+            log.info("Successfully fetched total AppUsers count: {}", totalUsers);
+            return totalUsers;
+        } catch (Exception e) {
+            log.error("Error occurred while fetching total AppUsers count: {}", e.getMessage(), e);
+            throw new RuntimeException("Failed to fetch AppUsers count", e);
+        }
     }
 
     private AppUser convertToEntityCreate(AppUserCreateDto convertObject) {

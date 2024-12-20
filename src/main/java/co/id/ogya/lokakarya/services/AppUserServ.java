@@ -13,6 +13,8 @@ public interface AppUserServ {
 
     List<AppUserGetDto> getAllAppUserGet();
 
+    List<AppUserGetDto> getAllAppUserGetPerPage(int page, int pageSize);
+
     AppUserGetDto getAppUserGetById(String id);
 
     AppUserGetDto getAppUserByUsername(String username);
@@ -29,4 +31,5 @@ public interface AppUserServ {
 
     List<AppUserCommonDto> getAllAppUserCommons();
 
+    Long getAllAppUsersCount();
 }

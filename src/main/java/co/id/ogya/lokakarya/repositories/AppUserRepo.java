@@ -14,6 +14,8 @@ public interface AppUserRepo {
 
     List<Map<String,Object>> getAppUserGets();
 
+    List<Map<String, Object>> getAppUserGetsPerPage(int page, int pageSize);
+
     Map<String, Object> getAppUserGetById(String id);
 
     Map<String, Object> getAppUserByUsername(String username);
@@ -29,5 +31,7 @@ public interface AppUserRepo {
     Boolean deleteAppUser(String id);
 
     List<Map<String,Object>> getAppUsersCommons();
+
+    Long getAppUsersCount();
 
 }
