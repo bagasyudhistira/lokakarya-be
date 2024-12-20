@@ -87,7 +87,10 @@ public class AppUserRepoImpl implements AppUserRepo {
     @Override
     public List<Map<String, Object>> getAppUserGetsPerPage(int page, int pageSize) {
         int offset = (page - 1) * pageSize;
-        String sql = "SELECT * FROM tbl_app_user ORDER BY username LIMIT ? OFFSET ?;";
+        String sql = "SELECT au.ID, USERNAME, FULL_NAME, POSITION, EMAIL_ADDRESS, EMPLOYEE_STATUS, " +
+                "JOIN_DATE, ENABLED, PASSWORD, DIVISION_ID, DIVISION_NAME " +
+                "FROM tbl_app_user au " +
+                "LEFT JOIN tbl_division d ON au.DIVISION_ID = d.ID ORDER BY au.ID LIMIT ? OFFSET ?";
         try {
             log.info("Fetching all AppUsers");
             List<Map<String, Object>> appUsers = jdbcTemplate.queryForList(sql, pageSize, offset);
