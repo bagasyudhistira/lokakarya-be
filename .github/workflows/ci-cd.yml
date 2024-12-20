@@ -43,7 +43,7 @@ jobs:
             fi
             
             # Clean and compile the project using Maven
-            mvn clean package -DskipTests
+            ./mvnw clean package -DskipTests
             
             # Run the compiled JAR
             nohup java -jar target/*.jar > application.log 2>&1 &
