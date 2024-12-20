@@ -9,23 +9,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout the code
+      # Step 1: Checkout code
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      # Step 2: Copy all repository files to the server
-      - name: Deploy Files to Server
-        uses: appleboy/scp-action@v0.1.4
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: ${{ secrets.SSH_PORT }}
-          source: "."
-          target: "~/app"
-
-      # Step 3: Compile and run the application on the server
-      - name: Compile and Run Application on Server
+      # Step 2: Set up SSH
+      - name: Set up SSH
         uses: appleboy/ssh-action@v0.1.7
         with:
           host: ${{ secrets.SSH_HOST }}
@@ -33,17 +22,56 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT }}
           script: |
-            # Navigate to the application directory
+            # Ensure the deployment directory exists
+            mkdir -p ~/app
+            
+            # Remove existing files in the directory
+            rm -rf ~/app/*
+
+      # Step 3: Copy repository files to the server
+      - name: Copy Files to Server
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          source: ./
+          target: ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:~/app
+          port: ${{ secrets.SSH_PORT }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      # Step 4: Build and run the Spring Boot app on the server
+      - name: Build and Run Spring Boot App on Server
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
             cd ~/app
             
-            # Kill the existing application process if running
-            pid=$(ps -ef | grep "java -jar" | grep -v grep | awk '{print $2}')
+            # Install Maven if not installed
+            if ! command -v mvn &> /dev/null
+            then
+              sudo apt update
+              sudo apt install -y maven
+            fi
+            
+            # Export environment variables
+            export DATABASE_URL=${{ secrets.DATABASE_URL }}
+            export DATABASE_USERNAME=${{ secrets.DATABASE_USERNAME }}
+            export DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }}
+            
+            # Build the Spring Boot application with environment variables
+            mvn clean package -DskipTests
+
+            # Kill the existing application if running
+            pid=$(ps -ef | grep "lokakarya-be" | grep -v grep | awk '{print $2}')
             if [ ! -z "$pid" ]; then
               kill $pid
             fi
             
-            # Clean and compile the project using Maven
-            mvn clean package -DskipTests
-            
-            # Run the compiled JAR
-            nohup java -jar target/*.jar > application.log 2>&1 &
+            # Start the Spring Boot application with environment variables
+            nohup java -jar target/*.jar \
+              --spring.datasource.url=$DATABASE_URL \
+              --spring.datasource.username=$DATABASE_USERNAME \
+              --spring.datasource.password=$DATABASE_PASSWORD \
+              > application.log 2>&1 &
