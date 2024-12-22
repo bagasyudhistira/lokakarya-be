@@ -9,6 +9,8 @@ import java.util.List;
 public interface GroupAttitudeSkillServ {
     List<GroupAttitudeSkillDto> getAllGroupAttitudeSkill();
 
+    List<GroupAttitudeSkillDto> getAllGroupAttitudeSkillPerPage(int page, int pageSize);
+
     GroupAttitudeSkillDto getGroupAttitudeSkillById(String id);
 
     GroupAttitudeSkillDto createGroupAttitudeSkill(GroupAttitudeSkillCreateDto groupAttitudeSkillCreateDto);
@@ -18,4 +20,8 @@ public interface GroupAttitudeSkillServ {
     boolean deleteGroupAttitudeSkill(String id);
 
     GroupAttitudeSkillDto getGroupAttitudeSkillByGroupName(String groupName);
+
+    Long countAllGroupAttitudeSkill();
+
+    List<GroupAttitudeSkillDto> sortAllGroupAttitudeSkill(String order, int page, int pageSize);
 }

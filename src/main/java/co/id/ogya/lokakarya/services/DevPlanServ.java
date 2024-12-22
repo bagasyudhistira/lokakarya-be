@@ -9,6 +9,8 @@ import java.util.List;
 public interface DevPlanServ {
     List<DevPlanDto> getAllDevPlan();
 
+    List<DevPlanDto> getAllDevPlanPerPage(int page, int pageSize);
+
     DevPlanDto getDevPlanById(String id);
 
     DevPlanDto createDevPlan(DevPlanCreateDto devPlanCreateDto);
@@ -18,4 +20,8 @@ public interface DevPlanServ {
     boolean deleteDevPlan(String id);
 
     DevPlanDto getDevPlanByName(String planName);
+
+    Long countAllDevPlan();
+
+    List<DevPlanDto> sortDevPlan(String order, int page, int pageSize);
 }

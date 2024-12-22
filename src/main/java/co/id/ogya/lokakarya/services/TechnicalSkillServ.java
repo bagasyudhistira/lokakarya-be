@@ -9,6 +9,8 @@ import java.util.List;
 public interface TechnicalSkillServ {
     List<TechnicalSkillDto> getAllTechnicalSkill();
 
+    List<TechnicalSkillDto> getAllTechnicalSkillPerPage(int page, int pageSize);
+
     TechnicalSkillDto getTechnicalSkillById(String id);
 
     TechnicalSkillDto createTechnicalSkill(TechnicalSkillCreateDto technicalSkillCreateDto);
@@ -18,4 +20,8 @@ public interface TechnicalSkillServ {
     boolean deleteTechnicalSkill(String id);
 
     TechnicalSkillDto getTechnicalSkillByName(String technicalSkill);
+
+    Long countAllTechnicalSkill();
+
+    List<TechnicalSkillDto> sortAllTechnicalSkill(String order, int page, int pageSize);
 }

@@ -128,6 +128,23 @@ public class EmpSuggestionRepoImpl implements EmpSuggestionRepo {
     }
 
     @Override
+    public List<Map<String, Object>> getEmpSuggestionGetsPerPage(int page, int pageSize) {
+        int offset = (page - 1) * pageSize;
+        String sql = "SELECT ES.ID, ES.USER_ID, AU.FULL_NAME, ES.SUGGESTION, ES.ASSESSMENT_YEAR " +
+                "FROM tbl_emp_suggestion ES " +
+                "LEFT JOIN tbl_app_user AU ON ES.USER_ID = AU.ID ORDER BY FULL_NAME ASC LIMIT ? OFFSET ?";
+        try {
+            log.info("Fetching all EmpSuggestions for page {} with maximum {} entries", page, pageSize);
+            List<Map<String, Object>> result = jdbcTemplate.queryForList(sql, pageSize, offset);
+            log.info("Successfully fetched Achievements for Page {} ({} entries)", page, result.size());
+            return result;
+        } catch (Exception e) {
+            log.error("Error fetching EmpSuggestions: {}", e.getMessage(), e);
+            throw e;
+        }
+    }
+
+    @Override
     public List<Map<String, Object>> getEmpSuggestionGetByUserId(String userId) {
         String sql = "SELECT ES.ID, ES,USER_ID, AU.FULL_NAME, ES.SUGGESTION, ES.ASSESSMENT_YEAR " +
                 "FROM tbl_emp_suggestion ES " +
@@ -176,6 +193,37 @@ public class EmpSuggestionRepoImpl implements EmpSuggestionRepo {
         }
         catch (Exception e) {
             log.error("Error while looking EmpSuggestion by UserID: {} and Assessment Year: {}. Error: {}", userId, assessmentYear, e.getMessage());
+            throw e;
+        }
+    }
+
+    @Override
+    public Long countEmpSuggestions() {
+        String sql = "SELECT COUNT(ID) FROM tbl_assessment_summary;";
+        try {
+            log.info("Fetching total number of EmpSuggestions");
+            Long total = jdbcTemplate.queryForObject(sql, Long.class);
+            log.info("Total EmpSuggestions: {}", total);
+            return total;
+        } catch (Exception e) {
+            log.error("Error fetching EmpSuggestions count: {}", e.getMessage(), e);
+            throw e;
+        }
+    }
+
+    @Override
+    public List<Map<String, Object>> sortEmpSuggestionGetsOrderBy(String column, String order, int page, int pageSize) {
+        int offset = (page - 1) * pageSize;
+        String sql = "SELECT ES.ID, ES.USER_ID, AU.FULL_NAME, ES.SUGGESTION, ES.ASSESSMENT_YEAR " +
+                "FROM tbl_emp_suggestion ES " +
+                "LEFT JOIN tbl_app_user AU ON ES.USER_ID = AU.ID ORDER BY " + column + " " + order + " LIMIT ? OFFSET ?";
+        log.info("Executing query to sort EmpSuggestions order by {} {} for page {} with maximum {} entries : {}", column, order, page, pageSize, sql);
+        try {
+            List<Map<String, Object>> result = jdbcTemplate.queryForList(sql, pageSize, offset);
+            log.info("Successfully sorted EmpSuggestions order by {} {} for Page {} ({} entries)", column, order, page, result.size());
+            return result;
+        } catch (Exception e) {
+            log.error("Error fetching EmpSuggestions: {}", e.getMessage(), e);
             throw e;
         }
     }

@@ -1,6 +1,7 @@
 package co.id.ogya.lokakarya.services.impl;
 
 import co.id.ogya.lokakarya.dto.achievement.*;
+import co.id.ogya.lokakarya.dto.appuser.AppUserGetDto;
 import co.id.ogya.lokakarya.entities.Achievement;
 import co.id.ogya.lokakarya.repositories.AchievementRepo;
 import co.id.ogya.lokakarya.services.AchievementServ;
@@ -65,6 +66,23 @@ public class AchievementServImpl implements AchievementServ {
             }
         } catch (Exception e) {
             log.error("Error occurred while fetching all achievements: {}", e.getMessage(), e);
+        }
+        return listResult;
+    }
+
+    @Override
+    public List<AchievementGetDto> getAllAchievementGetPerPage(int page, int pageSize) {
+        log.info("Attempting to fetch all Achievements");
+        List<AchievementGetDto> listResult = new ArrayList<>();
+        try {
+            List<Map<String, Object>> listData = achievementRepo.getAchievementGetsPerPage(page, pageSize);
+            log.debug("Fetched {} Achievements from repository", listData.size());
+            for (Map<String, Object> data : listData) {
+                AchievementGetDto result =  AchievementGetDto.mapToDto(data);
+                listResult.add(result);
+            }
+        } catch (Exception e) {
+            log.error("Error occurred while fetching all Achievements: {}", e.getMessage(), e);
         }
         return listResult;
     }
@@ -142,6 +160,36 @@ public class AchievementServImpl implements AchievementServ {
             log.error("Error occurred while fetching achievement by Achievement Name {}: {}", achievementName, e.getMessage(), e);
         }
         return result;
+    }
+
+    @Override
+    public Long countAllAchievement() {
+        try {
+            log.info("Fetching total count of all Achievements from repository");
+            Long totalAchievements = achievementRepo.countAchievement();
+            log.info("Successfully fetched total Achievements count: {}", totalAchievements);
+            return totalAchievements;
+        } catch (Exception e) {
+            log.error("Error occurred while fetching total Achievements count: {}", e.getMessage(), e);
+            throw new RuntimeException("Failed to fetch Achievements count", e);
+        }
+    }
+
+    @Override
+    public List<AchievementGetDto> sortAllAchievementGetOrderBy(String column, String order, int page, int pageSize) {
+        log.info("Attempting to sort all Achievements order by {} {}", column, order);
+        List<AchievementGetDto> listResult = new ArrayList<>();
+        try {
+            List<Map<String, Object>> listData = achievementRepo.sortAchievementGetsOrderBy(column, order, page, pageSize);
+            log.debug("Sorted {} Achievements from repository order by {}", listData.size(), column);
+            for (Map<String, Object> data : listData) {
+                AchievementGetDto result =  AchievementGetDto.mapToDto(data);
+                listResult.add(result);
+            }
+        } catch (Exception e) {
+            log.error("Error occurred while sorting all Achievements: {}", e.getMessage(), e);
+        }
+        return listResult;
     }
 
     private Achievement convertToEntityCreate(AchievementCreateDto convertObject) {

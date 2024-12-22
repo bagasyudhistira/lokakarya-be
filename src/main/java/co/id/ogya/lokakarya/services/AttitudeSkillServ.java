@@ -12,6 +12,8 @@ public interface AttitudeSkillServ {
 
     List<AttitudeSkillGetDto> getAllAttitudeSkillGet();
 
+    List<AttitudeSkillGetDto> getAllAttitudeSkillGetPerPage(int page, int pageSize);
+
     AttitudeSkillDto getAttitudeSkillById(String id);
 
     AttitudeSkillGetDto getAttitudeSkillGetById(String id);
@@ -23,4 +25,8 @@ public interface AttitudeSkillServ {
     boolean deleteAttitudeSkill(String id);
 
     AttitudeSkillDto getAttitudeSkillByName(String attitudeSkillName);
+
+    Long countAllAttitudeSkill();
+
+    List<AttitudeSkillGetDto> sortAllAttitudeSkillGetOrderBy(String column, String order, int page, int pageSize);
 }

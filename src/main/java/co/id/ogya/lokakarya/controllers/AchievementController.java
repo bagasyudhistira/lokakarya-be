@@ -5,6 +5,7 @@ import co.id.ogya.lokakarya.dto.achievement.AchievementCreateDto;
 import co.id.ogya.lokakarya.dto.achievement.AchievementDto;
 import co.id.ogya.lokakarya.dto.achievement.AchievementGetDto;
 import co.id.ogya.lokakarya.dto.achievement.AchievementUpdateDto;
+import co.id.ogya.lokakarya.dto.appuser.AppUserGetDto;
 import co.id.ogya.lokakarya.services.AchievementServ;
 import co.id.ogya.lokakarya.utils.ServerResponseList;
 import lombok.extern.slf4j.Slf4j;
@@ -198,6 +199,56 @@ public class AchievementController extends ServerResponseList {
         } catch (Exception e) {
             log.error("Error fetching achievement by name {}: {}", achievementName, e.getMessage(), e);
             return new ResponseEntity<>("Failed to fetch achievement with name: " + achievementName, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/get/all/achievement/{page}/{pageSize}")
+    public ResponseEntity<?> getAllAchievementGetsPerPage(@PathVariable int page, @PathVariable int pageSize) {
+        log.info("Fetching all Achievements");
+        long startTime = System.currentTimeMillis();
+
+        try {
+            List<AchievementGetDto> result = achievementServ.getAllAchievementGetPerPage(page, pageSize);
+            Long total = achievementServ.countAllAchievement();
+            ManagerDto<List<AchievementGetDto>> response = new ManagerDto<>();
+            response.setContent(result);
+            response.setTotalRows(result.size());
+            response.setTotalData(total);
+
+            long endTime = System.currentTimeMillis();
+            response.setInfo(getInfoOk("Time", endTime - startTime));
+            log.info("Fetched {} Achievements in {} ms", result.size(), endTime - startTime);
+            log.info("Total Achievements: {}", total);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error fetching all Achievements: {}", e.getMessage(), e);
+            return new ResponseEntity<>("Failed to fetch Achievements", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/sort/{column}/{order}/{page}/{pageSize}")
+    public ResponseEntity<?> sortAllAllAchievementGetsOrderBy(@PathVariable String column, @PathVariable String order, @PathVariable int page, @PathVariable int pageSize) {
+        log.info("Sorting all Achivements");
+        long startTime = System.currentTimeMillis();
+
+        try {
+            List<AchievementGetDto> result = achievementServ.sortAllAchievementGetOrderBy(column, order, page, pageSize);
+            Long total = achievementServ.countAllAchievement();
+            ManagerDto<List<AchievementGetDto>> response = new ManagerDto<>();
+            response.setContent(result);
+            response.setTotalRows(result.size());
+            response.setTotalData(total);
+
+            long endTime = System.currentTimeMillis();
+            response.setInfo(getInfoOk("Time", endTime - startTime));
+            log.info("Fetched {} Achivements in {} ms", result.size(), endTime - startTime);
+            log.info("Total Achivements: {}", total);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error fetching all Achivements: {}", e.getMessage(), e);
+            return new ResponseEntity<>("Failed to fetch Achivements", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

@@ -1,5 +1,6 @@
 package co.id.ogya.lokakarya.services.impl;
 
+import co.id.ogya.lokakarya.dto.appuser.AppUserGetDto;
 import co.id.ogya.lokakarya.dto.assessmentsummary.*;
 import co.id.ogya.lokakarya.entities.AssessmentSummary;
 import co.id.ogya.lokakarya.repositories.AssessmentSummaryRepo;
@@ -60,6 +61,23 @@ public class AssessmentSummaryServImpl implements AssessmentSummaryServ {
             List<Map<String,Object>> listData = assessmentSummaryRepo.getAssessmentSummaryGets();
             log.debug("Fetched {} AssessmentSummaries from repository", listData.size());
             for (Map<String,Object> data : listData) {
+                AssessmentSummaryGetDto result =  AssessmentSummaryGetDto.mapToDto(data);
+                listResult.add(result);
+            }
+        } catch (Exception e) {
+            log.error("Error occurred while fetching all AssessmentSummaries: {}", e.getMessage(), e);
+        }
+        return listResult;
+    }
+
+    @Override
+    public List<AssessmentSummaryGetDto> getAllAssessmentSummaryGetPerPage(int page, int pageSize) {
+        log.info("Attempting to fetch all AssessmentSummaries");
+        List<AssessmentSummaryGetDto> listResult = new ArrayList<>();
+        try {
+            List<Map<String, Object>> listData = assessmentSummaryRepo.getAssessmentSummaryGetsPerPage(page, pageSize);
+            log.debug("Fetched {} AssessmentSummaries from repository", listData.size());
+            for (Map<String, Object> data : listData) {
                 AssessmentSummaryGetDto result =  AssessmentSummaryGetDto.mapToDto(data);
                 listResult.add(result);
             }
@@ -208,6 +226,36 @@ public class AssessmentSummaryServImpl implements AssessmentSummaryServ {
             }
         } catch (Exception e) {
             log.error("Error occurred while fetching all AssessmentSummary for Assessment Year: {} : {}", assessmentYear, e.getMessage(), e);
+        }
+        return listResult;
+    }
+
+    @Override
+    public Long countAllAssessmentSummary() {
+        try {
+            log.info("Fetching total count of all AssessmentSummaries from repository");
+            Long total = assessmentSummaryRepo.countAssessmentSummarys();
+            log.info("Successfully fetched total AssessmentSummaries count: {}", total);
+            return total;
+        } catch (Exception e) {
+            log.error("Error occurred while fetching total AssessmentSummaries count: {}", e.getMessage(), e);
+            throw new RuntimeException("Failed to fetch AssessmentSummaries count", e);
+        }
+    }
+
+    @Override
+    public List<AssessmentSummaryGetDto> sortAllAssessmentSummaryGetOrderBy(String column, String order, int page, int pageSize) {
+        log.info("Attempting to sort all AssessmentSummaries order by {} {}", column, order);
+        List<AssessmentSummaryGetDto> listResult = new ArrayList<>();
+        try {
+            List<Map<String, Object>> listData = assessmentSummaryRepo.sortAssessmentSummaryGetsOrderBy(column, order, page, pageSize);
+            log.debug("Sorted {} AssessmentSummaries from repository order by {}", listData.size(), column);
+            for (Map<String, Object> data : listData) {
+                AssessmentSummaryGetDto result =  AssessmentSummaryGetDto.mapToDto(data);
+                listResult.add(result);
+            }
+        } catch (Exception e) {
+            log.error("Error occurred while sorting all AssessmentSummaries: {}", e.getMessage(), e);
         }
         return listResult;
     }

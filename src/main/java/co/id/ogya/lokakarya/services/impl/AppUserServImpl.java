@@ -224,16 +224,33 @@ public class AppUserServImpl implements AppUserServ {
     }
 
     @Override
-    public Long getAllAppUsersCount() {
+    public Long countAllAppUser() {
         try {
             log.info("Fetching total count of all AppUsers from repository");
-            Long totalUsers = appUserRepo.getAppUsersCount();
-            log.info("Successfully fetched total AppUsers count: {}", totalUsers);
-            return totalUsers;
+            Long total = appUserRepo.countAppUsers();
+            log.info("Successfully fetched total AppUsers count: {}", total);
+            return total;
         } catch (Exception e) {
             log.error("Error occurred while fetching total AppUsers count: {}", e.getMessage(), e);
             throw new RuntimeException("Failed to fetch AppUsers count", e);
         }
+    }
+
+    @Override
+    public List<AppUserGetDto> sortAllAppUserGetOrderBy(String column, String order, int page, int pageSize) {
+        log.info("Attempting to sort all AppUsers order by {} {}", column, order);
+        List<AppUserGetDto> listResult = new ArrayList<>();
+        try {
+            List<Map<String, Object>> listData = appUserRepo.sortAppUserGetsOrderBy(column, order, page, pageSize);
+            log.debug("Sorted {} AppUsers from repository order by {}", listData.size(), column);
+            for (Map<String, Object> data : listData) {
+                AppUserGetDto result =  AppUserGetDto.mapToDto(data);
+                listResult.add(result);
+            }
+        } catch (Exception e) {
+            log.error("Error occurred while sorting all AppUsers: {}", e.getMessage(), e);
+        }
+        return listResult;
     }
 
     private AppUser convertToEntityCreate(AppUserCreateDto convertObject) {

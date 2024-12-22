@@ -67,6 +67,24 @@ public class AssessmentSummaryRepoImpl implements AssessmentSummaryRepo {
     }
 
     @Override
+    public List<Map<String, Object>> getAssessmentSummaryGetsPerPage(int page, int pageSize) {
+        int offset = (page - 1) * pageSize;
+        String sql = "SELECT au.ID AS USER_ID, FULL_NAME, YEAR, SCORE, STATUS, " +
+                "ass.CREATED_AT, ass.CREATED_BY, ass.UPDATED_AT, ass.UPDATED_BY " +
+                "FROM tbl_assessment_summary ass " +
+                "LEFT JOIN tbl_app_user au ON ass.USER_ID = au.ID ORDER BY FULL_NAME ASC LIMIT ? OFFSET ?";
+        try {
+            log.info("Fetching all AssessmentSummaries for page {} with maximum {} entries", page, pageSize);
+            List<Map<String, Object>> result = jdbcTemplate.queryForList(sql, pageSize, offset);
+            log.info("Successfully fetched AssessmentSummaries for Page {} ({} entries)", page, result.size());
+            return result;
+        } catch (Exception e) {
+            log.error("Error fetching AssessmentSummaries: {}", e.getMessage(), e);
+            throw e;
+        }
+    }
+
+    @Override
     public Map<String, Object> getAssessmentSummaryGetById(String id) {
         String sql = "SELECT ass.ID, FULL_NAME, YEAR, SCORE, STATUS, " +
                 "ass.CREATED_AT, ass.CREATED_BY, ass.UPDATED_AT, ass.UPDATED_BY " +
@@ -236,6 +254,38 @@ public class AssessmentSummaryRepoImpl implements AssessmentSummaryRepo {
             return result;
         } catch (Exception e) {
             log.error("Error fetching AssessmentSummaries by Assessment Year: {}. Error: {}", assessmentYear, e.getMessage());
+            throw e;
+        }
+    }
+
+    @Override
+    public Long countAssessmentSummarys() {
+        String sql = "SELECT COUNT(ID) FROM tbl_assessment_summary;";
+        try {
+            log.info("Fetching total number of AssessmentSummaries");
+            Long total = jdbcTemplate.queryForObject(sql, Long.class);
+            log.info("Total AssessmentSummaries: {}", total);
+            return total;
+        } catch (Exception e) {
+            log.error("Error fetching AssessmentSummaries count: {}", e.getMessage(), e);
+            throw e;
+        }
+    }
+
+    @Override
+    public List<Map<String, Object>> sortAssessmentSummaryGetsOrderBy(String column, String order, int page, int pageSize) {
+        int offset = (page - 1) * pageSize;
+        String sql = "SELECT au.ID AS USER_ID, FULL_NAME, YEAR, SCORE, STATUS, " +
+                "ass.CREATED_AT, ass.CREATED_BY, ass.UPDATED_AT, ass.UPDATED_BY " +
+                "FROM tbl_assessment_summary ass " +
+                "LEFT JOIN tbl_app_user au ON ass.USER_ID = au.ID ORDER BY " + column + " " + order + " LIMIT ? OFFSET ?";
+        log.info("Executing query to sort AssessmentSummaries order by {} {} for page {} with maximum {} entries : {}", column, order, page, pageSize, sql);
+        try {
+            List<Map<String, Object>> result = jdbcTemplate.queryForList(sql, pageSize, offset);
+            log.info("Successfully sorted AssessmentSummaries order by {} {} for Page {} ({} entries)", column, order, page, result.size());
+            return result;
+        } catch (Exception e) {
+            log.error("Error fetching AssessmentSummaries: {}", e.getMessage(), e);
             throw e;
         }
     }

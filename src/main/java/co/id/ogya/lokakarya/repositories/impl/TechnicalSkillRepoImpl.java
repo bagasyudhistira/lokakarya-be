@@ -1,5 +1,6 @@
 package co.id.ogya.lokakarya.repositories.impl;
 
+import co.id.ogya.lokakarya.entities.DevPlan;
 import co.id.ogya.lokakarya.entities.TechnicalSkill;
 import co.id.ogya.lokakarya.repositories.TechnicalSkillRepo;
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +31,21 @@ public class TechnicalSkillRepoImpl implements TechnicalSkillRepo {
             return result;
         } catch (Exception e) {
             log.error("Error while fetching all TechnicalSkills. Error: {}", e.getMessage());
+            throw e;
+        }
+    }
+
+    @Override
+    public List<TechnicalSkill> getTechnicalSkillsPerPage(int page, int pageSize) {
+        int offset = (page - 1) * pageSize;
+        String sql = "SELECT * FROM tbl_technical_skill ORDER BY TECHNICAL_SKILL ASC LIMIT ? OFFSET ?";
+        log.info("Executing query to fetch all TechnicalSkills for page {} with maximum {} entries", page, pageSize);
+        try {
+            List<TechnicalSkill> result = jdbcTemplate.query(sql, rowMapper, offset, pageSize);
+            log.info("Successfully fetched TechnicalSkills for Page {} ({} entries)", page, result.size());
+            return result;
+        } catch (Exception e) {
+            log.error("Error fetching TechnicalSkills. Error: {}", e.getMessage());
             throw e;
         }
     }
@@ -120,6 +136,35 @@ public class TechnicalSkillRepoImpl implements TechnicalSkillRepo {
         } catch (Exception e) {
             log.error("Error while fetching TechnicalSkill with Technical Skill: {}. Error: {}", technicalSkillName, e.getMessage());
             return null;
+        }
+    }
+
+    @Override
+    public Long countTechnicalSkills() {
+        String sql = "SELECT COUNT(ID) FROM tbl_technical_skill";
+        log.info("Executing query to count TechnicalSkill: {}", sql);
+        try {
+            Long total = jdbcTemplate.queryForObject(sql, Long.class);
+            log.info("Total TechnicalSkills: {}", total);
+            return total;
+        } catch (Exception e) {
+            log.error("Error counting TechnicalSkills: {}", e.getMessage(), e);
+            throw e;
+        }
+    }
+
+    @Override
+    public List<TechnicalSkill> sortTechnicalSkills(String order, int page, int pageSize) {
+        int offset = (page - 1) * pageSize;
+        String sql = "SELECT * FROM tbl_technical_skill ORDER BY TECHNICAL_SKILL " + order + " LIMIT ? OFFSET ?";
+        log.info("Executing query to sort TechnicalSkills order {} for page {} with maximum {} entries : {}", order, page, pageSize, sql);
+        try {
+            List<TechnicalSkill> result = jdbcTemplate.query(sql, rowMapper, offset, pageSize);
+            log.info("Successfully sorted TechnicalSkills order {} for Page {} ({} entries)", order, page, result.size());
+            return result;
+        } catch (Exception e) {
+            log.error("Error fetching TechnicalSkills. Error: {}", e.getMessage());
+            throw e;
         }
     }
 }

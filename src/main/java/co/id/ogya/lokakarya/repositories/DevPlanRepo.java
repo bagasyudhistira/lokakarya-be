@@ -7,6 +7,8 @@ import java.util.List;
 public interface DevPlanRepo {
     List<DevPlan> getDevPlans();
 
+    List<DevPlan> getDevPlansPerPage(int page, int pageSize);
+
     DevPlan getDevPlanById(String id);
 
     DevPlan saveDevPlan(DevPlan devPlan);
@@ -16,4 +18,8 @@ public interface DevPlanRepo {
     Boolean deleteDevPlan(String id);
 
     DevPlan getDevPlanByName(String planName);
+
+    Long countDevPlans();
+
+    List<DevPlan> sortDevPlans(String order, int page, int pageSize);
 }

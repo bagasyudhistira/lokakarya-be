@@ -1,6 +1,7 @@
 package co.id.ogya.lokakarya.controllers;
 
 import co.id.ogya.lokakarya.dto.ManagerDto;
+import co.id.ogya.lokakarya.dto.achievement.AchievementGetDto;
 import co.id.ogya.lokakarya.dto.attitudeskill.AttitudeSkillCreateDto;
 import co.id.ogya.lokakarya.dto.attitudeskill.AttitudeSkillDto;
 import co.id.ogya.lokakarya.dto.attitudeskill.AttitudeSkillGetDto;
@@ -70,7 +71,6 @@ public class AttitudeSkillController extends ServerResponseList {
         }
     }
 
-
     @GetMapping("/get/all")
     public ResponseEntity<?> getAllAttitudeSkillGets() {
         log.info("Fetching all AttitudeSkills");
@@ -92,6 +92,8 @@ public class AttitudeSkillController extends ServerResponseList {
             return new ResponseEntity<>("Failed to fetch AttitudeSkills", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+
 
     @GetMapping("/get/{id}")
     public ResponseEntity<?> getAttitudeSkillGetById(@PathVariable String id) {
@@ -200,6 +202,56 @@ public class AttitudeSkillController extends ServerResponseList {
         } catch (Exception e) {
             log.error("Error fetching AttitudeSkill by name {}: {}", attitudeSkillName, e.getMessage(), e);
             return new ResponseEntity<>("Failed to fetch AttitudeSkill with name: " + attitudeSkillName, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/get/all/achievement/{page}/{pageSize}")
+    public ResponseEntity<?> getAllAttitudeSkillGetsPerPage(@PathVariable int page, @PathVariable int pageSize) {
+        log.info("Fetching all AttitudeSkills");
+        long startTime = System.currentTimeMillis();
+
+        try {
+            List<AttitudeSkillGetDto> result = attitudeSkillServ.getAllAttitudeSkillGetPerPage(page, pageSize);
+            Long total = attitudeSkillServ.countAllAttitudeSkill();
+            ManagerDto<List<AttitudeSkillGetDto>> response = new ManagerDto<>();
+            response.setContent(result);
+            response.setTotalRows(result.size());
+            response.setTotalData(total);
+
+            long endTime = System.currentTimeMillis();
+            response.setInfo(getInfoOk("Time", endTime - startTime));
+            log.info("Fetched {} AttitudeSkills in {} ms", result.size(), endTime - startTime);
+            log.info("Total AttitudeSkills: {}", total);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error fetching all AttitudeSkills: {}", e.getMessage(), e);
+            return new ResponseEntity<>("Failed to fetch AttitudeSkills", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/sort/{column}/{order}/{page}/{pageSize}")
+    public ResponseEntity<?> sortAllAttitudeSkillGetsOrderBy(@PathVariable String column, @PathVariable String order, @PathVariable int page, @PathVariable int pageSize) {
+        log.info("Sorting all AttitudeSkills");
+        long startTime = System.currentTimeMillis();
+
+        try {
+            List<AttitudeSkillGetDto> result = attitudeSkillServ.sortAllAttitudeSkillGetOrderBy(column, order, page, pageSize);
+            Long total = attitudeSkillServ.countAllAttitudeSkill();
+            ManagerDto<List<AttitudeSkillGetDto>> response = new ManagerDto<>();
+            response.setContent(result);
+            response.setTotalRows(result.size());
+            response.setTotalData(total);
+
+            long endTime = System.currentTimeMillis();
+            response.setInfo(getInfoOk("Time", endTime - startTime));
+            log.info("Fetched {} AttitudeSkills in {} ms", result.size(), endTime - startTime);
+            log.info("Total AttitudeSkills: {}", total);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error fetching all AttitudeSkills: {}", e.getMessage(), e);
+            return new ResponseEntity<>("Failed to fetch AttitudeSkills", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

@@ -7,6 +7,8 @@ import java.util.List;
 public interface TechnicalSkillRepo {
     List<TechnicalSkill> getTechnicalSkills();
 
+    List<TechnicalSkill> getTechnicalSkillsPerPage(int page, int pageSize);
+
     TechnicalSkill getTechnicalSkillById(String id);
 
     TechnicalSkill saveTechnicalSkill(TechnicalSkill technicalSkill);
@@ -16,4 +18,8 @@ public interface TechnicalSkillRepo {
     Boolean deleteTechnicalSkill(String id);
 
     TechnicalSkill getTechnicalSkillByName(String technicalSkill);
+
+    Long countTechnicalSkills();
+
+    List<TechnicalSkill> sortTechnicalSkills(String order, int page, int pageSize);
 }

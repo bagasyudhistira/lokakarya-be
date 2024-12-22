@@ -1,6 +1,7 @@
 package co.id.ogya.lokakarya.controllers;
 
 import co.id.ogya.lokakarya.dto.ManagerDto;
+import co.id.ogya.lokakarya.dto.devplan.DevPlanDto;
 import co.id.ogya.lokakarya.dto.technicalskill.*;
 import co.id.ogya.lokakarya.services.TechnicalSkillServ;
 import co.id.ogya.lokakarya.utils.ServerResponseList;
@@ -152,6 +153,56 @@ public class TechnicalSkillController extends ServerResponseList {
         } catch (Exception e) {
             log.error("Error fetching TechnicalSkill by name {}: {}", technicalSkill, e.getMessage(), e);
             return new ResponseEntity<>("Failed to fetch TechnicalSkill with name: " + technicalSkill, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/all/{page}/{pageSize}")
+    public ResponseEntity<?> getAllTechnicalSkillsPerPage(@PathVariable int page, @PathVariable int pageSize) {
+        log.info("Fetching all TechnicalSkills");
+        long startTime = System.currentTimeMillis();
+
+        try {
+            List<TechnicalSkillDto> result = technicalSkillServ.getAllTechnicalSkillPerPage(page, pageSize);
+            Long total = technicalSkillServ.countAllTechnicalSkill();
+            ManagerDto<List<TechnicalSkillDto>> response = new ManagerDto<>();
+            response.setContent(result);
+            response.setTotalRows(result.size());
+            response.setTotalData(total);
+
+            long endTime = System.currentTimeMillis();
+            response.setInfo(getInfoOk("Time", endTime - startTime));
+            log.info("Fetched {} TechnicalSkills in {} ms", result.size(), endTime - startTime);
+            log.info("Total TechnicalSkills: {}", total);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error fetching all TechnicalSkills: {}", e.getMessage(), e);
+            return new ResponseEntity<>("Failed to fetch TechnicalSkills", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/sort/{order}/{page}/{pageSize}")
+    public ResponseEntity<?> sortAllTechnicalSkillsOrderBy(@PathVariable String order, @PathVariable int page, @PathVariable int pageSize) {
+        log.info("Sorting all TechnicalSkills");
+        long startTime = System.currentTimeMillis();
+
+        try {
+            List<TechnicalSkillDto> result = technicalSkillServ.sortAllTechnicalSkill(order, page, pageSize);
+            Long total = technicalSkillServ.countAllTechnicalSkill();
+            ManagerDto<List<TechnicalSkillDto>> response = new ManagerDto<>();
+            response.setContent(result);
+            response.setTotalRows(result.size());
+            response.setTotalData(total);
+
+            long endTime = System.currentTimeMillis();
+            response.setInfo(getInfoOk("Time", endTime - startTime));
+            log.info("Fetched {} TechnicalSkills in {} ms", result.size(), endTime - startTime);
+            log.info("Total TechnicalSkills: {}", total);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error fetching all TechnicalSkills: {}", e.getMessage(), e);
+            return new ResponseEntity<>("Failed to fetch TechnicalSkills", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

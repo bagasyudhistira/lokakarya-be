@@ -1,6 +1,7 @@
 package co.id.ogya.lokakarya.repositories.impl;
 
 import co.id.ogya.lokakarya.entities.GroupAchievement;
+import co.id.ogya.lokakarya.entities.GroupAttitudeSkill;
 import co.id.ogya.lokakarya.repositories.GroupAchievementRepo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,21 @@ public class GroupAchievementRepoImpl implements GroupAchievementRepo {
             return result;
         } catch (Exception e) {
             log.error("Error while fetching all GroupAchievements. Error: {}", e.getMessage());
+            throw e;
+        }
+    }
+
+    @Override
+    public List<GroupAchievement> getGroupAchievementsPerPage(int page, int pageSize) {
+        int offset = (page - 1) * pageSize;
+        String sql = "SELECT * FROM tbl_group_achievement ORDER BY group_name ASC LIMIT ? OFFSET ?";
+        log.info("Executing query to fetch all GroupAchievements for page {} with maximum {} entries : {}", page, pageSize, sql);
+        try {
+            List<GroupAchievement> result = jdbcTemplate.query(sql, rowMapper, offset, pageSize);
+            log.info("Successfully fetched GroupAchievements for Page {} ({} entries)", page, result.size());
+            return result;
+        } catch (Exception e) {
+            log.error("Error fetching GroupAchievements. Error: {}", e.getMessage());
             throw e;
         }
     }
@@ -120,6 +136,35 @@ public class GroupAchievementRepoImpl implements GroupAchievementRepo {
         } catch (Exception e) {
             log.error("Error while fetching GroupAchievement with Group Name: {}. Error: {}", groupName, e.getMessage());
             return null;
+        }
+    }
+
+    @Override
+    public Long countGroupAchievements() {
+        String sql = "SELECT COUNT(ID) FROM tbl_group_achievement;";
+        try {
+            log.info("Fetching total number of GroupAchievements");
+            Long total = jdbcTemplate.queryForObject(sql, Long.class);
+            log.info("Total GroupAchievements: {}", total);
+            return total;
+        } catch (Exception e) {
+            log.error("Error fetching GroupAchievements count: {}", e.getMessage(), e);
+            throw e;
+        }
+    }
+
+    @Override
+    public List<GroupAchievement> sortGroupAchievements(String order, int page, int pageSize) {
+        int offset = (page - 1) * pageSize;
+        String sql = "SELECT * FROM tbl_group_achievement ORDER BY GROUP_NAME " + order + " LIMIT ? OFFSET ?";
+        log.info("Executing query to sort GroupAttitudeSkills order {} for page {} with maximum {} entries : {}", order, page, pageSize, sql);
+        try {
+            List<GroupAchievement> result = jdbcTemplate.query(sql, rowMapper, offset, pageSize);
+            log.info("Successfully sorted GroupAchievements order {} for Page {} ({} entries)", order, page, result.size());
+            return result;
+        } catch (Exception e) {
+            log.error("Error fetching GroupAchievements. Error: {}", e.getMessage());
+            throw e;
         }
     }
 }

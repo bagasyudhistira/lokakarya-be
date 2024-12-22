@@ -1,6 +1,7 @@
 package co.id.ogya.lokakarya.controllers;
 
 import co.id.ogya.lokakarya.dto.ManagerDto;
+import co.id.ogya.lokakarya.dto.groupachievement.GroupAchievementDto;
 import co.id.ogya.lokakarya.dto.groupattitudeskill.*;
 import co.id.ogya.lokakarya.services.GroupAttitudeSkillServ;
 import co.id.ogya.lokakarya.utils.ServerResponseList;
@@ -152,6 +153,56 @@ public class GroupAttitudeSkillController extends ServerResponseList {
         } catch (Exception e) {
             log.error("Error fetching GroupAttitudeSkill by name {}: {}", groupName, e.getMessage(), e);
             return new ResponseEntity<>("Failed to fetch GroupAttitudeSkill with name: " + groupName, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/all/{page}/{pageSize}")
+    public ResponseEntity<?> getAllGroupAttitudeSkillsPerPage(@PathVariable int page, @PathVariable int pageSize) {
+        log.info("Fetching all GroupAttitudeSkills");
+        long startTime = System.currentTimeMillis();
+
+        try {
+            List<GroupAttitudeSkillDto> result = groupAttitudeSkillServ.getAllGroupAttitudeSkillPerPage(page, pageSize);
+            Long total = groupAttitudeSkillServ.countAllGroupAttitudeSkill();
+            ManagerDto<List<GroupAttitudeSkillDto>> response = new ManagerDto<>();
+            response.setContent(result);
+            response.setTotalRows(result.size());
+            response.setTotalData(total);
+
+            long endTime = System.currentTimeMillis();
+            response.setInfo(getInfoOk("Time", endTime - startTime));
+            log.info("Fetched {} GroupAttitudeSkills in {} ms", result.size(), endTime - startTime);
+            log.info("Total GroupAttitudeSkills: {}", total);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error fetching all GroupAttitudeSkills: {}", e.getMessage(), e);
+            return new ResponseEntity<>("Failed to fetch GroupAttitudeSkills", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/sort/{order}/{page}/{pageSize}")
+    public ResponseEntity<?> sortAllGroupAchievementsOrderBy(@PathVariable String order, @PathVariable int page, @PathVariable int pageSize) {
+        log.info("Sorting all GroupAttitudeSkills");
+        long startTime = System.currentTimeMillis();
+
+        try {
+            List<GroupAttitudeSkillDto> result = groupAttitudeSkillServ.sortAllGroupAttitudeSkill(order, page, pageSize);
+            Long total = groupAttitudeSkillServ.countAllGroupAttitudeSkill();
+            ManagerDto<List<GroupAttitudeSkillDto>> response = new ManagerDto<>();
+            response.setContent(result);
+            response.setTotalRows(result.size());
+            response.setTotalData(total);
+
+            long endTime = System.currentTimeMillis();
+            response.setInfo(getInfoOk("Time", endTime - startTime));
+            log.info("Fetched {} GroupAttitudeSkills in {} ms", result.size(), endTime - startTime);
+            log.info("Total GroupAttitudeSkills: {}", total);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error fetching all GroupAttitudeSkills: {}", e.getMessage(), e);
+            return new ResponseEntity<>("Failed to fetch GroupAttitudeSkills", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

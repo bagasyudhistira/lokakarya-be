@@ -1,5 +1,6 @@
 package co.id.ogya.lokakarya.services.impl;
 
+import co.id.ogya.lokakarya.dto.appuser.AppUserGetDto;
 import co.id.ogya.lokakarya.dto.division.DivisionCreateDto;
 import co.id.ogya.lokakarya.dto.division.DivisionDto;
 import co.id.ogya.lokakarya.dto.division.DivisionUpdateDto;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -28,6 +30,23 @@ public class DivisionServImpl implements DivisionServ {
         try {
             List<Division> listData = divisionRepo.getDivisions();
             log.debug("Fetched {} Divisions from repository", listData.size());
+            for (Division data : listData) {
+                DivisionDto result = convertToDto(data);
+                listResult.add(result);
+            }
+        } catch (Exception e) {
+            log.error("Error occurred while fetching all Divisions: {}", e.getMessage(), e);
+        }
+        return listResult;
+    }
+
+    @Override
+    public List<DivisionDto> getAllDivisionPerPage(int page, int pageSize) {
+        log.info("Attempting to fetch all Divisions per page");
+        List<DivisionDto> listResult = new ArrayList<>();
+        try {
+            List<Division> listData = divisionRepo.getDivisionsPerPage(page, pageSize);
+            log.debug("Fetched {} Divisions", listData.size());
             for (Division data : listData) {
                 DivisionDto result = convertToDto(data);
                 listResult.add(result);
@@ -111,6 +130,36 @@ public class DivisionServImpl implements DivisionServ {
             log.error("Error occurred while fetching Division by Division Name {} : {}", divisionName, e.getMessage(), e);
         }
         return result;
+    }
+
+    @Override
+    public Long countAllDivision() {
+        try {
+            log.info("Fetching total count of all Divisions from repository");
+            Long total = divisionRepo.countDivisions();
+            log.info("Successfully fetched total Divisions count: {}", total);
+            return total;
+        } catch (Exception e) {
+            log.error("Error occurred while fetching total Divisions count: {}", e.getMessage(), e);
+            throw new RuntimeException("Failed to fetch Divisions count", e);
+        }
+    }
+
+    @Override
+    public List<DivisionDto> sortAllDivision(String order, int page, int pageSize) {
+        log.info("Attempting to sort all Divisions");
+        List<DivisionDto> listResult = new ArrayList<>();
+        try {
+            List<Division> listData = divisionRepo.sortDivisions(order, page, pageSize);
+            log.debug("Sorted {} Divisions from repository", listData.size());
+            for (Division data : listData) {
+                DivisionDto result = convertToDto(data);
+                listResult.add(result);
+            }
+        } catch (Exception e) {
+            log.error("Error occurred while sorting all Divisions: {}", e.getMessage(), e);
+        }
+        return listResult;
     }
 
     private Division convertToEntityCreate(DivisionCreateDto convertObject) {

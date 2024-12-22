@@ -1,6 +1,7 @@
 package co.id.ogya.lokakarya.controllers;
 
 import co.id.ogya.lokakarya.dto.ManagerDto;
+import co.id.ogya.lokakarya.dto.appuser.AppUserGetDto;
 import co.id.ogya.lokakarya.dto.empsuggestion.*;
 import co.id.ogya.lokakarya.services.EmpSuggestionServ;
 import co.id.ogya.lokakarya.utils.ServerResponseList;
@@ -217,6 +218,56 @@ public class EmpSuggestionController extends ServerResponseList {
         } catch (Exception e) {
             log.error("Error looking for EmpSuggestion with User ID: {} and Assessment Year: {}. Error: {}", userId, assessmentYear, e.getMessage(), e);
             return new ResponseEntity<>("Failed to look for EmpSuggestion with User ID: " + userId, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/get/all/{page}/{pageSize}")
+    public ResponseEntity<?> getAllEmpSuggestionGetsPerPage(@PathVariable int page, @PathVariable int pageSize) {
+        log.info("Fetching all EmpSuggestions");
+        long startTime = System.currentTimeMillis();
+
+        try {
+            List<EmpSuggestionGetDto> result = empSuggestionServ.getAllEmpSuggestionGetPerPage(page, pageSize);
+            Long total = empSuggestionServ.countAllEmpSuggestion();
+            ManagerDto<List<EmpSuggestionGetDto>> response = new ManagerDto<>();
+            response.setContent(result);
+            response.setTotalRows(result.size());
+            response.setTotalData(total);
+
+            long endTime = System.currentTimeMillis();
+            response.setInfo(getInfoOk("Time", endTime - startTime));
+            log.info("Fetched {} EmpSuggestion in {} ms", result.size(), endTime - startTime);
+            log.info("Total EmpSuggestions: {}", total);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error fetching all EmpSuggestions: {}", e.getMessage(), e);
+            return new ResponseEntity<>("Failed to fetch EmpSuggestions", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/sort/{column}/{order}/{page}/{pageSize}")
+    public ResponseEntity<?> sortAllEmpSuggestionGetsOrderBy(@PathVariable String column, @PathVariable String order, @PathVariable int page, @PathVariable int pageSize) {
+        log.info("Sorting all EmpSuggestions");
+        long startTime = System.currentTimeMillis();
+
+        try {
+            List<EmpSuggestionGetDto> result = empSuggestionServ.sortAllEmpSuggestionGetOrderBy(column, order, page, pageSize);
+            Long total = empSuggestionServ.countAllEmpSuggestion();
+            ManagerDto<List<EmpSuggestionGetDto>> response = new ManagerDto<>();
+            response.setContent(result);
+            response.setTotalRows(result.size());
+            response.setTotalData(total);
+
+            long endTime = System.currentTimeMillis();
+            response.setInfo(getInfoOk("Time", endTime - startTime));
+            log.info("Fetched {} EmpSuggestions in {} ms", result.size(), endTime - startTime);
+            log.info("Total EmpSuggestions: {}", total);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error fetching all EmpSuggestions: {}", e.getMessage(), e);
+            return new ResponseEntity<>("Failed to fetch EmpSuggestions", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

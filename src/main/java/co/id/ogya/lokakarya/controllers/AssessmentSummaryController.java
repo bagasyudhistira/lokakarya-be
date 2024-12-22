@@ -1,6 +1,7 @@
 package co.id.ogya.lokakarya.controllers;
 
 import co.id.ogya.lokakarya.dto.ManagerDto;
+import co.id.ogya.lokakarya.dto.appuser.AppUserGetDto;
 import co.id.ogya.lokakarya.dto.assessmentsummary.*;
 import co.id.ogya.lokakarya.services.AssessmentSummaryServ;
 import co.id.ogya.lokakarya.utils.ServerResponseList;
@@ -279,6 +280,56 @@ public class AssessmentSummaryController extends ServerResponseList {
             long endTime = System.currentTimeMillis();
             response.setInfo(getInfoOk("Time", endTime - startTime));
             log.info("Fetched all AssessmentSummaries for Assessment Year: {} in {} ms", assessmentYear, endTime - startTime);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error fetching all AssessmentSummaries: {}", e.getMessage(), e);
+            return new ResponseEntity<>("Failed to fetch AssessmentSummaries", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/get/all/{page}/{pageSize}")
+    public ResponseEntity<?> getAllAssessmentSummaryGetsPerPage(@PathVariable int page, @PathVariable int pageSize) {
+        log.info("Fetching all AssessmentSummaries");
+        long startTime = System.currentTimeMillis();
+
+        try {
+            List<AssessmentSummaryGetDto> result = assessmentSummaryServ.getAllAssessmentSummaryGetPerPage(page, pageSize);
+            Long total = assessmentSummaryServ.countAllAssessmentSummary();
+            ManagerDto<List<AssessmentSummaryGetDto>> response = new ManagerDto<>();
+            response.setContent(result);
+            response.setTotalRows(result.size());
+            response.setTotalData(total);
+
+            long endTime = System.currentTimeMillis();
+            response.setInfo(getInfoOk("Time", endTime - startTime));
+            log.info("Fetched {} AssessmentSummaries in {} ms", result.size(), endTime - startTime);
+            log.info("Total AssessmentSummaries: {}", total);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error fetching all AssessmentSummaries: {}", e.getMessage(), e);
+            return new ResponseEntity<>("Failed to fetch AssessmentSummaries", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/sort/{column}/{order}/{page}/{pageSize}")
+    public ResponseEntity<?> sortAllAssessmentSummaryGetsOrderBy(@PathVariable String column, @PathVariable String order, @PathVariable int page, @PathVariable int pageSize) {
+        log.info("Sorting all AssessmentSummaries");
+        long startTime = System.currentTimeMillis();
+
+        try {
+            List<AssessmentSummaryGetDto> result = assessmentSummaryServ.sortAllAssessmentSummaryGetOrderBy(column, order, page, pageSize);
+            Long total = assessmentSummaryServ.countAllAssessmentSummary();
+            ManagerDto<List<AssessmentSummaryGetDto>> response = new ManagerDto<>();
+            response.setContent(result);
+            response.setTotalRows(result.size());
+            response.setTotalData(total);
+
+            long endTime = System.currentTimeMillis();
+            response.setInfo(getInfoOk("Time", endTime - startTime));
+            log.info("Fetched {} AppUsers in {} ms", result.size(), endTime - startTime);
+            log.info("Total AssessmentSummaries: {}", total);
 
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {

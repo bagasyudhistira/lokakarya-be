@@ -92,9 +92,9 @@ public class AppUserRepoImpl implements AppUserRepo {
                 "FROM tbl_app_user au " +
                 "LEFT JOIN tbl_division d ON au.DIVISION_ID = d.ID ORDER BY au.ID LIMIT ? OFFSET ?";
         try {
-            log.info("Fetching all AppUsers");
+            log.info("Fetching all AppUser for page {} with maximum {} entries", page, pageSize);
             List<Map<String, Object>> appUsers = jdbcTemplate.queryForList(sql, pageSize, offset);
-            log.info("Fetched {} AppUsers", appUsers.size());
+            log.info("Successfully fetched AppUser for Page {} ({} entries)", page, appUsers.size());
             return appUsers;
         } catch (Exception e) {
             log.error("Error fetching AppUsers: {}", e.getMessage(), e);
@@ -293,15 +293,33 @@ public class AppUserRepoImpl implements AppUserRepo {
     }
 
     @Override
-    public Long getAppUsersCount() {
+    public Long countAppUsers() {
         String sql = "SELECT COUNT(ID) FROM tbl_app_user;";
         try {
             log.info("Fetching total number of AppUsers");
-            Long totalUsers = jdbcTemplate.queryForObject(sql, Long.class);
-            log.info("Total users: {}", totalUsers);
-            return totalUsers;
+            Long total = jdbcTemplate.queryForObject(sql, Long.class);
+            log.info("Total users: {}", total);
+            return total;
         } catch (Exception e) {
             log.error("Error fetching AppUsers count: {}", e.getMessage(), e);
+            throw e;
+        }
+    }
+
+    @Override
+    public List<Map<String, Object>> sortAppUserGetsOrderBy(String column, String order, int page, int pageSize) {
+        int offset = (page - 1) * pageSize;
+        String sql = "SELECT au.ID, USERNAME, FULL_NAME, POSITION, EMAIL_ADDRESS, EMPLOYEE_STATUS, " +
+                "JOIN_DATE, ENABLED, PASSWORD, DIVISION_ID, DIVISION_NAME " +
+                "FROM tbl_app_user au " +
+                "LEFT JOIN tbl_division d ON au.DIVISION_ID = d.ID ORDER BY au." + column + " " + order + " LIMIT ? OFFSET ?";
+        log.info("Executing query to sort AppUser order by {} {} for page {} with maximum {} entries : {}", column, order, page, pageSize, sql);
+        try {
+            List<Map<String, Object>> appUsers = jdbcTemplate.queryForList(sql, pageSize, offset);
+            log.info("Successfully sorted AppUsers order by {} {} for Page {} ({} entries)", column, order, page, appUsers.size());
+            return appUsers;
+        } catch (Exception e) {
+            log.error("Error fetching AppUsers: {}", e.getMessage(), e);
             throw e;
         }
     }

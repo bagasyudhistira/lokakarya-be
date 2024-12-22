@@ -1,6 +1,7 @@
 package co.id.ogya.lokakarya.controllers;
 
 import co.id.ogya.lokakarya.dto.ManagerDto;
+import co.id.ogya.lokakarya.dto.division.DivisionDto;
 import co.id.ogya.lokakarya.dto.groupachievement.*;
 import co.id.ogya.lokakarya.services.GroupAchievementServ;
 import co.id.ogya.lokakarya.utils.ServerResponseList;
@@ -152,6 +153,56 @@ public class GroupAchievementController extends ServerResponseList {
         } catch (Exception e) {
             log.error("Error fetching GroupAchievement by name {}: {}", groupName, e.getMessage(), e);
             return new ResponseEntity<>("Failed to fetch GroupAchievement with name: " + groupName, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/all/{page}/{pageSize}")
+    public ResponseEntity<?> getAllGroupAchievementsPerPage(@PathVariable int page, @PathVariable int pageSize) {
+        log.info("Fetching all GroupAchievements");
+        long startTime = System.currentTimeMillis();
+
+        try {
+            List<GroupAchievementDto> result = groupAchievementServ.getAllGroupAchievementPerPage(page, pageSize);
+            Long total = groupAchievementServ.countAllGroupAchievement();
+            ManagerDto<List<GroupAchievementDto>> response = new ManagerDto<>();
+            response.setContent(result);
+            response.setTotalRows(result.size());
+            response.setTotalData(total);
+
+            long endTime = System.currentTimeMillis();
+            response.setInfo(getInfoOk("Time", endTime - startTime));
+            log.info("Fetched {} GroupAchievements in {} ms", result.size(), endTime - startTime);
+            log.info("Total GroupAchievements: {}", total);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error fetching all GroupAchievements: {}", e.getMessage(), e);
+            return new ResponseEntity<>("Failed to fetch GroupAchievements", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/sort/{order}/{page}/{pageSize}")
+    public ResponseEntity<?> sortAllGroupAchievementsOrderBy(@PathVariable String order, @PathVariable int page, @PathVariable int pageSize) {
+        log.info("Sorting all GroupAchievements");
+        long startTime = System.currentTimeMillis();
+
+        try {
+            List<GroupAchievementDto> result = groupAchievementServ.sortAllGroupAchievement(order, page, pageSize);
+            Long total = groupAchievementServ.countAllGroupAchievement();
+            ManagerDto<List<GroupAchievementDto>> response = new ManagerDto<>();
+            response.setContent(result);
+            response.setTotalRows(result.size());
+            response.setTotalData(total);
+
+            long endTime = System.currentTimeMillis();
+            response.setInfo(getInfoOk("Time", endTime - startTime));
+            log.info("Fetched {} GroupAchievements in {} ms", result.size(), endTime - startTime);
+            log.info("Total GroupAchievements: {}", total);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error fetching all GroupAchievements: {}", e.getMessage(), e);
+            return new ResponseEntity<>("Failed to fetch GroupAchievements", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

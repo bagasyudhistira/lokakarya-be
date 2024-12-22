@@ -1,6 +1,8 @@
 package co.id.ogya.lokakarya.repositories.impl;
 
 import co.id.ogya.lokakarya.entities.DevPlan;
+import co.id.ogya.lokakarya.entities.Division;
+import co.id.ogya.lokakarya.entities.GroupAchievement;
 import co.id.ogya.lokakarya.repositories.DevPlanRepo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +32,21 @@ public class DevPlanRepoImpl implements DevPlanRepo {
             return result;
         } catch (Exception e) {
             log.error("Error fetching all DevPlans. Error: {}", e.getMessage());
+            throw e;
+        }
+    }
+
+    @Override
+    public List<DevPlan> getDevPlansPerPage(int page, int pageSize) {
+        int offset = (page - 1) * pageSize;
+        String sql = "SELECT * FROM tbl_dev_plan ORDER BY PLAN ASC LIMIT ? OFFSET ?";
+        log.info("Executing query to fetch all DevPlans for page {} with maximum {} entries", page, pageSize);
+        try {
+            List<DevPlan> result = jdbcTemplate.query(sql, rowMapper, offset, pageSize);
+            log.info("Successfully fetched DevPlans for Page {} ({} entries)", page, result.size());
+            return result;
+        } catch (Exception e) {
+            log.error("Error fetching divisions. Error: {}", e.getMessage());
             throw e;
         }
     }
@@ -120,6 +137,35 @@ public class DevPlanRepoImpl implements DevPlanRepo {
         } catch (Exception e) {
             log.error("Error fetching DevPlan by Plan Name: {}. Error: {}", planName, e.getMessage());
             return null;
+        }
+    }
+
+    @Override
+    public Long countDevPlans() {
+        String sql = "SELECT COUNT(ID) FROM tbl_dev_plan";
+        log.info("Executing query to count DevPlans: {}", sql);
+        try {
+            Long total = jdbcTemplate.queryForObject(sql, Long.class);
+            log.info("Total DevPlans: {}", total);
+            return total;
+        } catch (Exception e) {
+            log.error("Error counting DevPlans: {}", e.getMessage(), e);
+            throw e;
+        }
+    }
+
+    @Override
+    public List<DevPlan> sortDevPlans(String order, int page, int pageSize) {
+        int offset = (page - 1) * pageSize;
+        String sql = "SELECT * FROM tbl_dev_plan ORDER BY DEV_PLAN " + order + " LIMIT ? OFFSET ?";
+        log.info("Executing query to sort DevPlans order {} for page {} with maximum {} entries : {}", order, page, pageSize, sql);
+        try {
+            List<DevPlan> result = jdbcTemplate.query(sql, rowMapper, offset, pageSize);
+            log.info("Successfully sorted DevPlans order {} for Page {} ({} entries)", order, page, result.size());
+            return result;
+        } catch (Exception e) {
+            log.error("Error fetching DevPlans. Error: {}", e.getMessage());
+            throw e;
         }
     }
 }

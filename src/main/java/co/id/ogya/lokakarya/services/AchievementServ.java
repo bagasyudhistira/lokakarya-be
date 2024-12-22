@@ -14,6 +14,8 @@ public interface AchievementServ {
 
     List<AchievementGetDto> getAllAchievementGet();
 
+    List<AchievementGetDto> getAllAchievementGetPerPage(int page, int pageSize);
+
     AchievementGetDto getAchievementGetById(String id);
 
     AchievementDto createAchievement(AchievementCreateDto achievementCreateDto);
@@ -23,4 +25,8 @@ public interface AchievementServ {
     boolean deleteAchievement(String id);
 
     AchievementDto getAchievementByName(String achievementName);
+
+    Long countAllAchievement();
+
+    List<AchievementGetDto> sortAllAchievementGetOrderBy(String column, String order, int page, int pageSize);
 }

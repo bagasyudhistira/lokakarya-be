@@ -1,8 +1,10 @@
 package co.id.ogya.lokakarya.services.impl;
 
+import co.id.ogya.lokakarya.dto.groupachievement.GroupAchievementDto;
 import co.id.ogya.lokakarya.dto.groupattitudeskill.GroupAttitudeSkillCreateDto;
 import co.id.ogya.lokakarya.dto.groupattitudeskill.GroupAttitudeSkillDto;
 import co.id.ogya.lokakarya.dto.groupattitudeskill.GroupAttitudeSkillUpdateDto;
+import co.id.ogya.lokakarya.entities.GroupAchievement;
 import co.id.ogya.lokakarya.entities.GroupAttitudeSkill;
 import co.id.ogya.lokakarya.repositories.GroupAttitudeSkillRepo;
 import co.id.ogya.lokakarya.services.GroupAttitudeSkillServ;
@@ -28,6 +30,23 @@ public class GroupAttitudeSkillServImpl implements GroupAttitudeSkillServ {
         try {
             List<GroupAttitudeSkill> listData = groupAttitudeSkillRepo.getGroupAttitudeSkills();
             log.debug("Fetched {} GroupAttitudeSkills from repository", listData.size());
+            for (GroupAttitudeSkill data : listData) {
+                GroupAttitudeSkillDto result = convertToDto(data);
+                listResult.add(result);
+            }
+        } catch (Exception e) {
+            log.error("Error occurred while fetching all GroupAttitudeSkills: {}", e.getMessage(), e);
+        }
+        return listResult;
+    }
+
+    @Override
+    public List<GroupAttitudeSkillDto> getAllGroupAttitudeSkillPerPage(int page, int pageSize) {
+        log.info("Attempting to fetch all GroupAttitudeSkills per page");
+        List<GroupAttitudeSkillDto> listResult = new ArrayList<>();
+        try {
+            List<GroupAttitudeSkill> listData = groupAttitudeSkillRepo.getGroupAttitudeSkillsPerPage(page, pageSize);
+            log.debug("Fetched {} GroupAttitudeSkills", listData.size());
             for (GroupAttitudeSkill data : listData) {
                 GroupAttitudeSkillDto result = convertToDto(data);
                 listResult.add(result);
@@ -111,6 +130,36 @@ public class GroupAttitudeSkillServImpl implements GroupAttitudeSkillServ {
             log.error("Error occurred while fetching GroupAttitudeSkill by Group Name : {} : {}", groupName, e.getMessage(), e);
         }
         return result;
+    }
+
+    @Override
+    public Long countAllGroupAttitudeSkill() {
+        try {
+            log.info("Fetching total count of all GroupAttitudeSkills from repository");
+            Long total = groupAttitudeSkillRepo.countGroupAttitudeSkills();
+            log.info("Successfully fetched total GroupAttitudeSkills count: {}", total);
+            return total;
+        } catch (Exception e) {
+            log.error("Error occurred while fetching total GroupAttitudeSkills count: {}", e.getMessage(), e);
+            throw new RuntimeException("Failed to fetch GroupAttitudeSkills count", e);
+        }
+    }
+
+    @Override
+    public List<GroupAttitudeSkillDto> sortAllGroupAttitudeSkill(String order, int page, int pageSize) {
+        log.info("Attempting to sort all GroupAttitudeSkills");
+        List<GroupAttitudeSkillDto> listResult = new ArrayList<>();
+        try {
+            List<GroupAttitudeSkill> listData = groupAttitudeSkillRepo.sortGroupAttitudeSkills(order, page, pageSize);
+            log.debug("Sorted {} GroupAttitudeSkills from repository", listData.size());
+            for (GroupAttitudeSkill data : listData) {
+                GroupAttitudeSkillDto result = convertToDto(data);
+                listResult.add(result);
+            }
+        } catch (Exception e) {
+            log.error("Error occurred while sorting all GroupAttitudeSkills: {}", e.getMessage(), e);
+        }
+        return listResult;
     }
 
     private GroupAttitudeSkill convertToEntityCreate(GroupAttitudeSkillCreateDto convertObject) {

@@ -18,9 +18,15 @@ public interface EmpSuggestionRepo {
 
     List<Map<String, Object>> getEmpSuggestionGets();
 
+    List<Map<String, Object>> getEmpSuggestionGetsPerPage(int page, int pageSize);
+
     List<Map<String, Object>> getEmpSuggestionGetByUserId(String userId);
 
     List<Map<String, Object>> getEmpSuggestionGetByCreatedBy(String userId);
 
     Map<String, Object> ifAnyEmpSuggestionExist(String userId, int assessmentYear);
+
+    Long countEmpSuggestions();
+
+    List<Map<String, Object>> sortEmpSuggestionGetsOrderBy(String column, String order, int page, int pageSize);
 }

@@ -3,7 +3,9 @@ package co.id.ogya.lokakarya.services.impl;
 import co.id.ogya.lokakarya.dto.devplan.DevPlanCreateDto;
 import co.id.ogya.lokakarya.dto.devplan.DevPlanDto;
 import co.id.ogya.lokakarya.dto.devplan.DevPlanUpdateDto;
+import co.id.ogya.lokakarya.dto.division.DivisionDto;
 import co.id.ogya.lokakarya.entities.DevPlan;
+import co.id.ogya.lokakarya.entities.Division;
 import co.id.ogya.lokakarya.repositories.DevPlanRepo;
 import co.id.ogya.lokakarya.services.DevPlanServ;
 import jakarta.transaction.Transactional;
@@ -28,6 +30,23 @@ public class DevPlanServImpl implements DevPlanServ {
         try {
             List<DevPlan> listData = devPlanRepo.getDevPlans();
             log.debug("Fetched {} DevPlans from repository", listData.size());
+            for (DevPlan data : listData) {
+                DevPlanDto result = convertToDto(data);
+                listResult.add(result);
+            }
+        } catch (Exception e) {
+            log.error("Error occurred while fetching all DevPlans: {}", e.getMessage(), e);
+        }
+        return listResult;
+    }
+
+    @Override
+    public List<DevPlanDto> getAllDevPlanPerPage(int page, int pageSize) {
+        log.info("Attempting to fetch all DevPlans per page");
+        List<DevPlanDto> listResult = new ArrayList<>();
+        try {
+            List<DevPlan> listData = devPlanRepo.getDevPlansPerPage(page, pageSize);
+            log.debug("Fetched {} DevPlans", listData.size());
             for (DevPlan data : listData) {
                 DevPlanDto result = convertToDto(data);
                 listResult.add(result);
@@ -111,6 +130,36 @@ public class DevPlanServImpl implements DevPlanServ {
             log.error("Error occurred while fetching DevPlan by Plan Name {}: {}", planName, e.getMessage(), e);
         }
         return result;
+    }
+
+    @Override
+    public Long countAllDevPlan() {
+        try {
+            log.info("Fetching total count of all DevPlans from repository");
+            Long total = devPlanRepo.countDevPlans();
+            log.info("Successfully fetched total DevPlans count: {}", total);
+            return total;
+        } catch (Exception e) {
+            log.error("Error occurred while fetching total DevPlans count: {}", e.getMessage(), e);
+            throw new RuntimeException("Failed to fetch DevPlans count", e);
+        }
+    }
+
+    @Override
+    public List<DevPlanDto> sortDevPlan(String order, int page, int pageSize) {
+        log.info("Attempting to sort all DevPlans");
+        List<DevPlanDto> listResult = new ArrayList<>();
+        try {
+            List<DevPlan> listData = devPlanRepo.sortDevPlans(order, page, pageSize);
+            log.debug("Sorted {} DevPlans from repository", listData.size());
+            for (DevPlan data : listData) {
+                DevPlanDto result = convertToDto(data);
+                listResult.add(result);
+            }
+        } catch (Exception e) {
+            log.error("Error occurred while sorting all DevPlans: {}", e.getMessage(), e);
+        }
+        return listResult;
     }
 
     private DevPlan convertToEntityCreate(DevPlanCreateDto convertObject) {

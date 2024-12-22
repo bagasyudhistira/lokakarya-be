@@ -18,9 +18,15 @@ public interface EmpSuggestionServ {
 
     List<EmpSuggestionGetDto> getAllEmpSuggestionGets();
 
+    List<EmpSuggestionGetDto> getAllEmpSuggestionGetPerPage(int page, int pageSize);
+
     List<EmpSuggestionGetDto> getEmpSuggestionGetByUserId(String userId);
 
     List<EmpSuggestionGetDto> getEmpSuggestionGetByCreatedBy(String userId);
 
     EmpSuggestionOneDto ifAnyEmpSuggestionExist(String userId, int assessmentYear);
+
+    Long countAllEmpSuggestion();
+
+    List<EmpSuggestionGetDto> sortAllEmpSuggestionGetOrderBy(String column, String order, int page, int pageSize);
 }

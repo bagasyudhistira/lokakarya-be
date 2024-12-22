@@ -9,6 +9,8 @@ public interface AssessmentSummaryServ {
 
     List<AssessmentSummaryGetDto> getAllAssessmentSummaryGet();
 
+    List<AssessmentSummaryGetDto> getAllAssessmentSummaryGetPerPage(int page, int pageSize);
+
     AssessmentSummaryDto getAssessmentSummaryById(String id);
 
     AssessmentSummaryGetDto getAssessmentSummaryGetById(String id);
@@ -29,4 +31,7 @@ public interface AssessmentSummaryServ {
 
     List<AssessmentSummaryJointGetDto> getAssessmentSummariesByAssessmentYear(int assessmentYear);
 
+    Long countAllAssessmentSummary();
+
+    List<AssessmentSummaryGetDto> sortAllAssessmentSummaryGetOrderBy(String column, String order, int page, int pageSize);
 }

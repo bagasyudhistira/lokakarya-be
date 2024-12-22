@@ -1,5 +1,6 @@
 package co.id.ogya.lokakarya.services;
 
+import co.id.ogya.lokakarya.dto.appuser.AppUserGetDto;
 import co.id.ogya.lokakarya.dto.division.DivisionCreateDto;
 import co.id.ogya.lokakarya.dto.division.DivisionDto;
 import co.id.ogya.lokakarya.dto.division.DivisionUpdateDto;
@@ -8,6 +9,8 @@ import java.util.List;
 
 public interface DivisionServ {
     List<DivisionDto> getAllDivision();
+
+    List<DivisionDto> getAllDivisionPerPage(int page, int pageSize);
 
     DivisionDto getDivisionById(String id);
 
@@ -18,4 +21,8 @@ public interface DivisionServ {
     boolean deleteDivision(String id);
 
     DivisionDto getDivisionByName(String divisionName);
+
+    Long countAllDivision();
+
+    List<DivisionDto> sortAllDivision(String order, int page, int pageSize);
 }

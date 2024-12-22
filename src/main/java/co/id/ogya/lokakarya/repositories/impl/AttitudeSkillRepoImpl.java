@@ -66,6 +66,23 @@ public class AttitudeSkillRepoImpl implements AttitudeSkillRepo {
     }
 
     @Override
+    public List<Map<String, Object>> getAttitudeSkillGetsPerPage(int page, int pageSize) {
+        int offset = (page - 1) * pageSize;
+        String sql = "SELECT ats.ID, ATTITUDE_SKILL, GROUP_NAME, ats.ENABLED " +
+                "FROM tbl_attitude_skill ats " +
+                "LEFT JOIN tbl_group_attitude_skill gas ON ats.GROUP_ID = gas.ID ORDER BY ATTITUDE_SKILL LIMIT ? OFFSET ?";
+        log.info("Executing query to fetch all AttitudeSkills for page {} with maximum {} entries : {}", page, pageSize, sql);
+        try {
+            List<Map<String, Object>> result = jdbcTemplate.queryForList(sql, pageSize, offset);
+            log.info("Successfully fetched AttitudeSkills for Page {} ({} entries)", page, result.size());
+            return result;
+        } catch (Exception e) {
+            log.error("Error fetching all AttitudeSkills with group details. Error: {}", e.getMessage());
+            throw e;
+        }
+    }
+
+    @Override
     public Map<String, Object> getAttitudeSkillGetById(String id) {
         String sql = "SELECT ats.ID, ATTITUDE_SKILL, GROUP_NAME, ats.ENABLED " +
                 "FROM tbl_attitude_skill ats " +
@@ -155,6 +172,37 @@ public class AttitudeSkillRepoImpl implements AttitudeSkillRepo {
         } catch (Exception e) {
             log.error("Error fetching AttitudeSkill by Attitude Skill: {}. Error: {}", attitudeSkillName, e.getMessage());
             return null;
+        }
+    }
+
+    @Override
+    public Long countAttitudeSkills() {
+        String sql = "SELECT COUNT(ID) FROM tbl_attitude_skill";
+        log.info("Executing query to count AttitudeSkills: {}", sql);
+        try {
+            Long total = jdbcTemplate.queryForObject(sql, Long.class);
+            log.info("Total AttitudeSkills: {}", total);
+            return total;
+        } catch (Exception e) {
+            log.error("Error counting AttitudeSkills: {}", e.getMessage(), e);
+            throw e;
+        }
+    }
+
+    @Override
+    public List<Map<String, Object>> sortAttitudeSkillGetsOrderBy(String column, String order, int page, int pageSize) {
+        int offset = (page - 1) * pageSize;
+        String sql = "SELECT ats.ID, ATTITUDE_SKILL, GROUP_NAME, ats.ENABLED " +
+                "FROM tbl_attitude_skill ats " +
+                "LEFT JOIN tbl_group_attitude_skill gas ON ats.GROUP_ID = gas.ID ORDER BY " + column + " " + order + " LIMIT ? OFFSET ?";
+        log.info("Executing query to sort AttitudeSkills order by {} {} for page {} with maximum {} entries : {}", column, order, page, pageSize, sql);
+        try {
+            List<Map<String, Object>> result = jdbcTemplate.queryForList(sql, pageSize, offset);
+            log.info("Successfully sorted AttitudeSkills order by {} {} for Page {} ({} entries)", column, order, page, result.size());
+            return result;
+        } catch (Exception e) {
+            log.error("Error fetching all AttitudeSkills with group details. Error: {}", e.getMessage());
+            throw e;
         }
     }
 }

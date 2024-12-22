@@ -1,5 +1,6 @@
 package co.id.ogya.lokakarya.services.impl;
 
+import co.id.ogya.lokakarya.dto.achievement.AchievementGetDto;
 import co.id.ogya.lokakarya.dto.attitudeskill.AttitudeSkillCreateDto;
 import co.id.ogya.lokakarya.dto.attitudeskill.AttitudeSkillDto;
 import co.id.ogya.lokakarya.dto.attitudeskill.AttitudeSkillGetDto;
@@ -62,6 +63,23 @@ public class AttitudeSkillServImpl implements AttitudeSkillServ {
             List<Map<String,Object>> listData = attitudeSkillRepo.getAttitudeSkillGets();
             log.debug("Fetched {} AttitudeSkills from repository", listData.size());
             for (Map<String,Object> data : listData) {
+                AttitudeSkillGetDto result =  AttitudeSkillGetDto.mapToDto(data);
+                listResult.add(result);
+            }
+        } catch (Exception e) {
+            log.error("Error occurred while fetching all AttitudeSkills: {}", e.getMessage(), e);
+        }
+        return listResult;
+    }
+
+    @Override
+    public List<AttitudeSkillGetDto> getAllAttitudeSkillGetPerPage(int page, int pageSize) {
+        log.info("Attempting to fetch all AttitudeSkills");
+        List<AttitudeSkillGetDto> listResult = new ArrayList<>();
+        try {
+            List<Map<String, Object>> listData = attitudeSkillRepo.getAttitudeSkillGetsPerPage(page, pageSize);
+            log.debug("Fetched {} AttitudeSkills from repository", listData.size());
+            for (Map<String, Object> data : listData) {
                 AttitudeSkillGetDto result =  AttitudeSkillGetDto.mapToDto(data);
                 listResult.add(result);
             }
@@ -144,6 +162,36 @@ public class AttitudeSkillServImpl implements AttitudeSkillServ {
             log.error("Error occurred while fetching AttitudeSkill by Attitude Skill : {}: {}", attitudeSkillName, e.getMessage(), e);
         }
         return result;
+    }
+
+    @Override
+    public Long countAllAttitudeSkill() {
+        try {
+            log.info("Fetching total count of all AttitudeSkill from repository");
+            Long totalAttitudeSkills = attitudeSkillRepo.countAttitudeSkills();
+            log.info("Successfully fetched total AttitudeSkill count: {}", totalAttitudeSkills);
+            return totalAttitudeSkills;
+        } catch (Exception e) {
+            log.error("Error occurred while fetching total AttitudeSkill count: {}", e.getMessage(), e);
+            throw new RuntimeException("Failed to fetch AttitudeSkill count", e);
+        }
+    }
+
+    @Override
+    public List<AttitudeSkillGetDto> sortAllAttitudeSkillGetOrderBy(String column, String order, int page, int pageSize) {
+        log.info("Attempting to sort all AttitudeSkills order by {} {}", column, order);
+        List<AttitudeSkillGetDto> listResult = new ArrayList<>();
+        try {
+            List<Map<String, Object>> listData = attitudeSkillRepo.sortAttitudeSkillGetsOrderBy(column, order, page, pageSize);
+            log.debug("Sorted {} AttitudeSkills from repository order by {}", listData.size(), column);
+            for (Map<String, Object> data : listData) {
+                AttitudeSkillGetDto result =  AttitudeSkillGetDto.mapToDto(data);
+                listResult.add(result);
+            }
+        } catch (Exception e) {
+            log.error("Error occurred while sorting all AttitudeSkills: {}", e.getMessage(), e);
+        }
+        return listResult;
     }
 
     private AttitudeSkill convertToEntityCreate(AttitudeSkillCreateDto convertObject) {

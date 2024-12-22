@@ -12,6 +12,8 @@ public interface AchievementRepo {
 
     List<Map<String,Object>> getAchievementGets();
 
+    List<Map<String, Object>> getAchievementGetsPerPage(int page, int pageSize);
+
     Map<String, Object> getAchievementGetById(String id);
 
     Achievement saveAchievement(Achievement achievement);
@@ -21,4 +23,8 @@ public interface AchievementRepo {
     Boolean deleteAchievement(String id);
 
     Achievement getAchievementByName(String achievementName);
+
+    Long countAchievement();
+
+    List<Map<String, Object>> sortAchievementGetsOrderBy(String column, String order, int page, int pageSize);
 }

@@ -1,5 +1,6 @@
 package co.id.ogya.lokakarya.services.impl;
 
+import co.id.ogya.lokakarya.dto.assessmentsummary.AssessmentSummaryGetDto;
 import co.id.ogya.lokakarya.dto.empsuggestion.*;
 import co.id.ogya.lokakarya.entities.EmpSuggestion;
 import co.id.ogya.lokakarya.repositories.EmpSuggestionRepo;
@@ -116,6 +117,23 @@ public class EmpSuggestionServImpl implements EmpSuggestionServ {
     }
 
     @Override
+    public List<EmpSuggestionGetDto> getAllEmpSuggestionGetPerPage(int page, int pageSize) {
+        log.info("Attempting to fetch all EmpSuggestions");
+        List<EmpSuggestionGetDto> listResult = new ArrayList<>();
+        try {
+            List<Map<String, Object>> listData = empSuggestionRepo.getEmpSuggestionGetsPerPage(page, pageSize);
+            log.debug("Fetched {} EmpSuggestions from repository", listData.size());
+            for (Map<String, Object> data : listData) {
+                EmpSuggestionGetDto result =  EmpSuggestionGetDto.mapToDto(data);
+                listResult.add(result);
+            }
+        } catch (Exception e) {
+            log.error("Error occurred while fetching all EmpSuggestions: {}", e.getMessage(), e);
+        }
+        return listResult;
+    }
+
+    @Override
     public List<EmpSuggestionGetDto> getEmpSuggestionGetByUserId(String userId) {
         log.info("Fetching employee suggestions for user ID: {}", userId);
         List<EmpSuggestionGetDto> resultList = new ArrayList<>();
@@ -165,6 +183,36 @@ public class EmpSuggestionServImpl implements EmpSuggestionServ {
             log.error("Error while looking EmpSuggestion by UserID: {} and Assessment Year: {}. Error: {}", userId, assessmentYear, e.getMessage());
             throw e;
         }
+    }
+
+    @Override
+    public Long countAllEmpSuggestion() {
+        try {
+            log.info("Fetching total count of all EmpSuggestions from repository");
+            Long total = empSuggestionRepo.countEmpSuggestions();
+            log.info("Successfully fetched total AssessmentSummaries count: {}", total);
+            return total;
+        } catch (Exception e) {
+            log.error("Error occurred while fetching total EmpSuggestions count: {}", e.getMessage(), e);
+            throw new RuntimeException("Failed to fetch EmpSuggestions count", e);
+        }
+    }
+
+    @Override
+    public List<EmpSuggestionGetDto> sortAllEmpSuggestionGetOrderBy(String column, String order, int page, int pageSize) {
+        log.info("Attempting to sort all EmpSuggestions order by {} {}", column, order);
+        List<EmpSuggestionGetDto> listResult = new ArrayList<>();
+        try {
+            List<Map<String, Object>> listData = empSuggestionRepo.sortEmpSuggestionGetsOrderBy(column, order, page, pageSize);
+            log.debug("Sorted {} EmpSuggestions from repository order by {}", listData.size(), column);
+            for (Map<String, Object> data : listData) {
+                EmpSuggestionGetDto result =  EmpSuggestionGetDto.mapToDto(data);
+                listResult.add(result);
+            }
+        } catch (Exception e) {
+            log.error("Error occurred while sorting all EmpSuggestions: {}", e.getMessage(), e);
+        }
+        return listResult;
     }
 
     private EmpSuggestion convertToEntityCreate(EmpSuggestionCreateDto convertObject) {

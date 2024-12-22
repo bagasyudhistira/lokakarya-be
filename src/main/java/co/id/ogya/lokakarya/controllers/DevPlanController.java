@@ -4,6 +4,7 @@ import co.id.ogya.lokakarya.dto.ManagerDto;
 import co.id.ogya.lokakarya.dto.devplan.DevPlanCreateDto;
 import co.id.ogya.lokakarya.dto.devplan.DevPlanDto;
 import co.id.ogya.lokakarya.dto.devplan.DevPlanUpdateDto;
+import co.id.ogya.lokakarya.dto.division.DivisionDto;
 import co.id.ogya.lokakarya.services.DevPlanServ;
 import co.id.ogya.lokakarya.utils.ServerResponseList;
 import lombok.extern.slf4j.Slf4j;
@@ -154,6 +155,56 @@ public class DevPlanController extends ServerResponseList {
         } catch (Exception e) {
             log.error("Error fetching DevPlan by name {}: {}", planName, e.getMessage(), e);
             return new ResponseEntity<>("Failed to fetch DevPlan with name: " + planName, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/all/{page}/{pageSize}")
+    public ResponseEntity<?> getAllDevPlansPerPage(@PathVariable int page, @PathVariable int pageSize) {
+        log.info("Fetching all DevPlans");
+        long startTime = System.currentTimeMillis();
+
+        try {
+            List<DevPlanDto> result = devPlanServ.getAllDevPlanPerPage(page, pageSize);
+            Long total = devPlanServ.countAllDevPlan();
+            ManagerDto<List<DevPlanDto>> response = new ManagerDto<>();
+            response.setContent(result);
+            response.setTotalRows(result.size());
+            response.setTotalData(total);
+
+            long endTime = System.currentTimeMillis();
+            response.setInfo(getInfoOk("Time", endTime - startTime));
+            log.info("Fetched {} DevPlans in {} ms", result.size(), endTime - startTime);
+            log.info("Total DevPlans: {}", total);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error fetching all DevPlans: {}", e.getMessage(), e);
+            return new ResponseEntity<>("Failed to fetch DevPlans", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/sort/{order}/{page}/{pageSize}")
+    public ResponseEntity<?> sortAllDevPlansOrderBy(@PathVariable String order, @PathVariable int page, @PathVariable int pageSize) {
+        log.info("Sorting all DevPlans");
+        long startTime = System.currentTimeMillis();
+
+        try {
+            List<DevPlanDto> result = devPlanServ.sortDevPlan(order, page, pageSize);
+            Long total = devPlanServ.countAllDevPlan();
+            ManagerDto<List<DevPlanDto>> response = new ManagerDto<>();
+            response.setContent(result);
+            response.setTotalRows(result.size());
+            response.setTotalData(total);
+
+            long endTime = System.currentTimeMillis();
+            response.setInfo(getInfoOk("Time", endTime - startTime));
+            log.info("Fetched {} DevPlans in {} ms", result.size(), endTime - startTime);
+            log.info("Total DevPlans: {}", total);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error fetching all DevPlans: {}", e.getMessage(), e);
+            return new ResponseEntity<>("Failed to fetch DevPlans", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

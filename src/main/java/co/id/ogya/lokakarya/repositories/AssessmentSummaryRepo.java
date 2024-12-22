@@ -12,6 +12,8 @@ public interface AssessmentSummaryRepo {
 
     List<Map<String,Object>> getAssessmentSummaryGets();
 
+    List<Map<String, Object>> getAssessmentSummaryGetsPerPage(int page, int pageSize);
+
     Map<String, Object> getAssessmentSummaryGetById(String id);
 
     Map<String, Object> getAssessmentSummaryGetByUserIdAndAssessmentYear(String userId, int year);
@@ -31,4 +33,8 @@ public interface AssessmentSummaryRepo {
     List<Map<String, Object>> getAssessmentSummariesByDivisionIdAssessmentYear(String divisionId, int assessmentYear);
 
     List<Map<String, Object>> getAssessmentSummariesByAssessmentYear(int assessmentYear);
+
+    Long countAssessmentSummarys();
+
+    List<Map<String, Object>> sortAssessmentSummaryGetsOrderBy(String column, String order, int page, int pageSize);
 }

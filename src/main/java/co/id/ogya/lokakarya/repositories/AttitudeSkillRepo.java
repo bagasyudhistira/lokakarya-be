@@ -13,6 +13,8 @@ public interface AttitudeSkillRepo {
 
     List<Map<String,Object>> getAttitudeSkillGets();
 
+    List<Map<String, Object>> getAttitudeSkillGetsPerPage(int page, int pageSize);
+
     Map<String, Object> getAttitudeSkillGetById(String id);
 
     AttitudeSkill saveAttitudeSkill(AttitudeSkill attitudeSkill);
@@ -22,4 +24,8 @@ public interface AttitudeSkillRepo {
     Boolean deleteAttitudeSkill(String id);
 
     AttitudeSkill getAttitudeSkillByName(String attitudeSkillName);
+
+    Long countAttitudeSkills();
+
+    List<Map<String, Object>> sortAttitudeSkillGetsOrderBy(String column, String order, int page, int pageSize);
 }

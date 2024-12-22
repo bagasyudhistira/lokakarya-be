@@ -1,5 +1,6 @@
 package co.id.ogya.lokakarya.repositories.impl;
 
+import co.id.ogya.lokakarya.entities.Division;
 import co.id.ogya.lokakarya.entities.GroupAttitudeSkill;
 import co.id.ogya.lokakarya.repositories.GroupAttitudeSkillRepo;
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +31,21 @@ public class GroupAttitudeSkillRepoImpl implements GroupAttitudeSkillRepo {
             return result;
         } catch (Exception e) {
             log.error("Error while fetching all GroupAttitudeSkills. Error: {}", e.getMessage());
+            throw e;
+        }
+    }
+
+    @Override
+    public List<GroupAttitudeSkill> getGroupAttitudeSkillsPerPage(int page, int pageSize) {
+        int offset = (page - 1) * pageSize;
+        String sql = "SELECT * FROM tbl_group_attitude_skill ORDER BY group_name ASC LIMIT ? OFFSET ?";
+        log.info("Executing query to fetch all GroupAttitudeSkills for page {} with maximum {} entries : {}", page, pageSize, sql);
+        try {
+            List<GroupAttitudeSkill> result = jdbcTemplate.query(sql, rowMapper, offset, pageSize);
+            log.info("Successfully fetched GroupAttitudeSkills for Page {} ({} entries)", page, result.size());
+            return result;
+        } catch (Exception e) {
+            log.error("Error fetching GroupAttitudeSkills. Error: {}", e.getMessage());
             throw e;
         }
     }
@@ -120,6 +136,35 @@ public class GroupAttitudeSkillRepoImpl implements GroupAttitudeSkillRepo {
         } catch (Exception e) {
             log.error("Error while fetching GroupAttitudeSkill with Group Name: {}. Error: {}", groupName, e.getMessage());
             return null;
+        }
+    }
+
+    @Override
+    public Long countGroupAttitudeSkills() {
+        String sql = "SELECT COUNT(ID) FROM tbl_group_attitude_skill;";
+        try {
+            log.info("Fetching total number of GroupAttitudeSkills");
+            Long total = jdbcTemplate.queryForObject(sql, Long.class);
+            log.info("Total GroupAttitudeSkills: {}", total);
+            return total;
+        } catch (Exception e) {
+            log.error("Error fetching GroupAttitudeSkills count: {}", e.getMessage(), e);
+            throw e;
+        }
+    }
+
+    @Override
+    public List<GroupAttitudeSkill> sortGroupAttitudeSkills(String order, int page, int pageSize) {
+        int offset = (page - 1) * pageSize;
+        String sql = "SELECT * FROM tbl_group_attitude_skill ORDER BY GROUP_NAME " + order + " LIMIT ? OFFSET ?";
+        log.info("Executing query to sort GroupAttitudeSkills order {} for page {} with maximum {} entries : {}", order, page, pageSize, sql);
+        try {
+            List<GroupAttitudeSkill> result = jdbcTemplate.query(sql, rowMapper, offset, pageSize);
+            log.info("Successfully sorted GroupAttitudeSkills order {} for Page {} ({} entries)", order, page, result.size());
+            return result;
+        } catch (Exception e) {
+            log.error("Error fetching GroupAttitudeSkills. Error: {}", e.getMessage());
+            throw e;
         }
     }
 }

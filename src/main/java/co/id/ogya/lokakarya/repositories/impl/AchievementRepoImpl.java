@@ -67,6 +67,23 @@ public class AchievementRepoImpl implements AchievementRepo {
     }
 
     @Override
+    public List<Map<String, Object>> getAchievementGetsPerPage(int page, int pageSize) {
+        int offset = (page - 1) * pageSize;
+        String sql = "SELECT ach.ID, ACHIEVEMENT, GROUP_NAME, ach.ENABLED " +
+                "FROM tbl_achievement ach " +
+                "LEFT JOIN tbl_group_achievement gac ON ach.GROUP_ID = gac.ID ORDER BY ACHIEVEMENT LIMIT ? OFFSET ?";
+        log.info("Executing query to fetch all Achievements for page {} with maximum {} entries : {}", page, pageSize, sql);
+        try {
+            List<Map<String, Object>> result = jdbcTemplate.queryForList(sql, pageSize, offset);
+            log.info("Successfully fetched Achievements for Page {} ({} entries)", page, result.size());
+            return result;
+        } catch (Exception e) {
+            log.error("Error fetching all Achievements with group details. Error: {}", e.getMessage());
+            throw e;
+        }
+    }
+
+    @Override
     public Map<String, Object> getAchievementGetById(String id) {
         String sql = "SELECT a.ID, ACHIEVEMENT, GROUP_NAME, a.ENABLED " +
                 "FROM tbl_achievement a " +
@@ -152,6 +169,37 @@ public class AchievementRepoImpl implements AchievementRepo {
         } catch (DataAccessException ex) {
             log.error("Error fetching achievement with ID {}: {}", achievementName, ex.getMessage(), ex);
             throw ex;
+        }
+    }
+
+    @Override
+    public Long countAchievement() {
+        String sql = "SELECT COUNT(ID) FROM tbl_achievement";
+        log.info("Executing query to count Achievements: {}", sql);
+        try {
+            Long total = jdbcTemplate.queryForObject(sql, Long.class);
+            log.info("Total Achievements: {}", total);
+            return total;
+        } catch (Exception e) {
+            log.error("Error counting Achievements: {}", e.getMessage(), e);
+            throw e;
+        }
+    }
+
+    @Override
+    public List<Map<String, Object>> sortAchievementGetsOrderBy(String column, String order, int page, int pageSize) {
+        int offset = (page - 1) * pageSize;
+        String sql = "SELECT ach.ID, ACHIEVEMENT, GROUP_NAME, ach.ENABLED " +
+                "FROM tbl_achievement ach " +
+                "LEFT JOIN tbl_group_achievement gac ON ach.GROUP_ID = gac.ID ORDER BY " + column + " " + order + " LIMIT ? OFFSET ?";
+        log.info("Executing query to sort Achievements order by {} {} for page {} with maximum {} entries : {}", column, order, page, pageSize, sql);
+        try {
+            List<Map<String, Object>> result = jdbcTemplate.queryForList(sql, pageSize, offset);
+            log.info("Successfully sorted Achievements order by {} {} for Page {} ({} entries)", column, order, page, result.size());
+            return result;
+        } catch (Exception e) {
+            log.error("Error fetching all Achievements with group details. Error: {}", e.getMessage());
+            throw e;
         }
     }
 }

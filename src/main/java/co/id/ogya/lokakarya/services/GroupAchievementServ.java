@@ -9,6 +9,8 @@ import java.util.List;
 public interface GroupAchievementServ {
     List<GroupAchievementDto> getAllGroupAchievement();
 
+    List<GroupAchievementDto> getAllGroupAchievementPerPage(int page, int pageSize);
+
     GroupAchievementDto getGroupAchievementById(String id);
 
     GroupAchievementDto createGroupAchievement(GroupAchievementCreateDto groupAchievementCreateDto);
@@ -18,4 +20,8 @@ public interface GroupAchievementServ {
     boolean deleteGroupAchievement(String id);
 
     GroupAchievementDto getGroupAchievementByGroupName(String groupName);
+
+    Long countAllGroupAchievement();
+
+    List<GroupAchievementDto> sortAllGroupAchievement(String order, int page, int pageSize);
 }

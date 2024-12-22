@@ -1,8 +1,10 @@
 package co.id.ogya.lokakarya.services.impl;
 
+import co.id.ogya.lokakarya.dto.devplan.DevPlanDto;
 import co.id.ogya.lokakarya.dto.technicalskill.TechnicalSkillCreateDto;
 import co.id.ogya.lokakarya.dto.technicalskill.TechnicalSkillDto;
 import co.id.ogya.lokakarya.dto.technicalskill.TechnicalSkillUpdateDto;
+import co.id.ogya.lokakarya.entities.DevPlan;
 import co.id.ogya.lokakarya.entities.TechnicalSkill;
 import co.id.ogya.lokakarya.repositories.TechnicalSkillRepo;
 import co.id.ogya.lokakarya.services.TechnicalSkillServ;
@@ -28,6 +30,23 @@ public class TechnicalSkillServImpl implements TechnicalSkillServ {
         try {
             List<TechnicalSkill> listData = technicalSkillRepo.getTechnicalSkills();
             log.debug("Fetched {} TechnicalSkills from repository", listData.size());
+            for (TechnicalSkill data : listData) {
+                TechnicalSkillDto result = convertToDto(data);
+                listResult.add(result);
+            }
+        } catch (Exception e) {
+            log.error("Error occurred while fetching all TechnicalSkills: {}", e.getMessage(), e);
+        }
+        return listResult;
+    }
+
+    @Override
+    public List<TechnicalSkillDto> getAllTechnicalSkillPerPage(int page, int pageSize) {
+        log.info("Attempting to fetch all TechnicalSkills per page");
+        List<TechnicalSkillDto> listResult = new ArrayList<>();
+        try {
+            List<TechnicalSkill> listData = technicalSkillRepo.getTechnicalSkillsPerPage(page, pageSize);
+            log.debug("Fetched {} TechnicalSkills", listData.size());
             for (TechnicalSkill data : listData) {
                 TechnicalSkillDto result = convertToDto(data);
                 listResult.add(result);
@@ -112,7 +131,37 @@ public class TechnicalSkillServImpl implements TechnicalSkillServ {
         }
         return result;
     }
-    
+
+    @Override
+    public Long countAllTechnicalSkill() {
+        try {
+            log.info("Fetching total count of all TechnicalSkills from repository");
+            Long total = technicalSkillRepo.countTechnicalSkills();
+            log.info("Successfully fetched total TechnicalSkills count: {}", total);
+            return total;
+        } catch (Exception e) {
+            log.error("Error occurred while fetching total TechnicalSkills count: {}", e.getMessage(), e);
+            throw new RuntimeException("Failed to fetch TechnicalSkills count", e);
+        }
+    }
+
+    @Override
+    public List<TechnicalSkillDto> sortAllTechnicalSkill(String order, int page, int pageSize) {
+        log.info("Attempting to sort all TechnicalSkills");
+        List<TechnicalSkillDto> listResult = new ArrayList<>();
+        try {
+            List<TechnicalSkill> listData = technicalSkillRepo.sortTechnicalSkills(order, page, pageSize);
+            log.debug("Sorted {} TechnicalSkills from repository", listData.size());
+            for (TechnicalSkill data : listData) {
+                TechnicalSkillDto result = convertToDto(data);
+                listResult.add(result);
+            }
+        } catch (Exception e) {
+            log.error("Error occurred while sorting all TechnicalSkills: {}", e.getMessage(), e);
+        }
+        return listResult;
+    }
+
     private TechnicalSkill convertToEntityCreate(TechnicalSkillCreateDto convertObject) {
         log.debug("Converting TechnicalSkillCreateDto to entity: {}", convertObject);
         return TechnicalSkill.builder()

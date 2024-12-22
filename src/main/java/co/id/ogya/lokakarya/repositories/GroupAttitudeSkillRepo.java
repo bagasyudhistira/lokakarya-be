@@ -7,6 +7,8 @@ import java.util.List;
 public interface GroupAttitudeSkillRepo {
     List<GroupAttitudeSkill> getGroupAttitudeSkills();
 
+    List<GroupAttitudeSkill> getGroupAttitudeSkillsPerPage(int page, int pageSize);
+
     GroupAttitudeSkill getGroupAttitudeSkillById(String id);
 
     GroupAttitudeSkill saveGroupAttitudeSkill(GroupAttitudeSkill groupAttitudeSkill);
@@ -16,4 +18,8 @@ public interface GroupAttitudeSkillRepo {
     Boolean deleteGroupAttitudeSkill(String id);
 
     GroupAttitudeSkill getGroupAttitudeSkillByGroupName(String groupName);
+
+    Long countGroupAttitudeSkills();
+
+    List<GroupAttitudeSkill> sortGroupAttitudeSkills(String order, int page, int pageSize);
 }

@@ -1,8 +1,10 @@
 package co.id.ogya.lokakarya.services.impl;
 
+import co.id.ogya.lokakarya.dto.division.DivisionDto;
 import co.id.ogya.lokakarya.dto.groupachievement.GroupAchievementCreateDto;
 import co.id.ogya.lokakarya.dto.groupachievement.GroupAchievementDto;
 import co.id.ogya.lokakarya.dto.groupachievement.GroupAchievementUpdateDto;
+import co.id.ogya.lokakarya.entities.Division;
 import co.id.ogya.lokakarya.entities.GroupAchievement;
 import co.id.ogya.lokakarya.repositories.GroupAchievementRepo;
 import co.id.ogya.lokakarya.services.GroupAchievementServ;
@@ -28,6 +30,23 @@ public class GroupAchievementServImpl implements GroupAchievementServ {
         try {
             List<GroupAchievement> listData = groupAchievementRepo.getGroupAchievements();
             log.debug("Fetched {} GroupAchievements from repository", listData.size());
+            for (GroupAchievement data : listData) {
+                GroupAchievementDto result = convertToDto(data);
+                listResult.add(result);
+            }
+        } catch (Exception e) {
+            log.error("Error occurred while fetching all GroupAchievements: {}", e.getMessage(), e);
+        }
+        return listResult;
+    }
+
+    @Override
+    public List<GroupAchievementDto> getAllGroupAchievementPerPage(int page, int pageSize) {
+        log.info("Attempting to fetch all GroupAchievements per page");
+        List<GroupAchievementDto> listResult = new ArrayList<>();
+        try {
+            List<GroupAchievement> listData = groupAchievementRepo.getGroupAchievementsPerPage(page, pageSize);
+            log.debug("Fetched {} GroupAchievements", listData.size());
             for (GroupAchievement data : listData) {
                 GroupAchievementDto result = convertToDto(data);
                 listResult.add(result);
@@ -111,6 +130,36 @@ public class GroupAchievementServImpl implements GroupAchievementServ {
             log.error("Error occurred while fetching GroupAchievement by Group Name {}: {}", groupName, e.getMessage(), e);
         }
         return result;
+    }
+
+    @Override
+    public Long countAllGroupAchievement() {
+        try {
+            log.info("Fetching total count of all GroupAchievements from repository");
+            Long total = groupAchievementRepo.countGroupAchievements();
+            log.info("Successfully fetched total GroupAchievements count: {}", total);
+            return total;
+        } catch (Exception e) {
+            log.error("Error occurred while fetching total GroupAchievements count: {}", e.getMessage(), e);
+            throw new RuntimeException("Failed to fetch GroupAchievements count", e);
+        }
+    }
+
+    @Override
+    public List<GroupAchievementDto> sortAllGroupAchievement(String order, int page, int pageSize) {
+        log.info("Attempting to sort all GroupAchievements");
+        List<GroupAchievementDto> listResult = new ArrayList<>();
+        try {
+            List<GroupAchievement> listData = groupAchievementRepo.sortGroupAchievements(order, page, pageSize);
+            log.debug("Sorted {} GroupAchievements from repository", listData.size());
+            for (GroupAchievement data : listData) {
+                GroupAchievementDto result = convertToDto(data);
+                listResult.add(result);
+            }
+        } catch (Exception e) {
+            log.error("Error occurred while sorting all GroupAchievements: {}", e.getMessage(), e);
+        }
+        return listResult;
     }
 
     private GroupAchievement convertToEntityCreate(GroupAchievementCreateDto convertObject) {

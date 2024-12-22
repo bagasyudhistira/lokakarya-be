@@ -7,6 +7,8 @@ import java.util.List;
 public interface GroupAchievementRepo {
     List<GroupAchievement> getGroupAchievements();
 
+    List<GroupAchievement> getGroupAchievementsPerPage(int page, int pageSize);
+
     GroupAchievement getGroupAchievementById(String id);
 
     GroupAchievement saveGroupAchievement(GroupAchievement groupAchievement);
@@ -16,4 +18,8 @@ public interface GroupAchievementRepo {
     Boolean deleteGroupAchievement(String id);
 
     GroupAchievement getGroupAchievementByGroupName(String groupName);
+
+    Long countGroupAchievements();
+
+    List<GroupAchievement> sortGroupAchievements(String order, int page, int pageSize);
 }

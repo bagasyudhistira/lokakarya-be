@@ -35,6 +35,21 @@ public class DivisionRepoImpl implements DivisionRepo {
     }
 
     @Override
+    public List<Division> getDivisionsPerPage(int page, int pageSize) {
+        int offset = (page - 1) * pageSize;
+        String sql = "SELECT * FROM tbl_division ORDER BY division_name ASC LIMIT ? OFFSET ?";
+        log.info("Executing query to fetch all Divisions for page {} with maximum {} entries", page, pageSize);
+        try {
+            List<Division> result = jdbcTemplate.query(sql, rowMapper, offset, pageSize);
+            log.info("Successfully fetched {} divisions.", result.size());
+            return result;
+        } catch (Exception e) {
+            log.error("Error fetching divisions. Error: {}", e.getMessage());
+            throw e;
+        }
+    }
+
+    @Override
     public Division getDivisionById(String id) {
         String sql = "SELECT * FROM tbl_division WHERE ID = ?";
         log.info("Executing query to fetch division by ID: {} using query: {}", id, sql);
@@ -119,6 +134,35 @@ public class DivisionRepoImpl implements DivisionRepo {
         } catch (Exception e) {
             log.error("Error fetching division by Division Name: {}. Error: {}", divisionName, e.getMessage());
             return null;
+        }
+    }
+
+    @Override
+    public Long countDivisions() {
+        String sql = "SELECT COUNT(ID) FROM tbl_division;";
+        try {
+            log.info("Fetching total number of Divisions");
+            Long total = jdbcTemplate.queryForObject(sql, Long.class);
+            log.info("Total divisions: {}", total);
+            return total;
+        } catch (Exception e) {
+            log.error("Error fetching Divisions count: {}", e.getMessage(), e);
+            throw e;
+        }
+    }
+
+    @Override
+    public List<Division> sortDivisions(String order, int page, int pageSize) {
+        int offset = (page - 1) * pageSize;
+        String sql = "SELECT * FROM tbl_division ORDER BY division_name " + order + " LIMIT ? OFFSET ?";
+        log.info("Executing query to sort all divisions: {}", sql);
+        try {
+            List<Division> result = jdbcTemplate.query(sql, rowMapper, offset, pageSize);
+            log.info("Successfully sorted {} divisions.", result.size());
+            return result;
+        } catch (Exception e) {
+            log.error("Error fetching divisions. Error: {}", e.getMessage());
+            throw e;
         }
     }
 }
