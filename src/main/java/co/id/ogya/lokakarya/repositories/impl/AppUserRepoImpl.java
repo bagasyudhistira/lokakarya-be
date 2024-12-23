@@ -312,7 +312,7 @@ public class AppUserRepoImpl implements AppUserRepo {
         String sql = "SELECT au.ID, USERNAME, FULL_NAME, POSITION, EMAIL_ADDRESS, EMPLOYEE_STATUS, " +
                 "JOIN_DATE, ENABLED, PASSWORD, DIVISION_ID, DIVISION_NAME " +
                 "FROM tbl_app_user au " +
-                "LEFT JOIN tbl_division d ON au.DIVISION_ID = d.ID ORDER BY au." + column + " " + order + " LIMIT ? OFFSET ?";
+                "LEFT JOIN tbl_division d ON au.DIVISION_ID = d.ID ORDER BY " + column + " " + order + " LIMIT ? OFFSET ?";
         log.info("Executing query to sort AppUser order by {} {} for page {} with maximum {} entries : {}", column, order, page, pageSize, sql);
         try {
             List<Map<String, Object>> appUsers = jdbcTemplate.queryForList(sql, pageSize, offset);
