@@ -293,11 +293,12 @@ public class AppUserRepoImpl implements AppUserRepo {
     }
 
     @Override
-    public Long countAppUsers() {
-        String sql = "SELECT COUNT(ID) FROM tbl_app_user;";
+    public Long countAppUsers(String keyword) {
+        String sql = "SELECT COUNT(au.ID) FROM tbl_app_user au " +
+                "LEFT JOIN tbl_division d ON au.DIVISION_ID = d.ID WHERE LOWER(USERNAME) LIKE LOWER(CONCAT('%', COALESCE(?, ''), '%')) OR LOWER(FULL_NAME) LIKE LOWER(CONCAT('%', COALESCE(?, ''), '%')) OR  LOWER(POSITION) LIKE LOWER(CONCAT('%', COALESCE(?, ''), '%')) OR LOWER(EMAIL_ADDRESS) LIKE LOWER(CONCAT('%', COALESCE(?, ''), '%')) OR LOWER(DIVISION_NAME) LIKE LOWER(CONCAT('%', COALESCE(?, ''), '%'))";
         try {
             log.info("Fetching total number of AppUsers");
-            Long total = jdbcTemplate.queryForObject(sql, Long.class);
+            Long total = jdbcTemplate.queryForObject(sql, Long.class, keyword, keyword, keyword, keyword, keyword);
             log.info("Total users: {}", total);
             return total;
         } catch (Exception e) {

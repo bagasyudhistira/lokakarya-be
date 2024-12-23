@@ -303,7 +303,7 @@ public class AppUserController extends ServerResponseList {
 
         try {
             List<AppUserGetDto> result = appUserServ.getAllAppUserGetPerPage(page, pageSize);
-            Long total = appUserServ.countAllAppUser();
+            Long total = appUserServ.countAllAppUser("hehe");
             ManagerDto<List<AppUserGetDto>> response = new ManagerDto<>();
             response.setContent(result);
             response.setTotalRows(result.size());
@@ -328,7 +328,7 @@ public class AppUserController extends ServerResponseList {
 
         try {
             List<AppUserGetDto> result = appUserServ.sortAllAppUserGetOrderBy(column, order, page, pageSize);
-            Long total = appUserServ.countAllAppUser();
+            Long total = appUserServ.countAllAppUser("hehe");
             ManagerDto<List<AppUserGetDto>> response = new ManagerDto<>();
             response.setContent(result);
             response.setTotalRows(result.size());
@@ -353,7 +353,7 @@ public class AppUserController extends ServerResponseList {
 
         try {
             List<AppUserGetDto> result = appUserServ.sorchAllAppUserGet(keyword, column, order, page, pageSize);
-            Long total = appUserServ.countAllAppUser();
+            Long total = appUserServ.countAllAppUser(keyword);
             ManagerDto<List<AppUserGetDto>> response = new ManagerDto<>();
             response.setContent(result);
             response.setTotalRows(result.size());

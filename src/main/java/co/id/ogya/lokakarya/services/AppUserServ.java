@@ -31,7 +31,7 @@ public interface AppUserServ {
 
     List<AppUserCommonDto> getAllAppUserCommons();
 
-    Long countAllAppUser();
+    Long countAllAppUser(String keyword);
 
     List<AppUserGetDto> sortAllAppUserGetOrderBy(String column, String order, int page, int pageSize);
 

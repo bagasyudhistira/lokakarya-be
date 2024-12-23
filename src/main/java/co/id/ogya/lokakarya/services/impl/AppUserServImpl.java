@@ -224,10 +224,10 @@ public class AppUserServImpl implements AppUserServ {
     }
 
     @Override
-    public Long countAllAppUser() {
+    public Long countAllAppUser(String keyword) {
         try {
             log.info("Fetching total count of all AppUsers from repository");
-            Long total = appUserRepo.countAppUsers();
+            Long total = appUserRepo.countAppUsers(keyword);
             log.info("Successfully fetched total AppUsers count: {}", total);
             return total;
         } catch (Exception e) {

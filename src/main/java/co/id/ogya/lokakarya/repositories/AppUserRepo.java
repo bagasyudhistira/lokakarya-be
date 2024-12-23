@@ -32,7 +32,7 @@ public interface AppUserRepo {
 
     List<Map<String,Object>> getAppUsersCommons();
 
-    Long countAppUsers();
+    Long countAppUsers(String keyword);
 
     List<Map<String, Object>> sortAppUserGetsOrderBy(String column, String order, int page, int pageSize);
 
