@@ -171,7 +171,7 @@ public class TechnicalSkillRepoImpl implements TechnicalSkillRepo {
     @Override
     public List<TechnicalSkill> searchTechnicalSkills(String keyword, int page, int pageSize) {
         int offset = (page - 1) * pageSize;
-        String sql = "SELECT * FROM tbl_technical_skill WHERE LOWER(TECHNICAL_SKILL) LIKE LOWER('%' || COALESCE(?, '') || '%') ORDER BY TECHNICAL_SKILL LIMIT ? OFFSET ?";
+        String sql = "SELECT * FROM tbl_technical_skill WHERE LOWER(TECHNICAL_SKILL) LIKE LOWER(CONCAT('%', COALESCE(?, ''), '%')) ORDER BY TECHNICAL_SKILL LIMIT ? OFFSET ?";
         log.info("Executing query to search TechnicalSkills using keyword: {} for page {} with maximum {} entries : {}", keyword, page, pageSize, sql);
         try {
             List<TechnicalSkill> result = jdbcTemplate.query(sql, rowMapper, pageSize, offset);

@@ -170,7 +170,7 @@ public class DivisionRepoImpl implements DivisionRepo {
     @Override
     public List<Division> searchDivisions(String keyword, int page, int pageSize) {
         int offset = (page - 1) * pageSize;
-        String sql = "SELECT * FROM tbl_division WHERE LOWER(DIVISION_NAME) LIKE LOWER('%' || COALESCE(?, '') || '%') LIMIT ? OFFSET ?";
+        String sql = "SELECT * FROM tbl_division WHERE LOWER(DIVISION_NAME) LIKE LOWER(CONCAT('%', COALESCE(?, ''), '%')) LIMIT ? OFFSET ?";
         log.info("Executing query to search Division using keyword: {} for page {} with maximum {} entries : {}", keyword, page, pageSize, sql);
         try {
             List<Division> result = jdbcTemplate.query(sql, rowMapper, keyword, pageSize, offset);

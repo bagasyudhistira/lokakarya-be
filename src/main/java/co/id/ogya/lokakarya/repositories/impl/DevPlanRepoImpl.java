@@ -172,7 +172,7 @@ public class DevPlanRepoImpl implements DevPlanRepo {
     @Override
     public List<DevPlan> searchDevPlans(String keyword, int page, int pageSize) {
         int offset = (page - 1) * pageSize;
-        String sql = "SELECT * FROM tbl_dev_plan WHERE LOWER(PLAN) LIKE LOWER('%' || COALESCE(?, '') || '%') ORDER BY PLAN LIMIT ? OFFSET ?";
+        String sql = "SELECT * FROM tbl_dev_plan WHERE LOWER(PLAN) LIKE LOWER(CONCAT('%', COALESCE(?, ''), '%')) ORDER BY PLAN LIMIT ? OFFSET ?";
         log.info("Executing query to sort DevPlans using keyword: {} for page {} with maximum {} entries : {}", keyword, page, pageSize, sql);
         try {
             List<DevPlan> result = jdbcTemplate.query(sql, rowMapper, pageSize, offset);

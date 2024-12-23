@@ -346,8 +346,8 @@ public class AppUserController extends ServerResponseList {
         }
     }
 
-    @GetMapping("/search/{keyword}/{page}/{pageSize}")
-    public ResponseEntity<?> searchAllAppUserGets(@PathVariable String keyword, @PathVariable int page, @PathVariable int pageSize) {
+    @GetMapping("/search")
+    public ResponseEntity<?> searchAllAppUserGets(@RequestParam(required = false) String keyword, @RequestParam int page, @RequestParam int pageSize) {
         log.info("Sorting all AppUsers");
         long startTime = System.currentTimeMillis();
 

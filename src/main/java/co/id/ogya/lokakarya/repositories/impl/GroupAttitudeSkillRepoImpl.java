@@ -171,7 +171,7 @@ public class GroupAttitudeSkillRepoImpl implements GroupAttitudeSkillRepo {
     @Override
     public List<GroupAttitudeSkill> searchGroupAttitudeSkills(String keyword, int page, int pageSize) {
         int offset = (page - 1) * pageSize;
-        String sql = "SELECT * FROM tbl_group_attitude_skill WHERE LOWER(GROUP_NAME) LIKE LOWER('%' || COALESCE(?, '') || '%') ORDER BY GROUP_NAME LIMIT ? OFFSET ?";
+        String sql = "SELECT * FROM tbl_group_attitude_skill WHERE LOWER(GROUP_NAME) LIKE LOWER(CONCAT('%', COALESCE(?, ''), '%')) ORDER BY GROUP_NAME LIMIT ? OFFSET ?";
         log.info("Executing query to search GroupAttitudeSkills using keyword: {} for page {} with maximum {} entries : {}", keyword, page, pageSize, sql);
         try {
             List<GroupAttitudeSkill> result = jdbcTemplate.query(sql, rowMapper, pageSize, offset);

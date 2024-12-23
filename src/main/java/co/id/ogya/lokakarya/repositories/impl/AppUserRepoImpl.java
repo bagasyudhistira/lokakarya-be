@@ -330,7 +330,7 @@ public class AppUserRepoImpl implements AppUserRepo {
         String sql = "SELECT au.ID, USERNAME, FULL_NAME, POSITION, EMAIL_ADDRESS, EMPLOYEE_STATUS, " +
                 "JOIN_DATE, ENABLED, PASSWORD, DIVISION_ID, DIVISION_NAME " +
                 "FROM tbl_app_user au " +
-                "LEFT JOIN tbl_division d ON au.DIVISION_ID = d.ID WHERE LOWER(USERNAME) LIKE LOWER('%' || COALESCE(?, '') || '%') OR LOWER(FULL_NAME) LIKE LOWER('%' || COALESCE(?, '') || '%') OR  LOWER(POSITION) LIKE LOWER('%' || COALESCE(?, '') || '%') OR LOWER(EMAIL_ADDRESS) LIKE LOWER('%' || COALESCE(?, '') || '%') OR LOWER(DIVISION_NAME) LIKE LOWER('%' || COALESCE(?, '') || '%') LIMIT ? OFFSET ?";
+                "LEFT JOIN tbl_division d ON au.DIVISION_ID = d.ID WHERE LOWER(USERNAME) LIKE LOWER(CONCAT('%', COALESCE(?, ''), '%')) OR LOWER(FULL_NAME) LIKE LOWER(CONCAT('%', COALESCE(?, ''), '%')) OR  LOWER(POSITION) LIKE LOWER(CONCAT('%', COALESCE(?, ''), '%')) OR LOWER(EMAIL_ADDRESS) LIKE LOWER(CONCAT('%', COALESCE(?, ''), '%')) OR LOWER(DIVISION_NAME) LIKE LOWER(CONCAT('%', COALESCE(?, ''), '%')) LIMIT ? OFFSET ?";
         log.info("Executing query to search AppUser using keyword: {} for page {} with maximum {} entries : {}", keyword, page, pageSize, sql);
         try {
             List<Map<String, Object>> appUsers = jdbcTemplate.queryForList(sql, keyword, keyword, keyword, keyword, keyword, pageSize, offset);

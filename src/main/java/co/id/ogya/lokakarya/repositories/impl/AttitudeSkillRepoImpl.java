@@ -209,7 +209,7 @@ public class AttitudeSkillRepoImpl implements AttitudeSkillRepo {
     @Override
     public List<Map<String, Object>> searchAttitudeSkillGets(String keyword, int page, int pageSize) {
         int offset = (page - 1) * pageSize;
-        String sql = "SELECT ats.ID, ATTITUDE_SKILL, GROUP_NAME, ats.ENABLED FROM tbl_attitude_skill ats LEFT JOIN tbl_group_attitude_skill gat ON ats.GROUP_ID = gat.ID WHERE LOWER(GROUP_NAME) LIKE LOWER('%' || COALESCE(?, '') || '%') OR LOWER(ATTITUDE_SKILL) LIKE LOWER('%' || COALESCE(?, '') || '%') ORDER BY GROUP_NAME LIMIT ? OFFSET ?";
+        String sql = "SELECT ats.ID, ATTITUDE_SKILL, GROUP_NAME, ats.ENABLED FROM tbl_attitude_skill ats LEFT JOIN tbl_group_attitude_skill gat ON ats.GROUP_ID = gat.ID WHERE LOWER(GROUP_NAME) LIKE LOWER(CONCAT('%', COALESCE(?, ''), '%')) OR LOWER(ATTITUDE_SKILL) LIKE LOWER(CONCAT('%', COALESCE(?, ''), '%')) ORDER BY GROUP_NAME LIMIT ? OFFSET ?";
         log.info("Executing query to search AttitudeSkills using keyword: {} for page {} with maximum {} entries : {}", keyword, page, pageSize, sql);
         try {
             List<Map<String, Object>> appUsers = jdbcTemplate.queryForList(sql, keyword, keyword, keyword, keyword, keyword, pageSize, offset);
