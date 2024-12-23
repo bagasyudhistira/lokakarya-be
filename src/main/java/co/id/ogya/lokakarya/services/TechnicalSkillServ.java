@@ -25,5 +25,5 @@ public interface TechnicalSkillServ {
 
     List<TechnicalSkillDto> sortAllTechnicalSkill(String order, int page, int pageSize);
 
-    List<TechnicalSkillDto> searchAllTechnicalSkill(String keyword, int page, int pageSize);
+    List<TechnicalSkillDto> sorchAllTechnicalSkill(String keyword, String column, String order, int page, int pageSize);
 }

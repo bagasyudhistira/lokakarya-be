@@ -38,5 +38,5 @@ public interface AssessmentSummaryRepo {
 
     List<Map<String, Object>> sortAssessmentSummaryGetsOrderBy(String column, String order, int page, int pageSize);
 
-    List<Map<String, Object>> searchAssessmentSummaryGets(String keyword, int page, int pageSize);
+    List<Map<String, Object>> sorchAssessmentSummaryGets(String keyword, String column, String order, int page, int pageSize);
 }

@@ -31,7 +31,7 @@ public class AuthServImpl implements AuthServ {
 
     @Override
     public AuthDto login(String username) throws UserException {
-        log.info("Searching for user by username: {}", username);
+        log.info("Sorching for user by username: {}", username);
 
         AuthDto user = convertToDto(authRepo.getAppUser(username));
         if (user == null) {

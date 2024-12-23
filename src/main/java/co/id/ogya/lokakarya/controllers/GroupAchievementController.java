@@ -206,13 +206,13 @@ public class GroupAchievementController extends ServerResponseList {
         }
     }
 
-    @GetMapping("/search/{keyword}/{page}/{pageSize}")
-    public ResponseEntity<?> searchAllGroupAchievements(@PathVariable String keyword, @PathVariable int page, @PathVariable int pageSize) {
-        log.info("Searching all GroupAchievements");
+    @GetMapping("/sorch")
+    public ResponseEntity<?> sorchAllGroupAchievements(@RequestParam(required = false) String keyword, @RequestParam String column, @RequestParam String order, @RequestParam int page, @RequestParam int pageSize) {
+        log.info("Sorching all GroupAchievements");
         long startTime = System.currentTimeMillis();
 
         try {
-            List<GroupAchievementDto> result = groupAchievementServ.searchAllGroupAchievement(keyword, page, pageSize);
+            List<GroupAchievementDto> result = groupAchievementServ.sorchAllGroupAchievement(keyword, column, order, page, pageSize);
             Long total = groupAchievementServ.countAllGroupAchievement();
             ManagerDto<List<GroupAchievementDto>> response = new ManagerDto<>();
             response.setContent(result);

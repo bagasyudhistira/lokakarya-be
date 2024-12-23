@@ -195,18 +195,18 @@ public class AttitudeSkillServImpl implements AttitudeSkillServ {
     }
 
     @Override
-    public List<AttitudeSkillGetDto> searchAllAttitudeSkillGet(String keyword, int page, int pageSize) {
-        log.info("Attempting to search all AttitudeSkills using keyword: {}", keyword);
+    public List<AttitudeSkillGetDto> sorchAllAttitudeSkillGet(String keyword, String column, String order, int page, int pageSize) {
+        log.info("Attempting to sorch all AttitudeSkills using keyword: {}", keyword);
         List<AttitudeSkillGetDto> listResult = new ArrayList<>();
         try {
-            List<Map<String, Object>> listData = attitudeSkillRepo.searchAttitudeSkillGets(keyword, page, pageSize);
-            log.debug("Searched {} AttitudeSkills from repository using keyword: {}", listData.size(), keyword);
+            List<Map<String, Object>> listData = attitudeSkillRepo.sorchAttitudeSkillGets(keyword, column, order, page, pageSize);
+            log.debug("Sorched {} AttitudeSkills from repository using keyword: {}", listData.size(), keyword);
             for (Map<String, Object> data : listData) {
                 AttitudeSkillGetDto result =  AttitudeSkillGetDto.mapToDto(data);
                 listResult.add(result);
             }
         } catch (Exception e) {
-            log.error("Error occurred while searching all AttitudeSkills: {}", e.getMessage(), e);
+            log.error("Error occurred while sorching all AttitudeSkills: {}", e.getMessage(), e);
         }
         return listResult;
     }

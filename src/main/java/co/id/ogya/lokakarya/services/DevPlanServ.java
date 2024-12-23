@@ -25,5 +25,5 @@ public interface DevPlanServ {
 
     List<DevPlanDto> sortAllDevPlan(String order, int page, int pageSize);
 
-    List<DevPlanDto> searchAllDevPlan(String keyword, int page, int pageSize);
+    List<DevPlanDto> sorchAllDevPlan(String keyword, String column, String order, int page, int pageSize);
 }

@@ -182,13 +182,13 @@ public class DevPlanController extends ServerResponseList {
         }
     }
 
-    @GetMapping("/search/{keyword}/{page}/{pageSize}")
-    public ResponseEntity<?> sortAllDevPlansOrderBy(@PathVariable String keyword, @PathVariable int page, @PathVariable int pageSize) {
-        log.info("Searching all DevPlans");
+    @GetMapping("/sorch")
+    public ResponseEntity<?> sortAllDevPlansOrderBy(@RequestParam(required = false) String keyword, @RequestParam String column, @RequestParam String order, @RequestParam int page, @RequestParam int pageSize) {
+        log.info("Sorching all DevPlans");
         long startTime = System.currentTimeMillis();
 
         try {
-            List<DevPlanDto> result = devPlanServ.searchAllDevPlan(keyword, page, pageSize);
+            List<DevPlanDto> result = devPlanServ.sorchAllDevPlan(keyword, column, order, page, pageSize);
             Long total = devPlanServ.countAllDevPlan();
             ManagerDto<List<DevPlanDto>> response = new ManagerDto<>();
             response.setContent(result);

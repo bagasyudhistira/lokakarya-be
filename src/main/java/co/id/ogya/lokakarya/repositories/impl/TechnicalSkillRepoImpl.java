@@ -163,22 +163,22 @@ public class TechnicalSkillRepoImpl implements TechnicalSkillRepo {
             log.info("Successfully sorted TechnicalSkills order {} for Page {} ({} entries)", order, page, result.size());
             return result;
         } catch (Exception e) {
-            log.error("Error searching TechnicalSkills. Error: {}", e.getMessage());
+            log.error("Error sorching TechnicalSkills. Error: {}", e.getMessage());
             throw e;
         }
     }
 
     @Override
-    public List<TechnicalSkill> searchTechnicalSkills(String keyword, int page, int pageSize) {
+    public List<TechnicalSkill> sorchTechnicalSkills(String keyword, String column, String order, int page, int pageSize) {
         int offset = (page - 1) * pageSize;
-        String sql = "SELECT * FROM tbl_technical_skill WHERE LOWER(TECHNICAL_SKILL) LIKE LOWER(CONCAT('%', COALESCE(?, ''), '%')) ORDER BY TECHNICAL_SKILL LIMIT ? OFFSET ?";
-        log.info("Executing query to search TechnicalSkills using keyword: {} for page {} with maximum {} entries : {}", keyword, page, pageSize, sql);
+        String sql = "SELECT * FROM tbl_technical_skill WHERE LOWER(TECHNICAL_SKILL) LIKE LOWER(CONCAT('%', COALESCE(?, ''), '%')) ORDER BY " + column + " " + order + " LIMIT ? OFFSET ?";
+        log.info("Executing query to sorch TechnicalSkills using keyword: {} for page {} with maximum {} entries : {}", keyword, page, pageSize, sql);
         try {
-            List<TechnicalSkill> result = jdbcTemplate.query(sql, rowMapper, pageSize, offset);
-            log.info("Successfully searched TechnicalSkills using keyword: {} for Page {} ({} entries)", keyword, page, result.size());
+            List<TechnicalSkill> result = jdbcTemplate.query(sql, rowMapper, keyword, pageSize, offset);
+            log.info("Successfully sorched TechnicalSkills using keyword: {} for Page {} ({} entries)", keyword, page, result.size());
             return result;
         } catch (Exception e) {
-            log.error("Error searching TechnicalSkills. Error: {}", e.getMessage());
+            log.error("Error sorching TechnicalSkills. Error: {}", e.getMessage());
             throw e;
         }
     }

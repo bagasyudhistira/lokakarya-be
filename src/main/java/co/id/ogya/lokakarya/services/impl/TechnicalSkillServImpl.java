@@ -163,18 +163,18 @@ public class TechnicalSkillServImpl implements TechnicalSkillServ {
     }
 
     @Override
-    public List<TechnicalSkillDto> searchAllTechnicalSkill(String keyword, int page, int pageSize) {
-        log.info("Attempting to search all TechnicalSkills");
+    public List<TechnicalSkillDto> sorchAllTechnicalSkill(String keyword, String column, String order, int page, int pageSize) {
+        log.info("Attempting to sorch all TechnicalSkills");
         List<TechnicalSkillDto> listResult = new ArrayList<>();
         try {
-            List<TechnicalSkill> listData = technicalSkillRepo.searchTechnicalSkills(keyword, page, pageSize);
-            log.debug("Searched {} TechnicalSkills from repository", listData.size());
+            List<TechnicalSkill> listData = technicalSkillRepo.sorchTechnicalSkills(keyword, column, order, page, pageSize);
+            log.debug("Sorched {} TechnicalSkills from repository", listData.size());
             for (TechnicalSkill data : listData) {
                 TechnicalSkillDto result = convertToDto(data);
                 listResult.add(result);
             }
         } catch (Exception e) {
-            log.error("Error occurred while searching all TechnicalSkills: {}", e.getMessage(), e);
+            log.error("Error occurred while sorching all TechnicalSkills: {}", e.getMessage(), e);
         }
         return listResult;
     }

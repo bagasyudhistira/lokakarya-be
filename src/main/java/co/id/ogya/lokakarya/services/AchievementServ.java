@@ -30,5 +30,5 @@ public interface AchievementServ {
 
     List<AchievementGetDto> sortAllAchievementGetOrderBy(String column, String order, int page, int pageSize);
 
-    List<AchievementGetDto> searchAllAchievementGet(String keyword, int page, int pageSize);
+    List<AchievementGetDto> sorchAllAchievementGet(String keyword, String column, String order, int page, int pageSize);
 }

@@ -229,18 +229,18 @@ public class EmpSuggestionRepoImpl implements EmpSuggestionRepo {
     }
 
     @Override
-    public List<Map<String, Object>> searchEmpSuggestionGets(String keyword, int page, int pageSize) {
+    public List<Map<String, Object>> sorchEmpSuggestionGets(String keyword, String column, String order, int page, int pageSize) {
         int offset = (page - 1) * pageSize;
         String sql = "SELECT ES.ID, ES.USER_ID, AU.FULL_NAME, ES.SUGGESTION, ES.ASSESSMENT_YEAR " +
                 "FROM tbl_emp_suggestion ES " +
-                "LEFT JOIN tbl_app_user AU ON ES.USER_ID = AU.ID WHERE LOWER(FULL_NAME) LIKE LOWER(CONCAT('%', COALESCE(?, ''), '%')) OR LOWER(ASSESSMENT_YEAR) LIKE LOWER(CONCAT('%', COALESCE(?, ''), '%')) ORDER BY FULL_NAME LIMIT ? OFFSET ?";
-        log.info("Executing query to search EmpSuggestions using keyword: {} for page {} with maximum {} entries : {}", keyword, page, pageSize, sql);
+                "LEFT JOIN tbl_app_user AU ON ES.USER_ID = AU.ID WHERE LOWER(FULL_NAME) LIKE LOWER(CONCAT('%', COALESCE(?, ''), '%')) OR LOWER(ASSESSMENT_YEAR) LIKE LOWER(CONCAT('%', COALESCE(?, ''), '%')) ORDER BY " + column + " " + order + " LIMIT ? OFFSET ?";
+        log.info("Executing query to sorch EmpSuggestions using keyword: {} for page {} with maximum {} entries : {}", keyword, page, pageSize, sql);
         try {
-            List<Map<String, Object>> appUsers = jdbcTemplate.queryForList(sql, keyword, keyword, keyword, keyword, keyword, pageSize, offset);
-            log.info("Successfully searched EmpSuggestions using keyword: {} for Page {} ({} entries)", keyword, page, appUsers.size());
+            List<Map<String, Object>> appUsers = jdbcTemplate.queryForList(sql, keyword, keyword, pageSize, offset);
+            log.info("Successfully sorched EmpSuggestions using keyword: {} for Page {} ({} entries)", keyword, page, appUsers.size());
             return appUsers;
         } catch (Exception e) {
-            log.error("Error searching EmpSuggestions: {}", e.getMessage(), e);
+            log.error("Error sorching EmpSuggestions: {}", e.getMessage(), e);
             throw e;
         }
     }

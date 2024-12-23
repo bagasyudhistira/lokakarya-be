@@ -36,5 +36,5 @@ public interface AppUserRepo {
 
     List<Map<String, Object>> sortAppUserGetsOrderBy(String column, String order, int page, int pageSize);
 
-    List<Map<String, Object>> searchAppUserGets(String keyword, int page, int pageSize);
+    List<Map<String, Object>> sorchAppUserGets(String keyword, String column, String order, int page, int pageSize);
 }

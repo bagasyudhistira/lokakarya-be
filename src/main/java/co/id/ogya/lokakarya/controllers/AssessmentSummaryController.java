@@ -338,13 +338,13 @@ public class AssessmentSummaryController extends ServerResponseList {
         }
     }
 
-    @GetMapping("/search/{keyword}/{page}/{pageSize}")
-    public ResponseEntity<?> searchAllAssessmentSummaryGets(@PathVariable String keyword, @PathVariable int page, @PathVariable int pageSize) {
-        log.info("Searching all AssessmentSummaries");
+    @GetMapping("/sorch")
+    public ResponseEntity<?> sorchAllAssessmentSummaryGets(@RequestParam(required = false) String keyword, @RequestParam String column, @RequestParam String order, @RequestParam int page, @RequestParam int pageSize) {
+        log.info("Sorching all AssessmentSummaries");
         long startTime = System.currentTimeMillis();
 
         try {
-            List<AssessmentSummaryGetDto> result = assessmentSummaryServ.searchAllAssessmentSummaryGet(keyword, page, pageSize);
+            List<AssessmentSummaryGetDto> result = assessmentSummaryServ.sorchAllAssessmentSummaryGet(keyword, column, order, page, pageSize);
             Long total = assessmentSummaryServ.countAllAssessmentSummary();
             ManagerDto<List<AssessmentSummaryGetDto>> response = new ManagerDto<>();
             response.setContent(result);

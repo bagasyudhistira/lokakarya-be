@@ -261,11 +261,11 @@ public class AssessmentSummaryServImpl implements AssessmentSummaryServ {
     }
 
     @Override
-    public List<AssessmentSummaryGetDto> searchAllAssessmentSummaryGet(String keyword, int page, int pageSize) {
-        log.info("Attempting to search all AssessmentSummaries using keyword: {}", keyword);
+    public List<AssessmentSummaryGetDto> sorchAllAssessmentSummaryGet(String keyword, String column, String order, int page, int pageSize) {
+        log.info("Attempting to sorch all AssessmentSummaries using keyword: {}", keyword);
         List<AssessmentSummaryGetDto> listResult = new ArrayList<>();
         try {
-            List<Map<String, Object>> listData = assessmentSummaryRepo.searchAssessmentSummaryGets(keyword, page, pageSize);
+            List<Map<String, Object>> listData = assessmentSummaryRepo.sorchAssessmentSummaryGets(keyword, column, order, page, pageSize);
             log.debug("Sorted {} AssessmentSummaries from repository order by {}", listData.size(), keyword);
             for (Map<String, Object> data : listData) {
                 AssessmentSummaryGetDto result =  AssessmentSummaryGetDto.mapToDto(data);

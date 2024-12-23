@@ -163,18 +163,18 @@ public class DevPlanServImpl implements DevPlanServ {
     }
 
     @Override
-    public List<DevPlanDto> searchAllDevPlan(String keyword, int page, int pageSize) {
-        log.info("Attempting to search all DevPlans");
+    public List<DevPlanDto> sorchAllDevPlan(String keyword, String column, String order, int page, int pageSize) {
+        log.info("Attempting to sorch all DevPlans");
         List<DevPlanDto> listResult = new ArrayList<>();
         try {
-            List<DevPlan> listData = devPlanRepo.searchDevPlans(keyword, page, pageSize);
-            log.debug("Searched {} DevPlans from repository", listData.size());
+            List<DevPlan> listData = devPlanRepo.sorchDevPlans(keyword, column, order, page, pageSize);
+            log.debug("Sorched {} DevPlans from repository", listData.size());
             for (DevPlan data : listData) {
                 DevPlanDto result = convertToDto(data);
                 listResult.add(result);
             }
         } catch (Exception e) {
-            log.error("Error occurred while searching all DevPlans: {}", e.getMessage(), e);
+            log.error("Error occurred while sorching all DevPlans: {}", e.getMessage(), e);
         }
         return listResult;
     }

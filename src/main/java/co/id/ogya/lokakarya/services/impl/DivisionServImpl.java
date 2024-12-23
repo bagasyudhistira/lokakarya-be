@@ -163,18 +163,18 @@ public class DivisionServImpl implements DivisionServ {
     }
 
     @Override
-    public List<DivisionDto> searchAllDivision(String keyword, int page, int pageSize) {
-        log.info("Attempting to search all Divisions using keyword: {}", keyword);
+    public List<DivisionDto> sorchAllDivision(String keyword, String column, String order, int page, int pageSize) {
+        log.info("Attempting to sorch all Divisions using keyword: {}", keyword);
         List<DivisionDto> listResult = new ArrayList<>();
         try {
-            List<Division> listData = divisionRepo.searchDivisions(keyword, page, pageSize);
-            log.debug("Searched {} Divisions from repository", listData.size());
+            List<Division> listData = divisionRepo.sorchDivisions(keyword, column, order,  page, pageSize);
+            log.debug("Sorched {} Divisions from repository", listData.size());
             for (Division data : listData) {
                 DivisionDto result = convertToDto(data);
                 listResult.add(result);
             }
         } catch (Exception e) {
-            log.error("Error occurred while searching all Divisions: {}", e.getMessage(), e);
+            log.error("Error occurred while sorching all Divisions: {}", e.getMessage(), e);
         }
         return listResult;
     }

@@ -26,5 +26,5 @@ public interface DivisionServ {
 
     List<DivisionDto> sortAllDivision(String order, int page, int pageSize);
 
-    List<DivisionDto> searchAllDivision(String keyword, int page, int pageSize);
+    List<DivisionDto> sorchAllDivision(String keyword, String column, String order, int page, int pageSize);
 }

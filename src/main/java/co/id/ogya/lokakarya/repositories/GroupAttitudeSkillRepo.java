@@ -23,5 +23,5 @@ public interface GroupAttitudeSkillRepo {
 
     List<GroupAttitudeSkill> sortGroupAttitudeSkills(String order, int page, int pageSize);
 
-    List<GroupAttitudeSkill> searchGroupAttitudeSkills(String keyword, int page, int pageSize);
+    List<GroupAttitudeSkill> sorchGroupAttitudeSkills(String keyword, String column, String order, int page, int pageSize);
 }

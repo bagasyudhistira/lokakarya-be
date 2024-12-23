@@ -29,5 +29,5 @@ public interface AttitudeSkillRepo {
 
     List<Map<String, Object>> sortAttitudeSkillGetsOrderBy(String column, String order, int page, int pageSize);
 
-    List<Map<String, Object>> searchAttitudeSkillGets(String keyword, int page, int pageSize);
+    List<Map<String, Object>> sorchAttitudeSkillGets(String keyword, String column, String order, int page, int pageSize);
 }

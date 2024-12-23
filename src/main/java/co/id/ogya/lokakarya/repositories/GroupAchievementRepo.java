@@ -23,5 +23,5 @@ public interface GroupAchievementRepo {
 
     List<GroupAchievement> sortGroupAchievements(String order, int page, int pageSize);
 
-    List<GroupAchievement> searchGroupAchievements(String keyword, int page, int pageSize);
+    List<GroupAchievement> sorchGroupAchievements(String keyword, String column, String order, int page, int pageSize);
 }

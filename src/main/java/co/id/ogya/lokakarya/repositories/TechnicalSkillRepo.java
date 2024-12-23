@@ -23,5 +23,5 @@ public interface TechnicalSkillRepo {
 
     List<TechnicalSkill> sortTechnicalSkills(String order, int page, int pageSize);
 
-    List<TechnicalSkill> searchTechnicalSkills(String keyword, int page, int pageSize);
+    List<TechnicalSkill> sorchTechnicalSkills(String keyword, String column, String order, int page, int pageSize);
 }

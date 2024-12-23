@@ -193,18 +193,18 @@ public class AchievementServImpl implements AchievementServ {
     }
 
     @Override
-    public List<AchievementGetDto> searchAllAchievementGet(String keyword, int page, int pageSize) {
-        log.info("Attempting to search all Achievements using keyword: {}", keyword);
+    public List<AchievementGetDto> sorchAllAchievementGet(String keyword, String order, String column, int page, int pageSize) {
+        log.info("Attempting to sorch all Achievements using keyword: {}", keyword);
         List<AchievementGetDto> listResult = new ArrayList<>();
         try {
-            List<Map<String, Object>> listData = achievementRepo.searchAchievementGets(keyword, page, pageSize);
-            log.debug("Searched {} Achievements from repository order using keyword: {}", listData.size(), keyword);
+            List<Map<String, Object>> listData = achievementRepo.sorchAchievementGets(keyword, order, column, page, pageSize);
+            log.debug("Sorched {} Achievements from repository order using keyword: {}", listData.size(), keyword);
             for (Map<String, Object> data : listData) {
                 AchievementGetDto result =  AchievementGetDto.mapToDto(data);
                 listResult.add(result);
             }
         } catch (Exception e) {
-            log.error("Error occurred while searching all Achievements: {}", e.getMessage(), e);
+            log.error("Error occurred while sorching all Achievements: {}", e.getMessage(), e);
         }
         return listResult;
     }

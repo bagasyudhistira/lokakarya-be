@@ -23,5 +23,5 @@ public interface DevPlanRepo {
 
     List<DevPlan> sortDevPlans(String order, int page, int pageSize);
 
-    List<DevPlan> searchDevPlans(String keyword, int page, int pageSize);
+    List<DevPlan> sorchDevPlans(String keyword, String column, String order, int page, int pageSize);
 }

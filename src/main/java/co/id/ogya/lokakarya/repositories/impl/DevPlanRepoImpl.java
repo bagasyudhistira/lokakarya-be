@@ -170,16 +170,16 @@ public class DevPlanRepoImpl implements DevPlanRepo {
     }
 
     @Override
-    public List<DevPlan> searchDevPlans(String keyword, int page, int pageSize) {
+    public List<DevPlan> sorchDevPlans(String keyword, String column, String order, int page, int pageSize) {
         int offset = (page - 1) * pageSize;
-        String sql = "SELECT * FROM tbl_dev_plan WHERE LOWER(PLAN) LIKE LOWER(CONCAT('%', COALESCE(?, ''), '%')) ORDER BY PLAN LIMIT ? OFFSET ?";
-        log.info("Executing query to sort DevPlans using keyword: {} for page {} with maximum {} entries : {}", keyword, page, pageSize, sql);
+        String sql = "SELECT * FROM tbl_dev_plan WHERE LOWER(PLAN) LIKE LOWER(CONCAT('%', COALESCE(?, ''), '%')) ORDER BY " + column + " " + order + " LIMIT ? OFFSET ?";
+        log.info("Executing query to sorch DevPlans using keyword: {} for page {} with maximum {} entries : {}", keyword, page, pageSize, sql);
         try {
-            List<DevPlan> result = jdbcTemplate.query(sql, rowMapper, pageSize, offset);
-            log.info("Successfully searched DevPlans using keyword: {} for Page {} ({} entries)", keyword, page, result.size());
+            List<DevPlan> result = jdbcTemplate.query(sql, rowMapper, keyword, pageSize, offset);
+            log.info("Successfully sorched DevPlans using keyword: {} for Page {} ({} entries)", keyword, page, result.size());
             return result;
         } catch (Exception e) {
-            log.error("Error searching DevPlans. Error: {}", e.getMessage());
+            log.error("Error sorching DevPlans. Error: {}", e.getMessage());
             throw e;
         }
     }

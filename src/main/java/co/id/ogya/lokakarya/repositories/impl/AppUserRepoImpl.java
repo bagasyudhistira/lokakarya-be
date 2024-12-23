@@ -325,19 +325,19 @@ public class AppUserRepoImpl implements AppUserRepo {
     }
 
     @Override
-    public List<Map<String, Object>> searchAppUserGets(String keyword, int page, int pageSize) {
+    public List<Map<String, Object>> sorchAppUserGets(String keyword, String column, String order, int page, int pageSize) {
         int offset = (page - 1) * pageSize;
         String sql = "SELECT au.ID, USERNAME, FULL_NAME, POSITION, EMAIL_ADDRESS, EMPLOYEE_STATUS, " +
                 "JOIN_DATE, ENABLED, PASSWORD, DIVISION_ID, DIVISION_NAME " +
                 "FROM tbl_app_user au " +
-                "LEFT JOIN tbl_division d ON au.DIVISION_ID = d.ID WHERE LOWER(USERNAME) LIKE LOWER(CONCAT('%', COALESCE(?, ''), '%')) OR LOWER(FULL_NAME) LIKE LOWER(CONCAT('%', COALESCE(?, ''), '%')) OR  LOWER(POSITION) LIKE LOWER(CONCAT('%', COALESCE(?, ''), '%')) OR LOWER(EMAIL_ADDRESS) LIKE LOWER(CONCAT('%', COALESCE(?, ''), '%')) OR LOWER(DIVISION_NAME) LIKE LOWER(CONCAT('%', COALESCE(?, ''), '%')) LIMIT ? OFFSET ?";
-        log.info("Executing query to search AppUser using keyword: {} for page {} with maximum {} entries : {}", keyword, page, pageSize, sql);
+                "LEFT JOIN tbl_division d ON au.DIVISION_ID = d.ID WHERE LOWER(USERNAME) LIKE LOWER(CONCAT('%', COALESCE(?, ''), '%')) OR LOWER(FULL_NAME) LIKE LOWER(CONCAT('%', COALESCE(?, ''), '%')) OR  LOWER(POSITION) LIKE LOWER(CONCAT('%', COALESCE(?, ''), '%')) OR LOWER(EMAIL_ADDRESS) LIKE LOWER(CONCAT('%', COALESCE(?, ''), '%')) OR LOWER(DIVISION_NAME) LIKE LOWER(CONCAT('%', COALESCE(?, ''), '%')) ORDER BY " + column + " " + order + " LIMIT ? OFFSET ?";
+        log.info("Executing query to sorch AppUser using keyword: {} for page {} with maximum {} entries : {}", keyword, page, pageSize, sql);
         try {
             List<Map<String, Object>> appUsers = jdbcTemplate.queryForList(sql, keyword, keyword, keyword, keyword, keyword, pageSize, offset);
-            log.info("Successfully searched AppUsers using keyword: {} for Page {} ({} entries)", keyword, page, appUsers.size());
+            log.info("Successfully sorched AppUsers using keyword: {} for Page {} ({} entries)", keyword, page, appUsers.size());
             return appUsers;
         } catch (Exception e) {
-            log.error("Error searching AppUsers: {}", e.getMessage(), e);
+            log.error("Error sorching AppUsers: {}", e.getMessage(), e);
             throw e;
         }
     }

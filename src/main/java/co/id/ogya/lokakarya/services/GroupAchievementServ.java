@@ -25,5 +25,5 @@ public interface GroupAchievementServ {
 
     List<GroupAchievementDto> sortAllGroupAchievement(String order, int page, int pageSize);
 
-    List<GroupAchievementDto> searchAllGroupAchievement(String keyword, int page, int pageSize);
+    List<GroupAchievementDto> sorchAllGroupAchievement(String keyword, String column, String order, int page, int pageSize);
 }

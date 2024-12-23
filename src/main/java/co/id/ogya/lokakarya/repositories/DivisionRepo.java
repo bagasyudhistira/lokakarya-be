@@ -23,5 +23,5 @@ public interface DivisionRepo {
 
     List<Division> sortDivisions(String order, int page, int pageSize);
 
-    List<Division> searchDivisions(String keyword, int page, int pageSize);
+    List<Division> sorchDivisions(String keyword, String column, String order, int page, int pageSize);
 }

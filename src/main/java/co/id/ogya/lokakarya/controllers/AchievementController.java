@@ -252,13 +252,13 @@ public class AchievementController extends ServerResponseList {
         }
     }
 
-    @GetMapping("/search/{keyword}/{page}/{pageSize}")
-    public ResponseEntity<?> searchAllAchievementGets(@PathVariable String keyword, @PathVariable int page, @PathVariable int pageSize) {
+    @GetMapping("/sorch")
+    public ResponseEntity<?> sorchAllAchievementGets(@RequestParam(required = false) String keyword, @RequestParam String column, @RequestParam String order, @RequestParam int page, @RequestParam int pageSize) {
         log.info("Sorting all Achivements");
         long startTime = System.currentTimeMillis();
 
         try {
-            List<AchievementGetDto> result = achievementServ.searchAllAchievementGet(keyword, page, pageSize);
+            List<AchievementGetDto> result = achievementServ.sorchAllAchievementGet(keyword, column, order, page, pageSize);
             Long total = achievementServ.countAllAchievement();
             ManagerDto<List<AchievementGetDto>> response = new ManagerDto<>();
             response.setContent(result);

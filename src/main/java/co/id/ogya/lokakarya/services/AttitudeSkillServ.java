@@ -30,5 +30,5 @@ public interface AttitudeSkillServ {
 
     List<AttitudeSkillGetDto> sortAllAttitudeSkillGetOrderBy(String column, String order, int page, int pageSize);
 
-    List<AttitudeSkillGetDto> searchAllAttitudeSkillGet(String keyword, int page, int pageSize);
+    List<AttitudeSkillGetDto> sorchAllAttitudeSkillGet(String keyword, String column, String order, int page, int pageSize);
 }

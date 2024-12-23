@@ -208,13 +208,13 @@ public class DivisionController extends ServerResponseList {
         }
     }
 
-    @GetMapping("/search/{keyword}/{page}/{pageSize}")
-    public ResponseEntity<?> searchAllDivisions(@PathVariable String keyword, @PathVariable int page, @PathVariable int pageSize) {
-        log.info("Searching all Divisions");
+    @GetMapping("/sorch")
+    public ResponseEntity<?> sorchAllDivisions(@RequestParam(required = false) String keyword, @RequestParam String column, @RequestParam String order, @RequestParam int page, @RequestParam int pageSize) {
+        log.info("Sorching all Divisions");
         long startTime = System.currentTimeMillis();
 
         try {
-            List<DivisionDto> result = divisionServ.searchAllDivision(keyword, page, pageSize);
+            List<DivisionDto> result = divisionServ.sorchAllDivision(keyword, column, order, page, pageSize);
             Long total = divisionServ.countAllDivision();
             ManagerDto<List<DivisionDto>> response = new ManagerDto<>();
             response.setContent(result);

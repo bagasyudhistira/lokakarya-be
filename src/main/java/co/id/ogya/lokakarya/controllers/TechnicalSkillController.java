@@ -206,13 +206,13 @@ public class TechnicalSkillController extends ServerResponseList {
         }
     }
 
-    @GetMapping("/search/{keyword}/{page}/{pageSize}")
-    public ResponseEntity<?> searchAllTechnicalSkills(@PathVariable String keyword, @PathVariable int page, @PathVariable int pageSize) {
-        log.info("Searching all TechnicalSkills");
+    @GetMapping("/sorch")
+    public ResponseEntity<?> sorchAllTechnicalSkills(@RequestParam(required = false) String keyword, @RequestParam String column, @RequestParam String order, @RequestParam int page, @RequestParam int pageSize) {
+        log.info("Sorching all TechnicalSkills");
         long startTime = System.currentTimeMillis();
 
         try {
-            List<TechnicalSkillDto> result = technicalSkillServ.sortAllTechnicalSkill(keyword, page, pageSize);
+            List<TechnicalSkillDto> result = technicalSkillServ.sorchAllTechnicalSkill(keyword, column, order, page, pageSize);
             Long total = technicalSkillServ.countAllTechnicalSkill();
             ManagerDto<List<TechnicalSkillDto>> response = new ManagerDto<>();
             response.setContent(result);

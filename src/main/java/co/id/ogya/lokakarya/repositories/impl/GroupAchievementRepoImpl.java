@@ -169,16 +169,16 @@ public class GroupAchievementRepoImpl implements GroupAchievementRepo {
     }
 
     @Override
-    public List<GroupAchievement> searchGroupAchievements(String keyword, int page, int pageSize) {
+    public List<GroupAchievement> sorchGroupAchievements(String keyword, String column, String order, int page, int pageSize) {
         int offset = (page - 1) * pageSize;
-        String sql = "SELECT * FROM tbl_group_achievement WHERE LOWER(GROUP_NAME) LIKE LOWER(CONCAT('%', COALESCE(?, ''), '%')) ORDER BY GROUP_NAME LIMIT ? OFFSET ?";
-        log.info("Executing query to search GroupAchievements using keyword: {} for page {} with maximum {} entries : {}", keyword, page, pageSize, sql);
+        String sql = "SELECT * FROM tbl_group_achievement WHERE LOWER(GROUP_NAME) LIKE LOWER(CONCAT('%', COALESCE(?, ''), '%')) ORDER BY " + column + " " + order + " LIMIT ? OFFSET ?";
+        log.info("Executing query to sorch GroupAchievements using keyword: {} for page {} with maximum {} entries : {}", keyword, page, pageSize, sql);
         try {
-            List<GroupAchievement> result = jdbcTemplate.query(sql, rowMapper, pageSize, offset);
-            log.info("Successfully search GroupAchievements using keyword: {} for Page {} ({} entries)", keyword, page, result.size());
+            List<GroupAchievement> result = jdbcTemplate.query(sql, rowMapper, keyword, pageSize, offset);
+            log.info("Successfully sorch GroupAchievements using keyword: {} for Page {} ({} entries)", keyword, page, result.size());
             return result;
         } catch (Exception e) {
-            log.error("Error searching GroupAchievements. Error: {}", e.getMessage());
+            log.error("Error sorching GroupAchievements. Error: {}", e.getMessage());
             throw e;
         }
     }

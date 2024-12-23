@@ -163,18 +163,18 @@ public class GroupAttitudeSkillServImpl implements GroupAttitudeSkillServ {
     }
 
     @Override
-    public List<GroupAttitudeSkillDto> searchAllGroupAttitudeSkill(String keyword, int page, int pageSize) {
-        log.info("Attempting to search all GroupAttitudeSkills");
+    public List<GroupAttitudeSkillDto> sorchAllGroupAttitudeSkill(String keyword, String column, String order, int page, int pageSize) {
+        log.info("Attempting to sorch all GroupAttitudeSkills");
         List<GroupAttitudeSkillDto> listResult = new ArrayList<>();
         try {
-            List<GroupAttitudeSkill> listData = groupAttitudeSkillRepo.searchGroupAttitudeSkills(keyword, page, pageSize);
-            log.debug("Searched {} GroupAttitudeSkills from repository", listData.size());
+            List<GroupAttitudeSkill> listData = groupAttitudeSkillRepo.sorchGroupAttitudeSkills(keyword, column, order, page, pageSize);
+            log.debug("Sorched {} GroupAttitudeSkills from repository", listData.size());
             for (GroupAttitudeSkill data : listData) {
                 GroupAttitudeSkillDto result = convertToDto(data);
                 listResult.add(result);
             }
         } catch (Exception e) {
-            log.error("Error occurred while searching all GroupAttitudeSkills: {}", e.getMessage(), e);
+            log.error("Error occurred while sorching all GroupAttitudeSkills: {}", e.getMessage(), e);
         }
         return listResult;
     }

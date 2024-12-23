@@ -291,19 +291,19 @@ public class AssessmentSummaryRepoImpl implements AssessmentSummaryRepo {
     }
 
     @Override
-    public List<Map<String, Object>> searchAssessmentSummaryGets(String keyword, int page, int pageSize) {
+    public List<Map<String, Object>> sorchAssessmentSummaryGets(String keyword, String column, String order, int page, int pageSize) {
         int offset = (page - 1) * pageSize;
         String sql = "SELECT au.ID AS USER_ID, FULL_NAME, YEAR, SCORE, STATUS, " +
                 "ass.CREATED_AT, ass.CREATED_BY, ass.UPDATED_AT, ass.UPDATED_BY " +
                 "FROM tbl_assessment_summary ass " +
-                "LEFT JOIN tbl_app_user au ON ass.USER_ID = au.ID WHERE LOWER(FULL_NAME) LIKE LOWER(CONCAT('%', COALESCE(?, ''), '%')) OR LOWER(SCORE) LIKE LOWER(CONCAT('%', COALESCE(?, ''), '%')) ORDER BY FULL_NAME LIMIT ? OFFSET ?";
-        log.info("Executing query to search AssessmentSummaries using keyword: {} for page {} with maximum {} entries : {}", keyword, page, pageSize, sql);
+                "LEFT JOIN tbl_app_user au ON ass.USER_ID = au.ID WHERE LOWER(FULL_NAME) LIKE LOWER(CONCAT('%', COALESCE(?, ''), '%')) OR LOWER(SCORE) LIKE LOWER(CONCAT('%', COALESCE(?, ''), '%')) ORDER BY " + column + " " + order + " LIMIT ? OFFSET ?";
+        log.info("Executing query to sorch AssessmentSummaries using keyword: {} for page {} with maximum {} entries : {}", keyword, page, pageSize, sql);
         try {
-            List<Map<String, Object>> appUsers = jdbcTemplate.queryForList(sql, keyword, keyword, keyword, keyword, keyword, pageSize, offset);
-            log.info("Successfully searched AssessmentSummaries using keyword: {} for Page {} ({} entries)", keyword, page, appUsers.size());
+            List<Map<String, Object>> appUsers = jdbcTemplate.queryForList(sql, keyword, keyword, pageSize, offset);
+            log.info("Successfully sorched AssessmentSummaries using keyword: {} for Page {} ({} entries)", keyword, page, appUsers.size());
             return appUsers;
         } catch (Exception e) {
-            log.error("Error searching AssessmentSummaries: {}", e.getMessage(), e);
+            log.error("Error sorching AssessmentSummaries: {}", e.getMessage(), e);
             throw e;
         }
     }

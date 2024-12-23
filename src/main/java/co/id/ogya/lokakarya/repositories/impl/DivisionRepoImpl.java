@@ -168,16 +168,16 @@ public class DivisionRepoImpl implements DivisionRepo {
     }
 
     @Override
-    public List<Division> searchDivisions(String keyword, int page, int pageSize) {
+    public List<Division> sorchDivisions(String keyword, String column, String order, int page, int pageSize) {
         int offset = (page - 1) * pageSize;
-        String sql = "SELECT * FROM tbl_division WHERE LOWER(DIVISION_NAME) LIKE LOWER(CONCAT('%', COALESCE(?, ''), '%')) LIMIT ? OFFSET ?";
-        log.info("Executing query to search Division using keyword: {} for page {} with maximum {} entries : {}", keyword, page, pageSize, sql);
+        String sql = "SELECT * FROM tbl_division WHERE LOWER(DIVISION_NAME) LIKE LOWER(CONCAT('%', COALESCE(?, ''), '%')) ORDER BY " + column + " " + order + " LIMIT ? OFFSET ?";
+        log.info("Executing query to sorch Division using keyword: {} for page {} with maximum {} entries : {}", keyword, page, pageSize, sql);
         try {
             List<Division> result = jdbcTemplate.query(sql, rowMapper, keyword, pageSize, offset);
-            log.info("Successfully searched Divisions using keyword: {} for Page {} ({} entries)", keyword, page, result.size());
+            log.info("Successfully sorched Divisions using keyword: {} for Page {} ({} entries)", keyword, page, result.size());
             return result;
         } catch (Exception e) {
-            log.error("Error searching AppUsers: {}", e.getMessage(), e);
+            log.error("Error sorching AppUsers: {}", e.getMessage(), e);
             throw e;
         }
     }

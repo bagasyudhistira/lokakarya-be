@@ -346,13 +346,13 @@ public class AppUserController extends ServerResponseList {
         }
     }
 
-    @GetMapping("/search")
-    public ResponseEntity<?> searchAllAppUserGets(@RequestParam(required = false) String keyword, @RequestParam int page, @RequestParam int pageSize) {
+    @GetMapping("/sorch")
+    public ResponseEntity<?> sorchAllAppUserGets(@RequestParam(required = false) String keyword, @RequestParam String column, @RequestParam String order, @RequestParam int page, @RequestParam int pageSize) {
         log.info("Sorting all AppUsers");
         long startTime = System.currentTimeMillis();
 
         try {
-            List<AppUserGetDto> result = appUserServ.searchAllAppUserGet(keyword, page, pageSize);
+            List<AppUserGetDto> result = appUserServ.sorchAllAppUserGet(keyword, column, order, page, pageSize);
             Long total = appUserServ.countAllAppUser();
             ManagerDto<List<AppUserGetDto>> response = new ManagerDto<>();
             response.setContent(result);

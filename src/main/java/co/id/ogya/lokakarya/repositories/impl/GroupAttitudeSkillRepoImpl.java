@@ -169,16 +169,16 @@ public class GroupAttitudeSkillRepoImpl implements GroupAttitudeSkillRepo {
     }
 
     @Override
-    public List<GroupAttitudeSkill> searchGroupAttitudeSkills(String keyword, int page, int pageSize) {
+    public List<GroupAttitudeSkill> sorchGroupAttitudeSkills(String keyword, String column, String order, int page, int pageSize) {
         int offset = (page - 1) * pageSize;
-        String sql = "SELECT * FROM tbl_group_attitude_skill WHERE LOWER(GROUP_NAME) LIKE LOWER(CONCAT('%', COALESCE(?, ''), '%')) ORDER BY GROUP_NAME LIMIT ? OFFSET ?";
-        log.info("Executing query to search GroupAttitudeSkills using keyword: {} for page {} with maximum {} entries : {}", keyword, page, pageSize, sql);
+        String sql = "SELECT * FROM tbl_group_attitude_skill WHERE LOWER(GROUP_NAME) LIKE LOWER(CONCAT('%', COALESCE(?, ''), '%')) ORDER BY " + column + " " + order + " LIMIT ? OFFSET ?";
+        log.info("Executing query to sorch GroupAttitudeSkills using keyword: {} for page {} with maximum {} entries : {}", keyword, page, pageSize, sql);
         try {
-            List<GroupAttitudeSkill> result = jdbcTemplate.query(sql, rowMapper, pageSize, offset);
-            log.info("Successfully searched GroupAttitudeSkills using keyword: {} for Page {} ({} entries)", keyword, page, result.size());
+            List<GroupAttitudeSkill> result = jdbcTemplate.query(sql, rowMapper, keyword, pageSize, offset);
+            log.info("Successfully sorched GroupAttitudeSkills using keyword: {} for Page {} ({} entries)", keyword, page, result.size());
             return result;
         } catch (Exception e) {
-            log.error("Error searching GroupAttitudeSkills. Error: {}", e.getMessage());
+            log.error("Error sorching GroupAttitudeSkills. Error: {}", e.getMessage());
             throw e;
         }
     }

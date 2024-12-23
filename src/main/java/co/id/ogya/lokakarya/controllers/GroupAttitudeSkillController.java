@@ -206,13 +206,13 @@ public class GroupAttitudeSkillController extends ServerResponseList {
         }
     }
 
-    @GetMapping("/search/{keyword}/{page}/{pageSize}")
-    public ResponseEntity<?> searchAllGroupAchievementsOrderBy(@PathVariable String keyword, @PathVariable int page, @PathVariable int pageSize) {
-        log.info("Searching all GroupAttitudeSkills");
+    @GetMapping("/sorch")
+    public ResponseEntity<?> sorchAllGroupAchievementsOrderBy(@RequestParam(required = false) String keyword, @RequestParam String column, @RequestParam String order, @RequestParam int page, @RequestParam int pageSize) {
+        log.info("Sorching all GroupAttitudeSkills");
         long startTime = System.currentTimeMillis();
 
         try {
-            List<GroupAttitudeSkillDto> result = groupAttitudeSkillServ.searchAllGroupAttitudeSkill(keyword, page, pageSize);
+            List<GroupAttitudeSkillDto> result = groupAttitudeSkillServ.sorchAllGroupAttitudeSkill(keyword, column, order, page, pageSize);
             Long total = groupAttitudeSkillServ.countAllGroupAttitudeSkill();
             ManagerDto<List<GroupAttitudeSkillDto>> response = new ManagerDto<>();
             response.setContent(result);
