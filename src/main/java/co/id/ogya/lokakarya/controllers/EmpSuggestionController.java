@@ -2,6 +2,7 @@ package co.id.ogya.lokakarya.controllers;
 
 import co.id.ogya.lokakarya.dto.ManagerDto;
 import co.id.ogya.lokakarya.dto.appuser.AppUserGetDto;
+import co.id.ogya.lokakarya.dto.assessmentsummary.AssessmentSummaryGetDto;
 import co.id.ogya.lokakarya.dto.empsuggestion.*;
 import co.id.ogya.lokakarya.services.EmpSuggestionServ;
 import co.id.ogya.lokakarya.utils.ServerResponseList;
@@ -253,6 +254,31 @@ public class EmpSuggestionController extends ServerResponseList {
 
         try {
             List<EmpSuggestionGetDto> result = empSuggestionServ.sortAllEmpSuggestionGetOrderBy(column, order, page, pageSize);
+            Long total = empSuggestionServ.countAllEmpSuggestion();
+            ManagerDto<List<EmpSuggestionGetDto>> response = new ManagerDto<>();
+            response.setContent(result);
+            response.setTotalRows(result.size());
+            response.setTotalData(total);
+
+            long endTime = System.currentTimeMillis();
+            response.setInfo(getInfoOk("Time", endTime - startTime));
+            log.info("Fetched {} EmpSuggestions in {} ms", result.size(), endTime - startTime);
+            log.info("Total EmpSuggestions: {}", total);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error fetching all EmpSuggestions: {}", e.getMessage(), e);
+            return new ResponseEntity<>("Failed to fetch EmpSuggestions", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/search/{keyword}/{page}/{pageSize}")
+    public ResponseEntity<?> searchAllEmpSuggestionGets(@PathVariable String keyword, @PathVariable int page, @PathVariable int pageSize) {
+        log.info("Searching all EmpSuggestions");
+        long startTime = System.currentTimeMillis();
+
+        try {
+            List<EmpSuggestionGetDto> result = empSuggestionServ.searchAllEmpSuggestionGet(keyword, page, pageSize);
             Long total = empSuggestionServ.countAllEmpSuggestion();
             ManagerDto<List<EmpSuggestionGetDto>> response = new ManagerDto<>();
             response.setContent(result);

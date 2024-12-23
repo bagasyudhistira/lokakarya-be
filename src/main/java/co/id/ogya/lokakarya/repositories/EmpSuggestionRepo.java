@@ -29,4 +29,6 @@ public interface EmpSuggestionRepo {
     Long countEmpSuggestions();
 
     List<Map<String, Object>> sortEmpSuggestionGetsOrderBy(String column, String order, int page, int pageSize);
+
+    List<Map<String, Object>> searchEmpSuggestionGets(String keyword, int page, int pageSize);
 }

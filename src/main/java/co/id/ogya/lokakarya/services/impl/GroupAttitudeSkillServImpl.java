@@ -162,6 +162,23 @@ public class GroupAttitudeSkillServImpl implements GroupAttitudeSkillServ {
         return listResult;
     }
 
+    @Override
+    public List<GroupAttitudeSkillDto> searchAllGroupAttitudeSkill(String keyword, int page, int pageSize) {
+        log.info("Attempting to search all GroupAttitudeSkills");
+        List<GroupAttitudeSkillDto> listResult = new ArrayList<>();
+        try {
+            List<GroupAttitudeSkill> listData = groupAttitudeSkillRepo.searchGroupAttitudeSkills(keyword, page, pageSize);
+            log.debug("Searched {} GroupAttitudeSkills from repository", listData.size());
+            for (GroupAttitudeSkill data : listData) {
+                GroupAttitudeSkillDto result = convertToDto(data);
+                listResult.add(result);
+            }
+        } catch (Exception e) {
+            log.error("Error occurred while searching all GroupAttitudeSkills: {}", e.getMessage(), e);
+        }
+        return listResult;
+    }
+
     private GroupAttitudeSkill convertToEntityCreate(GroupAttitudeSkillCreateDto convertObject) {
         log.debug("Converting GroupAttitudeSkillCreateDto to entity: {}", convertObject);
         GroupAttitudeSkill result = GroupAttitudeSkill.builder()

@@ -162,6 +162,23 @@ public class TechnicalSkillServImpl implements TechnicalSkillServ {
         return listResult;
     }
 
+    @Override
+    public List<TechnicalSkillDto> searchAllTechnicalSkill(String keyword, int page, int pageSize) {
+        log.info("Attempting to search all TechnicalSkills");
+        List<TechnicalSkillDto> listResult = new ArrayList<>();
+        try {
+            List<TechnicalSkill> listData = technicalSkillRepo.searchTechnicalSkills(keyword, page, pageSize);
+            log.debug("Searched {} TechnicalSkills from repository", listData.size());
+            for (TechnicalSkill data : listData) {
+                TechnicalSkillDto result = convertToDto(data);
+                listResult.add(result);
+            }
+        } catch (Exception e) {
+            log.error("Error occurred while searching all TechnicalSkills: {}", e.getMessage(), e);
+        }
+        return listResult;
+    }
+
     private TechnicalSkill convertToEntityCreate(TechnicalSkillCreateDto convertObject) {
         log.debug("Converting TechnicalSkillCreateDto to entity: {}", convertObject);
         return TechnicalSkill.builder()

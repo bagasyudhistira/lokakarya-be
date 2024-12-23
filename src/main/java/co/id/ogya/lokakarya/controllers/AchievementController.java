@@ -251,4 +251,29 @@ public class AchievementController extends ServerResponseList {
             return new ResponseEntity<>("Failed to fetch Achivements", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("/search/{keyword}/{page}/{pageSize}")
+    public ResponseEntity<?> searchAllAchievementGets(@PathVariable String keyword, @PathVariable int page, @PathVariable int pageSize) {
+        log.info("Sorting all Achivements");
+        long startTime = System.currentTimeMillis();
+
+        try {
+            List<AchievementGetDto> result = achievementServ.searchAllAchievementGet(keyword, page, pageSize);
+            Long total = achievementServ.countAllAchievement();
+            ManagerDto<List<AchievementGetDto>> response = new ManagerDto<>();
+            response.setContent(result);
+            response.setTotalRows(result.size());
+            response.setTotalData(total);
+
+            long endTime = System.currentTimeMillis();
+            response.setInfo(getInfoOk("Time", endTime - startTime));
+            log.info("Fetched {} Achivements in {} ms", result.size(), endTime - startTime);
+            log.info("Total Users: {}", total);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error fetching all Achivements: {}", e.getMessage(), e);
+            return new ResponseEntity<>("Failed to fetch Achivements", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

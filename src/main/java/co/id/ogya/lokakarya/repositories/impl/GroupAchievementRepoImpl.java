@@ -41,7 +41,7 @@ public class GroupAchievementRepoImpl implements GroupAchievementRepo {
         String sql = "SELECT * FROM tbl_group_achievement ORDER BY group_name ASC LIMIT ? OFFSET ?";
         log.info("Executing query to fetch all GroupAchievements for page {} with maximum {} entries : {}", page, pageSize, sql);
         try {
-            List<GroupAchievement> result = jdbcTemplate.query(sql, rowMapper, offset, pageSize);
+            List<GroupAchievement> result = jdbcTemplate.query(sql, rowMapper, pageSize, offset);
             log.info("Successfully fetched GroupAchievements for Page {} ({} entries)", page, result.size());
             return result;
         } catch (Exception e) {
@@ -159,11 +159,26 @@ public class GroupAchievementRepoImpl implements GroupAchievementRepo {
         String sql = "SELECT * FROM tbl_group_achievement ORDER BY GROUP_NAME " + order + " LIMIT ? OFFSET ?";
         log.info("Executing query to sort GroupAttitudeSkills order {} for page {} with maximum {} entries : {}", order, page, pageSize, sql);
         try {
-            List<GroupAchievement> result = jdbcTemplate.query(sql, rowMapper, offset, pageSize);
+            List<GroupAchievement> result = jdbcTemplate.query(sql, rowMapper, pageSize, offset);
             log.info("Successfully sorted GroupAchievements order {} for Page {} ({} entries)", order, page, result.size());
             return result;
         } catch (Exception e) {
-            log.error("Error fetching GroupAchievements. Error: {}", e.getMessage());
+            log.error("Error sorting GroupAchievements. Error: {}", e.getMessage());
+            throw e;
+        }
+    }
+
+    @Override
+    public List<GroupAchievement> searchGroupAchievements(String keyword, int page, int pageSize) {
+        int offset = (page - 1) * pageSize;
+        String sql = "SELECT * FROM tbl_group_achievement WHERE LOWER(GROUP_NAME) LIKE LOWER('%' || COALESCE(?, '') || '%') ORDER BY GROUP_NAME LIMIT ? OFFSET ?";
+        log.info("Executing query to search GroupAchievements using keyword: {} for page {} with maximum {} entries : {}", keyword, page, pageSize, sql);
+        try {
+            List<GroupAchievement> result = jdbcTemplate.query(sql, rowMapper, pageSize, offset);
+            log.info("Successfully search GroupAchievements using keyword: {} for Page {} ({} entries)", keyword, page, result.size());
+            return result;
+        } catch (Exception e) {
+            log.error("Error searching GroupAchievements. Error: {}", e.getMessage());
             throw e;
         }
     }

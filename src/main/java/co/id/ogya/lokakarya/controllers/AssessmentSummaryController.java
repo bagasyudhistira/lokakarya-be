@@ -337,4 +337,29 @@ public class AssessmentSummaryController extends ServerResponseList {
             return new ResponseEntity<>("Failed to fetch AssessmentSummaries", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("/search/{keyword}/{page}/{pageSize}")
+    public ResponseEntity<?> searchAllAssessmentSummaryGets(@PathVariable String keyword, @PathVariable int page, @PathVariable int pageSize) {
+        log.info("Searching all AssessmentSummaries");
+        long startTime = System.currentTimeMillis();
+
+        try {
+            List<AssessmentSummaryGetDto> result = assessmentSummaryServ.searchAllAssessmentSummaryGet(keyword, page, pageSize);
+            Long total = assessmentSummaryServ.countAllAssessmentSummary();
+            ManagerDto<List<AssessmentSummaryGetDto>> response = new ManagerDto<>();
+            response.setContent(result);
+            response.setTotalRows(result.size());
+            response.setTotalData(total);
+
+            long endTime = System.currentTimeMillis();
+            response.setInfo(getInfoOk("Time", endTime - startTime));
+            log.info("Fetched {} AssessmentSummaries in {} ms", result.size(), endTime - startTime);
+            log.info("Total AssessmentSummaries: {}", total);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error fetching all AssessmentSummaries: {}", e.getMessage(), e);
+            return new ResponseEntity<>("Failed to fetch AssessmentSummaries", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

@@ -346,4 +346,29 @@ public class AppUserController extends ServerResponseList {
         }
     }
 
+    @GetMapping("/search/{keyword}/{page}/{pageSize}")
+    public ResponseEntity<?> searchAllAppUserGets(@PathVariable String keyword, @PathVariable int page, @PathVariable int pageSize) {
+        log.info("Sorting all AppUsers");
+        long startTime = System.currentTimeMillis();
+
+        try {
+            List<AppUserGetDto> result = appUserServ.searchAllAppUserGet(keyword, page, pageSize);
+            Long total = appUserServ.countAllAppUser();
+            ManagerDto<List<AppUserGetDto>> response = new ManagerDto<>();
+            response.setContent(result);
+            response.setTotalRows(result.size());
+            response.setTotalData(total);
+
+            long endTime = System.currentTimeMillis();
+            response.setInfo(getInfoOk("Time", endTime - startTime));
+            log.info("Fetched {} AppUsers in {} ms", result.size(), endTime - startTime);
+            log.info("Total Users: {}", total);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error fetching all AppUsers: {}", e.getMessage(), e);
+            return new ResponseEntity<>("Failed to fetch AppUsers", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }

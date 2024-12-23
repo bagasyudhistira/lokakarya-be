@@ -253,6 +253,23 @@ public class AppUserServImpl implements AppUserServ {
         return listResult;
     }
 
+    @Override
+    public List<AppUserGetDto> searchAllAppUserGet(String keyword, int page, int pageSize) {
+        log.info("Attempting to search all AppUsers order using keyword: {}", keyword);
+        List<AppUserGetDto> listResult = new ArrayList<>();
+        try {
+            List<Map<String, Object>> listData = appUserRepo.searchAppUserGets(keyword, page, pageSize);
+            log.debug("Searched {} AppUsers from repository using keyword: {}", listData.size(), keyword);
+            for (Map<String, Object> data : listData) {
+                AppUserGetDto result =  AppUserGetDto.mapToDto(data);
+                listResult.add(result);
+            }
+        } catch (Exception e) {
+            log.error("Error occurred while searching all AppUsers: {}", e.getMessage(), e);
+        }
+        return listResult;
+    }
+
     private AppUser convertToEntityCreate(AppUserCreateDto convertObject) {
         log.debug("Converting AppUserCreateDto to entity: {}", convertObject);
         AppUser result = AppUser.builder()

@@ -34,4 +34,6 @@ public interface AppUserServ {
     Long countAllAppUser();
 
     List<AppUserGetDto> sortAllAppUserGetOrderBy(String column, String order, int page, int pageSize);
+
+    List<AppUserGetDto> searchAllAppUserGet(String keyword, int page, int pageSize);
 }

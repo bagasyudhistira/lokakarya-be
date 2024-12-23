@@ -28,4 +28,6 @@ public interface AttitudeSkillRepo {
     Long countAttitudeSkills();
 
     List<Map<String, Object>> sortAttitudeSkillGetsOrderBy(String column, String order, int page, int pageSize);
+
+    List<Map<String, Object>> searchAttitudeSkillGets(String keyword, int page, int pageSize);
 }

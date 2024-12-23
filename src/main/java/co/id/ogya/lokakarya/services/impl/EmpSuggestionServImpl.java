@@ -215,6 +215,23 @@ public class EmpSuggestionServImpl implements EmpSuggestionServ {
         return listResult;
     }
 
+    @Override
+    public List<EmpSuggestionGetDto> searchAllEmpSuggestionGet(String keyword, int page, int pageSize) {
+        log.info("Attempting to search all EmpSuggestions using keyword: {}", keyword);
+        List<EmpSuggestionGetDto> listResult = new ArrayList<>();
+        try {
+            List<Map<String, Object>> listData = empSuggestionRepo.searchEmpSuggestionGets(keyword, page, pageSize);
+            log.debug("Searched {} EmpSuggestions from repository using keyword: {}", listData.size(), keyword);
+            for (Map<String, Object> data : listData) {
+                EmpSuggestionGetDto result =  EmpSuggestionGetDto.mapToDto(data);
+                listResult.add(result);
+            }
+        } catch (Exception e) {
+            log.error("Error occurred while searching all EmpSuggestions: {}", e.getMessage(), e);
+        }
+        return listResult;
+    }
+
     private EmpSuggestion convertToEntityCreate(EmpSuggestionCreateDto convertObject) {
         log.debug("Converting EmpSuggestionCreateDto to entity: {}", convertObject);
         EmpSuggestion result = EmpSuggestion.builder()

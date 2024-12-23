@@ -4,7 +4,6 @@ import co.id.ogya.lokakarya.dto.ManagerDto;
 import co.id.ogya.lokakarya.dto.devplan.DevPlanCreateDto;
 import co.id.ogya.lokakarya.dto.devplan.DevPlanDto;
 import co.id.ogya.lokakarya.dto.devplan.DevPlanUpdateDto;
-import co.id.ogya.lokakarya.dto.division.DivisionDto;
 import co.id.ogya.lokakarya.services.DevPlanServ;
 import co.id.ogya.lokakarya.utils.ServerResponseList;
 import lombok.extern.slf4j.Slf4j;
@@ -183,13 +182,13 @@ public class DevPlanController extends ServerResponseList {
         }
     }
 
-    @GetMapping("/sort/{order}/{page}/{pageSize}")
-    public ResponseEntity<?> sortAllDevPlansOrderBy(@PathVariable String order, @PathVariable int page, @PathVariable int pageSize) {
-        log.info("Sorting all DevPlans");
+    @GetMapping("/search/{keyword}/{page}/{pageSize}")
+    public ResponseEntity<?> sortAllDevPlansOrderBy(@PathVariable String keyword, @PathVariable int page, @PathVariable int pageSize) {
+        log.info("Searching all DevPlans");
         long startTime = System.currentTimeMillis();
 
         try {
-            List<DevPlanDto> result = devPlanServ.sortDevPlan(order, page, pageSize);
+            List<DevPlanDto> result = devPlanServ.searchAllDevPlan(keyword, page, pageSize);
             Long total = devPlanServ.countAllDevPlan();
             ManagerDto<List<DevPlanDto>> response = new ManagerDto<>();
             response.setContent(result);

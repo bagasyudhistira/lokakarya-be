@@ -162,6 +162,23 @@ public class GroupAchievementServImpl implements GroupAchievementServ {
         return listResult;
     }
 
+    @Override
+    public List<GroupAchievementDto> searchAllGroupAchievement(String keyword, int page, int pageSize) {
+        log.info("Attempting to search all GroupAchievements");
+        List<GroupAchievementDto> listResult = new ArrayList<>();
+        try {
+            List<GroupAchievement> listData = groupAchievementRepo.searchGroupAchievements(keyword, page, pageSize);
+            log.debug("Searched {} GroupAchievements from repository", listData.size());
+            for (GroupAchievement data : listData) {
+                GroupAchievementDto result = convertToDto(data);
+                listResult.add(result);
+            }
+        } catch (Exception e) {
+            log.error("Error occurred while searching all GroupAchievements: {}", e.getMessage(), e);
+        }
+        return listResult;
+    }
+
     private GroupAchievement convertToEntityCreate(GroupAchievementCreateDto convertObject) {
         log.debug("Converting GroupAchievementCreateDto to entity: {}", convertObject);
         GroupAchievement result = GroupAchievement.builder()

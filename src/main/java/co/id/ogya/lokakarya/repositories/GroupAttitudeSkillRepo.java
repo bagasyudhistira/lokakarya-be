@@ -22,4 +22,6 @@ public interface GroupAttitudeSkillRepo {
     Long countGroupAttitudeSkills();
 
     List<GroupAttitudeSkill> sortGroupAttitudeSkills(String order, int page, int pageSize);
+
+    List<GroupAttitudeSkill> searchGroupAttitudeSkills(String keyword, int page, int pageSize);
 }

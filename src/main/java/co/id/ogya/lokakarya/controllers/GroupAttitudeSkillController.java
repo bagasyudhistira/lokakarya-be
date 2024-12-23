@@ -205,4 +205,29 @@ public class GroupAttitudeSkillController extends ServerResponseList {
             return new ResponseEntity<>("Failed to fetch GroupAttitudeSkills", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("/search/{keyword}/{page}/{pageSize}")
+    public ResponseEntity<?> searchAllGroupAchievementsOrderBy(@PathVariable String keyword, @PathVariable int page, @PathVariable int pageSize) {
+        log.info("Searching all GroupAttitudeSkills");
+        long startTime = System.currentTimeMillis();
+
+        try {
+            List<GroupAttitudeSkillDto> result = groupAttitudeSkillServ.searchAllGroupAttitudeSkill(keyword, page, pageSize);
+            Long total = groupAttitudeSkillServ.countAllGroupAttitudeSkill();
+            ManagerDto<List<GroupAttitudeSkillDto>> response = new ManagerDto<>();
+            response.setContent(result);
+            response.setTotalRows(result.size());
+            response.setTotalData(total);
+
+            long endTime = System.currentTimeMillis();
+            response.setInfo(getInfoOk("Time", endTime - startTime));
+            log.info("Fetched {} GroupAttitudeSkills in {} ms", result.size(), endTime - startTime);
+            log.info("Total GroupAttitudeSkills: {}", total);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error fetching all GroupAttitudeSkills: {}", e.getMessage(), e);
+            return new ResponseEntity<>("Failed to fetch GroupAttitudeSkills", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

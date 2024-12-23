@@ -194,6 +194,23 @@ public class AttitudeSkillServImpl implements AttitudeSkillServ {
         return listResult;
     }
 
+    @Override
+    public List<AttitudeSkillGetDto> searchAllAttitudeSkillGet(String keyword, int page, int pageSize) {
+        log.info("Attempting to search all AttitudeSkills using keyword: {}", keyword);
+        List<AttitudeSkillGetDto> listResult = new ArrayList<>();
+        try {
+            List<Map<String, Object>> listData = attitudeSkillRepo.searchAttitudeSkillGets(keyword, page, pageSize);
+            log.debug("Searched {} AttitudeSkills from repository using keyword: {}", listData.size(), keyword);
+            for (Map<String, Object> data : listData) {
+                AttitudeSkillGetDto result =  AttitudeSkillGetDto.mapToDto(data);
+                listResult.add(result);
+            }
+        } catch (Exception e) {
+            log.error("Error occurred while searching all AttitudeSkills: {}", e.getMessage(), e);
+        }
+        return listResult;
+    }
+
     private AttitudeSkill convertToEntityCreate(AttitudeSkillCreateDto convertObject) {
         log.debug("Converting AttitudeSkillCreateDto to entity: {}", convertObject);
         AttitudeSkill result = AttitudeSkill.builder()

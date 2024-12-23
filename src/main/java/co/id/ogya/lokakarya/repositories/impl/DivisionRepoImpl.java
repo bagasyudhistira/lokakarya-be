@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Repository
@@ -40,7 +41,7 @@ public class DivisionRepoImpl implements DivisionRepo {
         String sql = "SELECT * FROM tbl_division ORDER BY division_name ASC LIMIT ? OFFSET ?";
         log.info("Executing query to fetch all Divisions for page {} with maximum {} entries", page, pageSize);
         try {
-            List<Division> result = jdbcTemplate.query(sql, rowMapper, offset, pageSize);
+            List<Division> result = jdbcTemplate.query(sql, rowMapper, pageSize, offset);
             log.info("Successfully fetched {} divisions.", result.size());
             return result;
         } catch (Exception e) {
@@ -157,11 +158,26 @@ public class DivisionRepoImpl implements DivisionRepo {
         String sql = "SELECT * FROM tbl_division ORDER BY division_name " + order + " LIMIT ? OFFSET ?";
         log.info("Executing query to sort all divisions: {}", sql);
         try {
-            List<Division> result = jdbcTemplate.query(sql, rowMapper, offset, pageSize);
+            List<Division> result = jdbcTemplate.query(sql, rowMapper, pageSize, offset);
             log.info("Successfully sorted {} divisions.", result.size());
             return result;
         } catch (Exception e) {
             log.error("Error fetching divisions. Error: {}", e.getMessage());
+            throw e;
+        }
+    }
+
+    @Override
+    public List<Division> searchDivisions(String keyword, int page, int pageSize) {
+        int offset = (page - 1) * pageSize;
+        String sql = "SELECT * FROM tbl_division WHERE LOWER(DIVISION_NAME) LIKE LOWER('%' || COALESCE(?, '') || '%') LIMIT ? OFFSET ?";
+        log.info("Executing query to search Division using keyword: {} for page {} with maximum {} entries : {}", keyword, page, pageSize, sql);
+        try {
+            List<Division> result = jdbcTemplate.query(sql, rowMapper, keyword, pageSize, offset);
+            log.info("Successfully searched Divisions using keyword: {} for Page {} ({} entries)", keyword, page, result.size());
+            return result;
+        } catch (Exception e) {
+            log.error("Error searching AppUsers: {}", e.getMessage(), e);
             throw e;
         }
     }

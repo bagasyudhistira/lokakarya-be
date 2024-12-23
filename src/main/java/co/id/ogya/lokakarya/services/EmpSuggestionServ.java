@@ -29,4 +29,6 @@ public interface EmpSuggestionServ {
     Long countAllEmpSuggestion();
 
     List<EmpSuggestionGetDto> sortAllEmpSuggestionGetOrderBy(String column, String order, int page, int pageSize);
+
+    List<EmpSuggestionGetDto> searchAllEmpSuggestionGet(String keyword, int page, int pageSize);
 }

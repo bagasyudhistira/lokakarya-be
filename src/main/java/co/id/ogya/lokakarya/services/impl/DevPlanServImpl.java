@@ -146,7 +146,7 @@ public class DevPlanServImpl implements DevPlanServ {
     }
 
     @Override
-    public List<DevPlanDto> sortDevPlan(String order, int page, int pageSize) {
+    public List<DevPlanDto> sortAllDevPlan(String order, int page, int pageSize) {
         log.info("Attempting to sort all DevPlans");
         List<DevPlanDto> listResult = new ArrayList<>();
         try {
@@ -158,6 +158,23 @@ public class DevPlanServImpl implements DevPlanServ {
             }
         } catch (Exception e) {
             log.error("Error occurred while sorting all DevPlans: {}", e.getMessage(), e);
+        }
+        return listResult;
+    }
+
+    @Override
+    public List<DevPlanDto> searchAllDevPlan(String keyword, int page, int pageSize) {
+        log.info("Attempting to search all DevPlans");
+        List<DevPlanDto> listResult = new ArrayList<>();
+        try {
+            List<DevPlan> listData = devPlanRepo.searchDevPlans(keyword, page, pageSize);
+            log.debug("Searched {} DevPlans from repository", listData.size());
+            for (DevPlan data : listData) {
+                DevPlanDto result = convertToDto(data);
+                listResult.add(result);
+            }
+        } catch (Exception e) {
+            log.error("Error occurred while searching all DevPlans: {}", e.getMessage(), e);
         }
         return listResult;
     }

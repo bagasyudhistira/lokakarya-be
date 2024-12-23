@@ -22,4 +22,6 @@ public interface DevPlanRepo {
     Long countDevPlans();
 
     List<DevPlan> sortDevPlans(String order, int page, int pageSize);
+
+    List<DevPlan> searchDevPlans(String keyword, int page, int pageSize);
 }

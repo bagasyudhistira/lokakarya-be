@@ -260,6 +260,23 @@ public class AssessmentSummaryServImpl implements AssessmentSummaryServ {
         return listResult;
     }
 
+    @Override
+    public List<AssessmentSummaryGetDto> searchAllAssessmentSummaryGet(String keyword, int page, int pageSize) {
+        log.info("Attempting to search all AssessmentSummaries using keyword: {}", keyword);
+        List<AssessmentSummaryGetDto> listResult = new ArrayList<>();
+        try {
+            List<Map<String, Object>> listData = assessmentSummaryRepo.searchAssessmentSummaryGets(keyword, page, pageSize);
+            log.debug("Sorted {} AssessmentSummaries from repository order by {}", listData.size(), keyword);
+            for (Map<String, Object> data : listData) {
+                AssessmentSummaryGetDto result =  AssessmentSummaryGetDto.mapToDto(data);
+                listResult.add(result);
+            }
+        } catch (Exception e) {
+            log.error("Error occurred while sorting all AssessmentSummaries: {}", e.getMessage(), e);
+        }
+        return listResult;
+    }
+
     private AssessmentSummary convertToEntityCreate(AssessmentSummaryCreateDto convertObject) {
         log.debug("Converting AssessmentSummaryCreateDto to entity: {}", convertObject);
         AssessmentSummary result = AssessmentSummary.builder()

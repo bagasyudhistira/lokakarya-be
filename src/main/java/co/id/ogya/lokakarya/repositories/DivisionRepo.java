@@ -22,4 +22,6 @@ public interface DivisionRepo {
     Long countDivisions();
 
     List<Division> sortDivisions(String order, int page, int pageSize);
+
+    List<Division> searchDivisions(String keyword, int page, int pageSize);
 }

@@ -162,6 +162,23 @@ public class DivisionServImpl implements DivisionServ {
         return listResult;
     }
 
+    @Override
+    public List<DivisionDto> searchAllDivision(String keyword, int page, int pageSize) {
+        log.info("Attempting to search all Divisions using keyword: {}", keyword);
+        List<DivisionDto> listResult = new ArrayList<>();
+        try {
+            List<Division> listData = divisionRepo.searchDivisions(keyword, page, pageSize);
+            log.debug("Searched {} Divisions from repository", listData.size());
+            for (Division data : listData) {
+                DivisionDto result = convertToDto(data);
+                listResult.add(result);
+            }
+        } catch (Exception e) {
+            log.error("Error occurred while searching all Divisions: {}", e.getMessage(), e);
+        }
+        return listResult;
+    }
+
     private Division convertToEntityCreate(DivisionCreateDto convertObject) {
         log.debug("Converting DivisionCreateDto to entity: {}", convertObject);
         Division result = Division.builder()

@@ -25,4 +25,6 @@ public interface DivisionServ {
     Long countAllDivision();
 
     List<DivisionDto> sortAllDivision(String order, int page, int pageSize);
+
+    List<DivisionDto> searchAllDivision(String keyword, int page, int pageSize);
 }

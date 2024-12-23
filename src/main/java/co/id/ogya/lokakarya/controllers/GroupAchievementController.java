@@ -205,4 +205,29 @@ public class GroupAchievementController extends ServerResponseList {
             return new ResponseEntity<>("Failed to fetch GroupAchievements", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("/search/{keyword}/{page}/{pageSize}")
+    public ResponseEntity<?> searchAllGroupAchievements(@PathVariable String keyword, @PathVariable int page, @PathVariable int pageSize) {
+        log.info("Searching all GroupAchievements");
+        long startTime = System.currentTimeMillis();
+
+        try {
+            List<GroupAchievementDto> result = groupAchievementServ.searchAllGroupAchievement(keyword, page, pageSize);
+            Long total = groupAchievementServ.countAllGroupAchievement();
+            ManagerDto<List<GroupAchievementDto>> response = new ManagerDto<>();
+            response.setContent(result);
+            response.setTotalRows(result.size());
+            response.setTotalData(total);
+
+            long endTime = System.currentTimeMillis();
+            response.setInfo(getInfoOk("Time", endTime - startTime));
+            log.info("Fetched {} GroupAchievements in {} ms", result.size(), endTime - startTime);
+            log.info("Total GroupAchievements: {}", total);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error fetching all GroupAchievements: {}", e.getMessage(), e);
+            return new ResponseEntity<>("Failed to fetch GroupAchievements", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

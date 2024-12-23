@@ -34,4 +34,6 @@ public interface AssessmentSummaryServ {
     Long countAllAssessmentSummary();
 
     List<AssessmentSummaryGetDto> sortAllAssessmentSummaryGetOrderBy(String column, String order, int page, int pageSize);
+
+    List<AssessmentSummaryGetDto> searchAllAssessmentSummaryGet(String keyword, int page, int pageSize);
 }

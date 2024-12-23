@@ -23,5 +23,7 @@ public interface DevPlanServ {
 
     Long countAllDevPlan();
 
-    List<DevPlanDto> sortDevPlan(String order, int page, int pageSize);
+    List<DevPlanDto> sortAllDevPlan(String order, int page, int pageSize);
+
+    List<DevPlanDto> searchAllDevPlan(String keyword, int page, int pageSize);
 }

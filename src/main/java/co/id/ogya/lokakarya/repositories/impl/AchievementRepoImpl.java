@@ -202,4 +202,19 @@ public class AchievementRepoImpl implements AchievementRepo {
             throw e;
         }
     }
+
+    @Override
+    public List<Map<String, Object>> searchAchievementGets(String keyword, int page, int pageSize) {
+        int offset = (page - 1) * pageSize;
+        String sql = "SELECT ach.ID, ACHIEVEMENT, GROUP_NAME, ach.ENABLED FROM tbl_achievement ach LEFT JOIN tbl_group_achievement gac ON ach.GROUP_ID = gac.ID WHERE LOWER(GROUP_NAME) LIKE LOWER('%' || COALESCE(?, '') || '%') OR LOWER(ACHIEVEMENT) LIKE LOWER('%' || COALESCE(?, '') || '%') ORDER BY GROUP_NAME LIMIT ? OFFSET ?";
+        log.info("Executing query to search Achievements using keyword: {} for page {} with maximum {} entries : {}", keyword, page, pageSize, sql);
+        try {
+            List<Map<String, Object>> appUsers = jdbcTemplate.queryForList(sql, keyword, keyword, keyword, keyword, keyword, pageSize, offset);
+            log.info("Successfully searched Achievements using keyword: {} for Page {} ({} entries)", keyword, page, appUsers.size());
+            return appUsers;
+        } catch (Exception e) {
+            log.error("Error searching Achievements: {}", e.getMessage(), e);
+            throw e;
+        }
+    }
 }

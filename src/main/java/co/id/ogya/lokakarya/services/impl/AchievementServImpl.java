@@ -192,6 +192,23 @@ public class AchievementServImpl implements AchievementServ {
         return listResult;
     }
 
+    @Override
+    public List<AchievementGetDto> searchAllAchievementGet(String keyword, int page, int pageSize) {
+        log.info("Attempting to search all Achievements using keyword: {}", keyword);
+        List<AchievementGetDto> listResult = new ArrayList<>();
+        try {
+            List<Map<String, Object>> listData = achievementRepo.searchAchievementGets(keyword, page, pageSize);
+            log.debug("Searched {} Achievements from repository order using keyword: {}", listData.size(), keyword);
+            for (Map<String, Object> data : listData) {
+                AchievementGetDto result =  AchievementGetDto.mapToDto(data);
+                listResult.add(result);
+            }
+        } catch (Exception e) {
+            log.error("Error occurred while searching all Achievements: {}", e.getMessage(), e);
+        }
+        return listResult;
+    }
+
     private Achievement convertToEntityCreate(AchievementCreateDto convertObject) {
         log.debug("Converting AchievementCreateDto to entity: {}", convertObject);
         Achievement result = Achievement.builder()

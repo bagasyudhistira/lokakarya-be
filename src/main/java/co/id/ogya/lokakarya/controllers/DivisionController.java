@@ -207,4 +207,29 @@ public class DivisionController extends ServerResponseList {
             return new ResponseEntity<>("Failed to fetch Divisions", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("/search/{keyword}/{page}/{pageSize}")
+    public ResponseEntity<?> searchAllDivisions(@PathVariable String keyword, @PathVariable int page, @PathVariable int pageSize) {
+        log.info("Searching all Divisions");
+        long startTime = System.currentTimeMillis();
+
+        try {
+            List<DivisionDto> result = divisionServ.searchAllDivision(keyword, page, pageSize);
+            Long total = divisionServ.countAllDivision();
+            ManagerDto<List<DivisionDto>> response = new ManagerDto<>();
+            response.setContent(result);
+            response.setTotalRows(result.size());
+            response.setTotalData(total);
+
+            long endTime = System.currentTimeMillis();
+            response.setInfo(getInfoOk("Time", endTime - startTime));
+            log.info("Fetched {} Divisions in {} ms", result.size(), endTime - startTime);
+            log.info("Total Divisions: {}", total);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error fetching all Divisions: {}", e.getMessage(), e);
+            return new ResponseEntity<>("Failed to fetch Divisions", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
