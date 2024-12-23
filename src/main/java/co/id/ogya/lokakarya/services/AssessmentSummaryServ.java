@@ -31,7 +31,7 @@ public interface AssessmentSummaryServ {
 
     List<AssessmentSummaryJointGetDto> getAssessmentSummariesByAssessmentYear(int assessmentYear);
 
-    Long countAllAssessmentSummary();
+    Long countAllAssessmentSummary(String keyword);
 
     List<AssessmentSummaryGetDto> sortAllAssessmentSummaryGetOrderBy(String column, String order, int page, int pageSize);
 

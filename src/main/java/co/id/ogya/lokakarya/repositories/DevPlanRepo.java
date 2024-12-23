@@ -19,7 +19,7 @@ public interface DevPlanRepo {
 
     DevPlan getDevPlanByName(String planName);
 
-    Long countDevPlans();
+    Long countDevPlans(String keyword);
 
     List<DevPlan> sortDevPlans(String order, int page, int pageSize);
 

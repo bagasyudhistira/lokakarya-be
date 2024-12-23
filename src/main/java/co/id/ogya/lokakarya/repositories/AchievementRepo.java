@@ -24,7 +24,7 @@ public interface AchievementRepo {
 
     Achievement getAchievementByName(String achievementName);
 
-    Long countAchievement();
+    Long countAchievement(String keyword);
 
     List<Map<String, Object>> sortAchievementGetsOrderBy(String column, String order, int page, int pageSize);
 

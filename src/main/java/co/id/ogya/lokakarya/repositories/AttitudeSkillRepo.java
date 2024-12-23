@@ -25,7 +25,7 @@ public interface AttitudeSkillRepo {
 
     AttitudeSkill getAttitudeSkillByName(String attitudeSkillName);
 
-    Long countAttitudeSkills();
+    Long countAttitudeSkills(String keyword);
 
     List<Map<String, Object>> sortAttitudeSkillGetsOrderBy(String column, String order, int page, int pageSize);
 

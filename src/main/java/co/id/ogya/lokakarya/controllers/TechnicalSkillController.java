@@ -163,16 +163,16 @@ public class TechnicalSkillController extends ServerResponseList {
 
         try {
             List<TechnicalSkillDto> result = technicalSkillServ.getAllTechnicalSkillPerPage(page, pageSize);
-            Long total = technicalSkillServ.countAllTechnicalSkill();
+//            Long total = technicalSkillServ.countAllTechnicalSkill();
             ManagerDto<List<TechnicalSkillDto>> response = new ManagerDto<>();
             response.setContent(result);
             response.setTotalRows(result.size());
-            response.setTotalData(total);
+//            response.setTotalData(total);
 
             long endTime = System.currentTimeMillis();
             response.setInfo(getInfoOk("Time", endTime - startTime));
             log.info("Fetched {} TechnicalSkills in {} ms", result.size(), endTime - startTime);
-            log.info("Total TechnicalSkills: {}", total);
+//            log.info("Total TechnicalSkills: {}", total);
 
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
@@ -188,16 +188,16 @@ public class TechnicalSkillController extends ServerResponseList {
 
         try {
             List<TechnicalSkillDto> result = technicalSkillServ.sortAllTechnicalSkill(order, page, pageSize);
-            Long total = technicalSkillServ.countAllTechnicalSkill();
+//            Long total = technicalSkillServ.countAllTechnicalSkill();
             ManagerDto<List<TechnicalSkillDto>> response = new ManagerDto<>();
             response.setContent(result);
             response.setTotalRows(result.size());
-            response.setTotalData(total);
+//            response.setTotalData(total);
 
             long endTime = System.currentTimeMillis();
             response.setInfo(getInfoOk("Time", endTime - startTime));
             log.info("Fetched {} TechnicalSkills in {} ms", result.size(), endTime - startTime);
-            log.info("Total TechnicalSkills: {}", total);
+//            log.info("Total TechnicalSkills: {}", total);
 
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
@@ -213,7 +213,7 @@ public class TechnicalSkillController extends ServerResponseList {
 
         try {
             List<TechnicalSkillDto> result = technicalSkillServ.sorchAllTechnicalSkill(keyword, column, order, page, pageSize);
-            Long total = technicalSkillServ.countAllTechnicalSkill();
+            Long total = technicalSkillServ.countAllTechnicalSkill(keyword);
             ManagerDto<List<TechnicalSkillDto>> response = new ManagerDto<>();
             response.setContent(result);
             response.setTotalRows(result.size());

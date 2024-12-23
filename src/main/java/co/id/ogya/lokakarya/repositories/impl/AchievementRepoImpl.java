@@ -173,11 +173,11 @@ public class AchievementRepoImpl implements AchievementRepo {
     }
 
     @Override
-    public Long countAchievement() {
-        String sql = "SELECT COUNT(ID) FROM tbl_achievement";
+    public Long countAchievement(String keyword) {
+        String sql = "SELECT COUNT(ach.ID) FROM tbl_achievement ach LEFT JOIN tbl_group_achievement gac ON ach.GROUP_ID = gac.ID WHERE LOWER(GROUP_NAME) LIKE LOWER(CONCAT('%', COALESCE(?, ''), '%')) OR LOWER(ACHIEVEMENT) LIKE LOWER(CONCAT('%', COALESCE(?, ''), '%'))";
         log.info("Executing query to count Achievements: {}", sql);
         try {
-            Long total = jdbcTemplate.queryForObject(sql, Long.class);
+            Long total = jdbcTemplate.queryForObject(sql, Long.class, keyword, keyword);
             log.info("Total Achievements: {}", total);
             return total;
         } catch (Exception e) {
@@ -189,9 +189,7 @@ public class AchievementRepoImpl implements AchievementRepo {
     @Override
     public List<Map<String, Object>> sortAchievementGetsOrderBy(String column, String order, int page, int pageSize) {
         int offset = (page - 1) * pageSize;
-        String sql = "SELECT ach.ID, ACHIEVEMENT, GROUP_NAME, ach.ENABLED " +
-                "FROM tbl_achievement ach " +
-                "LEFT JOIN tbl_group_achievement gac ON ach.GROUP_ID = gac.ID ORDER BY " + column + " " + order + " LIMIT ? OFFSET ?";
+        String sql = "SELECT ach.ID, ACHIEVEMENT, GROUP_NAME, ach.ENABLED FROM tbl_achievement ach LEFT JOIN tbl_group_achievement gac ON ach.GROUP_ID = gac.ID ORDER BY " + column + " " + order + " LIMIT ? OFFSET ?";
         log.info("Executing query to sort Achievements order by {} {} for page {} with maximum {} entries : {}", column, order, page, pageSize, sql);
         try {
             List<Map<String, Object>> result = jdbcTemplate.queryForList(sql, pageSize, offset);

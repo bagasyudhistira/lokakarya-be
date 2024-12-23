@@ -26,7 +26,7 @@ public interface AchievementServ {
 
     AchievementDto getAchievementByName(String achievementName);
 
-    Long countAllAchievement();
+    Long countAllAchievement(String keyword);
 
     List<AchievementGetDto> sortAllAchievementGetOrderBy(String column, String order, int page, int pageSize);
 

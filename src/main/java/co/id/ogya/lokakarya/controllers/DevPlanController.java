@@ -164,16 +164,16 @@ public class DevPlanController extends ServerResponseList {
 
         try {
             List<DevPlanDto> result = devPlanServ.getAllDevPlanPerPage(page, pageSize);
-            Long total = devPlanServ.countAllDevPlan();
+//            Long total = devPlanServ.countAllDevPlan();
             ManagerDto<List<DevPlanDto>> response = new ManagerDto<>();
             response.setContent(result);
             response.setTotalRows(result.size());
-            response.setTotalData(total);
+//            response.setTotalData(total);
 
             long endTime = System.currentTimeMillis();
             response.setInfo(getInfoOk("Time", endTime - startTime));
             log.info("Fetched {} DevPlans in {} ms", result.size(), endTime - startTime);
-            log.info("Total DevPlans: {}", total);
+//            log.info("Total DevPlans: {}", total);
 
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
@@ -183,13 +183,13 @@ public class DevPlanController extends ServerResponseList {
     }
 
     @GetMapping("/sorch")
-    public ResponseEntity<?> sortAllDevPlansOrderBy(@RequestParam(required = false) String keyword, @RequestParam String column, @RequestParam String order, @RequestParam int page, @RequestParam int pageSize) {
+    public ResponseEntity<?> sorchAllDevPlansOrderBy(@RequestParam(required = false) String keyword, @RequestParam String column, @RequestParam String order, @RequestParam int page, @RequestParam int pageSize) {
         log.info("Sorching all DevPlans");
         long startTime = System.currentTimeMillis();
 
         try {
             List<DevPlanDto> result = devPlanServ.sorchAllDevPlan(keyword, column, order, page, pageSize);
-            Long total = devPlanServ.countAllDevPlan();
+            Long total = devPlanServ.countAllDevPlan(keyword);
             ManagerDto<List<DevPlanDto>> response = new ManagerDto<>();
             response.setContent(result);
             response.setTotalRows(result.size());

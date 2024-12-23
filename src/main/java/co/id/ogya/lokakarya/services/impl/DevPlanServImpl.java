@@ -133,10 +133,10 @@ public class DevPlanServImpl implements DevPlanServ {
     }
 
     @Override
-    public Long countAllDevPlan() {
+    public Long countAllDevPlan(String keyword) {
         try {
             log.info("Fetching total count of all DevPlans from repository");
-            Long total = devPlanRepo.countDevPlans();
+            Long total = devPlanRepo.countDevPlans(keyword);
             log.info("Successfully fetched total DevPlans count: {}", total);
             return total;
         } catch (Exception e) {

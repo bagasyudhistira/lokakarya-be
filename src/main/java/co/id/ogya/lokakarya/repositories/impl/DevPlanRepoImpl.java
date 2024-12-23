@@ -141,11 +141,11 @@ public class DevPlanRepoImpl implements DevPlanRepo {
     }
 
     @Override
-    public Long countDevPlans() {
-        String sql = "SELECT COUNT(ID) FROM tbl_dev_plan";
+    public Long countDevPlans(String keyword) {
+        String sql = "SELECT COUNT(ID) FROM tbl_dev_plan WHERE LOWER(PLAN) LIKE LOWER(CONCAT('%', COALESCE(?, ''), '%'))";
         log.info("Executing query to count DevPlans: {}", sql);
         try {
-            Long total = jdbcTemplate.queryForObject(sql, Long.class);
+            Long total = jdbcTemplate.queryForObject(sql, Long.class, keyword);
             log.info("Total DevPlans: {}", total);
             return total;
         } catch (Exception e) {

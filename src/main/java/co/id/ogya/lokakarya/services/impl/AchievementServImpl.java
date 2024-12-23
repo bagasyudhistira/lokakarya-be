@@ -163,10 +163,10 @@ public class AchievementServImpl implements AchievementServ {
     }
 
     @Override
-    public Long countAllAchievement() {
+    public Long countAllAchievement(String keyword) {
         try {
             log.info("Fetching total count of all Achievements from repository");
-            Long totalAchievements = achievementRepo.countAchievement();
+            Long totalAchievements = achievementRepo.countAchievement(keyword);
             log.info("Successfully fetched total Achievements count: {}", totalAchievements);
             return totalAchievements;
         } catch (Exception e) {

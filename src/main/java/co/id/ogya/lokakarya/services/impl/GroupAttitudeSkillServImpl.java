@@ -133,10 +133,10 @@ public class GroupAttitudeSkillServImpl implements GroupAttitudeSkillServ {
     }
 
     @Override
-    public Long countAllGroupAttitudeSkill() {
+    public Long countAllGroupAttitudeSkill(String keyword) {
         try {
             log.info("Fetching total count of all GroupAttitudeSkills from repository");
-            Long total = groupAttitudeSkillRepo.countGroupAttitudeSkills();
+            Long total = groupAttitudeSkillRepo.countGroupAttitudeSkills(keyword);
             log.info("Successfully fetched total GroupAttitudeSkills count: {}", total);
             return total;
         } catch (Exception e) {

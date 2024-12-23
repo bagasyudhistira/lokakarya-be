@@ -34,7 +34,7 @@ public interface AssessmentSummaryRepo {
 
     List<Map<String, Object>> getAssessmentSummariesByAssessmentYear(int assessmentYear);
 
-    Long countAssessmentSummarys();
+    Long countAssessmentSummarys(String keyword);
 
     List<Map<String, Object>> sortAssessmentSummaryGetsOrderBy(String column, String order, int page, int pageSize);
 

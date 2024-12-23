@@ -21,7 +21,7 @@ public interface GroupAchievementServ {
 
     GroupAchievementDto getGroupAchievementByGroupName(String groupName);
 
-    Long countAllGroupAchievement();
+    Long countAllGroupAchievement(String keyword);
 
     List<GroupAchievementDto> sortAllGroupAchievement(String order, int page, int pageSize);
 

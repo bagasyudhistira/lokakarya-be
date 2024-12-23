@@ -163,16 +163,16 @@ public class GroupAttitudeSkillController extends ServerResponseList {
 
         try {
             List<GroupAttitudeSkillDto> result = groupAttitudeSkillServ.getAllGroupAttitudeSkillPerPage(page, pageSize);
-            Long total = groupAttitudeSkillServ.countAllGroupAttitudeSkill();
+//            Long total = groupAttitudeSkillServ.countAllGroupAttitudeSkill();
             ManagerDto<List<GroupAttitudeSkillDto>> response = new ManagerDto<>();
             response.setContent(result);
             response.setTotalRows(result.size());
-            response.setTotalData(total);
+//            response.setTotalData(total);
 
             long endTime = System.currentTimeMillis();
             response.setInfo(getInfoOk("Time", endTime - startTime));
             log.info("Fetched {} GroupAttitudeSkills in {} ms", result.size(), endTime - startTime);
-            log.info("Total GroupAttitudeSkills: {}", total);
+//            log.info("Total GroupAttitudeSkills: {}", total);
 
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
@@ -188,16 +188,16 @@ public class GroupAttitudeSkillController extends ServerResponseList {
 
         try {
             List<GroupAttitudeSkillDto> result = groupAttitudeSkillServ.sortAllGroupAttitudeSkill(order, page, pageSize);
-            Long total = groupAttitudeSkillServ.countAllGroupAttitudeSkill();
+//            Long total = groupAttitudeSkillServ.countAllGroupAttitudeSkill();
             ManagerDto<List<GroupAttitudeSkillDto>> response = new ManagerDto<>();
             response.setContent(result);
             response.setTotalRows(result.size());
-            response.setTotalData(total);
+//            response.setTotalData(total);
 
             long endTime = System.currentTimeMillis();
             response.setInfo(getInfoOk("Time", endTime - startTime));
             log.info("Fetched {} GroupAttitudeSkills in {} ms", result.size(), endTime - startTime);
-            log.info("Total GroupAttitudeSkills: {}", total);
+//            log.info("Total GroupAttitudeSkills: {}", total);
 
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
@@ -213,7 +213,7 @@ public class GroupAttitudeSkillController extends ServerResponseList {
 
         try {
             List<GroupAttitudeSkillDto> result = groupAttitudeSkillServ.sorchAllGroupAttitudeSkill(keyword, column, order, page, pageSize);
-            Long total = groupAttitudeSkillServ.countAllGroupAttitudeSkill();
+            Long total = groupAttitudeSkillServ.countAllGroupAttitudeSkill(keyword);
             ManagerDto<List<GroupAttitudeSkillDto>> response = new ManagerDto<>();
             response.setContent(result);
             response.setTotalRows(result.size());

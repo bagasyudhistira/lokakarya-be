@@ -186,10 +186,10 @@ public class EmpSuggestionServImpl implements EmpSuggestionServ {
     }
 
     @Override
-    public Long countAllEmpSuggestion() {
+    public Long countAllEmpSuggestion(String keyword) {
         try {
             log.info("Fetching total count of all EmpSuggestions from repository");
-            Long total = empSuggestionRepo.countEmpSuggestions();
+            Long total = empSuggestionRepo.countEmpSuggestions(keyword);
             log.info("Successfully fetched total AssessmentSummaries count: {}", total);
             return total;
         } catch (Exception e) {

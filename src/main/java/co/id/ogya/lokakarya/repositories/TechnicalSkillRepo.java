@@ -19,7 +19,7 @@ public interface TechnicalSkillRepo {
 
     TechnicalSkill getTechnicalSkillByName(String technicalSkill);
 
-    Long countTechnicalSkills();
+    Long countTechnicalSkills(String keyword);
 
     List<TechnicalSkill> sortTechnicalSkills(String order, int page, int pageSize);
 

@@ -229,16 +229,16 @@ public class EmpSuggestionController extends ServerResponseList {
 
         try {
             List<EmpSuggestionGetDto> result = empSuggestionServ.getAllEmpSuggestionGetPerPage(page, pageSize);
-            Long total = empSuggestionServ.countAllEmpSuggestion();
+//            Long total = empSuggestionServ.countAllEmpSuggestion();
             ManagerDto<List<EmpSuggestionGetDto>> response = new ManagerDto<>();
             response.setContent(result);
             response.setTotalRows(result.size());
-            response.setTotalData(total);
+//            response.setTotalData(total);
 
             long endTime = System.currentTimeMillis();
             response.setInfo(getInfoOk("Time", endTime - startTime));
             log.info("Fetched {} EmpSuggestion in {} ms", result.size(), endTime - startTime);
-            log.info("Total EmpSuggestions: {}", total);
+//            log.info("Total EmpSuggestions: {}", total);
 
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
@@ -254,16 +254,16 @@ public class EmpSuggestionController extends ServerResponseList {
 
         try {
             List<EmpSuggestionGetDto> result = empSuggestionServ.sortAllEmpSuggestionGetOrderBy(column, order, page, pageSize);
-            Long total = empSuggestionServ.countAllEmpSuggestion();
+//            Long total = empSuggestionServ.countAllEmpSuggestion();
             ManagerDto<List<EmpSuggestionGetDto>> response = new ManagerDto<>();
             response.setContent(result);
             response.setTotalRows(result.size());
-            response.setTotalData(total);
+//            response.setTotalData(total);
 
             long endTime = System.currentTimeMillis();
             response.setInfo(getInfoOk("Time", endTime - startTime));
             log.info("Fetched {} EmpSuggestions in {} ms", result.size(), endTime - startTime);
-            log.info("Total EmpSuggestions: {}", total);
+//            log.info("Total EmpSuggestions: {}", total);
 
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
@@ -279,7 +279,7 @@ public class EmpSuggestionController extends ServerResponseList {
 
         try {
             List<EmpSuggestionGetDto> result = empSuggestionServ.sorchAllEmpSuggestionGet(keyword, column, order, page, pageSize);
-            Long total = empSuggestionServ.countAllEmpSuggestion();
+            Long total = empSuggestionServ.countAllEmpSuggestion(keyword);
             ManagerDto<List<EmpSuggestionGetDto>> response = new ManagerDto<>();
             response.setContent(result);
             response.setTotalRows(result.size());

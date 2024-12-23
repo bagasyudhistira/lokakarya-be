@@ -140,11 +140,11 @@ public class GroupAttitudeSkillRepoImpl implements GroupAttitudeSkillRepo {
     }
 
     @Override
-    public Long countGroupAttitudeSkills() {
-        String sql = "SELECT COUNT(ID) FROM tbl_group_attitude_skill;";
+    public Long countGroupAttitudeSkills(String keyword) {
+        String sql = "SELECT COUNT(ID) FROM tbl_group_attitude_skill WHERE LOWER(GROUP_NAME) LIKE LOWER(CONCAT('%', COALESCE(?, ''), '%'))";
         try {
             log.info("Fetching total number of GroupAttitudeSkills");
-            Long total = jdbcTemplate.queryForObject(sql, Long.class);
+            Long total = jdbcTemplate.queryForObject(sql, Long.class, keyword);
             log.info("Total GroupAttitudeSkills: {}", total);
             return total;
         } catch (Exception e) {

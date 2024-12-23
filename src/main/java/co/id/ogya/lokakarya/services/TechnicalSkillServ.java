@@ -21,7 +21,7 @@ public interface TechnicalSkillServ {
 
     TechnicalSkillDto getTechnicalSkillByName(String technicalSkill);
 
-    Long countAllTechnicalSkill();
+    Long countAllTechnicalSkill(String keyword);
 
     List<TechnicalSkillDto> sortAllTechnicalSkill(String order, int page, int pageSize);
 

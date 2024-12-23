@@ -133,10 +133,10 @@ public class TechnicalSkillServImpl implements TechnicalSkillServ {
     }
 
     @Override
-    public Long countAllTechnicalSkill() {
+    public Long countAllTechnicalSkill(String keyword) {
         try {
             log.info("Fetching total count of all TechnicalSkills from repository");
-            Long total = technicalSkillRepo.countTechnicalSkills();
+            Long total = technicalSkillRepo.countTechnicalSkills(keyword);
             log.info("Successfully fetched total TechnicalSkills count: {}", total);
             return total;
         } catch (Exception e) {

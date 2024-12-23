@@ -133,10 +133,10 @@ public class DivisionServImpl implements DivisionServ {
     }
 
     @Override
-    public Long countAllDivision() {
+    public Long countAllDivision(String keyword) {
         try {
             log.info("Fetching total count of all Divisions from repository");
-            Long total = divisionRepo.countDivisions();
+            Long total = divisionRepo.countDivisions(keyword);
             log.info("Successfully fetched total Divisions count: {}", total);
             return total;
         } catch (Exception e) {

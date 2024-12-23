@@ -295,16 +295,16 @@ public class AssessmentSummaryController extends ServerResponseList {
 
         try {
             List<AssessmentSummaryGetDto> result = assessmentSummaryServ.getAllAssessmentSummaryGetPerPage(page, pageSize);
-            Long total = assessmentSummaryServ.countAllAssessmentSummary();
+//            Long total = assessmentSummaryServ.countAllAssessmentSummary();
             ManagerDto<List<AssessmentSummaryGetDto>> response = new ManagerDto<>();
             response.setContent(result);
             response.setTotalRows(result.size());
-            response.setTotalData(total);
+//            response.setTotalData(total);
 
             long endTime = System.currentTimeMillis();
             response.setInfo(getInfoOk("Time", endTime - startTime));
             log.info("Fetched {} AssessmentSummaries in {} ms", result.size(), endTime - startTime);
-            log.info("Total AssessmentSummaries: {}", total);
+//            log.info("Total AssessmentSummaries: {}", total);
 
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
@@ -320,16 +320,16 @@ public class AssessmentSummaryController extends ServerResponseList {
 
         try {
             List<AssessmentSummaryGetDto> result = assessmentSummaryServ.sortAllAssessmentSummaryGetOrderBy(column, order, page, pageSize);
-            Long total = assessmentSummaryServ.countAllAssessmentSummary();
+//            Long total = assessmentSummaryServ.countAllAssessmentSummary();
             ManagerDto<List<AssessmentSummaryGetDto>> response = new ManagerDto<>();
             response.setContent(result);
             response.setTotalRows(result.size());
-            response.setTotalData(total);
+//            response.setTotalData(total);
 
             long endTime = System.currentTimeMillis();
             response.setInfo(getInfoOk("Time", endTime - startTime));
             log.info("Fetched {} AppUsers in {} ms", result.size(), endTime - startTime);
-            log.info("Total AssessmentSummaries: {}", total);
+//            log.info("Total AssessmentSummaries: {}", total);
 
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
@@ -345,7 +345,7 @@ public class AssessmentSummaryController extends ServerResponseList {
 
         try {
             List<AssessmentSummaryGetDto> result = assessmentSummaryServ.sorchAllAssessmentSummaryGet(keyword, column, order, page, pageSize);
-            Long total = assessmentSummaryServ.countAllAssessmentSummary();
+            Long total = assessmentSummaryServ.countAllAssessmentSummary(keyword);
             ManagerDto<List<AssessmentSummaryGetDto>> response = new ManagerDto<>();
             response.setContent(result);
             response.setTotalRows(result.size());

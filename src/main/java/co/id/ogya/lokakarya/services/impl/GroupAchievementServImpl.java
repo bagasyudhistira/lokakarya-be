@@ -133,10 +133,10 @@ public class GroupAchievementServImpl implements GroupAchievementServ {
     }
 
     @Override
-    public Long countAllGroupAchievement() {
+    public Long countAllGroupAchievement(String keyword) {
         try {
             log.info("Fetching total count of all GroupAchievements from repository");
-            Long total = groupAchievementRepo.countGroupAchievements();
+            Long total = groupAchievementRepo.countGroupAchievements(keyword);
             log.info("Successfully fetched total GroupAchievements count: {}", total);
             return total;
         } catch (Exception e) {

@@ -19,7 +19,7 @@ public interface GroupAchievementRepo {
 
     GroupAchievement getGroupAchievementByGroupName(String groupName);
 
-    Long countGroupAchievements();
+    Long countGroupAchievements(String keyword);
 
     List<GroupAchievement> sortGroupAchievements(String order, int page, int pageSize);
 

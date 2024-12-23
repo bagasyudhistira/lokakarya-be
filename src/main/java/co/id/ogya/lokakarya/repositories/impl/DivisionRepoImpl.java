@@ -139,11 +139,11 @@ public class DivisionRepoImpl implements DivisionRepo {
     }
 
     @Override
-    public Long countDivisions() {
-        String sql = "SELECT COUNT(ID) FROM tbl_division;";
+    public Long countDivisions(String keyword) {
+        String sql = "SELECT COUNT(ID) FROM tbl_division WHERE LOWER(DIVISION_NAME) LIKE LOWER(CONCAT('%', COALESCE(?, ''), '%'))";
         try {
             log.info("Fetching total number of Divisions");
-            Long total = jdbcTemplate.queryForObject(sql, Long.class);
+            Long total = jdbcTemplate.queryForObject(sql, Long.class, keyword);
             log.info("Total divisions: {}", total);
             return total;
         } catch (Exception e) {

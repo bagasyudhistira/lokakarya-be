@@ -22,7 +22,7 @@ public interface DivisionServ {
 
     DivisionDto getDivisionByName(String divisionName);
 
-    Long countAllDivision();
+    Long countAllDivision(String keyword);
 
     List<DivisionDto> sortAllDivision(String order, int page, int pageSize);
 

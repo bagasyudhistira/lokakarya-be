@@ -163,16 +163,16 @@ public class GroupAchievementController extends ServerResponseList {
 
         try {
             List<GroupAchievementDto> result = groupAchievementServ.getAllGroupAchievementPerPage(page, pageSize);
-            Long total = groupAchievementServ.countAllGroupAchievement();
+//            Long total = groupAchievementServ.countAllGroupAchievement();
             ManagerDto<List<GroupAchievementDto>> response = new ManagerDto<>();
             response.setContent(result);
             response.setTotalRows(result.size());
-            response.setTotalData(total);
+//            response.setTotalData(total);
 
             long endTime = System.currentTimeMillis();
             response.setInfo(getInfoOk("Time", endTime - startTime));
             log.info("Fetched {} GroupAchievements in {} ms", result.size(), endTime - startTime);
-            log.info("Total GroupAchievements: {}", total);
+//            log.info("Total GroupAchievements: {}", total);
 
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
@@ -188,16 +188,16 @@ public class GroupAchievementController extends ServerResponseList {
 
         try {
             List<GroupAchievementDto> result = groupAchievementServ.sortAllGroupAchievement(order, page, pageSize);
-            Long total = groupAchievementServ.countAllGroupAchievement();
+//            Long total = groupAchievementServ.countAllGroupAchievement();
             ManagerDto<List<GroupAchievementDto>> response = new ManagerDto<>();
             response.setContent(result);
             response.setTotalRows(result.size());
-            response.setTotalData(total);
+//            response.setTotalData(total);
 
             long endTime = System.currentTimeMillis();
             response.setInfo(getInfoOk("Time", endTime - startTime));
             log.info("Fetched {} GroupAchievements in {} ms", result.size(), endTime - startTime);
-            log.info("Total GroupAchievements: {}", total);
+//            log.info("Total GroupAchievements: {}", total);
 
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
@@ -213,7 +213,7 @@ public class GroupAchievementController extends ServerResponseList {
 
         try {
             List<GroupAchievementDto> result = groupAchievementServ.sorchAllGroupAchievement(keyword, column, order, page, pageSize);
-            Long total = groupAchievementServ.countAllGroupAchievement();
+            Long total = groupAchievementServ.countAllGroupAchievement(keyword);
             ManagerDto<List<GroupAchievementDto>> response = new ManagerDto<>();
             response.setContent(result);
             response.setTotalRows(result.size());

@@ -140,11 +140,11 @@ public class GroupAchievementRepoImpl implements GroupAchievementRepo {
     }
 
     @Override
-    public Long countGroupAchievements() {
-        String sql = "SELECT COUNT(ID) FROM tbl_group_achievement;";
+    public Long countGroupAchievements(String keyword) {
+        String sql = "SELECT COUNT(ID) FROM tbl_group_achievement WHERE LOWER(GROUP_NAME) LIKE LOWER(CONCAT('%', COALESCE(?, ''), '%'))";
         try {
             log.info("Fetching total number of GroupAchievements");
-            Long total = jdbcTemplate.queryForObject(sql, Long.class);
+            Long total = jdbcTemplate.queryForObject(sql, Long.class, keyword);
             log.info("Total GroupAchievements: {}", total);
             return total;
         } catch (Exception e) {

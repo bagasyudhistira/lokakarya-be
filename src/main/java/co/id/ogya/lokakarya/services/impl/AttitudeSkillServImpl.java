@@ -165,10 +165,10 @@ public class AttitudeSkillServImpl implements AttitudeSkillServ {
     }
 
     @Override
-    public Long countAllAttitudeSkill() {
+    public Long countAllAttitudeSkill(String keyword) {
         try {
             log.info("Fetching total count of all AttitudeSkill from repository");
-            Long totalAttitudeSkills = attitudeSkillRepo.countAttitudeSkills();
+            Long totalAttitudeSkills = attitudeSkillRepo.countAttitudeSkills(keyword);
             log.info("Successfully fetched total AttitudeSkill count: {}", totalAttitudeSkills);
             return totalAttitudeSkills;
         } catch (Exception e) {

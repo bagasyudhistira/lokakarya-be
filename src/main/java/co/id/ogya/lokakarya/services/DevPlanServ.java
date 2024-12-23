@@ -21,7 +21,7 @@ public interface DevPlanServ {
 
     DevPlanDto getDevPlanByName(String planName);
 
-    Long countAllDevPlan();
+    Long countAllDevPlan(String keyword);
 
     List<DevPlanDto> sortAllDevPlan(String order, int page, int pageSize);
 

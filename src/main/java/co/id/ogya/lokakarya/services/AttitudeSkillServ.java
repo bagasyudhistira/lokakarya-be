@@ -26,7 +26,7 @@ public interface AttitudeSkillServ {
 
     AttitudeSkillDto getAttitudeSkillByName(String attitudeSkillName);
 
-    Long countAllAttitudeSkill();
+    Long countAllAttitudeSkill(String keyword);
 
     List<AttitudeSkillGetDto> sortAllAttitudeSkillGetOrderBy(String column, String order, int page, int pageSize);
 

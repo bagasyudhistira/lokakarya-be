@@ -26,7 +26,7 @@ public interface EmpSuggestionRepo {
 
     Map<String, Object> ifAnyEmpSuggestionExist(String userId, int assessmentYear);
 
-    Long countEmpSuggestions();
+    Long countEmpSuggestions(String keyword);
 
     List<Map<String, Object>> sortEmpSuggestionGetsOrderBy(String column, String order, int page, int pageSize);
 

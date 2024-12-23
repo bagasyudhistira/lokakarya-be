@@ -198,11 +198,11 @@ public class EmpSuggestionRepoImpl implements EmpSuggestionRepo {
     }
 
     @Override
-    public Long countEmpSuggestions() {
-        String sql = "SELECT COUNT(ID) FROM tbl_assessment_summary;";
+    public Long countEmpSuggestions(String keyword) {
+        String sql = "SELECT COUNT(ES.ID) FROM tbl_emp_suggestion ES LEFT JOIN tbl_app_user AU ON ES.USER_ID = AU.ID WHERE LOWER(FULL_NAME) LIKE LOWER(CONCAT('%', COALESCE(?, ''), '%')) OR CAST(ASSESSMENT_YEAR as VARCHAR(10)) LIKE LOWER(CONCAT('%', COALESCE(?, ''), '%'))";
         try {
             log.info("Fetching total number of EmpSuggestions");
-            Long total = jdbcTemplate.queryForObject(sql, Long.class);
+            Long total = jdbcTemplate.queryForObject(sql, Long.class, keyword, keyword);
             log.info("Total EmpSuggestions: {}", total);
             return total;
         } catch (Exception e) {
@@ -214,9 +214,7 @@ public class EmpSuggestionRepoImpl implements EmpSuggestionRepo {
     @Override
     public List<Map<String, Object>> sortEmpSuggestionGetsOrderBy(String column, String order, int page, int pageSize) {
         int offset = (page - 1) * pageSize;
-        String sql = "SELECT ES.ID, ES.USER_ID, AU.FULL_NAME, ES.SUGGESTION, ES.ASSESSMENT_YEAR " +
-                "FROM tbl_emp_suggestion ES " +
-                "LEFT JOIN tbl_app_user AU ON ES.USER_ID = AU.ID ORDER BY " + column + " " + order + " LIMIT ? OFFSET ?";
+        String sql = "SELECT ES.ID, ES.USER_ID, AU.FULL_NAME, ES.SUGGESTION, ES.ASSESSMENT_YEAR FROM tbl_emp_suggestion ES LEFT JOIN tbl_app_user AU ON ES.USER_ID = AU.ID ORDER BY " + column + " " + order + " LIMIT ? OFFSET ?";
         log.info("Executing query to sort EmpSuggestions order by {} {} for page {} with maximum {} entries : {}", column, order, page, pageSize, sql);
         try {
             List<Map<String, Object>> result = jdbcTemplate.queryForList(sql, pageSize, offset);
@@ -231,9 +229,7 @@ public class EmpSuggestionRepoImpl implements EmpSuggestionRepo {
     @Override
     public List<Map<String, Object>> sorchEmpSuggestionGets(String keyword, String column, String order, int page, int pageSize) {
         int offset = (page - 1) * pageSize;
-        String sql = "SELECT ES.ID, ES.USER_ID, AU.FULL_NAME, ES.SUGGESTION, ES.ASSESSMENT_YEAR " +
-                "FROM tbl_emp_suggestion ES " +
-                "LEFT JOIN tbl_app_user AU ON ES.USER_ID = AU.ID WHERE LOWER(FULL_NAME) LIKE LOWER(CONCAT('%', COALESCE(?, ''), '%')) OR LOWER(ASSESSMENT_YEAR) LIKE LOWER(CONCAT('%', COALESCE(?, ''), '%')) ORDER BY " + column + " " + order + " LIMIT ? OFFSET ?";
+        String sql = "SELECT ES.ID, ES.USER_ID, AU.FULL_NAME, ES.SUGGESTION, ES.ASSESSMENT_YEAR FROM tbl_emp_suggestion ES LEFT JOIN tbl_app_user AU ON ES.USER_ID = AU.ID WHERE LOWER(FULL_NAME) LIKE LOWER(CONCAT('%', COALESCE(?, ''), '%')) OR CAST(ASSESSMENT_YEAR as VARCHAR(10)) LIKE LOWER(CONCAT('%', COALESCE(?, ''), '%')) ORDER BY " + column + " " + order + " LIMIT ? OFFSET ?";
         log.info("Executing query to sorch EmpSuggestions using keyword: {} for page {} with maximum {} entries : {}", keyword, page, pageSize, sql);
         try {
             List<Map<String, Object>> appUsers = jdbcTemplate.queryForList(sql, keyword, keyword, pageSize, offset);

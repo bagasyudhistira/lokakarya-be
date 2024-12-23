@@ -213,16 +213,16 @@ public class AttitudeSkillController extends ServerResponseList {
 
         try {
             List<AttitudeSkillGetDto> result = attitudeSkillServ.getAllAttitudeSkillGetPerPage(page, pageSize);
-            Long total = attitudeSkillServ.countAllAttitudeSkill();
+//            Long total = attitudeSkillServ.countAllAttitudeSkill();
             ManagerDto<List<AttitudeSkillGetDto>> response = new ManagerDto<>();
             response.setContent(result);
             response.setTotalRows(result.size());
-            response.setTotalData(total);
+//            response.setTotalData(total);
 
             long endTime = System.currentTimeMillis();
             response.setInfo(getInfoOk("Time", endTime - startTime));
             log.info("Fetched {} AttitudeSkills in {} ms", result.size(), endTime - startTime);
-            log.info("Total AttitudeSkills: {}", total);
+//            log.info("Total AttitudeSkills: {}", total);
 
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
@@ -238,16 +238,16 @@ public class AttitudeSkillController extends ServerResponseList {
 
         try {
             List<AttitudeSkillGetDto> result = attitudeSkillServ.sortAllAttitudeSkillGetOrderBy(column, order, page, pageSize);
-            Long total = attitudeSkillServ.countAllAttitudeSkill();
+//            Long total = attitudeSkillServ.countAllAttitudeSkill();
             ManagerDto<List<AttitudeSkillGetDto>> response = new ManagerDto<>();
             response.setContent(result);
             response.setTotalRows(result.size());
-            response.setTotalData(total);
+//            response.setTotalData(total);
 
             long endTime = System.currentTimeMillis();
             response.setInfo(getInfoOk("Time", endTime - startTime));
             log.info("Fetched {} AttitudeSkills in {} ms", result.size(), endTime - startTime);
-            log.info("Total AttitudeSkills: {}", total);
+//            log.info("Total AttitudeSkills: {}", total);
 
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
@@ -263,7 +263,7 @@ public class AttitudeSkillController extends ServerResponseList {
 
         try {
             List<AttitudeSkillGetDto> result = attitudeSkillServ.sorchAllAttitudeSkillGet(keyword, column, order, page, pageSize);
-            Long total = attitudeSkillServ.countAllAttitudeSkill();
+            Long total = attitudeSkillServ.countAllAttitudeSkill(keyword);
             ManagerDto<List<AttitudeSkillGetDto>> response = new ManagerDto<>();
             response.setContent(result);
             response.setTotalRows(result.size());

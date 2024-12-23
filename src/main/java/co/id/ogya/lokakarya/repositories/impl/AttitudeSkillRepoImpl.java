@@ -176,11 +176,11 @@ public class AttitudeSkillRepoImpl implements AttitudeSkillRepo {
     }
 
     @Override
-    public Long countAttitudeSkills() {
-        String sql = "SELECT COUNT(ID) FROM tbl_attitude_skill";
+    public Long countAttitudeSkills(String keyword) {
+        String sql = "SELECT COUNT(ats.ID) FROM tbl_attitude_skill ats LEFT JOIN tbl_group_attitude_skill gat ON ats.GROUP_ID = gat.ID WHERE LOWER(GROUP_NAME) LIKE LOWER(CONCAT('%', COALESCE(?, ''), '%')) OR LOWER(ATTITUDE_SKILL) LIKE LOWER(CONCAT('%', COALESCE(?, ''), '%'))";
         log.info("Executing query to count AttitudeSkills: {}", sql);
         try {
-            Long total = jdbcTemplate.queryForObject(sql, Long.class);
+            Long total = jdbcTemplate.queryForObject(sql, Long.class, keyword, keyword);
             log.info("Total AttitudeSkills: {}", total);
             return total;
         } catch (Exception e) {
@@ -192,9 +192,7 @@ public class AttitudeSkillRepoImpl implements AttitudeSkillRepo {
     @Override
     public List<Map<String, Object>> sortAttitudeSkillGetsOrderBy(String column, String order, int page, int pageSize) {
         int offset = (page - 1) * pageSize;
-        String sql = "SELECT ats.ID, ATTITUDE_SKILL, GROUP_NAME, ats.ENABLED " +
-                "FROM tbl_attitude_skill ats " +
-                "LEFT JOIN tbl_group_attitude_skill gas ON ats.GROUP_ID = gas.ID ORDER BY " + column + " " + order + " LIMIT ? OFFSET ?";
+        String sql = "SELECT ats.ID, ATTITUDE_SKILL, GROUP_NAME, ats.ENABLED FROM tbl_attitude_skill ats LEFT JOIN tbl_group_attitude_skill gas ON ats.GROUP_ID = gas.ID ORDER BY " + column + " " + order + " LIMIT ? OFFSET ?";
         log.info("Executing query to sort AttitudeSkills order by {} {} for page {} with maximum {} entries : {}", column, order, page, pageSize, sql);
         try {
             List<Map<String, Object>> result = jdbcTemplate.queryForList(sql, pageSize, offset);

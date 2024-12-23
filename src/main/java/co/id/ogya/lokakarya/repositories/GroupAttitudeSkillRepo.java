@@ -19,7 +19,7 @@ public interface GroupAttitudeSkillRepo {
 
     GroupAttitudeSkill getGroupAttitudeSkillByGroupName(String groupName);
 
-    Long countGroupAttitudeSkills();
+    Long countGroupAttitudeSkills(String keyword);
 
     List<GroupAttitudeSkill> sortGroupAttitudeSkills(String order, int page, int pageSize);
 

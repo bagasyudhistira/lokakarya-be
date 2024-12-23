@@ -165,16 +165,16 @@ public class DivisionController extends ServerResponseList {
 
         try {
             List<DivisionDto> result = divisionServ.getAllDivisionPerPage(page, pageSize);
-            Long total = divisionServ.countAllDivision();
+//            Long total = divisionServ.countAllDivision();
             ManagerDto<List<DivisionDto>> response = new ManagerDto<>();
             response.setContent(result);
             response.setTotalRows(result.size());
-            response.setTotalData(total);
+//            response.setTotalData(total);
 
             long endTime = System.currentTimeMillis();
             response.setInfo(getInfoOk("Time", endTime - startTime));
             log.info("Fetched {} Divisions in {} ms", result.size(), endTime - startTime);
-            log.info("Total Divisions: {}", total);
+//            log.info("Total Divisions: {}", total);
 
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
@@ -190,16 +190,16 @@ public class DivisionController extends ServerResponseList {
 
         try {
             List<DivisionDto> result = divisionServ.sortAllDivision(order, page, pageSize);
-            Long total = divisionServ.countAllDivision();
+//            Long total = divisionServ.countAllDivision();
             ManagerDto<List<DivisionDto>> response = new ManagerDto<>();
             response.setContent(result);
             response.setTotalRows(result.size());
-            response.setTotalData(total);
+//            response.setTotalData(total);
 
             long endTime = System.currentTimeMillis();
             response.setInfo(getInfoOk("Time", endTime - startTime));
             log.info("Fetched {} Divisions in {} ms", result.size(), endTime - startTime);
-            log.info("Total Divisions: {}", total);
+//            log.info("Total Divisions: {}", total);
 
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
@@ -215,7 +215,7 @@ public class DivisionController extends ServerResponseList {
 
         try {
             List<DivisionDto> result = divisionServ.sorchAllDivision(keyword, column, order, page, pageSize);
-            Long total = divisionServ.countAllDivision();
+            Long total = divisionServ.countAllDivision(keyword);
             ManagerDto<List<DivisionDto>> response = new ManagerDto<>();
             response.setContent(result);
             response.setTotalRows(result.size());

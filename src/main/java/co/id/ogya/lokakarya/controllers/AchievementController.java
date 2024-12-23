@@ -209,16 +209,16 @@ public class AchievementController extends ServerResponseList {
 
         try {
             List<AchievementGetDto> result = achievementServ.getAllAchievementGetPerPage(page, pageSize);
-            Long total = achievementServ.countAllAchievement();
+//            Long total = achievementServ.countAllAchievement();
             ManagerDto<List<AchievementGetDto>> response = new ManagerDto<>();
             response.setContent(result);
             response.setTotalRows(result.size());
-            response.setTotalData(total);
+//            response.setTotalData(total);
 
             long endTime = System.currentTimeMillis();
             response.setInfo(getInfoOk("Time", endTime - startTime));
             log.info("Fetched {} Achievements in {} ms", result.size(), endTime - startTime);
-            log.info("Total Achievements: {}", total);
+//            log.info("Total Achievements: {}", total);
 
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
@@ -234,16 +234,16 @@ public class AchievementController extends ServerResponseList {
 
         try {
             List<AchievementGetDto> result = achievementServ.sortAllAchievementGetOrderBy(column, order, page, pageSize);
-            Long total = achievementServ.countAllAchievement();
+//            Long total = achievementServ.countAllAchievement();
             ManagerDto<List<AchievementGetDto>> response = new ManagerDto<>();
             response.setContent(result);
             response.setTotalRows(result.size());
-            response.setTotalData(total);
+//            response.setTotalData(total);
 
             long endTime = System.currentTimeMillis();
             response.setInfo(getInfoOk("Time", endTime - startTime));
             log.info("Fetched {} Achivements in {} ms", result.size(), endTime - startTime);
-            log.info("Total Achivements: {}", total);
+//            log.info("Total Achivements: {}", total);
 
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
@@ -259,7 +259,7 @@ public class AchievementController extends ServerResponseList {
 
         try {
             List<AchievementGetDto> result = achievementServ.sorchAllAchievementGet(keyword, column, order, page, pageSize);
-            Long total = achievementServ.countAllAchievement();
+            Long total = achievementServ.countAllAchievement(keyword);
             ManagerDto<List<AchievementGetDto>> response = new ManagerDto<>();
             response.setContent(result);
             response.setTotalRows(result.size());

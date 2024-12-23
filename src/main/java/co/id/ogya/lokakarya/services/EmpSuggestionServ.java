@@ -26,7 +26,7 @@ public interface EmpSuggestionServ {
 
     EmpSuggestionOneDto ifAnyEmpSuggestionExist(String userId, int assessmentYear);
 
-    Long countAllEmpSuggestion();
+    Long countAllEmpSuggestion(String keyword);
 
     List<EmpSuggestionGetDto> sortAllEmpSuggestionGetOrderBy(String column, String order, int page, int pageSize);
 

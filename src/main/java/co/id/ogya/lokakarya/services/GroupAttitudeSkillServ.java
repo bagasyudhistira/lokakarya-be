@@ -21,7 +21,7 @@ public interface GroupAttitudeSkillServ {
 
     GroupAttitudeSkillDto getGroupAttitudeSkillByGroupName(String groupName);
 
-    Long countAllGroupAttitudeSkill();
+    Long countAllGroupAttitudeSkill(String keyword);
 
     List<GroupAttitudeSkillDto> sortAllGroupAttitudeSkill(String order, int page, int pageSize);
 

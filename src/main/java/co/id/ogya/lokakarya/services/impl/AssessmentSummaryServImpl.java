@@ -231,10 +231,10 @@ public class AssessmentSummaryServImpl implements AssessmentSummaryServ {
     }
 
     @Override
-    public Long countAllAssessmentSummary() {
+    public Long countAllAssessmentSummary(String keyword) {
         try {
             log.info("Fetching total count of all AssessmentSummaries from repository");
-            Long total = assessmentSummaryRepo.countAssessmentSummarys();
+            Long total = assessmentSummaryRepo.countAssessmentSummarys(keyword);
             log.info("Successfully fetched total AssessmentSummaries count: {}", total);
             return total;
         } catch (Exception e) {

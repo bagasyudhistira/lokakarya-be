@@ -140,11 +140,11 @@ public class TechnicalSkillRepoImpl implements TechnicalSkillRepo {
     }
 
     @Override
-    public Long countTechnicalSkills() {
-        String sql = "SELECT COUNT(ID) FROM tbl_technical_skill";
+    public Long countTechnicalSkills(String keyword) {
+        String sql = "SELECT COUNT(ID) FROM tbl_technical_skill WHERE LOWER(TECHNICAL_SKILL) LIKE LOWER(CONCAT('%', COALESCE(?, ''), '%'))";
         log.info("Executing query to count TechnicalSkill: {}", sql);
         try {
-            Long total = jdbcTemplate.queryForObject(sql, Long.class);
+            Long total = jdbcTemplate.queryForObject(sql, Long.class, keyword);
             log.info("Total TechnicalSkills: {}", total);
             return total;
         } catch (Exception e) {

@@ -19,7 +19,7 @@ public interface DivisionRepo {
 
     Division getDivisionByName(String divisionName);
 
-    Long countDivisions();
+    Long countDivisions(String keyword);
 
     List<Division> sortDivisions(String order, int page, int pageSize);
 
