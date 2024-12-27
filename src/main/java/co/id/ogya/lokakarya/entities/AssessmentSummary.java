@@ -30,6 +30,12 @@ public class AssessmentSummary {
     @Column(name = "STATUS")
     private byte status;
 
+    @Column(name = "APPROVED_AT")
+    private LocalDateTime approvedAt;
+
+    @Column(name = "APPROVED_BY")
+    private String approvedBy;
+
     @Column(name = "CREATED_AT")
     private LocalDateTime createdAt;
 

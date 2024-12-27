@@ -21,6 +21,9 @@ public class AchievementGetDto {
     @JsonProperty("achievement")
     private String achievement;
 
+    @JsonProperty("group_id")
+    private String groupId;
+
     @JsonProperty("group_name")
     private String groupName;
 
@@ -33,6 +36,7 @@ public class AchievementGetDto {
         AchievementGetDto result = AchievementGetDto.builder()
                 .id((String) convertObject.get("ID"))
                 .achievement((String) convertObject.get("ACHIEVEMENT"))
+                .groupId((String) convertObject.get("GROUP_ID"))
                 .groupName((String) convertObject.get("GROUP_NAME"))
                 .enabled(convertObject.get("ENABLED") != null && (Boolean) convertObject.get("ENABLED"))
                 .build();

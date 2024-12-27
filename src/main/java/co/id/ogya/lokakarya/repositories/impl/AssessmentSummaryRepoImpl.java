@@ -104,10 +104,10 @@ public class AssessmentSummaryRepoImpl implements AssessmentSummaryRepo {
 
     @Override
     public Map<String, Object> getAssessmentSummaryGetByUserIdAndAssessmentYear(String userId, int year) {
-        String sql = "SELECT ass.ID, FULL_NAME, YEAR, SCORE, STATUS, " +
+        String sql = "SELECT ass.ID, FULL_NAME, YEAR, SCORE, STATUS, APPROVED_AT, ap.FULL_NAME APPROVER_NAME" +
                 "ass.CREATED_AT, ass.CREATED_BY, ass.UPDATED_AT, ass.UPDATED_BY " +
                 "FROM tbl_assessment_summary ass " +
-                "LEFT JOIN tbl_app_user au ON ass.USER_ID = au.ID " +
+                "LEFT JOIN tbl_app_user au ON ass.USER_ID = au.ID LEFT JOIN tbl_app_user ap ON ass.APPROVED_BY = ap.ID " +
                 "WHERE ass.USER_ID = ? AND YEAR = ?";
         log.info("Executing query to fetch AssessmentSummary by ID with user details: {} year: {}", userId, year);
         try {
@@ -246,7 +246,7 @@ public class AssessmentSummaryRepoImpl implements AssessmentSummaryRepo {
 
     @Override
     public List<Map<String, Object>> getAssessmentSummariesByAssessmentYear(int assessmentYear) {
-        String sql = "SELECT ASM.ID, ASM.YEAR, ASM.USER_ID, AU.FULL_NAME, DV.DIVISION_NAME, ASM.STATUS, ASM.SCORE FROM tbl_assessment_summary ASM JOIN tbl_app_user AU ON ASM.USER_ID = AU.ID JOIN tbl_division DV ON AU.DIVISION_ID = DV.ID WHERE ASM.YEAR = ?";
+        String sql = "SELECT ASM.ID, ASM.YEAR, ASM.USER_ID, AU.FULL_NAME, DV.DIVISION_NAME, ASM.STATUS, ASM.SCORE, AP.APPROVER_NAME FROM tbl_assessment_summary ASM JOIN tbl_app_user AU ON ASM.USER_ID = AU.ID JOIN tbl_division DV ON AU.DIVISION_ID = DV.ID JOIN tbl_app_user AP ON ASM.APPROVED_BY = AP.ID WHERE ASM.YEAR = ?";
         log.info("Executing query to fetch  AssessmentSummaries by Assessment Year: {}", assessmentYear);
         try {
             List<Map<String, Object>> result = jdbcTemplate.queryForList(sql, assessmentYear);
@@ -288,14 +288,26 @@ public class AssessmentSummaryRepoImpl implements AssessmentSummaryRepo {
     }
 
     @Override
-    public List<Map<String, Object>> sorchAssessmentSummaryGets(String keyword, String column, String order, int page, int pageSize) {
+    public List<Map<String, Object>> sorchAssessmentSummaryGets(String keyword, String column, String order, int page, int pageSize, String divisionId, int assessmentYear) {
         int offset = (page - 1) * pageSize;
-        String sql = "SELECT au.ID AS USER_ID, FULL_NAME, YEAR, SCORE, STATUS, ass.CREATED_AT, ass.CREATED_BY, ass.UPDATED_AT, ass.UPDATED_BY FROM tbl_assessment_summary ass LEFT JOIN tbl_app_user au ON ass.USER_ID = au.ID WHERE LOWER(FULL_NAME) LIKE LOWER(CONCAT('%', COALESCE(?, ''), '%')) OR CAST(SCORE as VARCHAR(10)) LIKE LOWER(CONCAT('%', COALESCE(?, ''), '%')) ORDER BY " + column + " " + order + " LIMIT ? OFFSET ?";
+        String sql = "SELECT au.ID AS USER_ID, FULL_NAME, YEAR, SCORE, STATUS, APPROVED_AT, AP.FULL_NAME APPROVER_NAME FROM tbl_assessment_summary ass LEFT JOIN tbl_app_user au ON ass.USER_ID = au.ID LEFT JOIN tbl_app_user ap ON ass.APPROVED_BY = ap.USER_ID WHERE LOWER(FULL_NAME) LIKE LOWER(CONCAT('%', COALESCE(?, ''), '%')) OR CAST(SCORE as VARCHAR(10)) LIKE LOWER(CONCAT('%', COALESCE(?, ''), '%')) OR LOWER(APPROVER_NAME) LIKE LOWER(CONCAT('%', COALESCE(?, ''), '%'))";
+
+        if (divisionId != null) {
+            sql += " AND DIVISION_ID = '" + divisionId + "' AND YEAR = " + assessmentYear;
+        } else {
+            sql += " AND YEAR = " + assessmentYear;
+        }
+        sql = sql + " ORDER BY " + column + " " + order + " LIMIT ? OFFSET ?";
         log.info("Executing query to sorch AssessmentSummaries using keyword: {} for page {} with maximum {} entries : {}", keyword, page, pageSize, sql);
         try {
-            List<Map<String, Object>> appUsers = jdbcTemplate.queryForList(sql, keyword, keyword, pageSize, offset);
-            log.info("Successfully sorched AssessmentSummaries using keyword: {} for Page {} ({} entries)", keyword, page, appUsers.size());
-            return appUsers;
+            List<Map<String, Object>> result;
+            if (divisionId != null) {
+                 result = jdbcTemplate.queryForList(sql, keyword, keyword, keyword, divisionId, assessmentYear, pageSize, offset);
+            } else {
+                result = jdbcTemplate.queryForList(sql, keyword, keyword, keyword, assessmentYear, pageSize, offset);
+            }
+            log.info("Successfully sorched AssessmentSummaries using keyword: {} for Page {} ({} entries)", keyword, page, result.size());
+            return result;
         } catch (Exception e) {
             log.error("Error sorching AssessmentSummaries: {}", e.getMessage(), e);
             throw e;

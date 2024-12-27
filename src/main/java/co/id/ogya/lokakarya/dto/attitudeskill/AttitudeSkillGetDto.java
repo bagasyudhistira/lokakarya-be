@@ -20,6 +20,9 @@ public class AttitudeSkillGetDto {
     @JsonProperty("attitude_skill")
     private String attitudeSkill;
 
+    @JsonProperty("group_id")
+    private String groupId;
+
     @JsonProperty("group_name")
     private String groupName;
 
@@ -31,6 +34,7 @@ public class AttitudeSkillGetDto {
         AttitudeSkillGetDto result = AttitudeSkillGetDto.builder()
                 .id((String) convertObject.get("ID"))
                 .attitudeSkill((String) convertObject.get("ATTITUDE_SKILL"))
+                .groupId((String) convertObject.get("GROUP_ID"))
                 .groupName((String) convertObject.get("GROUP_NAME"))
                 .enabled(convertObject.get("ENABLED") != null
                         ? Boolean.parseBoolean(convertObject.get("ENABLED").toString())

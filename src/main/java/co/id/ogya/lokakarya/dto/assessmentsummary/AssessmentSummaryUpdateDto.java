@@ -26,6 +26,12 @@ public class AssessmentSummaryUpdateDto {
     @JsonProperty("status")
     private byte status;
 
+    @JsonProperty("approved_at")
+    private LocalDateTime approvedAt;
+
+    @JsonProperty("approved_by")
+    private String approvedBy;
+
     @JsonProperty("updated_at")
     private LocalDateTime updatedAt;
 

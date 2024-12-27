@@ -29,6 +29,12 @@ public class AssessmentSummaryGetDto {
     @JsonProperty("status")
     private byte status;
 
+    @JsonProperty("approved_at")
+    private LocalDateTime approvedAt;
+
+    @JsonProperty("approver_name")
+    private String approverName;
+
     public static AssessmentSummaryGetDto mapToDto(Map<String, Object> convertObject) {
         log.debug("Mapping object to AssessmentSummaryGetDto: {}", convertObject);
 
@@ -44,6 +50,8 @@ public class AssessmentSummaryGetDto {
                 .status(convertObject.get("STATUS") != null
                         ? ((Number) convertObject.get("STATUS")).byteValue()
                         : 0)
+                .approvedAt((LocalDateTime) convertObject.get("APPROVED_AT"))
+                .approverName((String) convertObject.get("FULL_NAME"))
                 .build();
 
         return result;

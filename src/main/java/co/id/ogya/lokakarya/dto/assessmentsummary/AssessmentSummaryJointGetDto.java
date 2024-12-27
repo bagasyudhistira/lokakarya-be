@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
+import java.time.LocalDateTime;
 import java.util.Map;
 
 @AllArgsConstructor
@@ -31,6 +32,12 @@ public class AssessmentSummaryJointGetDto {
     @JsonProperty("score")
     private double score;
 
+    @JsonProperty("approved_at")
+    private LocalDateTime approvedAt;
+
+    @JsonProperty("approved_by")
+    private String approvedBy;
+
     public static AssessmentSummaryJointGetDto mapToDto(Map<String, Object> convertObject) {
         log.debug("Mapping object to AssessmentSummaryGetDto: {}", convertObject);
 
@@ -45,6 +52,8 @@ public class AssessmentSummaryJointGetDto {
                 .status(convertObject.get("STATUS") != null
                         ? ((Number) convertObject.get("STATUS")).byteValue()
                         : 0)
+                .approvedAt((LocalDateTime) convertObject.get("APPROVED_AT"))
+                .approvedBy((String) convertObject.get("APPROVER_NAME"))
                 .build();
 
         return result;

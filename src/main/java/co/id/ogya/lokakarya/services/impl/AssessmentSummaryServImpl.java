@@ -261,11 +261,11 @@ public class AssessmentSummaryServImpl implements AssessmentSummaryServ {
     }
 
     @Override
-    public List<AssessmentSummaryGetDto> sorchAllAssessmentSummaryGet(String keyword, String column, String order, int page, int pageSize) {
+    public List<AssessmentSummaryGetDto> sorchAllAssessmentSummaryGet(String keyword, String column, String order, int page, int pageSize, String divisionId, int assessmentYear) {
         log.info("Attempting to sorch all AssessmentSummaries using keyword: {}", keyword);
         List<AssessmentSummaryGetDto> listResult = new ArrayList<>();
         try {
-            List<Map<String, Object>> listData = assessmentSummaryRepo.sorchAssessmentSummaryGets(keyword, column, order, page, pageSize);
+            List<Map<String, Object>> listData = assessmentSummaryRepo.sorchAssessmentSummaryGets(keyword, column, order, page, pageSize, divisionId, assessmentYear);
             log.debug("Sorted {} AssessmentSummaries from repository order by {}", listData.size(), keyword);
             for (Map<String, Object> data : listData) {
                 AssessmentSummaryGetDto result =  AssessmentSummaryGetDto.mapToDto(data);
@@ -297,6 +297,8 @@ public class AssessmentSummaryServImpl implements AssessmentSummaryServ {
                 .year(convertObject.getYear())
                 .score(convertObject.getScore())
                 .status(convertObject.getStatus())
+                .approvedAt(convertObject.getUpdatedAt())
+                .approvedBy(convertObject.getUpdatedBy())
                 .updatedAt(convertObject.getUpdatedAt())
                 .updatedBy(convertObject.getUpdatedBy())
                 .build();
@@ -311,6 +313,8 @@ public class AssessmentSummaryServImpl implements AssessmentSummaryServ {
                 .year(convertObject.getYear())
                 .score(convertObject.getScore())
                 .status(convertObject.getStatus())
+                .approvedAt(convertObject.getApprovedAt())
+                .approvedBy(convertObject.getApprovedBy())
                 .createdAt(convertObject.getCreatedAt())
                 .createdBy(convertObject.getCreatedBy())
                 .updatedAt(convertObject.getUpdatedAt())
