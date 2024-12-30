@@ -301,11 +301,9 @@ public class AssessmentSummaryRepoImpl implements AssessmentSummaryRepo {
         log.info("Executing query to sorch AssessmentSummaries using keyword: {} for page {} with maximum {} entries : {}", keyword, page, pageSize, sql);
         try {
             List<Map<String, Object>> result;
-            if (divisionId != null) {
-                 result = jdbcTemplate.queryForList(sql, keyword, keyword, keyword, divisionId, assessmentYear, pageSize, offset);
-            } else {
-                result = jdbcTemplate.queryForList(sql, keyword, keyword, keyword, assessmentYear, pageSize, offset);
-            }
+
+            result = jdbcTemplate.queryForList(sql, keyword, keyword, keyword,  pageSize, offset);
+
             log.info("Successfully sorched AssessmentSummaries using keyword: {} for Page {} ({} entries)", keyword, page, result.size());
             return result;
         } catch (Exception e) {
