@@ -297,8 +297,8 @@ public class AssessmentSummaryServImpl implements AssessmentSummaryServ {
                 .year(convertObject.getYear())
                 .score(convertObject.getScore())
                 .status(convertObject.getStatus())
-                .approvedAt(convertObject.getUpdatedAt())
-                .approvedBy(convertObject.getUpdatedBy())
+                .approvedAt(convertObject.getApprovedAt())
+                .approvedBy(convertObject.getApprovedBy())
                 .updatedAt(convertObject.getUpdatedAt())
                 .updatedBy(convertObject.getUpdatedBy())
                 .build();
