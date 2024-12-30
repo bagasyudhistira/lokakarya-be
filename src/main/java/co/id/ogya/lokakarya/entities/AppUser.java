@@ -5,6 +5,7 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.Random;
 import java.util.UUID;
 
 @AllArgsConstructor
@@ -64,7 +65,9 @@ public class AppUser {
     public void prePersist() {
         if (this.id == null || this.password == null) {
             this.id = UUID.randomUUID().toString();
-            this.password = UUID.randomUUID().toString();
+            this.password = new Random().ints(12, 33, 126)
+                    .mapToObj(i -> String.valueOf((char) i))
+                    .reduce("", (acc, ch) -> acc + ch);
         }
     }
 }
