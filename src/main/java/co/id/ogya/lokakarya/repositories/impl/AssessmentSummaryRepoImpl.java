@@ -164,11 +164,11 @@ public class AssessmentSummaryRepoImpl implements AssessmentSummaryRepo {
     @Override
     public AssessmentSummary updateAssessmentSummary(AssessmentSummary assessmentSummary) {
         String sql = "UPDATE tbl_assessment_summary SET USER_ID = ?, YEAR = ?, SCORE = ?, STATUS = ?, " +
-                "UPDATED_AT = SYSDATE(), UPDATED_BY = ? WHERE ID = ?";
+                "APPROVED_AT = ?, APPROVED_BY = ?, UPDATED_AT = SYSDATE(), UPDATED_BY = ? WHERE ID = ?";
         log.info("Executing query to update AssessmentSummary with ID: {}", assessmentSummary.getId());
         try {
             int rowsAffected = jdbcTemplate.update(sql, assessmentSummary.getUserId(), assessmentSummary.getYear(),
-                    assessmentSummary.getScore(), assessmentSummary.getStatus(), assessmentSummary.getUpdatedBy(),
+                    assessmentSummary.getScore(), assessmentSummary.getStatus(), assessmentSummary.getApprovedAt(), assessmentSummary.getApprovedBy(), assessmentSummary.getUpdatedBy(),
                     assessmentSummary.getId());
             if (rowsAffected > 0) {
                 log.info("Successfully updated AssessmentSummary: {}", assessmentSummary);
