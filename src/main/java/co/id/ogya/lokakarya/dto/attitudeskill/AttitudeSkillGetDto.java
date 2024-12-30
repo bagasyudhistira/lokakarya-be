@@ -20,25 +20,36 @@ public class AttitudeSkillGetDto {
     @JsonProperty("attitude_skill")
     private String attitudeSkill;
 
+    @JsonProperty("enabled")
+    private boolean enabled;
+
     @JsonProperty("group_id")
     private String groupId;
 
     @JsonProperty("group_name")
     private String groupName;
 
-    @JsonProperty("enabled")
-    private boolean enabled;
+    @JsonProperty("group_enabled")
+    private boolean groupEnabled;
+
+    @JsonProperty("percentage")
+    private double percentage;
+
     public static AttitudeSkillGetDto mapToDto(Map<String, Object> convertObject) {
         log.debug("Mapping object to AttitudeSkillGetDto: {}", convertObject);
 
         AttitudeSkillGetDto result = AttitudeSkillGetDto.builder()
                 .id((String) convertObject.get("ID"))
                 .attitudeSkill((String) convertObject.get("ATTITUDE_SKILL"))
-                .groupId((String) convertObject.get("GROUP_ID"))
-                .groupName((String) convertObject.get("GROUP_NAME"))
                 .enabled(convertObject.get("ENABLED") != null
                         ? Boolean.parseBoolean(convertObject.get("ENABLED").toString())
                         : false)
+                .groupId((String) convertObject.get("GROUP_ID"))
+                .groupName((String) convertObject.get("GROUP_NAME"))
+                .enabled(convertObject.get("GROUP_ENABLED") != null
+                        ? Boolean.parseBoolean(convertObject.get("ENABLED").toString())
+                        : false)
+                .percentage((Double) convertObject.get("PERCENTAGE"))
                 .build();
 
         return result;

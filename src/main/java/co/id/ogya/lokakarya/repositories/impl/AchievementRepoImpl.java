@@ -204,7 +204,7 @@ public class AchievementRepoImpl implements AchievementRepo {
     @Override
     public List<Map<String, Object>> sorchAchievementGets(String keyword, String column, String order, int page, int pageSize) {
         int offset = (page - 1) * pageSize;
-        String sql = "SELECT ach.ID, ACHIEVEMENT, GROUP_ID, GROUP_NAME, ach.ENABLED FROM tbl_achievement ach LEFT JOIN tbl_group_achievement gac ON ach.GROUP_ID = gac.ID WHERE LOWER(GROUP_NAME) LIKE LOWER(CONCAT('%', COALESCE(?, ''), '%')) OR LOWER(ACHIEVEMENT) LIKE LOWER(CONCAT('%', COALESCE(?, ''), '%')) ORDER BY " + column + " " + order + " LIMIT ? OFFSET ?";
+        String sql = "SELECT ach.ID, ACHIEVEMENT, ach.ENABLED, GROUP_ID, GROUP_NAME, gac.ENABLED GROUP_ENABLED, PERCENTAGE  FROM tbl_achievement ach LEFT JOIN tbl_group_achievement gac ON ach.GROUP_ID = gac.ID WHERE LOWER(GROUP_NAME) LIKE LOWER(CONCAT('%', COALESCE(?, ''), '%')) OR LOWER(ACHIEVEMENT) LIKE LOWER(CONCAT('%', COALESCE(?, ''), '%')) ORDER BY " + column + " " + order + " LIMIT ? OFFSET ?";
         log.info("Executing query to sorch Achievements using keyword: {} for page {} with maximum {} entries : {}", keyword, page, pageSize, sql);
         try {
             List<Map<String, Object>> appUsers = jdbcTemplate.queryForList(sql, keyword, keyword, pageSize, offset);
