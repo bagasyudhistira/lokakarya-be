@@ -50,7 +50,9 @@ public class AchievementGetDto {
                 .enabled(convertObject.get("GROUP_ENABLED") != null
                         ? Boolean.parseBoolean(convertObject.get("ENABLED").toString())
                         : false)
-                .percentage((double) convertObject.get("PERCENTAGE"))
+                .percentage(convertObject.get("PERCENTAGE") != null
+                        ? ((Number) convertObject.get("PERCENTAGE")).doubleValue()
+                        : 0.0)
                 .build();
 
         return result;
