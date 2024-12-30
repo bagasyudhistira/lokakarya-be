@@ -290,7 +290,7 @@ public class AssessmentSummaryRepoImpl implements AssessmentSummaryRepo {
     @Override
     public List<Map<String, Object>> sorchAssessmentSummaryGets(String keyword, String column, String order, int page, int pageSize, String divisionId, int assessmentYear) {
         int offset = (page - 1) * pageSize;
-        String sql = "SELECT au.ID AS USER_ID, au.FULL_NAME, YEAR, SCORE, STATUS, APPROVED_AT, ap.FULL_NAME APPROVER_NAME FROM tbl_assessment_summary ass LEFT JOIN tbl_app_user au ON ass.USER_ID = au.ID LEFT JOIN tbl_app_user ap ON ass.APPROVED_BY = ap.USER_ID WHERE LOWER(FULL_NAME) LIKE LOWER(CONCAT('%', COALESCE(?, ''), '%')) OR CAST(SCORE as VARCHAR(10)) LIKE LOWER(CONCAT('%', COALESCE(?, ''), '%')) OR LOWER(APPROVER_NAME) LIKE LOWER(CONCAT('%', COALESCE(?, ''), '%'))";
+        String sql = "SELECT ass.ID, USER_ID, au.FULL_NAME, YEAR, SCORE, STATUS, APPROVED_AT, ap.FULL_NAME AS APPROVER_NAME FROM tbl_assessment_summary ass LEFT JOIN tbl_app_user au ON ass.USER_ID = au.ID LEFT JOIN tbl_app_user ap ON ass.APPROVED_BY = ap.ID WHERE LOWER(au.FULL_NAME) LIKE LOWER(CONCAT('%', COALESCE(?, ''), '%')) OR CAST(SCORE as VARCHAR(10)) LIKE LOWER(CONCAT('%', COALESCE(?, ''), '%')) OR LOWER(ap.FULL_NAME) LIKE LOWER(CONCAT('%', COALESCE(?, ''), '%'))";
 
         if (divisionId != null) {
             sql += " AND DIVISION_ID = '" + divisionId + "' AND YEAR = " + assessmentYear;
