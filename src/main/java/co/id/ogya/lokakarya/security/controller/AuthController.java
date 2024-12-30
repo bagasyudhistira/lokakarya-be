@@ -163,8 +163,8 @@ public class AuthController extends ServerResponseList {
         log.info("Received change password request.");
         long startTime = System.currentTimeMillis();
         try {
-            String generatedPassword = new Random().ints(16, 33, 126)
-                    .mapToObj(i -> String.valueOf((char) i))
+            String generatedPassword = new Random().ints(16, 0, 72)
+                    .mapToObj(i -> String.valueOf("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*".charAt(i)))
                     .reduce("", (acc, ch) -> acc + ch);
             authPasswordChangeDto.setNewPassword(passwordEncoder.encode(generatedPassword));
 
