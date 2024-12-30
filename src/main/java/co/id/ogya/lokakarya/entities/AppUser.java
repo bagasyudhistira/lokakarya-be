@@ -65,7 +65,7 @@ public class AppUser {
     public void prePersist() {
         if (this.id == null || this.password == null) {
             this.id = UUID.randomUUID().toString();
-            this.password = new Random().ints(12, 33, 126)
+            this.password = new Random().ints(16, 33, 126)
                     .mapToObj(i -> String.valueOf((char) i))
                     .reduce("", (acc, ch) -> acc + ch);
         }

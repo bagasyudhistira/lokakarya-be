@@ -29,10 +29,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.crypto.SecretKey;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Slf4j
 @Validated
@@ -166,7 +163,9 @@ public class AuthController extends ServerResponseList {
         log.info("Received change password request.");
         long startTime = System.currentTimeMillis();
         try {
-            String generatedPassword = UUID.randomUUID().toString();
+            String generatedPassword = new Random().ints(16, 33, 126)
+                    .mapToObj(i -> String.valueOf((char) i))
+                    .reduce("", (acc, ch) -> acc + ch);
             authPasswordChangeDto.setNewPassword(passwordEncoder.encode(generatedPassword));
 
             authServ.changePassword(authPasswordChangeDto.getUserId(), authPasswordChangeDto.getNewPassword());
