@@ -293,7 +293,7 @@ public class AssessmentSummaryRepoImpl implements AssessmentSummaryRepo {
         String sql = "SELECT ass.ID, USER_ID, au.FULL_NAME, YEAR, SCORE, STATUS, DIVISION_NAME, APPROVED_AT, ap.FULL_NAME AS APPROVER_NAME FROM tbl_assessment_summary ass LEFT JOIN tbl_app_user au ON ass.USER_ID = au.ID LEFT JOIN tbl_division dv ON au.DIVISION_ID = dv.ID LEFT JOIN tbl_app_user ap ON ass.APPROVED_BY = ap.ID WHERE LOWER(au.FULL_NAME) LIKE LOWER(CONCAT('%', COALESCE(?, ''), '%')) OR CAST(SCORE as VARCHAR(10)) LIKE LOWER(CONCAT('%', COALESCE(?, ''), '%')) OR LOWER(ap.FULL_NAME) LIKE LOWER(CONCAT('%', COALESCE(?, ''), '%'))";
 
         if (divisionId != null) {
-            sql += " AND DIVISION_ID = ? AND YEAR = ?";
+            sql += " AND au.DIVISION_ID = ? AND YEAR = ?";
         } else {
             sql += " AND YEAR = ?";
         }
