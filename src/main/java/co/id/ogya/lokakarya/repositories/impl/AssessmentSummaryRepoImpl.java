@@ -293,16 +293,20 @@ public class AssessmentSummaryRepoImpl implements AssessmentSummaryRepo {
         String sql = "SELECT ass.ID, USER_ID, au.FULL_NAME, YEAR, SCORE, STATUS, DIVISION_NAME, APPROVED_AT, ap.FULL_NAME AS APPROVER_NAME FROM tbl_assessment_summary ass LEFT JOIN tbl_app_user au ON ass.USER_ID = au.ID LEFT JOIN tbl_division dv ON au.DIVISION_ID = dv.ID LEFT JOIN tbl_app_user ap ON ass.APPROVED_BY = ap.ID WHERE LOWER(au.FULL_NAME) LIKE LOWER(CONCAT('%', COALESCE(?, ''), '%')) OR CAST(SCORE as VARCHAR(10)) LIKE LOWER(CONCAT('%', COALESCE(?, ''), '%')) OR LOWER(ap.FULL_NAME) LIKE LOWER(CONCAT('%', COALESCE(?, ''), '%'))";
 
         if (divisionId != null) {
-            sql += " AND DIVISION_ID = '" + divisionId + "' AND YEAR = " + assessmentYear;
+            sql += " AND DIVISION_ID = ? AND YEAR = ?";
         } else {
-            sql += " AND YEAR = " + assessmentYear;
+            sql += " AND YEAR = ?";
         }
-        sql = sql + " ORDER BY " + column + " " + order + " LIMIT ? OFFSET ?";
+        sql += " ORDER BY " + column + " " + order + " LIMIT ? OFFSET ?";
         log.info("Executing query to sorch AssessmentSummaries using keyword: {} for page {} with maximum {} entries : {}", keyword, page, pageSize, sql);
         try {
             List<Map<String, Object>> result;
 
-            result = jdbcTemplate.queryForList(sql, keyword, keyword, keyword,  pageSize, offset);
+            if (divisionId != null) {
+                result = jdbcTemplate.queryForList(sql, keyword, keyword, keyword, divisionId, assessmentYear  pageSize, offset);
+            } else {
+                result = jdbcTemplate.queryForList(sql, keyword, keyword, keyword, assessmentYear, pageSize, offset);
+            }
 
             log.info("Successfully sorched AssessmentSummaries using keyword: {} for Page {} ({} entries)", keyword, page, result.size());
             return result;
