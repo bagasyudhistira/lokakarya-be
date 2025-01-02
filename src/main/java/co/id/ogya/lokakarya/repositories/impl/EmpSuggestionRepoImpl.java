@@ -227,9 +227,16 @@ public class EmpSuggestionRepoImpl implements EmpSuggestionRepo {
     }
 
     @Override
-    public List<Map<String, Object>> sorchEmpSuggestionGets(String keyword, String column, String order, int page, int pageSize) {
+    public List<Map<String, Object>> sorchEmpSuggestionGets(String keyword, String userId, String column, String order, int page, int pageSize) {
         int offset = (page - 1) * pageSize;
-        String sql = "SELECT ES.ID, ES.USER_ID, AU.FULL_NAME, ES.SUGGESTION, ES.ASSESSMENT_YEAR FROM tbl_emp_suggestion ES LEFT JOIN tbl_app_user AU ON ES.USER_ID = AU.ID WHERE LOWER(FULL_NAME) LIKE LOWER(CONCAT('%', COALESCE(?, ''), '%')) OR CAST(ASSESSMENT_YEAR as VARCHAR(10)) LIKE LOWER(CONCAT('%', COALESCE(?, ''), '%')) ORDER BY " + column + " " + order + " LIMIT ? OFFSET ?";
+        String sql = "SELECT ES.ID, ES.USER_ID, AU.FULL_NAME, ES.SUGGESTION, ES.ASSESSMENT_YEAR FROM tbl_emp_suggestion ES LEFT JOIN tbl_app_user AU ON ES.USER_ID = AU.ID WHERE (LOWER(FULL_NAME) LIKE LOWER(CONCAT('%', COALESCE(?, ''), '%')) OR CAST(ASSESSMENT_YEAR as VARCHAR(10)) LIKE LOWER(CONCAT('%', COALESCE(?, ''), '%'))) ";
+
+        if (userId != null) {
+            sql += " AND ES.USER_ID = '" + userId + "'";
+        }
+
+        sql += "ORDER BY " + column + " " + order + " LIMIT ? OFFSET ?";
+
         log.info("Executing query to sorch EmpSuggestions using keyword: {} for page {} with maximum {} entries : {}", keyword, page, pageSize, sql);
         try {
             List<Map<String, Object>> appUsers = jdbcTemplate.queryForList(sql, keyword, keyword, pageSize, offset);

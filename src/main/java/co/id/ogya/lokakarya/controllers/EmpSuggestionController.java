@@ -273,12 +273,12 @@ public class EmpSuggestionController extends ServerResponseList {
     }
 
     @GetMapping("/sorch")
-    public ResponseEntity<?> sorchAllEmpSuggestionGets(@RequestParam(required = false) String keyword, @RequestParam String column, @RequestParam String order, @RequestParam int page, @RequestParam int pageSize) {
+    public ResponseEntity<?> sorchAllEmpSuggestionGets(@RequestParam(required = false) String keyword, @RequestParam(required = false) String userId, @RequestParam String column, @RequestParam String order, @RequestParam int page, @RequestParam int pageSize) {
         log.info("Sorching all EmpSuggestions");
         long startTime = System.currentTimeMillis();
 
         try {
-            List<EmpSuggestionGetDto> result = empSuggestionServ.sorchAllEmpSuggestionGet(keyword, column, order, page, pageSize);
+            List<EmpSuggestionGetDto> result = empSuggestionServ.sorchAllEmpSuggestionGet(keyword, userId, column, order, page, pageSize);
             Long total = empSuggestionServ.countAllEmpSuggestion(keyword);
             ManagerDto<List<EmpSuggestionGetDto>> response = new ManagerDto<>();
             response.setContent(result);

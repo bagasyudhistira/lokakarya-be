@@ -30,5 +30,5 @@ public interface EmpSuggestionServ {
 
     List<EmpSuggestionGetDto> sortAllEmpSuggestionGetOrderBy(String column, String order, int page, int pageSize);
 
-    List<EmpSuggestionGetDto> sorchAllEmpSuggestionGet(String keyword, String column, String order, int page, int pageSize);
+    List<EmpSuggestionGetDto> sorchAllEmpSuggestionGet(String keyword, String userId, String column, String order, int page, int pageSize);
 }

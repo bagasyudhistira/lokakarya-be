@@ -216,11 +216,11 @@ public class EmpSuggestionServImpl implements EmpSuggestionServ {
     }
 
     @Override
-    public List<EmpSuggestionGetDto> sorchAllEmpSuggestionGet(String keyword, String column, String order, int page, int pageSize) {
+    public List<EmpSuggestionGetDto> sorchAllEmpSuggestionGet(String keyword, String userId, String column, String order, int page, int pageSize) {
         log.info("Attempting to sorch all EmpSuggestions using keyword: {}", keyword);
         List<EmpSuggestionGetDto> listResult = new ArrayList<>();
         try {
-            List<Map<String, Object>> listData = empSuggestionRepo.sorchEmpSuggestionGets(keyword, column, order, page, pageSize);
+            List<Map<String, Object>> listData = empSuggestionRepo.sorchEmpSuggestionGets(keyword, userId, column, order, page, pageSize);
             log.debug("Sorched {} EmpSuggestions from repository using keyword: {}", listData.size(), keyword);
             for (Map<String, Object> data : listData) {
                 EmpSuggestionGetDto result =  EmpSuggestionGetDto.mapToDto(data);

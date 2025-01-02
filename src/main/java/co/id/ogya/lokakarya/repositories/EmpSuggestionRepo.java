@@ -30,5 +30,5 @@ public interface EmpSuggestionRepo {
 
     List<Map<String, Object>> sortEmpSuggestionGetsOrderBy(String column, String order, int page, int pageSize);
 
-    List<Map<String, Object>> sorchEmpSuggestionGets(String keyword, String column, String order, int page, int pageSize);
+    List<Map<String, Object>> sorchEmpSuggestionGets(String keyword, String userId, String column, String order, int page, int pageSize);
 }
