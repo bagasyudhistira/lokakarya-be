@@ -107,12 +107,17 @@ public class AssessmentSummaryServImpl implements AssessmentSummaryServ {
         AssessmentSummaryGetDto result = null;
         try {
             Map<String,Object> data = assessmentSummaryRepo.getAssessmentSummaryGetByUserIdAndAssessmentYear(userId, year);
-            result =  AssessmentSummaryGetDto.mapToDto(data);
-            log.debug("Fetched AssessmentSummary: {}", result);
+            if (data != null) {
+                result =  AssessmentSummaryGetDto.mapToDto(data);
+                log.debug("Fetched AssessmentSummary: {}", result);
+                return result;
+            } else {
+                return null;
+            }
         } catch (Exception e) {
             log.error("Error occurred while fetching AssessmentSummary by ID {} year {}: {}", userId, year, e.getMessage(), e);
+            throw e;
         }
-        return result;
     }
 
     @Override

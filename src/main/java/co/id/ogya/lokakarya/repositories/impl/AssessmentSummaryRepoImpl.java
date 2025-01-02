@@ -104,7 +104,7 @@ public class AssessmentSummaryRepoImpl implements AssessmentSummaryRepo {
 
     @Override
     public Map<String, Object> getAssessmentSummaryGetByUserIdAndAssessmentYear(String userId, int year) {
-        String sql = "SELECT ass.ID, au.FULL_NAME, YEAR, SCORE, STATUS, APPROVED_AT, ap.FULL_NAME APPROVER_NAME, " +
+        String sql = "SELECT ass.ID, ass.USER_ID, au.FULL_NAME, YEAR, SCORE, STATUS, APPROVED_AT, ap.FULL_NAME APPROVER_NAME, " +
                 "ass.CREATED_AT, ass.CREATED_BY, ass.UPDATED_AT, ass.UPDATED_BY " +
                 "FROM tbl_assessment_summary ass " +
                 "LEFT JOIN tbl_app_user au ON ass.USER_ID = au.ID LEFT JOIN tbl_app_user ap ON ass.APPROVED_BY = ap.ID " +
