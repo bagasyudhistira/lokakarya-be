@@ -163,7 +163,7 @@ public class AppUserRoleServImpl implements AppUserRoleServ {
             }
             return result;
         } catch (Exception e) {
-            log.error("Error occurred while fetching AppUserRole for User ID {} and Role ID {} : {}", userId, roleId, e.getMessage(), e );
+            log.error("Error occurred while fetching AppUserRole for User ID {} and Role ID {} : {}", userId, roleId, e.getMessage(), e);
             throw e;
         }
     }

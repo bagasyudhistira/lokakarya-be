@@ -1,6 +1,5 @@
 package co.id.ogya.lokakarya.services;
 
-import co.id.ogya.lokakarya.dto.appuser.AppUserGetDto;
 import co.id.ogya.lokakarya.dto.division.DivisionCreateDto;
 import co.id.ogya.lokakarya.dto.division.DivisionDto;
 import co.id.ogya.lokakarya.dto.division.DivisionUpdateDto;

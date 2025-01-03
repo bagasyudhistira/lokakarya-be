@@ -11,24 +11,24 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @OpenAPIDefinition(info = @Info(title = "Lokakarya", version = "1.0"),
-		security = {
-				@SecurityRequirement(name = "bearerToken")
-		},
+        security = {
+                @SecurityRequirement(name = "bearerToken")
+        },
 
-		servers = {
-				@Server(url = "/", description = "Default Server URL")
-		}
+        servers = {
+                @Server(url = "/", description = "Default Server URL")
+        }
 
 )
 @SecuritySchemes({
-		@SecurityScheme(name = "bearerToken", type = SecuritySchemeType.HTTP, scheme = "bearer", bearerFormat = "JWT")
+        @SecurityScheme(name = "bearerToken", type = SecuritySchemeType.HTTP, scheme = "bearer", bearerFormat = "JWT")
 })
 
 @SpringBootApplication
 public class LokakaryaApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(LokakaryaApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(LokakaryaApplication.class, args);
+    }
 
 }

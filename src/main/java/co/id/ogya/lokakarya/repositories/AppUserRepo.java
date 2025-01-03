@@ -12,7 +12,7 @@ public interface AppUserRepo {
 
     List<AppUser> getAppUsersByDivisionId(String divisionId);
 
-    List<Map<String,Object>> getAppUserGets();
+    List<Map<String, Object>> getAppUserGets();
 
     List<Map<String, Object>> getAppUserGetsPerPage(int page, int pageSize);
 
@@ -30,7 +30,7 @@ public interface AppUserRepo {
 
     Boolean deleteAppUser(String id);
 
-    List<Map<String,Object>> getAppUsersCommons();
+    List<Map<String, Object>> getAppUsersCommons();
 
     Long countAppUsers(String keyword);
 

@@ -1,8 +1,6 @@
 package co.id.ogya.lokakarya.repositories.impl;
 
 import co.id.ogya.lokakarya.entities.DevPlan;
-import co.id.ogya.lokakarya.entities.Division;
-import co.id.ogya.lokakarya.entities.GroupAchievement;
 import co.id.ogya.lokakarya.repositories.DevPlanRepo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

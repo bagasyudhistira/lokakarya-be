@@ -18,12 +18,10 @@ import java.util.Map;
 public class AppUserRepoImpl implements AppUserRepo {
 
     private final RowMapper<AppUser> rowMapper = new BeanPropertyRowMapper<>(AppUser.class);
-
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
-
     @Autowired
     PasswordEncoder passwordEncoder;
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
 
     @Override
     public List<AppUser> getAppUsers() {

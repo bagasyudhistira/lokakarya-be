@@ -1,6 +1,5 @@
 package co.id.ogya.lokakarya.services.impl;
 
-import co.id.ogya.lokakarya.dto.assessmentsummary.AssessmentSummaryGetDto;
 import co.id.ogya.lokakarya.dto.empsuggestion.*;
 import co.id.ogya.lokakarya.entities.EmpSuggestion;
 import co.id.ogya.lokakarya.repositories.EmpSuggestionRepo;
@@ -8,7 +7,6 @@ import co.id.ogya.lokakarya.services.EmpSuggestionServ;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -124,7 +122,7 @@ public class EmpSuggestionServImpl implements EmpSuggestionServ {
             List<Map<String, Object>> listData = empSuggestionRepo.getEmpSuggestionGetsPerPage(page, pageSize);
             log.debug("Fetched {} EmpSuggestions from repository", listData.size());
             for (Map<String, Object> data : listData) {
-                EmpSuggestionGetDto result =  EmpSuggestionGetDto.mapToDto(data);
+                EmpSuggestionGetDto result = EmpSuggestionGetDto.mapToDto(data);
                 listResult.add(result);
             }
         } catch (Exception e) {
@@ -206,7 +204,7 @@ public class EmpSuggestionServImpl implements EmpSuggestionServ {
             List<Map<String, Object>> listData = empSuggestionRepo.sortEmpSuggestionGetsOrderBy(column, order, page, pageSize);
             log.debug("Sorted {} EmpSuggestions from repository order by {}", listData.size(), column);
             for (Map<String, Object> data : listData) {
-                EmpSuggestionGetDto result =  EmpSuggestionGetDto.mapToDto(data);
+                EmpSuggestionGetDto result = EmpSuggestionGetDto.mapToDto(data);
                 listResult.add(result);
             }
         } catch (Exception e) {
@@ -223,7 +221,7 @@ public class EmpSuggestionServImpl implements EmpSuggestionServ {
             List<Map<String, Object>> listData = empSuggestionRepo.sorchEmpSuggestionGets(keyword, userId, column, order, page, pageSize);
             log.debug("Sorched {} EmpSuggestions from repository using keyword: {}", listData.size(), keyword);
             for (Map<String, Object> data : listData) {
-                EmpSuggestionGetDto result =  EmpSuggestionGetDto.mapToDto(data);
+                EmpSuggestionGetDto result = EmpSuggestionGetDto.mapToDto(data);
                 listResult.add(result);
             }
         } catch (Exception e) {

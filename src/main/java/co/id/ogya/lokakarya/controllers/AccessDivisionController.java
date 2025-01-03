@@ -1,7 +1,10 @@
 package co.id.ogya.lokakarya.controllers;
 
 import co.id.ogya.lokakarya.dto.ManagerDto;
-import co.id.ogya.lokakarya.dto.accessdivision.*;
+import co.id.ogya.lokakarya.dto.accessdivision.AccessDivisionCreateDto;
+import co.id.ogya.lokakarya.dto.accessdivision.AccessDivisionDto;
+import co.id.ogya.lokakarya.dto.accessdivision.AccessDivisionGetDto;
+import co.id.ogya.lokakarya.dto.accessdivision.AccessDivisionUpdateDto;
 import co.id.ogya.lokakarya.services.AccessDivisionServ;
 import co.id.ogya.lokakarya.utils.ServerResponseList;
 import lombok.extern.slf4j.Slf4j;

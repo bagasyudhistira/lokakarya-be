@@ -1,7 +1,6 @@
 package co.id.ogya.lokakarya.security.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonAppend;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 

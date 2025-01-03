@@ -1,6 +1,9 @@
 package co.id.ogya.lokakarya.entities;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
@@ -23,7 +26,7 @@ public class GroupAchievement {
     @Column(name = "GROUP_NAME")
     private String groupName;
 
-    @Column(name ="PERCENTAGE")
+    @Column(name = "PERCENTAGE")
     private double percentage;
 
     @Column(name = "ENABLED")

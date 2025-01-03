@@ -8,9 +8,13 @@ import java.util.List;
 
 public interface AppRoleServ {
     List<AppRoleDto> getAllAppRole();
+
     AppRoleDto getAppRoleById(String id);
+
     AppRoleDto createAppRole(AppRoleCreateDto appRoleCreateDto);
+
     AppRoleDto updateAppRole(AppRoleUpdateDto appRoleUpdateDto);
+
     boolean deleteAppRole(String id);
 
 }

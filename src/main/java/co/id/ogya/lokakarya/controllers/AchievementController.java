@@ -5,7 +5,6 @@ import co.id.ogya.lokakarya.dto.achievement.AchievementCreateDto;
 import co.id.ogya.lokakarya.dto.achievement.AchievementDto;
 import co.id.ogya.lokakarya.dto.achievement.AchievementGetDto;
 import co.id.ogya.lokakarya.dto.achievement.AchievementUpdateDto;
-import co.id.ogya.lokakarya.dto.appuser.AppUserGetDto;
 import co.id.ogya.lokakarya.services.AchievementServ;
 import co.id.ogya.lokakarya.utils.ServerResponseList;
 import lombok.extern.slf4j.Slf4j;

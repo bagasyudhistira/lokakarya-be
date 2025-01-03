@@ -168,7 +168,7 @@ public class EmpTechnicalSkillRepoImpl implements EmpTechnicalSkillRepo {
     @Override
     public List<Map<String, Object>> getEmpTechnicalSkillGetsByUserIdAssessmentYear(String userId, int assessmentYear) {
         String sql = "SELECT ETS.ID, ETS.TECHNICAL_SKILL_ID, ETS.SKILL, ETS.SCORE FROM tbl_emp_technical_skill ETS WHERE ETS.USER_ID = ? AND ETS.ASSESSMENT_YEAR = ?";
-        log.info("Fetching all EmpTechnicalSkills for User ID: {} and Assessment Year: {} with JOIN query: {}", userId, assessmentYear,sql);
+        log.info("Fetching all EmpTechnicalSkills for User ID: {} and Assessment Year: {} with JOIN query: {}", userId, assessmentYear, sql);
         try {
             List<Map<String, Object>> result = jdbcTemplate.queryForList(sql, userId, assessmentYear);
             log.info("Successfully fetched {} EmpTechnicalSkills for User ID: {} and Assessment Year: {}", result.size(), userId, assessmentYear);

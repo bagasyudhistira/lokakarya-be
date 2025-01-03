@@ -6,7 +6,6 @@ import co.id.ogya.lokakarya.dto.empdevplan.EmpDevPlanGetDto;
 import co.id.ogya.lokakarya.dto.empdevplan.EmpDevPlanUpdateDto;
 
 import java.util.List;
-import java.util.Map;
 
 public interface EmpDevPlanServ {
     List<EmpDevPlanDto> getAllEmpDevPlan();

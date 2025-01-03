@@ -1,7 +1,10 @@
 package co.id.ogya.lokakarya.controllers;
 
 import co.id.ogya.lokakarya.dto.ManagerDto;
-import co.id.ogya.lokakarya.dto.empdevplan.*;
+import co.id.ogya.lokakarya.dto.empdevplan.EmpDevPlanCreateDto;
+import co.id.ogya.lokakarya.dto.empdevplan.EmpDevPlanDto;
+import co.id.ogya.lokakarya.dto.empdevplan.EmpDevPlanGetDto;
+import co.id.ogya.lokakarya.dto.empdevplan.EmpDevPlanUpdateDto;
 import co.id.ogya.lokakarya.services.EmpDevPlanServ;
 import co.id.ogya.lokakarya.utils.ServerResponseList;
 import lombok.extern.slf4j.Slf4j;

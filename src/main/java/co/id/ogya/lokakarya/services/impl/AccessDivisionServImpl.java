@@ -64,9 +64,9 @@ public class AccessDivisionServImpl implements AccessDivisionServ {
         log.info("Attempting to fetch all access divisions");
         List<AccessDivisionGetDto> listResult = new ArrayList<>();
         try {
-            List<Map<String,Object>> listData = accessDivisionRepo.getAccessDivisionGets();
+            List<Map<String, Object>> listData = accessDivisionRepo.getAccessDivisionGets();
             log.debug("Fetched {} access divisions from repository", listData.size());
-            for (Map<String,Object> data : listData) {
+            for (Map<String, Object> data : listData) {
                 AccessDivisionGetDto result = AccessDivisionGetDto.mapToDto(data);
                 listResult.add(result);
             }
@@ -81,9 +81,9 @@ public class AccessDivisionServImpl implements AccessDivisionServ {
         log.info("Attempting to fetch access division by ID: {}", id);
         AccessDivisionGetDto result = null;
         try {
-            Map<String,Object> data = accessDivisionRepo.getAccessDivisionGetById(id);
+            Map<String, Object> data = accessDivisionRepo.getAccessDivisionGetById(id);
             if (data != null) {
-                result =  AccessDivisionGetDto.mapToDto(data);
+                result = AccessDivisionGetDto.mapToDto(data);
                 log.debug("Fetched access division: {}", result);
             } else {
                 log.warn("No access division found with ID: {}", id);

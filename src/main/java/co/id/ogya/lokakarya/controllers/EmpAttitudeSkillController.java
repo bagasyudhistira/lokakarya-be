@@ -1,7 +1,6 @@
 package co.id.ogya.lokakarya.controllers;
 
 import co.id.ogya.lokakarya.dto.ManagerDto;
-import co.id.ogya.lokakarya.dto.empachievementskill.EmpAchievementSkillGetUIDYearDto;
 import co.id.ogya.lokakarya.dto.empattitudeskill.*;
 import co.id.ogya.lokakarya.services.EmpAttitudeSkillServ;
 import co.id.ogya.lokakarya.utils.ServerResponseList;

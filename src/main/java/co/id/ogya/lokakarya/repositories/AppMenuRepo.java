@@ -7,10 +7,16 @@ import java.util.Map;
 
 public interface AppMenuRepo {
     List<AppMenu> getAppMenus();
+
     AppMenu getAppMenuById(String id);
+
     AppMenu saveAppMenu(AppMenu appMenu);
+
     AppMenu updateAppMenu(AppMenu appMenu);
+
     Boolean deleteAppMenu(String id);
+
     List<Map<String, Object>> getAppMenuGets();
+
     Map<String, Object> getAppMenuGetById(String id);
 }

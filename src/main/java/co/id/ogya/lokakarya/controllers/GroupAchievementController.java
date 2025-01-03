@@ -1,8 +1,9 @@
 package co.id.ogya.lokakarya.controllers;
 
 import co.id.ogya.lokakarya.dto.ManagerDto;
-import co.id.ogya.lokakarya.dto.division.DivisionDto;
-import co.id.ogya.lokakarya.dto.groupachievement.*;
+import co.id.ogya.lokakarya.dto.groupachievement.GroupAchievementCreateDto;
+import co.id.ogya.lokakarya.dto.groupachievement.GroupAchievementDto;
+import co.id.ogya.lokakarya.dto.groupachievement.GroupAchievementUpdateDto;
 import co.id.ogya.lokakarya.services.GroupAchievementServ;
 import co.id.ogya.lokakarya.utils.ServerResponseList;
 import lombok.extern.slf4j.Slf4j;

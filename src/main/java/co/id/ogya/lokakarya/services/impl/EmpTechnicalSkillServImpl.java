@@ -1,6 +1,5 @@
 package co.id.ogya.lokakarya.services.impl;
 
-import co.id.ogya.lokakarya.dto.empattitudeskill.EmpAttitudeSkillGetUIDYearDto;
 import co.id.ogya.lokakarya.dto.emptechnicalskill.*;
 import co.id.ogya.lokakarya.entities.EmpTechnicalSkill;
 import co.id.ogya.lokakarya.repositories.EmpTechnicalSkillRepo;
@@ -155,10 +154,10 @@ public class EmpTechnicalSkillServImpl implements EmpTechnicalSkillServ {
         log.info("Attempting to fetch all EmpTechnicalSkills by User ID: {} and Assessment Year: {}", userId, assessmentYear);
         List<EmpTechnicalSkillGetUIDYearDto> listResult = new ArrayList<>();
         try {
-            List<Map<String,Object>> listData = empTechnicalSkillRepo.getEmpTechnicalSkillGetsByUserIdAssessmentYear(userId, assessmentYear);
+            List<Map<String, Object>> listData = empTechnicalSkillRepo.getEmpTechnicalSkillGetsByUserIdAssessmentYear(userId, assessmentYear);
             log.debug("Fetched {} EmpTechnicalSkills for User ID: {} and Assessment Year: {} from repository", listData.size(), userId, assessmentYear);
-            for (Map<String,Object> data : listData) {
-                EmpTechnicalSkillGetUIDYearDto result =  EmpTechnicalSkillGetUIDYearDto.mapToDto(data);
+            for (Map<String, Object> data : listData) {
+                EmpTechnicalSkillGetUIDYearDto result = EmpTechnicalSkillGetUIDYearDto.mapToDto(data);
                 listResult.add(result);
             }
         } catch (Exception e) {

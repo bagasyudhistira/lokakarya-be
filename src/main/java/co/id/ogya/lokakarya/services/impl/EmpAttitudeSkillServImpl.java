@@ -1,6 +1,5 @@
 package co.id.ogya.lokakarya.services.impl;
 
-import co.id.ogya.lokakarya.dto.empachievementskill.EmpAchievementSkillGetUIDYearDto;
 import co.id.ogya.lokakarya.dto.empattitudeskill.*;
 import co.id.ogya.lokakarya.entities.EmpAttitudeSkill;
 import co.id.ogya.lokakarya.repositories.EmpAttitudeSkillRepo;
@@ -61,7 +60,7 @@ public class EmpAttitudeSkillServImpl implements EmpAttitudeSkillServ {
             log.debug("Fetched {} EmpAttitudeSkills from repository", listData.size());
 
             for (Map<String, Object> data : listData) {
-                EmpAttitudeSkillGetDto result =  EmpAttitudeSkillGetDto.mapToDto(data);
+                EmpAttitudeSkillGetDto result = EmpAttitudeSkillGetDto.mapToDto(data);
                 listResult.add(result);
             }
         } catch (Exception e) {
@@ -75,8 +74,8 @@ public class EmpAttitudeSkillServImpl implements EmpAttitudeSkillServ {
         log.info("Attempting to fetch EmpAttitudeSkill by ID: {}", id);
         EmpAttitudeSkillGetDto result = null;
         try {
-            Map<String,Object> data = empAttitudeSkillRepo.getEmpAttitudeSkillGetById(id);
-            result =  EmpAttitudeSkillGetDto.mapToDto(data);
+            Map<String, Object> data = empAttitudeSkillRepo.getEmpAttitudeSkillGetById(id);
+            result = EmpAttitudeSkillGetDto.mapToDto(data);
             log.debug("Fetched EmpAttitudeSkill: {}", result);
         } catch (Exception e) {
             log.error("Error occurred while fetching EmpAttitudeSkill by ID {}: {}", id, e.getMessage(), e);
@@ -93,7 +92,7 @@ public class EmpAttitudeSkillServImpl implements EmpAttitudeSkillServ {
             log.debug("Fetched {} EmpAttitudeSkills for User ID: {} from repository", userId, listData.size());
 
             for (Map<String, Object> data : listData) {
-                EmpAttitudeSkillGetDto result =  EmpAttitudeSkillGetDto.mapToDto(data);
+                EmpAttitudeSkillGetDto result = EmpAttitudeSkillGetDto.mapToDto(data);
                 listResult.add(result);
             }
         } catch (Exception e) {
@@ -173,10 +172,10 @@ public class EmpAttitudeSkillServImpl implements EmpAttitudeSkillServ {
         log.info("Attempting to fetch all EmpAttitudeSkills by User ID: {} and Assessment Year: {}", userId, assessmentYear);
         List<EmpAttitudeSkillGetUIDYearDto> listResult = new ArrayList<>();
         try {
-            List<Map<String,Object>> listData = empAttitudeSkillRepo.getEmpAttitudeSkillGetsByUserIdAssessmentYear(userId, assessmentYear);
+            List<Map<String, Object>> listData = empAttitudeSkillRepo.getEmpAttitudeSkillGetsByUserIdAssessmentYear(userId, assessmentYear);
             log.debug("Fetched {} EmpAttitudeSkills for User ID: {} and Assessment Year: {} from repository", listData.size(), userId, assessmentYear);
-            for (Map<String,Object> data : listData) {
-                EmpAttitudeSkillGetUIDYearDto result =  EmpAttitudeSkillGetUIDYearDto.mapToDto(data);
+            for (Map<String, Object> data : listData) {
+                EmpAttitudeSkillGetUIDYearDto result = EmpAttitudeSkillGetUIDYearDto.mapToDto(data);
                 listResult.add(result);
             }
         } catch (Exception e) {

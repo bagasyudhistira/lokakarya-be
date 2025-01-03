@@ -1,6 +1,5 @@
 package co.id.ogya.lokakarya.repositories;
 
-import co.id.ogya.lokakarya.entities.Achievement;
 import co.id.ogya.lokakarya.entities.AttitudeSkill;
 
 import java.util.List;
@@ -11,7 +10,7 @@ public interface AttitudeSkillRepo {
 
     AttitudeSkill getAttitudeSkillById(String id);
 
-    List<Map<String,Object>> getAttitudeSkillGets();
+    List<Map<String, Object>> getAttitudeSkillGets();
 
     List<Map<String, Object>> getAttitudeSkillGetsPerPage(int page, int pageSize);
 

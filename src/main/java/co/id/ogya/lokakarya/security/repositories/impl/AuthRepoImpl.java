@@ -9,15 +9,12 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import java.util.Map;
-
 @Slf4j
 @Repository
 public class AuthRepoImpl implements AuthRepo {
+    private final RowMapper<AppUser> rowMapper = new BeanPropertyRowMapper<>(AppUser.class);
     @Autowired
     JdbcTemplate jdbcTemplate;
-
-    private final RowMapper<AppUser> rowMapper = new BeanPropertyRowMapper<>(AppUser.class);
 
     @Override
     public AppUser getAppUser(String input) {

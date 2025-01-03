@@ -56,10 +56,10 @@ public class EmpAchievementSkillServImpl implements EmpAchievementSkillServ {
         log.info("Attempting to fetch all EmpAchievementSkills");
         List<EmpAchievementSkillGetDto> listResult = new ArrayList<>();
         try {
-            List<Map<String,Object>> listData = empAchievementSkillRepo.getEmpAchievementSkillGets();
+            List<Map<String, Object>> listData = empAchievementSkillRepo.getEmpAchievementSkillGets();
             log.debug("Fetched {} EmpAchievementSkills from repository", listData.size());
-            for (Map<String,Object> data : listData) {
-                EmpAchievementSkillGetDto result =  EmpAchievementSkillGetDto.mapToDto(data);
+            for (Map<String, Object> data : listData) {
+                EmpAchievementSkillGetDto result = EmpAchievementSkillGetDto.mapToDto(data);
                 listResult.add(result);
             }
         } catch (Exception e) {
@@ -73,8 +73,8 @@ public class EmpAchievementSkillServImpl implements EmpAchievementSkillServ {
         log.info("Attempting to fetch EmpAchievementSkill by ID: {}", id);
         EmpAchievementSkillGetDto result = null;
         try {
-            Map<String ,Object> data = empAchievementSkillRepo.getEmpAchievementSkillGetById(id);
-            result =  EmpAchievementSkillGetDto.mapToDto(data);
+            Map<String, Object> data = empAchievementSkillRepo.getEmpAchievementSkillGetById(id);
+            result = EmpAchievementSkillGetDto.mapToDto(data);
             log.debug("Fetched EmpAchievementSkill: {}", result);
         } catch (Exception e) {
             log.error("Error occurred while fetching EmpAchievementSkill by ID {}: {}", id, e.getMessage(), e);
@@ -87,10 +87,10 @@ public class EmpAchievementSkillServImpl implements EmpAchievementSkillServ {
         log.info("Attempting to fetch all EmpAchievementSkills by User ID: {}", userId);
         List<EmpAchievementSkillGetDto> listResult = new ArrayList<>();
         try {
-            List<Map<String,Object>> listData = empAchievementSkillRepo.getEmpAchievementSkillGetsByUserId(userId);
+            List<Map<String, Object>> listData = empAchievementSkillRepo.getEmpAchievementSkillGetsByUserId(userId);
             log.debug("Fetched {} EmpAchievementSkills for User ID: {} from repository", listData.size(), userId);
-            for (Map<String,Object> data : listData) {
-                EmpAchievementSkillGetDto result =  EmpAchievementSkillGetDto.mapToDto(data);
+            for (Map<String, Object> data : listData) {
+                EmpAchievementSkillGetDto result = EmpAchievementSkillGetDto.mapToDto(data);
                 listResult.add(result);
             }
         } catch (Exception e) {
@@ -170,10 +170,10 @@ public class EmpAchievementSkillServImpl implements EmpAchievementSkillServ {
         log.info("Attempting to fetch all EmpAchievementSkills by User ID: {} and Assessment Year: {}", userId, assessmentYear);
         List<EmpAchievementSkillGetUIDYearDto> listResult = new ArrayList<>();
         try {
-            List<Map<String,Object>> listData = empAchievementSkillRepo.getEmpAchievementSkillGetsByUserIdAssessmentYear(userId, assessmentYear);
+            List<Map<String, Object>> listData = empAchievementSkillRepo.getEmpAchievementSkillGetsByUserIdAssessmentYear(userId, assessmentYear);
             log.debug("Fetched {} EmpAchievementSkills for User ID: {} and Assessment Year: {} from repository", listData.size(), userId, assessmentYear);
-            for (Map<String,Object> data : listData) {
-                EmpAchievementSkillGetUIDYearDto result =  EmpAchievementSkillGetUIDYearDto.mapToDto(data);
+            for (Map<String, Object> data : listData) {
+                EmpAchievementSkillGetUIDYearDto result = EmpAchievementSkillGetUIDYearDto.mapToDto(data);
                 listResult.add(result);
             }
         } catch (Exception e) {

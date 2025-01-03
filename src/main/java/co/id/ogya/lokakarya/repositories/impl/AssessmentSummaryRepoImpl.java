@@ -303,7 +303,7 @@ public class AssessmentSummaryRepoImpl implements AssessmentSummaryRepo {
             List<Map<String, Object>> result;
 
             if (divisionId != null) {
-                result = jdbcTemplate.queryForList(sql, keyword, keyword, keyword, divisionId, assessmentYear,  pageSize, offset);
+                result = jdbcTemplate.queryForList(sql, keyword, keyword, keyword, divisionId, assessmentYear, pageSize, offset);
             } else {
                 result = jdbcTemplate.queryForList(sql, keyword, keyword, keyword, assessmentYear, pageSize, offset);
             }

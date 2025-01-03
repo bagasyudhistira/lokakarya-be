@@ -1,6 +1,5 @@
 package co.id.ogya.lokakarya.repositories.impl;
 
-import co.id.ogya.lokakarya.entities.Division;
 import co.id.ogya.lokakarya.entities.GroupAttitudeSkill;
 import co.id.ogya.lokakarya.repositories.GroupAttitudeSkillRepo;
 import lombok.extern.slf4j.Slf4j;

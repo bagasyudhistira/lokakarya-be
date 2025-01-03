@@ -8,7 +8,7 @@ import java.util.Map;
 public interface EmpAchievementSkillRepo {
     List<EmpAchievementSkill> getEmpAchievementSkills();
 
-    List<Map<String,Object>> getEmpAchievementSkillGets();
+    List<Map<String, Object>> getEmpAchievementSkillGets();
 
     EmpAchievementSkill getEmpAchievementSkillById(String id);
 

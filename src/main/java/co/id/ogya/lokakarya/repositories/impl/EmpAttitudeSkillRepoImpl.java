@@ -188,7 +188,7 @@ public class EmpAttitudeSkillRepoImpl implements EmpAttitudeSkillRepo {
     @Override
     public List<Map<String, Object>> getEmpAttitudeSkillGetsByUserIdAssessmentYear(String userId, int assessmentYear) {
         String sql = "SELECT EAS.ID, EAS.ATTITUDE_SKILL_ID, EAS.SCORE, ASK.GROUP_ID FROM tbl_emp_attitude_skill EAS JOIN tbl_attitude_skill ASK ON EAS.ATTITUDE_SKILL_ID = ASK.ID WHERE EAS.USER_ID = ? AND EAS.ASSESSMENT_YEAR = ?";
-        log.info("Fetching all EmpAttitudeSkills for User ID: {} and Assessment Year: {} with JOIN query: {}", userId, assessmentYear,sql);
+        log.info("Fetching all EmpAttitudeSkills for User ID: {} and Assessment Year: {} with JOIN query: {}", userId, assessmentYear, sql);
         try {
             List<Map<String, Object>> result = jdbcTemplate.queryForList(sql, userId, assessmentYear);
             log.info("Successfully fetched {} EmpAttitudeSkills for User ID: {} and Assessment Year: {}", result.size(), userId, assessmentYear);

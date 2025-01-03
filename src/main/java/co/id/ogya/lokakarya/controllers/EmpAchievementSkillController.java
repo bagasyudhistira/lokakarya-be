@@ -219,7 +219,7 @@ public class EmpAchievementSkillController extends ServerResponseList {
             return new ResponseEntity<>("Failed to look for EmpAchievementSkill with User ID: " + userId + " Achievement ID: " + achievementId + ", and Assessment Year: " + assessmentYear, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    
+
     @GetMapping("/get/{userId}/{assessmentYear}")
     public ResponseEntity<?> getEmpAchievementSkillGetsByUserIdAssessmentYear(@PathVariable String userId, @PathVariable int assessmentYear) {
         log.info("Fetching Employee Achievement Skills by User ID: {} and Assessment Year: {}", userId, assessmentYear);

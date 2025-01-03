@@ -1,16 +1,11 @@
 package co.id.ogya.lokakarya.security.config;
 
-import java.util.Arrays;
-import java.util.Collections;
-
-import co.id.ogya.lokakarya.security.util.JwtGeneratorFilter;
 import co.id.ogya.lokakarya.security.util.JwtValidationFilter;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -19,6 +14,9 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.web.cors.CorsConfiguration;
+
+import java.util.Collections;
+import java.util.List;
 
 @Slf4j
 @Configuration
@@ -39,13 +37,13 @@ public class SecurityConfig {
                         cfg.setAllowedMethods(Collections.singletonList("*"));
                         cfg.setAllowCredentials(true);
                         cfg.setAllowedHeaders(Collections.singletonList("*"));
-                        cfg.setExposedHeaders(Arrays.asList("Authorization"));
+                        cfg.setExposedHeaders(List.of("Authorization"));
                         return cfg;
                     });
                 })
                 .authorizeHttpRequests(auth -> {
                     auth
-                            .requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
+                            .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                             .requestMatchers("/auth/sign-in").permitAll()
                             .requestMatchers("/v3/api-docs/**", "/swagger-ui/**").permitAll()
                             .anyRequest().authenticated();

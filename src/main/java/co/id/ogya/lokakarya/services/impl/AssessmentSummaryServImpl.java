@@ -1,6 +1,5 @@
 package co.id.ogya.lokakarya.services.impl;
 
-import co.id.ogya.lokakarya.dto.appuser.AppUserGetDto;
 import co.id.ogya.lokakarya.dto.assessmentsummary.*;
 import co.id.ogya.lokakarya.entities.AssessmentSummary;
 import co.id.ogya.lokakarya.repositories.AssessmentSummaryRepo;
@@ -58,10 +57,10 @@ public class AssessmentSummaryServImpl implements AssessmentSummaryServ {
         log.info("Attempting to fetch all AssessmentSummaries");
         List<AssessmentSummaryGetDto> listResult = new ArrayList<>();
         try {
-            List<Map<String,Object>> listData = assessmentSummaryRepo.getAssessmentSummaryGets();
+            List<Map<String, Object>> listData = assessmentSummaryRepo.getAssessmentSummaryGets();
             log.debug("Fetched {} AssessmentSummaries from repository", listData.size());
-            for (Map<String,Object> data : listData) {
-                AssessmentSummaryGetDto result =  AssessmentSummaryGetDto.mapToDto(data);
+            for (Map<String, Object> data : listData) {
+                AssessmentSummaryGetDto result = AssessmentSummaryGetDto.mapToDto(data);
                 listResult.add(result);
             }
         } catch (Exception e) {
@@ -78,7 +77,7 @@ public class AssessmentSummaryServImpl implements AssessmentSummaryServ {
             List<Map<String, Object>> listData = assessmentSummaryRepo.getAssessmentSummaryGetsPerPage(page, pageSize);
             log.debug("Fetched {} AssessmentSummaries from repository", listData.size());
             for (Map<String, Object> data : listData) {
-                AssessmentSummaryGetDto result =  AssessmentSummaryGetDto.mapToDto(data);
+                AssessmentSummaryGetDto result = AssessmentSummaryGetDto.mapToDto(data);
                 listResult.add(result);
             }
         } catch (Exception e) {
@@ -92,8 +91,8 @@ public class AssessmentSummaryServImpl implements AssessmentSummaryServ {
         log.info("Attempting to fetch AssessmentSummary by ID: {}", id);
         AssessmentSummaryGetDto result = null;
         try {
-            Map<String,Object> data = assessmentSummaryRepo.getAssessmentSummaryGetById(id);
-            result =  AssessmentSummaryGetDto.mapToDto(data);
+            Map<String, Object> data = assessmentSummaryRepo.getAssessmentSummaryGetById(id);
+            result = AssessmentSummaryGetDto.mapToDto(data);
             log.debug("Fetched AssessmentSummary: {}", result);
         } catch (Exception e) {
             log.error("Error occurred while fetching AssessmentSummary by ID {}: {}", id, e.getMessage(), e);
@@ -106,9 +105,9 @@ public class AssessmentSummaryServImpl implements AssessmentSummaryServ {
         log.info("Attempting to fetch AssessmentSummary by ID: {} year: {}", userId, year);
         AssessmentSummaryGetDto result = null;
         try {
-            Map<String,Object> data = assessmentSummaryRepo.getAssessmentSummaryGetByUserIdAndAssessmentYear(userId, year);
+            Map<String, Object> data = assessmentSummaryRepo.getAssessmentSummaryGetByUserIdAndAssessmentYear(userId, year);
             if (data != null) {
-                result =  AssessmentSummaryGetDto.mapToDto(data);
+                result = AssessmentSummaryGetDto.mapToDto(data);
                 log.debug("Fetched AssessmentSummary: {}", result);
                 return result;
             } else {
@@ -174,7 +173,7 @@ public class AssessmentSummaryServImpl implements AssessmentSummaryServ {
         try {
             List<Map<String, Object>> listData = assessmentSummaryRepo.getAchievementSummaryByUserIdAssessmentYear(userId, assessmentYear);
             log.debug("Fetched {} AchievementSummary from repository for User ID: {} and Assessment Year: {}", listData.size(), userId, assessmentYear);
-            for (Map<String,Object> data : listData) {
+            for (Map<String, Object> data : listData) {
                 AchievementSummaryGetDto result = AchievementSummaryGetDto.mapToDto(data);
                 listResult.add(result);
             }
@@ -191,7 +190,7 @@ public class AssessmentSummaryServImpl implements AssessmentSummaryServ {
         try {
             List<Map<String, Object>> listData = assessmentSummaryRepo.getAttitudeSkillSummaryByUserIdAssessmentYear(userId, assessmentYear);
             log.debug("Fetched {} AttitudeSkillSummary from repository for User ID: {} and Assessment Year: {}", listData.size(), userId, assessmentYear);
-            for (Map<String,Object> data : listData) {
+            for (Map<String, Object> data : listData) {
                 AttitudeSkillSummaryGetDto result = AttitudeSkillSummaryGetDto.mapToDto(data);
                 listResult.add(result);
             }
@@ -208,7 +207,7 @@ public class AssessmentSummaryServImpl implements AssessmentSummaryServ {
         try {
             List<Map<String, Object>> listData = assessmentSummaryRepo.getAssessmentSummariesByDivisionIdAssessmentYear(divisionId, assessmentYear);
             log.debug("Fetched {} AssessmentSummary from repository for Division ID: {} and Assessment Year: {}", listData.size(), divisionId, assessmentYear);
-            for (Map<String,Object> data : listData) {
+            for (Map<String, Object> data : listData) {
                 AssessmentSummaryJointGetDto result = AssessmentSummaryJointGetDto.mapToDto(data);
                 listResult.add(result);
             }
@@ -225,7 +224,7 @@ public class AssessmentSummaryServImpl implements AssessmentSummaryServ {
         try {
             List<Map<String, Object>> listData = assessmentSummaryRepo.getAssessmentSummariesByAssessmentYear(assessmentYear);
             log.debug("Fetched {} AssessmentSummary from repository for Assessment Year: {}", listData.size(), assessmentYear);
-            for (Map<String,Object> data : listData) {
+            for (Map<String, Object> data : listData) {
                 AssessmentSummaryJointGetDto result = AssessmentSummaryJointGetDto.mapToDto(data);
                 listResult.add(result);
             }
@@ -256,7 +255,7 @@ public class AssessmentSummaryServImpl implements AssessmentSummaryServ {
             List<Map<String, Object>> listData = assessmentSummaryRepo.sortAssessmentSummaryGetsOrderBy(column, order, page, pageSize);
             log.debug("Sorted {} AssessmentSummaries from repository order by {}", listData.size(), column);
             for (Map<String, Object> data : listData) {
-                AssessmentSummaryGetDto result =  AssessmentSummaryGetDto.mapToDto(data);
+                AssessmentSummaryGetDto result = AssessmentSummaryGetDto.mapToDto(data);
                 listResult.add(result);
             }
         } catch (Exception e) {
@@ -273,7 +272,7 @@ public class AssessmentSummaryServImpl implements AssessmentSummaryServ {
             List<Map<String, Object>> listData = assessmentSummaryRepo.sorchAssessmentSummaryGets(keyword, column, order, page, pageSize, divisionId, assessmentYear);
             log.debug("Sorted {} AssessmentSummaries from repository order by {}", listData.size(), keyword);
             for (Map<String, Object> data : listData) {
-                AssessmentSummaryGetDto result =  AssessmentSummaryGetDto.mapToDto(data);
+                AssessmentSummaryGetDto result = AssessmentSummaryGetDto.mapToDto(data);
                 listResult.add(result);
             }
         } catch (Exception e) {

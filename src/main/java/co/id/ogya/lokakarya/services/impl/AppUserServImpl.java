@@ -73,10 +73,10 @@ public class AppUserServImpl implements AppUserServ {
         log.info("Attempting to fetch all AppUsers");
         List<AppUserGetDto> listResult = new ArrayList<>();
         try {
-            List<Map<String,Object>> listData = appUserRepo.getAppUserGets();
+            List<Map<String, Object>> listData = appUserRepo.getAppUserGets();
             log.debug("Fetched {} AppUsers from repository", listData.size());
-            for (Map<String,Object> data : listData) {
-                AppUserGetDto result =  AppUserGetDto.mapToDto(data);
+            for (Map<String, Object> data : listData) {
+                AppUserGetDto result = AppUserGetDto.mapToDto(data);
                 listResult.add(result);
             }
         } catch (Exception e) {
@@ -93,7 +93,7 @@ public class AppUserServImpl implements AppUserServ {
             List<Map<String, Object>> listData = appUserRepo.getAppUserGetsPerPage(page, pageSize);
             log.debug("Fetched {} AppUsers from repository", listData.size());
             for (Map<String, Object> data : listData) {
-                AppUserGetDto result =  AppUserGetDto.mapToDto(data);
+                AppUserGetDto result = AppUserGetDto.mapToDto(data);
                 listResult.add(result);
             }
         } catch (Exception e) {
@@ -107,8 +107,8 @@ public class AppUserServImpl implements AppUserServ {
         log.info("Attempting to fetch AppUser by ID: {}", id);
         AppUserGetDto result = null;
         try {
-            Map<String,Object> data = appUserRepo.getAppUserGetById(id);
-            result =  AppUserGetDto.mapToDto(data);
+            Map<String, Object> data = appUserRepo.getAppUserGetById(id);
+            result = AppUserGetDto.mapToDto(data);
             log.debug("Fetched AppUser: {}", result);
         } catch (Exception e) {
             log.error("Error occurred while fetching AppUser by ID {}: {}", id, e.getMessage(), e);
@@ -121,8 +121,8 @@ public class AppUserServImpl implements AppUserServ {
         log.info("Attempting to fetch AppUser by username: {}", username);
         AppUserGetDto result = null;
         try {
-            Map<String,Object> data = appUserRepo.getAppUserByUsername(username);
-            result =  AppUserGetDto.mapToDto(data);
+            Map<String, Object> data = appUserRepo.getAppUserByUsername(username);
+            result = AppUserGetDto.mapToDto(data);
             log.debug("Fetched AppUser: {}", result);
         } catch (Exception e) {
             log.error("Error occurred while fetching AppUser by username {}: {}", username, e.getMessage(), e);
@@ -136,8 +136,8 @@ public class AppUserServImpl implements AppUserServ {
         log.info("Attempting to fetch AppUser by full name: {}", fullName);
         AppUserGetDto result = null;
         try {
-            Map<String,Object> data = appUserRepo.getAppUserByFullName(fullName);
-            result =  AppUserGetDto.mapToDto(data);
+            Map<String, Object> data = appUserRepo.getAppUserByFullName(fullName);
+            result = AppUserGetDto.mapToDto(data);
             log.debug("Fetched AppUser: {}", result);
         } catch (Exception e) {
             log.error("Error occurred while fetching AppUser by full name {}: {}", fullName, e.getMessage(), e);
@@ -150,8 +150,8 @@ public class AppUserServImpl implements AppUserServ {
         log.info("Attempting to fetch AppUser by Email: {}", email);
         AppUserGetDto result = null;
         try {
-            Map<String,Object> data = appUserRepo.getAppUserByEmail(email);
-            result =  AppUserGetDto.mapToDto(data);
+            Map<String, Object> data = appUserRepo.getAppUserByEmail(email);
+            result = AppUserGetDto.mapToDto(data);
             log.debug("Fetched AppUser: {}", result);
         } catch (Exception e) {
             log.error("Error occurred while fetching AppUser by Email {}: {}", email, e.getMessage(), e);
@@ -211,7 +211,7 @@ public class AppUserServImpl implements AppUserServ {
         log.info("Attempting to fetch all AppUserCommons");
         List<AppUserCommonDto> listResult = new ArrayList<>();
         try {
-            List<Map<String,Object>> listData = appUserRepo.getAppUsersCommons();
+            List<Map<String, Object>> listData = appUserRepo.getAppUsersCommons();
             log.debug("Fetched {} AppUsers from repository", listData.size());
             for (Map<String, Object> data : listData) {
                 AppUserCommonDto result = AppUserCommonDto.mapToDto(data);
@@ -244,7 +244,7 @@ public class AppUserServImpl implements AppUserServ {
             List<Map<String, Object>> listData = appUserRepo.sortAppUserGetsOrderBy(column, order, page, pageSize);
             log.debug("Sorted {} AppUsers from repository order by {}", listData.size(), column);
             for (Map<String, Object> data : listData) {
-                AppUserGetDto result =  AppUserGetDto.mapToDto(data);
+                AppUserGetDto result = AppUserGetDto.mapToDto(data);
                 listResult.add(result);
             }
         } catch (Exception e) {
@@ -261,7 +261,7 @@ public class AppUserServImpl implements AppUserServ {
             List<Map<String, Object>> listData = appUserRepo.sorchAppUserGets(keyword, column, order, page, pageSize);
             log.debug("Sorched {} AppUsers from repository using keyword: {}", listData.size(), keyword);
             for (Map<String, Object> data : listData) {
-                AppUserGetDto result =  AppUserGetDto.mapToDto(data);
+                AppUserGetDto result = AppUserGetDto.mapToDto(data);
                 listResult.add(result);
             }
         } catch (Exception e) {

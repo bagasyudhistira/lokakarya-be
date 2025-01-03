@@ -1,6 +1,5 @@
 package co.id.ogya.lokakarya.dto.accessdivision;
 
-import co.id.ogya.lokakarya.entities.AccessDivision;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +22,7 @@ public class AccessDivisionGetDto {
     @JsonProperty("division_name")
     private String divisionName;
 
-    public static AccessDivisionGetDto mapToDto(Map<String,Object> convertObject) {
+    public static AccessDivisionGetDto mapToDto(Map<String, Object> convertObject) {
         log.debug("Converting AccessDivision entity to DTO: {}", convertObject);
         AccessDivisionGetDto result = AccessDivisionGetDto.builder()
                 .id((String) convertObject.get("ID"))

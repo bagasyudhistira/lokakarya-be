@@ -1,6 +1,5 @@
 package co.id.ogya.lokakarya.dto.empachievementskill;
 
-import co.id.ogya.lokakarya.dto.empattitudeskill.EmpAttitudeSkillGetUIDYearDto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;

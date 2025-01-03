@@ -1,10 +1,8 @@
 package co.id.ogya.lokakarya.services.impl;
 
-import co.id.ogya.lokakarya.dto.groupachievement.GroupAchievementDto;
 import co.id.ogya.lokakarya.dto.groupattitudeskill.GroupAttitudeSkillCreateDto;
 import co.id.ogya.lokakarya.dto.groupattitudeskill.GroupAttitudeSkillDto;
 import co.id.ogya.lokakarya.dto.groupattitudeskill.GroupAttitudeSkillUpdateDto;
-import co.id.ogya.lokakarya.entities.GroupAchievement;
 import co.id.ogya.lokakarya.entities.GroupAttitudeSkill;
 import co.id.ogya.lokakarya.repositories.GroupAttitudeSkillRepo;
 import co.id.ogya.lokakarya.services.GroupAttitudeSkillServ;

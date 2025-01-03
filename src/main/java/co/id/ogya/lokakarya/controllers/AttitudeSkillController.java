@@ -1,8 +1,6 @@
 package co.id.ogya.lokakarya.controllers;
 
 import co.id.ogya.lokakarya.dto.ManagerDto;
-import co.id.ogya.lokakarya.dto.achievement.AchievementGetDto;
-import co.id.ogya.lokakarya.dto.appuser.AppUserGetDto;
 import co.id.ogya.lokakarya.dto.attitudeskill.AttitudeSkillCreateDto;
 import co.id.ogya.lokakarya.dto.attitudeskill.AttitudeSkillDto;
 import co.id.ogya.lokakarya.dto.attitudeskill.AttitudeSkillGetDto;
@@ -93,7 +91,6 @@ public class AttitudeSkillController extends ServerResponseList {
             return new ResponseEntity<>("Failed to fetch AttitudeSkills", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
 
 
     @GetMapping("/get/{id}")

@@ -1,6 +1,5 @@
 package co.id.ogya.lokakarya.repositories.impl;
 
-import co.id.ogya.lokakarya.entities.DevPlan;
 import co.id.ogya.lokakarya.entities.TechnicalSkill;
 import co.id.ogya.lokakarya.repositories.TechnicalSkillRepo;
 import lombok.extern.slf4j.Slf4j;

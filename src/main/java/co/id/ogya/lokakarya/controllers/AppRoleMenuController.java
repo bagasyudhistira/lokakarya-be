@@ -86,7 +86,7 @@ public class AppRoleMenuController extends ServerResponseList {
 
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
-            log.error("Error fetching AppRoleMenus for role {}: {}", rolename,e.getMessage(), e);
+            log.error("Error fetching AppRoleMenus for role {}: {}", rolename, e.getMessage(), e);
             return new ResponseEntity<>("Failed to fetch AppRoleMenus", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

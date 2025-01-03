@@ -160,6 +160,7 @@ public class EmpSuggestionRepoImpl implements EmpSuggestionRepo {
             throw e;
         }
     }
+
     @Override
     public List<Map<String, Object>> getEmpSuggestionGetByCreatedBy(String userId) {
         String sql = "SELECT ES.ID, ES.USER_ID, AU.FULL_NAME, ES.SUGGESTION, ES.ASSESSMENT_YEAR " +
@@ -187,11 +188,10 @@ public class EmpSuggestionRepoImpl implements EmpSuggestionRepo {
             log.info("There is an EmpSuggestion with UserID: {} and Assessment Year: {}", userId, assessmentYear);
             log.info(result.toString());
             return result;
-        } catch (EmptyResultDataAccessException e){
+        } catch (EmptyResultDataAccessException e) {
             log.info("There is no EmpSuggestion with UserID: {} and Assessment Year: {}", userId, assessmentYear);
             return null;
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             log.error("Error while looking EmpSuggestion by UserID: {} and Assessment Year: {}. Error: {}", userId, assessmentYear, e.getMessage());
             throw e;
         }

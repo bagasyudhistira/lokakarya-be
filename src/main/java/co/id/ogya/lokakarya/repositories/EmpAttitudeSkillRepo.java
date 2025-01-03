@@ -10,7 +10,7 @@ public interface EmpAttitudeSkillRepo {
 
     EmpAttitudeSkill getEmpAttitudeSkillById(String id);
 
-    List<Map<String,Object>> getEmpAttitudeSkillGets();
+    List<Map<String, Object>> getEmpAttitudeSkillGets();
 
     Map<String, Object> getEmpAttitudeSkillGetById(String id);
 

@@ -3,7 +3,6 @@ package co.id.ogya.lokakarya.services;
 import co.id.ogya.lokakarya.dto.empsuggestion.*;
 
 import java.util.List;
-import java.util.Map;
 
 public interface EmpSuggestionServ {
     List<EmpSuggestionDto> getAllEmpSuggestion();

@@ -1,7 +1,6 @@
 package co.id.ogya.lokakarya.controllers;
 
 import co.id.ogya.lokakarya.dto.ManagerDto;
-import co.id.ogya.lokakarya.dto.appuser.AppUserGetDto;
 import co.id.ogya.lokakarya.dto.assessmentsummary.*;
 import co.id.ogya.lokakarya.services.AssessmentSummaryServ;
 import co.id.ogya.lokakarya.utils.ServerResponseList;
@@ -118,7 +117,7 @@ public class AssessmentSummaryController extends ServerResponseList {
         long startTime = System.currentTimeMillis();
 
         try {
-            AssessmentSummaryGetDto result = assessmentSummaryServ.getAssessmentSummaryGetByUserIdAndAssessmentYear(userId,year);
+            AssessmentSummaryGetDto result = assessmentSummaryServ.getAssessmentSummaryGetByUserIdAndAssessmentYear(userId, year);
             ManagerDto<AssessmentSummaryGetDto> response = new ManagerDto<>();
             response.setContent(result);
             response.setTotalRows(1);

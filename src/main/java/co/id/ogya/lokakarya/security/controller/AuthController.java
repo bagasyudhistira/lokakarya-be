@@ -2,10 +2,7 @@ package co.id.ogya.lokakarya.security.controller;
 
 import co.id.ogya.lokakarya.dto.ManagerDto;
 import co.id.ogya.lokakarya.dto.approlemenu.AppRoleMenuGetDto;
-import co.id.ogya.lokakarya.dto.appuser.AppUserDto;
-import co.id.ogya.lokakarya.dto.appuserrole.AppUserRoleGetDto;
 import co.id.ogya.lokakarya.exceptions.UserException;
-import co.id.ogya.lokakarya.repositories.AppUserRepo;
 import co.id.ogya.lokakarya.repositories.AppUserRoleRepo;
 import co.id.ogya.lokakarya.security.dto.AuthDto;
 import co.id.ogya.lokakarya.security.dto.AuthGetDto;
@@ -13,7 +10,6 @@ import co.id.ogya.lokakarya.security.dto.AuthPasswordChangeDto;
 import co.id.ogya.lokakarya.security.service.AuthServ;
 import co.id.ogya.lokakarya.security.util.SecurityConstants;
 import co.id.ogya.lokakarya.services.AppRoleMenuServ;
-import co.id.ogya.lokakarya.services.AppUserRoleServ;
 import co.id.ogya.lokakarya.services.AppUserServ;
 import co.id.ogya.lokakarya.utils.ServerResponseList;
 import io.jsonwebtoken.Jwts;
@@ -23,13 +19,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.crypto.SecretKey;
-import java.util.*;
+import java.util.Date;
+import java.util.List;
+import java.util.Random;
 
 @Slf4j
 @Validated
@@ -128,7 +125,7 @@ public class AuthController extends ServerResponseList {
 
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
-            log.error("Error fetching AppRoleMenus for role {}: {}", rolename,e.getMessage(), e);
+            log.error("Error fetching AppRoleMenus for role {}: {}", rolename, e.getMessage(), e);
             return new ResponseEntity<>("Failed to fetch AppRoleMenus", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -158,7 +155,7 @@ public class AuthController extends ServerResponseList {
         }
     }
 
-    @PutMapping ("/resetpassword")
+    @PutMapping("/resetpassword")
     public ResponseEntity<?> resetPassword(@RequestBody AuthPasswordChangeDto authPasswordChangeDto) {
         log.info("Received change password request.");
         long startTime = System.currentTimeMillis();

@@ -3,7 +3,6 @@ package co.id.ogya.lokakarya.dto.appuser;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 
 @AllArgsConstructor

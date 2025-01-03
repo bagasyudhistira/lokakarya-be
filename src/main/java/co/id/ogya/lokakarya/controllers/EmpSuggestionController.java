@@ -1,8 +1,6 @@
 package co.id.ogya.lokakarya.controllers;
 
 import co.id.ogya.lokakarya.dto.ManagerDto;
-import co.id.ogya.lokakarya.dto.appuser.AppUserGetDto;
-import co.id.ogya.lokakarya.dto.assessmentsummary.AssessmentSummaryGetDto;
 import co.id.ogya.lokakarya.dto.empsuggestion.*;
 import co.id.ogya.lokakarya.services.EmpSuggestionServ;
 import co.id.ogya.lokakarya.utils.ServerResponseList;

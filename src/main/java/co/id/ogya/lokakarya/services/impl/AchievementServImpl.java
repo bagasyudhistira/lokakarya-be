@@ -1,7 +1,9 @@
 package co.id.ogya.lokakarya.services.impl;
 
-import co.id.ogya.lokakarya.dto.achievement.*;
-import co.id.ogya.lokakarya.dto.appuser.AppUserGetDto;
+import co.id.ogya.lokakarya.dto.achievement.AchievementCreateDto;
+import co.id.ogya.lokakarya.dto.achievement.AchievementDto;
+import co.id.ogya.lokakarya.dto.achievement.AchievementGetDto;
+import co.id.ogya.lokakarya.dto.achievement.AchievementUpdateDto;
 import co.id.ogya.lokakarya.entities.Achievement;
 import co.id.ogya.lokakarya.repositories.AchievementRepo;
 import co.id.ogya.lokakarya.services.AchievementServ;
@@ -58,9 +60,9 @@ public class AchievementServImpl implements AchievementServ {
         log.info("Attempting to fetch all achievements");
         List<AchievementGetDto> listResult = new ArrayList<>();
         try {
-            List<Map<String,Object>> listData = achievementRepo.getAchievementGets();
+            List<Map<String, Object>> listData = achievementRepo.getAchievementGets();
             log.debug("Fetched {} achievements from repository", listData.size());
-            for (Map<String,Object> data : listData) {
+            for (Map<String, Object> data : listData) {
                 AchievementGetDto result = AchievementGetDto.mapToDto(data);
                 listResult.add(result);
             }
@@ -78,7 +80,7 @@ public class AchievementServImpl implements AchievementServ {
             List<Map<String, Object>> listData = achievementRepo.getAchievementGetsPerPage(page, pageSize);
             log.debug("Fetched {} Achievements from repository", listData.size());
             for (Map<String, Object> data : listData) {
-                AchievementGetDto result =  AchievementGetDto.mapToDto(data);
+                AchievementGetDto result = AchievementGetDto.mapToDto(data);
                 listResult.add(result);
             }
         } catch (Exception e) {
@@ -92,7 +94,7 @@ public class AchievementServImpl implements AchievementServ {
         log.info("Attempting to fetch achievement by ID: {}", id);
         AchievementGetDto result = null;
         try {
-            Map<String ,Object> data = achievementRepo.getAchievementGetById(id);
+            Map<String, Object> data = achievementRepo.getAchievementGetById(id);
             result = AchievementGetDto.mapToDto(data);
             log.debug("Fetched achievement: {}", result);
         } catch (Exception e) {
@@ -183,7 +185,7 @@ public class AchievementServImpl implements AchievementServ {
             List<Map<String, Object>> listData = achievementRepo.sortAchievementGetsOrderBy(column, order, page, pageSize);
             log.debug("Sorted {} Achievements from repository order by {}", listData.size(), column);
             for (Map<String, Object> data : listData) {
-                AchievementGetDto result =  AchievementGetDto.mapToDto(data);
+                AchievementGetDto result = AchievementGetDto.mapToDto(data);
                 listResult.add(result);
             }
         } catch (Exception e) {
@@ -200,7 +202,7 @@ public class AchievementServImpl implements AchievementServ {
             List<Map<String, Object>> listData = achievementRepo.sorchAchievementGets(keyword, order, column, page, pageSize);
             log.debug("Sorched {} Achievements from repository order using keyword: {}", listData.size(), keyword);
             for (Map<String, Object> data : listData) {
-                AchievementGetDto result =  AchievementGetDto.mapToDto(data);
+                AchievementGetDto result = AchievementGetDto.mapToDto(data);
                 listResult.add(result);
             }
         } catch (Exception e) {

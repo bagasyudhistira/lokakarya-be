@@ -1,6 +1,5 @@
 package co.id.ogya.lokakarya.services.impl;
 
-import co.id.ogya.lokakarya.dto.appuser.AppUserGetDto;
 import co.id.ogya.lokakarya.dto.division.DivisionCreateDto;
 import co.id.ogya.lokakarya.dto.division.DivisionDto;
 import co.id.ogya.lokakarya.dto.division.DivisionUpdateDto;
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @Service
@@ -167,7 +165,7 @@ public class DivisionServImpl implements DivisionServ {
         log.info("Attempting to sorch all Divisions using keyword: {}", keyword);
         List<DivisionDto> listResult = new ArrayList<>();
         try {
-            List<Division> listData = divisionRepo.sorchDivisions(keyword, column, order,  page, pageSize);
+            List<Division> listData = divisionRepo.sorchDivisions(keyword, column, order, page, pageSize);
             log.debug("Sorched {} Divisions from repository", listData.size());
             for (Division data : listData) {
                 DivisionDto result = convertToDto(data);

@@ -1,7 +1,6 @@
 package co.id.ogya.lokakarya.repositories.impl;
 
 import co.id.ogya.lokakarya.entities.GroupAchievement;
-import co.id.ogya.lokakarya.entities.GroupAttitudeSkill;
 import co.id.ogya.lokakarya.repositories.GroupAchievementRepo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

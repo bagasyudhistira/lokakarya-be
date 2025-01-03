@@ -185,7 +185,7 @@ public class EmpAchievementSkillRepoImpl implements EmpAchievementSkillRepo {
     @Override
     public List<Map<String, Object>> getEmpAchievementSkillGetsByUserIdAssessmentYear(String userId, int assessmentYear) {
         String sql = "SELECT EAS.ID, EAS.ACHIEVEMENT_ID, EAS.NOTES, EAS.SCORE, ACH.GROUP_ID FROM tbl_emp_achievement_skill EAS JOIN tbl_achievement ACH ON EAS.ACHIEVEMENT_ID = ACH.ID WHERE EAS.USER_ID = ? AND EAS.ASSESSMENT_YEAR = ?";
-        log.info("Fetching all EmpAchievementSkills for User ID: {} and Assessment Year: {} with JOIN query: {}", userId, assessmentYear,sql);
+        log.info("Fetching all EmpAchievementSkills for User ID: {} and Assessment Year: {} with JOIN query: {}", userId, assessmentYear, sql);
         try {
             List<Map<String, Object>> result = jdbcTemplate.queryForList(sql, userId, assessmentYear);
             log.info("Successfully fetched {} EmpAchievementSkills for User ID: {} and Assessment Year: {}", result.size(), userId, assessmentYear);

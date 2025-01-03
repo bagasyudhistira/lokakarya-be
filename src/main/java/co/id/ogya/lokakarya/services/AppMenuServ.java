@@ -8,9 +8,13 @@ import java.util.List;
 
 public interface AppMenuServ {
     List<AppMenuDto> getAllAppMenu();
+
     AppMenuDto getAppMenuById(String id);
+
     AppMenuDto createAppMenu(AppMenuCreateDto appMenuCreateDto);
+
     AppMenuDto updateAppMenu(AppMenuUpdateDto appMenuUpdateDto);
+
     boolean deleteAppMenu(String id);
 
 }

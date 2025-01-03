@@ -1,8 +1,9 @@
 package co.id.ogya.lokakarya.controllers;
 
 import co.id.ogya.lokakarya.dto.ManagerDto;
-import co.id.ogya.lokakarya.dto.groupachievement.GroupAchievementDto;
-import co.id.ogya.lokakarya.dto.groupattitudeskill.*;
+import co.id.ogya.lokakarya.dto.groupattitudeskill.GroupAttitudeSkillCreateDto;
+import co.id.ogya.lokakarya.dto.groupattitudeskill.GroupAttitudeSkillDto;
+import co.id.ogya.lokakarya.dto.groupattitudeskill.GroupAttitudeSkillUpdateDto;
 import co.id.ogya.lokakarya.services.GroupAttitudeSkillServ;
 import co.id.ogya.lokakarya.utils.ServerResponseList;
 import lombok.extern.slf4j.Slf4j;

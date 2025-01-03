@@ -1,11 +1,9 @@
 package co.id.ogya.lokakarya.dto.achievement;
 
-import co.id.ogya.lokakarya.entities.Achievement;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
-import java.time.LocalDateTime;
 import java.util.Map;
 
 @AllArgsConstructor
@@ -42,14 +40,10 @@ public class AchievementGetDto {
         AchievementGetDto result = AchievementGetDto.builder()
                 .id((String) convertObject.get("ID"))
                 .achievement((String) convertObject.get("ACHIEVEMENT"))
-                .enabled(convertObject.get("ENABLED") != null
-                        ? Boolean.parseBoolean(convertObject.get("ENABLED").toString())
-                        : false)
+                .enabled(convertObject.get("ENABLED") != null && Boolean.parseBoolean(convertObject.get("ENABLED").toString()))
                 .groupId((String) convertObject.get("GROUP_ID"))
                 .groupName((String) convertObject.get("GROUP_NAME"))
-                .enabled(convertObject.get("GROUP_ENABLED") != null
-                        ? Boolean.parseBoolean(convertObject.get("ENABLED").toString())
-                        : false)
+                .enabled(convertObject.get("GROUP_ENABLED") != null && Boolean.parseBoolean(convertObject.get("ENABLED").toString()))
                 .percentage(convertObject.get("PERCENTAGE") != null
                         ? ((Number) convertObject.get("PERCENTAGE")).doubleValue()
                         : 0.0)

@@ -9,14 +9,20 @@ import java.util.List;
 
 public interface AppRoleMenuServ {
     List<AppRoleMenuDto> getAllAppRoleMenu();
+
     AppRoleMenuDto getAppRoleMenuById(String id);
 
     List<AppRoleMenuGetDto> getAppRoleMenuByRolename(String rolename);
 
     AppRoleMenuDto createAppRoleMenu(AppRoleMenuCreateDto AppRoleMenuCreateDto);
+
     AppRoleMenuDto updateAppRoleMenu(AppRoleMenuUpdateDto AppRoleMenuUpdateDto);
+
     boolean deleteAppRoleMenu(String id);
+
     List<AppRoleMenuGetDto> getAllAppRoleMenuGet();
+
     List<AppRoleMenuGetDto> getAppRoleMenuGetByRoleId(String id);
+
     List<AppRoleMenuGetDto> getAppRoleMenuGetByMenuId(String id);
 }

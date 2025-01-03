@@ -10,7 +10,7 @@ public interface AchievementRepo {
 
     Achievement getAchievementById(String id);
 
-    List<Map<String,Object>> getAchievementGets();
+    List<Map<String, Object>> getAchievementGets();
 
     List<Map<String, Object>> getAchievementGetsPerPage(int page, int pageSize);
 

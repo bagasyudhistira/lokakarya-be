@@ -1,8 +1,9 @@
 package co.id.ogya.lokakarya.controllers;
 
 import co.id.ogya.lokakarya.dto.ManagerDto;
-import co.id.ogya.lokakarya.dto.devplan.DevPlanDto;
-import co.id.ogya.lokakarya.dto.technicalskill.*;
+import co.id.ogya.lokakarya.dto.technicalskill.TechnicalSkillCreateDto;
+import co.id.ogya.lokakarya.dto.technicalskill.TechnicalSkillDto;
+import co.id.ogya.lokakarya.dto.technicalskill.TechnicalSkillUpdateDto;
 import co.id.ogya.lokakarya.services.TechnicalSkillServ;
 import co.id.ogya.lokakarya.utils.ServerResponseList;
 import lombok.extern.slf4j.Slf4j;

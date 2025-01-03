@@ -57,7 +57,7 @@ public class AppRoleMenuRepoImpl implements AppRoleMenuRepo {
                 "WHERE ROLENAME = ?";
         try {
             log.info("Fetching AppRoleMenu record with role: {}", rolename);
-            List<Map<String,Object>> appRoleMenu = jdbcTemplate.queryForList(sql, rolename);
+            List<Map<String, Object>> appRoleMenu = jdbcTemplate.queryForList(sql, rolename);
             log.info("Fetched {} AppRoleMenu records", appRoleMenu.size());
             return appRoleMenu;
         } catch (Exception e) {

@@ -3,7 +3,6 @@ package co.id.ogya.lokakarya.controllers;
 import co.id.ogya.lokakarya.dto.ManagerDto;
 import co.id.ogya.lokakarya.dto.approle.AppRoleCreateDto;
 import co.id.ogya.lokakarya.dto.approle.AppRoleDto;
-import co.id.ogya.lokakarya.dto.approle.AppRoleGetDto;
 import co.id.ogya.lokakarya.dto.approle.AppRoleUpdateDto;
 import co.id.ogya.lokakarya.services.AppRoleServ;
 import co.id.ogya.lokakarya.utils.ServerResponseList;

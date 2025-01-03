@@ -3,7 +3,6 @@ package co.id.ogya.lokakarya.services;
 import co.id.ogya.lokakarya.dto.emptechnicalskill.*;
 
 import java.util.List;
-import java.util.Map;
 
 public interface EmpTechnicalSkillServ {
     List<EmpTechnicalSkillDto> getAllEmpTechnicalSkill();
