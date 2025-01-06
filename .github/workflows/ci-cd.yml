@@ -2,7 +2,7 @@ name: Build and Deploy Spring Boot App on Server
 
 on:
   push:
-    branches: [ "bagas" ]
+    branches: [ "main" ]
 
 jobs:
   deploy:
